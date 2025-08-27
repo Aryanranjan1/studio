@@ -18,7 +18,7 @@ interface PortfolioCardProps {
 export function PortfolioCard({ project, index }: PortfolioCardProps) {
   return (
     <ScrollReveal delay={index * 100}>
-      <Card className="group h-full overflow-hidden rounded-2xl border-transparent bg-card/50 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
+      <Card className="group h-full overflow-hidden rounded-2xl border-white/20 bg-background/50 shadow-lg backdrop-blur-lg transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
         <CardHeader className="p-0">
           <div className="relative h-60 w-full overflow-hidden">
             <Image
