@@ -16,14 +16,14 @@ export function PortfolioSection() {
       : portfolioData.filter((p) => p.services.includes(activeFilter));
 
   return (
-    <section id="portfolio" className="py-16 sm:py-24">
+    <section id="portfolio" className="overflow-x-hidden bg-background/50 py-24 sm:py-32">
       <div className="container">
         <ScrollReveal>
           <div className="text-center">
-            <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+            <h2 className="font-headline text-4xl font-bold tracking-tight text-primary sm:text-5xl">
               Our Showcase
             </h2>
-            <p className="mt-4 text-lg text-foreground/80">
+            <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
               A glimpse into the innovative solutions and beautiful designs we've
               crafted for our clients.
             </p>
@@ -31,18 +31,20 @@ export function PortfolioSection() {
         </ScrollReveal>
 
         <ScrollReveal delay={200}>
-          <div className="my-8 flex flex-wrap justify-center gap-2">
+          <div className="my-10 flex flex-wrap justify-center gap-3">
             <Button
-              variant={activeFilter === "All" ? "default" : "secondary"}
+              variant={activeFilter === "All" ? "default" : "outline"}
               onClick={() => setActiveFilter("All")}
+              className="rounded-full"
             >
               All
             </Button>
             {services.map((service) => (
               <Button
                 key={service}
-                variant={activeFilter === service ? "default" : "secondary"}
+                variant={activeFilter === service ? "default" : "outline"}
                 onClick={() => setActiveFilter(service)}
+                className="rounded-full"
               >
                 {service}
               </Button>
@@ -57,10 +59,10 @@ export function PortfolioSection() {
         </div>
         
         <ScrollReveal delay={400}>
-            <div className="mt-16 text-center">
-                <h3 className="font-headline text-2xl font-bold">Have an idea for a design tool?</h3>
-                <p className="mt-2 text-muted-foreground">We are always looking to create tools that help the community.</p>
-                <div className="mt-6">
+            <div className="mt-24 text-center">
+                <h3 className="font-headline text-3xl font-bold">Have an idea for a design tool?</h3>
+                <p className="mt-2 text-muted-foreground max-w-lg mx-auto">We are always looking to create tools that help the community grow and innovate.</p>
+                <div className="mt-8">
                     <RequestToolDialog />
                 </div>
             </div>

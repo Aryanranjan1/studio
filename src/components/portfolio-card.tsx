@@ -18,14 +18,14 @@ interface PortfolioCardProps {
 export function PortfolioCard({ project, index }: PortfolioCardProps) {
   return (
     <ScrollReveal delay={index * 100}>
-      <Card className="h-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+      <Card className="group h-full overflow-hidden rounded-2xl border-transparent bg-card/50 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
         <CardHeader className="p-0">
-          <div className="relative h-60 w-full">
+          <div className="relative h-60 w-full overflow-hidden">
             <Image
               src={project.imageUrl}
               alt={project.title}
               fill
-              className="object-cover"
+              className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
               data-ai-hint={project.imageHint}
             />
           </div>
