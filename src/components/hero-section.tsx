@@ -1,21 +1,9 @@
 import { Button } from "./ui/button";
 import { ArrowDown } from "lucide-react";
-import { SparklesCore } from "./ui/sparkles";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden py-32 md:py-40 lg:py-48">
-      <div className="absolute inset-0 z-0 h-full w-full">
-        <SparklesCore
-          id="tsparticlesfullpage"
-          background="transparent"
-          minSize={0.6}
-          maxSize={1.4}
-          particleDensity={100}
-          className="h-full w-full"
-          particleColor="#A78BFA"
-        />
-      </div>
+    <section className="relative overflow-hidden bg-gradient-to-b from-primary/10 to-background py-32 md:py-40 lg:py-48">
       <div className="container relative z-10">
         <div className="mx-auto max-w-4xl text-center">
           <div className="animate-in fade-in slide-in-from-bottom-12 duration-1000 ease-out">
