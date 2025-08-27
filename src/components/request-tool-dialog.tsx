@@ -46,8 +46,9 @@ export function RequestToolDialog() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Form submitted:", values);
     toast({
-      title: "Request Submitted!",
-      description: "Thanks for your request. We'll get back to you shortly.",
+      title: "Message Sent!",
+      description: "Thanks for reaching out. We'll get back to you shortly.",
+      variant: "default"
     });
     form.reset();
     setOpen(false);
@@ -56,14 +57,13 @@ export function RequestToolDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="lg">Request a Design Tool</Button>
+        <Button size="lg">Start a Project</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="font-headline">Request a Tool</DialogTitle>
+          <DialogTitle className="font-headline">Get in Touch</DialogTitle>
           <DialogDescription>
-            Have a specific design tool in mind? Let us know and we might just
-            build it.
+            Fill out the form below and we'll get back to you as soon as possible.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -99,10 +99,10 @@ export function RequestToolDialog() {
               name="request"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Your Request</FormLabel>
+                  <FormLabel>Message</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Describe the tool you'd like to see..."
+                      placeholder="Tell us about your project..."
                       {...field}
                     />
                   </FormControl>
@@ -110,7 +110,7 @@ export function RequestToolDialog() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit Request</Button>
+            <Button type="submit">Send Message</Button>
           </form>
         </Form>
       </DialogContent>

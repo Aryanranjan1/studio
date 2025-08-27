@@ -4,7 +4,6 @@ import { useState } from "react";
 import { portfolioData, services } from "@/lib/data";
 import { PortfolioCard } from "./portfolio-card";
 import { Button } from "./ui/button";
-import { RequestToolDialog } from "./request-tool-dialog";
 import { ScrollReveal } from "./scroll-reveal";
 
 export function PortfolioSection() {
@@ -57,16 +56,6 @@ export function PortfolioSection() {
             <PortfolioCard key={project.id} project={project} index={index} />
           ))}
         </div>
-        
-        <ScrollReveal delay={400}>
-            <div className="mt-24 text-center">
-                <h3 className="font-headline text-3xl font-bold">Have an idea for a design tool?</h3>
-                <p className="mt-2 text-muted-foreground max-w-lg mx-auto">We are always looking to create tools that help the community grow and innovate.</p>
-                <div className="mt-8">
-                    <RequestToolDialog />
-                </div>
-            </div>
-        </ScrollReveal>
       </div>
     </section>
   );
