@@ -1,6 +1,7 @@
 import { Button } from "./ui/button";
 import { ArrowDown } from "lucide-react";
 import { SparklesCore } from "./ui/sparkles";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
@@ -31,12 +32,12 @@ export function HeroSection() {
             </div>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <Button size="lg" asChild>
-                <a href="#portfolio">
+                <Link href="/work">
                   View Our Work <ArrowDown className="ml-2 h-4 w-4" />
-                </a>
+                </Link>
               </Button>
-              <Button size="lg" variant="outline">
-                Get in Touch
+              <Button size="lg" variant="outline" asChild>
+                <Link href="/contact">Get in Touch</Link>
               </Button>
             </div>
           </div>

@@ -1,15 +1,13 @@
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { HeroSection } from '@/components/hero-section';
-import { ServicesSection } from '@/components/services-section';
+import { AboutSection } from '@/components/about-section';
 
-export default function Home() {
+export default function AboutPage() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <Header />
       <main className="flex-1">
-        <HeroSection />
-        <ServicesSection />
+        <AboutSection />
       </main>
       <Footer />
     </div>
