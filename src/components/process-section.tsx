@@ -59,7 +59,7 @@ export function ProcessSection() {
                     <div className="absolute left-4 top-0 h-full w-px bg-border -translate-x-1/2"></div>
                     {processSteps.map((item, index) => (
                         <ScrollReveal key={item.step} delay={index * 100}>
-                            <div className="relative flex items-start gap-8 mb-12">
+                            <div className="relative flex items-start gap-8 last:mb-0 mb-12">
                                 <div className="relative flex-shrink-0">
                                     <div className={`flex items-center justify-center w-8 h-8 rounded-full text-white font-bold ${item.color}`}>
                                         {item.step}
