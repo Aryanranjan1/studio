@@ -1,13 +1,13 @@
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { ContactSection } from '@/components/contact-section';
+import { ServiceCategorySection } from '@/components/service-category-section';
 
-export default function ContactPage() {
+export default function ServicesPage() {
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
       <Header />
-      <main className="flex-1 py-16">
-        <ContactSection />
+      <main className="flex-1">
+        <ServiceCategorySection />
       </main>
       <Footer />
     </div>
