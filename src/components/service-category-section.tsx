@@ -11,36 +11,42 @@ const services = [
   {
     icon: <Brush className="h-10 w-10 text-primary" />,
     title: "Branding",
+    slug: "branding",
     description: "Crafting unique brand identities that resonate with your audience.",
     href: "/services/branding",
   },
   {
     icon: <PenTool className="h-10 w-10 text-primary" />,
     title: "UI/UX Design",
+    slug: "ui-ux-design",
     description: "Creating intuitive and beautiful user interfaces for exceptional experiences.",
     href: "/services/ui-ux-design",
   },
   {
     icon: <Code className="h-10 w-10 text-primary" />,
     title: "Web Development",
+    slug: "web-development",
     description: "Building fast, responsive, and scalable websites with modern tech.",
     href: "/services/web-development",
   },
   {
     icon: <Smartphone className="h-10 w-10 text-primary" />,
     title: "Mobile App",
+    slug: "mobile-app",
     description: "Designing and developing high-performance mobile apps for iOS and Android.",
     href: "/services/mobile-app",
   },
   {
     icon: <ShoppingCart className="h-10 w-10 text-primary" />,
     title: "E-commerce",
+    slug: "e-commerce",
     description: "Developing robust e-commerce solutions that drive sales and customer loyalty.",
     href: "/services/e-commerce",
   },
   {
     icon: <Megaphone className="h-10 w-10 text-primary" />,
     title: "Marketing",
+    slug: "marketing",
     description: "Executing data-driven marketing strategies to grow your reach and impact.",
     href: "/services/marketing",
   },
@@ -93,3 +99,5 @@ export function ServiceCategorySection({ className }: ServiceCategorySectionProp
     </section>
   );
 }
+
+    

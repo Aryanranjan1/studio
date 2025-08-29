@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Article } from "@/lib/data";
+import { Article, allArticleTags } from "@/lib/data";
 import { addArticle, updateArticle, NewArticle } from "@/lib/firestore";
 import {
     Dialog,
@@ -27,6 +27,7 @@ import {
     DialogTitle,
   } from "@/components/ui/dialog"
 import { Switch } from "./ui/switch";
+import { Checkbox } from "./ui/checkbox";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters."),
@@ -34,6 +35,8 @@ const formSchema = z.object({
   content: z.string().min(10, "Content must be at least 10 characters."),
   imageUrl: z.string().url("Please enter a valid image URL."),
   status: z.enum(['draft', 'published']),
+  isFeatured: z.boolean().default(false),
+  tags: z.array(z.string()).optional(),
 });
 
 interface ArticleFormProps {
@@ -52,6 +55,8 @@ export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleF
     content: article?.content || "",
     imageUrl: article?.imageUrl || "",
     status: article?.status || 'draft',
+    isFeatured: article?.isFeatured || false,
+    tags: article?.tags || [],
   }
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -61,7 +66,7 @@ export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleF
 
   React.useEffect(() => {
     form.reset(defaultValues);
-  }, [article, form]);
+  }, [article, form, isOpen]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
@@ -72,7 +77,11 @@ export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleF
                 description: "Article updated successfully.",
             });
         } else {
-            await addArticle(values as NewArticle);
+            const newArticle: NewArticle = {
+                ...values,
+                createdAt: new Date(), // This will be replaced by serverTimestamp
+            };
+            await addArticle(newArticle);
             toast({
                 title: "Success",
                 description: "Article created successfully.",
@@ -155,27 +164,92 @@ export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleF
                             </FormItem>
                         )}
                     />
-
+                    
                     <FormField
                         control={form.control}
-                        name="status"
-                        render={({ field }) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                                <div className="space-y-0.5">
-                                    <FormLabel>Status</FormLabel>
-                                    <FormDescription>
-                                       {field.value === 'published' ? 'Published articles are visible to the public.' : 'Drafts are only visible to you.'}
-                                    </FormDescription>
-                                </div>
-                                <FormControl>
-                                    <Switch
-                                        checked={field.value === 'published'}
-                                        onCheckedChange={(checked) => field.onChange(checked ? 'published' : 'draft')}
+                        name="tags"
+                        render={() => (
+                            <FormItem>
+                                <FormLabel>Tags</FormLabel>
+                                <div className="grid grid-cols-3 gap-2 rounded-lg border p-4">
+                                {allArticleTags.map((item) => (
+                                    <FormField
+                                    key={item}
+                                    control={form.control}
+                                    name="tags"
+                                    render={({ field }) => {
+                                        return (
+                                        <FormItem key={item} className="flex flex-row items-start space-x-3 space-y-0">
+                                            <FormControl>
+                                            <Checkbox
+                                                checked={field.value?.includes(item)}
+                                                onCheckedChange={(checked) => {
+                                                return checked
+                                                    ? field.onChange([...(field.value || []), item])
+                                                    : field.onChange(
+                                                        field.value?.filter(
+                                                        (value) => value !== item
+                                                        )
+                                                    )
+                                                }}
+                                            />
+                                            </FormControl>
+                                            <FormLabel className="font-normal">
+                                            {item}
+                                            </FormLabel>
+                                        </FormItem>
+                                        )
+                                    }}
                                     />
-                                </FormControl>
+                                ))}
+                                </div>
+                                <FormMessage />
                             </FormItem>
                         )}
-                        />
+                    />
+
+                    <div className="flex space-x-8">
+                        <FormField
+                            control={form.control}
+                            name="status"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm flex-1">
+                                    <div className="space-y-0.5">
+                                        <FormLabel>Status</FormLabel>
+                                        <FormDescription>
+                                        {field.value === 'published' ? 'Visible to public.' : 'Saved as draft.'}
+                                        </FormDescription>
+                                    </div>
+                                    <FormControl>
+                                        <Switch
+                                            checked={field.value === 'published'}
+                                            onCheckedChange={(checked) => field.onChange(checked ? 'published' : 'draft')}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                            />
+                        <FormField
+                            control={form.control}
+                            name="isFeatured"
+                            render={({ field }) => (
+                                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm flex-1">
+                                    <div className="space-y-0.5">
+                                        <FormLabel>Featured</FormLabel>
+                                        <FormDescription>
+                                        {field.value ? 'Show on homepage.' : 'Regular article.'}
+                                        </FormDescription>
+                                    </div>
+                                    <FormControl>
+                                        <Switch
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                            />
+                    </div>
 
 
                     <div className="flex justify-end pt-4">
@@ -190,3 +264,5 @@ export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleF
     </Dialog>
   );
 }
+
+    

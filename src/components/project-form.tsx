@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -31,6 +32,7 @@ import { Sparkles } from "lucide-react";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters."),
+  slug: z.string().min(2, "Slug must be at least 2 characters.").refine(s => !s.includes(' '), "Slug cannot contain spaces."),
   longDescription: z.string().min(10, "Description must be at least 10 characters."),
   summary: z.string().min(10, "Summary must be at least 10 characters."),
   imageUrl: z.string().url("Please enter a valid image URL."),
@@ -48,33 +50,41 @@ interface ProjectFormProps {
 export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectFormProps) {
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: project?.title || "",
-      longDescription: project?.longDescription || "",
-      summary: project?.summary || "",
-      imageUrl: project?.imageUrl || "",
-      imageHint: project?.imageHint || "",
-      services: project?.services || [],
+      title: "",
+      slug: "",
+      longDescription: "",
+      summary: "",
+      imageUrl: "",
+      imageHint: "",
+      services: [],
     },
   });
 
-  // Reset form when project changes
+  // Reset form when project or open state changes
   React.useEffect(() => {
-    if (project) {
-      form.reset(project);
-    } else {
-      form.reset({
-        title: "",
-        longDescription: "",
-        summary: "",
-        imageUrl: "",
-        imageHint: "",
-        services: [],
-      });
+    if (isOpen) {
+        if (project) {
+          form.reset({
+            ...project,
+            slug: project.slug || project.title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''),
+          });
+        } else {
+          form.reset({
+            title: "",
+            slug: "",
+            longDescription: "",
+            summary: "",
+            imageUrl: "",
+            imageHint: "",
+            services: [],
+          });
+        }
     }
-  }, [project, form]);
+  }, [project, isOpen, form]);
 
   const handleGenerateSummary = async () => {
     const longDescription = form.getValues("longDescription");
@@ -137,7 +147,7 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[625px]">
+        <DialogContent className="sm:max-w-[800px]">
             <DialogHeader>
                 <DialogTitle>{project ? "Edit Project" : "Add New Project"}</DialogTitle>
                 <DialogDescription>
@@ -153,7 +163,26 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
                             <FormItem>
                                 <FormLabel>Project Title</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="E.g., Zenith Branding Identity" {...field} />
+                                    <Input placeholder="E.g., Zenith Branding Identity" {...field} 
+                                    onChange={(e) => {
+                                        field.onChange(e);
+                                        const slug = e.target.value.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+                                        form.setValue('slug', slug);
+                                    }}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                     <FormField
+                        control={form.control}
+                        name="slug"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>URL Slug</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="e.g., zenith-branding-identity" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -242,7 +271,7 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
                                                 checked={field.value?.includes(item)}
                                                 onCheckedChange={(checked) => {
                                                 return checked
-                                                    ? field.onChange([...field.value, item])
+                                                    ? field.onChange([...(field.value || []), item])
                                                     : field.onChange(
                                                         field.value?.filter(
                                                         (value) => value !== item
@@ -278,3 +307,5 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
     </Dialog>
   );
 }
+
+    

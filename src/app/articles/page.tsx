@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getArticles } from '@/lib/data';
+import { getArticles, allArticleTags } from '@/lib/data';
 import type { Article } from '@/lib/data';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -12,19 +12,57 @@ import { PageTitleHeader } from '@/components/page-title-header';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { ScrollReveal } from '@/components/scroll-reveal';
+import { Button } from '@/components/ui/button';
 
 export default function ArticlesPage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState("All");
 
   useEffect(() => {
     const unsubscribe = getArticles((fetchedArticles) => {
-      // Filter for published articles only
       setArticles(fetchedArticles.filter(a => a.status === 'published'));
       setLoading(false);
     });
     return () => unsubscribe();
   }, []);
+  
+  const featuredArticles = articles.filter(a => a.isFeatured);
+  const regularArticles = articles.filter(a => !a.isFeatured);
+
+  const filteredArticles =
+    activeFilter === "All"
+      ? regularArticles
+      : regularArticles.filter((a) => a.tags && a.tags.includes(activeFilter));
+
+
+  const ArticleCard = ({ article, delay = 0, priority = false }: { article: Article, delay?: number, priority?: boolean }) => (
+    <ScrollReveal delay={delay}>
+        <Link href={`/articles/${article.slug}`}>
+            <Card className="group h-full overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
+            <CardHeader className="p-0">
+                <div className="relative h-60 w-full overflow-hidden">
+                <Image
+                    src={article.imageUrl}
+                    alt={article.title}
+                    fill
+                    priority={priority}
+                    className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+                    data-ai-hint="article feature image"
+                />
+                </div>
+            </CardHeader>
+            <CardContent className="p-6">
+                <div className="flex flex-wrap gap-2 mb-2">
+                    {article.tags?.map(tag => <Badge key={tag} variant="secondary">{tag}</Badge>)}
+                </div>
+                <CardTitle className="font-headline text-xl mb-2">{article.title}</CardTitle>
+                <p className='text-sm text-muted-foreground'>{new Date(article.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+            </CardContent>
+            </Card>
+        </Link>
+    </ScrollReveal>
+  );
 
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
@@ -34,10 +72,10 @@ export default function ArticlesPage() {
             title="Our Articles"
             subtitle="Insights, trends, and stories from the digital frontier."
         />
-        <div className="container py-24 sm:py-32">
+        <div className="container py-24 sm:py-32 space-y-24">
         {loading ? (
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {Array.from({ length: 3 }).map((_, index) => (
+                {Array.from({ length: 6 }).map((_, index) => (
                     <div key={index} className="space-y-4">
                         <Skeleton className="h-60 w-full rounded-2xl" />
                         <Skeleton className="h-6 w-3/4" />
@@ -47,31 +85,56 @@ export default function ArticlesPage() {
                 ))}
             </div>
             ) : (
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {articles.map((article, index) => (
-                <ScrollReveal key={article.id} delay={index * 100}>
-                    <Link href={`/articles/${article.slug}`}>
-                        <Card className="group h-full overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
-                        <CardHeader className="p-0">
-                            <div className="relative h-60 w-full overflow-hidden">
-                            <Image
-                                src={article.imageUrl}
-                                alt={article.title}
-                                fill
-                                className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
-                                data-ai-hint="article feature image"
-                            />
-                            </div>
-                        </CardHeader>
-                        <CardContent className="p-6">
-                            <Badge variant="secondary" className='mb-2'>{new Date(article.createdAt).toLocaleDateString()}</Badge>
-                            <CardTitle className="font-headline text-xl mb-2">{article.title}</CardTitle>
-                        </CardContent>
-                        </Card>
-                    </Link>
-                </ScrollReveal>
-                ))}
-            </div>
+            <>
+                {/* Featured Articles Section */}
+                {featuredArticles.length > 0 && (
+                    <section>
+                        <ScrollReveal>
+                            <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl text-center mb-12">Featured Insights</h2>
+                        </ScrollReveal>
+                        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                            {featuredArticles.map((article, index) => (
+                               <ArticleCard key={article.id} article={article} delay={index * 100} priority={index < 2} />
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* All Articles Section */}
+                <section>
+                    <ScrollReveal>
+                        <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl text-center mb-6">All Articles</h2>
+                    </ScrollReveal>
+                    
+                    <ScrollReveal delay={200}>
+                        <div className="my-10 flex flex-wrap justify-center gap-3">
+                            <Button
+                            variant={activeFilter === "All" ? "default" : "outline"}
+                            onClick={() => setActiveFilter("All")}
+                            className="rounded-full"
+                            >
+                            All
+                            </Button>
+                            {allArticleTags.map((tag) => (
+                            <Button
+                                key={tag}
+                                variant={activeFilter === tag ? "default" : "outline"}
+                                onClick={() => setActiveFilter(tag)}
+                                className="rounded-full"
+                            >
+                                {tag}
+                            </Button>
+                            ))}
+                        </div>
+                    </ScrollReveal>
+                    
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        {filteredArticles.map((article, index) => (
+                           <ArticleCard key={article.id} article={article} delay={index * 100} />
+                        ))}
+                    </div>
+                </section>
+            </>
             )}
         </div>
       </main>
@@ -79,3 +142,5 @@ export default function ArticlesPage() {
     </div>
   );
 }
+
+    

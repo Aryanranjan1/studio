@@ -1,9 +1,10 @@
-import { collection, getDocs, onSnapshot, query, orderBy, doc } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query, orderBy, doc, where, limit } from "firebase/firestore";
 import { db } from "./firebase";
 
 export interface Project {
   id: string;
   title: string;
+  slug: string;
   longDescription: string;
   summary: string;
   imageUrl: string;
@@ -38,6 +39,8 @@ export interface Article {
     imageUrl: string;
     status: 'draft' | 'published';
     createdAt: Date;
+    isFeatured?: boolean;
+    tags?: string[];
 }
 
 export const socialPlatforms = ['Facebook', 'Whatsapp', 'Instagram', 'Linkedin'] as const;
@@ -96,6 +99,16 @@ export const getProjects = (callback: (projects: Project[]) => void) => {
     });
 };
 
+export const getProjectBySlug = async (slug: string): Promise<Project | null> => {
+    const q = query(collection(db, "projects"), where("slug", "==", slug), limit(1));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+        return null;
+    }
+    const doc = querySnapshot.docs[0];
+    return { id: doc.id, ...doc.data() } as Project;
+};
+
 export const getTestimonials = (callback: (testimonials: Testimonial[]) => void) => {
     const testimonialsQuery = query(collection(db, "testimonials"), orderBy("name"));
     return onSnapshot(testimonialsQuery, (querySnapshot) => {
@@ -121,6 +134,21 @@ export const getArticles = (callback: (articles: Article[]) => void) => {
         });
         callback(articles);
     });
+};
+
+export const getArticleBySlug = async (slug: string): Promise<Article | null> => {
+    const q = query(collection(db, "articles"), where("slug", "==", slug), limit(1));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+        return null;
+    }
+    const doc = querySnapshot.docs[0];
+    const data = doc.data();
+    return {
+        id: doc.id,
+        ...data,
+        createdAt: data.createdAt?.toDate(),
+    } as Article;
 };
 
 export const getMessages = (callback: (messages: Message[]) => void) => {
@@ -168,9 +196,10 @@ export const getSettings = (callback: (settings: SiteSettings | null) => void) =
 };
 
 
-export const sampleProjects = [
+export const sampleProjects: Omit<Project, 'id'>[] = [
     {
       title: "Nova Financial Website",
+      slug: "nova-financial-website",
       longDescription: "A complete website redesign for Nova Financial, a leading wealth management firm. The project focused on creating a modern, trustworthy, and user-friendly experience for high-net-worth individuals. We developed a custom dashboard for clients to track their portfolios, integrated complex financial data visualizations, and ensured the site met stringent security and compliance standards. The technology stack included Next.js for server-side rendering, Recharts for data visualization, and a headless CMS for easy content updates.",
       summary: "Launched a secure, compliant, and user-centric website for a top wealth management firm, featuring a custom portfolio dashboard and boosting client engagement.",
       imageUrl: "https://picsum.photos/600/400",
@@ -179,6 +208,7 @@ export const sampleProjects = [
     },
     {
       title: "Helia Skincare Branding",
+      slug: "helia-skincare-branding",
       longDescription: "Helia Skincare approached us for a complete branding package for their new line of organic skincare products. We developed a brand strategy, name, logo, and packaging design that conveyed a sense of natural luxury. The visual identity revolves around soft, earthy tones, elegant typography, and minimalist illustrations. The project culminated in a beautiful, cohesive brand that stands out in a crowded market.",
       summary: "Created a full brand identity, from name to packaging, for an organic skincare line, resulting in a distinct and luxurious market presence.",
       imageUrl: "https://picsum.photos/600/400",
@@ -187,6 +217,7 @@ export const sampleProjects = [
     },
     {
       title: "Traverse Travel App",
+      slug: "traverse-travel-app",
       longDescription: "Designed and developed Traverse, a mobile application for discovering and booking unique travel experiences. The app allows users to explore destinations, create custom itineraries, and book flights and hotels. Key features include an interactive map, a social feed for sharing travel stories, and offline access to trip details. The app was built natively for both iOS and Android to ensure a smooth, high-performance user experience.",
       summary: "Developed a native mobile app for iOS and Android that simplifies travel planning with features like interactive maps and social sharing.",
       imageUrl: "https://picsum.photos/400/600",
@@ -195,6 +226,7 @@ export const sampleProjects = [
     },
     {
       title: "The Culinary Collective E-commerce Store",
+      slug: "culinary-collective-ecommerce",
       longDescription: "We built a sophisticated e-commerce platform for The Culinary Collective, a purveyor of gourmet foods. The platform was built on Shopify Plus and heavily customized to support features like product bundling, subscription boxes, and a wholesale portal. We also integrated their ERP system for seamless inventory management. The design is clean, appetizing, and optimized for conversions.",
       summary: "Built a custom Shopify Plus e-commerce platform with subscription and wholesale features, leading to streamlined operations and increased online sales.",
       imageUrl: "https://picsum.photos/600/400",
@@ -203,6 +235,7 @@ export const sampleProjects = [
     },
     {
       title: "Orion Robotics Marketing Launch",
+      slug: "orion-robotics-marketing",
       longDescription: "Executed a comprehensive digital marketing campaign for the launch of Orion Robotics' new line of autonomous warehouse robots. The campaign included creating a new landing page, producing a product launch video, running targeted ad campaigns on LinkedIn and Google, and developing a content marketing strategy to drive organic traffic. The campaign exceeded lead generation goals by 150% in the first quarter.",
       summary: "Launched a multi-channel digital marketing campaign for a robotics company, exceeding lead generation targets by 150% through video, ads, and content.",
       imageUrl: "https://picsum.photos/600/400",
@@ -211,17 +244,18 @@ export const sampleProjects = [
     },
     {
       title: "MindWell Mental Health App",
+      slug: "mindwell-mental-health-app",
       longDescription: "A UI/UX design project for MindWell, a new mental health application. Our goal was to create an interface that was calming, non-judgmental, and easy to navigate. We conducted extensive user research to understand the needs and sensitivities of the target audience. The final design features a soothing color palette, gentle animations, and a clear information architecture that guides users to resources like guided journaling, meditation, and therapist directories.",
       summary: "Designed a calming and intuitive UI/UX for a mental health app, focusing on user research to create a supportive and easy-to-navigate experience.",
       imageUrl: "https://picsum.photos/400/600",
       imageHint: "meditation app",
       services: ["UI/UX Design"],
     },
-  ];
+];
 
 export const services = ["Branding", "UI/UX Design", "Web Development", "Mobile App", "E-commerce", "Marketing"];
 
-export const sampleTestimonials = [
+export const sampleTestimonials: Omit<Testimonial, 'id'>[] = [
   {
     name: "Aisha Khan",
     title: "CEO",
@@ -252,7 +286,7 @@ export const sampleTestimonials = [
   },
 ];
 
-export const sampleArticles = [
+export const sampleArticles: Omit<Article, 'id'>[] = [
     {
         title: "The Art of Digital Storytelling in Branding",
         slug: "art-of-digital-storytelling-in-branding",
@@ -260,6 +294,8 @@ export const sampleArticles = [
         imageUrl: "https://picsum.photos/800/400",
         status: 'published',
         createdAt: new Date('2023-10-26'),
+        isFeatured: true,
+        tags: ["Branding", "Marketing"],
     },
     {
         title: "5 UI/UX Trends to Watch in the Coming Year",
@@ -268,6 +304,8 @@ export const sampleArticles = [
         imageUrl: "https://picsum.photos/800/400",
         status: 'published',
         createdAt: new Date('2023-11-15'),
+        isFeatured: true,
+        tags: ["UI/UX Design"],
     },
     {
         title: "Why Your Next Web Project Should Be on Next.js",
@@ -276,8 +314,13 @@ export const sampleArticles = [
         imageUrl: "https://picsum.photos/800/400",
         status: 'draft',
         createdAt: new Date('2023-12-01'),
+        isFeatured: false,
+        tags: ["Web Development"],
     }
 ];
+
+export const allArticleTags = Array.from(new Set(sampleArticles.flatMap(a => a.tags || [])));
+
 
 export const sampleSettings: Omit<SiteSettings, 'id'> = {
     contactEmail: "contact@ampirestudio.com",
@@ -291,5 +334,4 @@ export const sampleSettings: Omit<SiteSettings, 'id'> = {
     ]
   };
 
-
-
+    

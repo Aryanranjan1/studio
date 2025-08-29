@@ -183,7 +183,7 @@ export const getArticleBySlug = async (slug: string): Promise<Article | null> =>
     }
 }
   
-  export const updateArticle = async (articleId: string, article: Partial<NewArticle>): Promise<void> => {
+  export const updateArticle = async (articleId: string, article: Partial<Omit<NewArticle, 'createdAt'>>): Promise<void> => {
     try {
       const articleRef = doc(db, ARTICLES_COLLECTION, articleId);
       await updateDoc(articleRef, article);
@@ -268,8 +268,11 @@ export const deleteIntake = async (intakeId: string): Promise<void> => {
   try {
     const intakeRef = doc(db, INTAKES_COLLECTION, intakeId);
     await deleteDoc(intakeRef);
-  } catch (error) {
+  } catch (error)
+    {
     console.error("Error deleting intake: ", error);
     throw new Error("Failed to delete intake submission.");
   }
 };
+
+    
