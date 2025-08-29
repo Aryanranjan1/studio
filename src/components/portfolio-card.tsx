@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -47,5 +48,3 @@ export function PortfolioCard({ project, index }: PortfolioCardProps) {
     </ScrollReveal>
   );
 }
-
-    

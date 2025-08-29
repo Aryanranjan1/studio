@@ -1,3 +1,4 @@
+
 "use client";
 
 import { ScrollReveal } from "./scroll-reveal";
@@ -73,7 +74,7 @@ export function ServiceCategorySection({ className }: ServiceCategorySectionProp
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
             <ScrollReveal key={service.title} delay={index * 100}>
-              <Link href={service.href} className="h-full">
+              <Link href={service.href} className="h-full block">
                 <Card className="h-full text-center transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2 bg-card/50 backdrop-blur-lg group">
                   <CardHeader>
                     <div className="flex justify-center mb-4">
@@ -99,5 +100,3 @@ export function ServiceCategorySection({ className }: ServiceCategorySectionProp
     </section>
   );
 }
-
-    
