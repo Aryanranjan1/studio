@@ -20,7 +20,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { getArticles, deleteArticle, seedArticles } from "@/lib/firestore";
+import { deleteArticle, seedArticles } from "@/lib/firestore";
+import { getArticles } from "@/lib/data";
 import type { Article } from "@/lib/data";
 import { useToast } from "@/hooks/use-toast";
 import { ArticleForm } from "@/components/article-form";
@@ -37,28 +38,13 @@ export default function ArticlesPage() {
   const [articleToDelete, setArticleToDelete] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const fetchArticles = async () => {
-    setLoading(true);
-    try {
-      const articlesData = await getArticles((fetchedArticles) => {
-        setArticles(fetchedArticles);
-        setLoading(false);
-      });
-      return articlesData;
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch articles.",
-        variant: "destructive",
-      });
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     const init = async () => {
       await seedArticles();
-      const unsubscribe = await fetchArticles();
+      const unsubscribe = getArticles((fetchedArticles) => {
+        setArticles(fetchedArticles);
+        setLoading(false);
+      });
       return () => unsubscribe && unsubscribe();
     };
     init();
