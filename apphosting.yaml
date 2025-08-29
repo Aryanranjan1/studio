@@ -1,6 +1,16 @@
 # Settings to manage and configure a Firebase App Hosting backend.
 # https://firebase.google.com/docs/app-hosting/configure
 
+# --- Hosting Cost Estimate ---
+# Firebase App Hosting operates on a generous free tier. For a typical
+# portfolio website with low to moderate traffic, you can expect the
+# hosting costs to be $0 per year.
+#
+# You only pay for usage that exceeds the free limits. If your site
+# becomes very popular, you might incur minimal costs (a few dollars per month).
+# You can monitor your usage and set up billing alerts in your
+# Google Cloud project dashboard.
+
 runConfig:
   # Increase this value if you'd like to automatically spin up
   # more instances in response to increased traffic.
