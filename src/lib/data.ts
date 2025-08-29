@@ -40,8 +40,10 @@ export interface Article {
     createdAt: Date;
 }
 
+export const socialPlatforms = ['Facebook', 'Twitter', 'Instagram', 'Linkedin'] as const;
+
 export interface SocialLink {
-    platform: 'Facebook' | 'Twitter' | 'Instagram' | 'Linkedin';
+    platform: typeof socialPlatforms[number];
     href: string;
 }
   
@@ -95,7 +97,8 @@ export const getProjects = (callback: (projects: Project[]) => void) => {
 };
 
 export const getTestimonials = (callback: (testimonials: Testimonial[]) => void) => {
-    return onSnapshot(collection(db, "testimonials"), (querySnapshot) => {
+    const testimonialsQuery = query(collection(db, "testimonials"), orderBy("name"));
+    return onSnapshot(testimonialsQuery, (querySnapshot) => {
         const testimonials: Testimonial[] = [];
         querySnapshot.forEach((doc) => {
             testimonials.push({ id: doc.id, ...doc.data() } as Testimonial);
@@ -276,15 +279,16 @@ export const sampleArticles = [
     }
 ];
 
-export const sampleSettings = {
+export const sampleSettings: Omit<SiteSettings, 'id'> = {
     contactEmail: "contact@ampirestudio.com",
     contactPhone: "+1 (555) 123-4567",
     address: "Kuala Lumpur, Malaysia",
     socials: [
-      { platform: "Facebook", href: "/" },
-      { platform: "Twitter", href: "/" },
-      { platform: "Instagram", href: "/" },
-      { platform: "Linkedin", href: "/" },
+      { platform: "Facebook", href: "https://facebook.com" },
+      { platform: "Twitter", href: "https://twitter.com" },
+      { platform: "Instagram", href: "https://instagram.com" },
+      { platform: "Linkedin", href: "https://linkedin.com" },
     ]
   };
+
 

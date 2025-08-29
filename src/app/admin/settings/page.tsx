@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
+
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,15 +18,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { SiteSettings, SocialLink } from "@/lib/data";
+import { SiteSettings, SocialLink, socialPlatforms } from "@/lib/data";
 import { updateSettings, seedSettings } from "@/lib/firestore";
 import { getSettings } from "@/lib/data";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Trash2 } from "lucide-react";
+import { Trash2, PlusCircle } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const socialLinkSchema = z.object({
-    platform: z.enum(['Facebook', 'Twitter', 'Instagram', 'Linkedin']),
+    platform: z.enum(socialPlatforms),
     href: z.string().url("Please enter a valid URL."),
 });
 
@@ -171,7 +174,16 @@ export default function SettingsPage() {
                                     render={({ field }) => (
                                         <FormItem className="w-1/3">
                                             <FormLabel>Platform</FormLabel>
-                                            <FormControl><Input {...field} disabled /></FormControl>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger>
+                                                        <SelectValue placeholder="Select..." />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {socialPlatforms.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}
+                                                </SelectContent>
+                                            </Select>
                                             <FormMessage />
                                         </FormItem>
                                     )}
@@ -192,8 +204,13 @@ export default function SettingsPage() {
                                 </Button>
                             </div>
                         ))}
-                         {/* We'll add an "Add" button in a future step if needed */}
                     </CardContent>
+                    <CardFooter>
+                        <Button type="button" variant="outline" onClick={() => append({ platform: "Facebook", href: "" })}>
+                            <PlusCircle className="mr-2 h-4 w-4" />
+                            Add Social Link
+                        </Button>
+                    </CardFooter>
                 </Card>
                 
                 <div className="flex justify-end">
