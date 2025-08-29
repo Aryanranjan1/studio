@@ -11,7 +11,7 @@ export default function AboutPage() {
       <Header />
       <main className="flex-1">
         <AboutSection />
-        <AdvantageSection />
+        <AdvantageSection className="bg-white/5 backdrop-blur-sm" />
         <ProcessSection />
         <TestimonialSection className="bg-white/5 backdrop-blur-sm" />
         <TestimonialSection />

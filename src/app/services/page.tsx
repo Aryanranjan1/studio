@@ -13,11 +13,11 @@ export default function ServicesPage() {
       <Header />
       <main className="flex-1">
         <ServiceCategorySection />
-        <ProcessSection />
+        <ProcessSection className="bg-white/5 backdrop-blur-sm" />
         <AdvantageSection />
-        <TestimonialSection />
+        <TestimonialSection className="bg-white/5 backdrop-blur-sm" />
         <ContactSection />
-        <FaqSection />
+        <FaqSection className="bg-white/5 backdrop-blur-sm" />
       </main>
       <Footer />
     </div>
