@@ -22,7 +22,9 @@ export function ScrollReveal({
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting);
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
       },
       { threshold }
     );
@@ -40,13 +42,15 @@ export function ScrollReveal({
   }, [threshold]);
 
   const getAnimationClass = () => {
+    if (!isVisible) return "opacity-0";
+
     if (className?.includes("slide-reveal-left")) {
-      return isVisible ? "slide-reveal-left" : "slide-out-to-left";
+      return "slide-reveal-left";
     }
     if (className?.includes("slide-reveal-right")) {
-      return isVisible ? "slide-reveal-right" : "slide-out-to-right";
+      return "slide-reveal-right";
     }
-    return isVisible ? "animate-fade-in-up" : "animate-fade-out-down";
+    return "animate-fade-in-up";
   };
 
   return (

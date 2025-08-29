@@ -66,7 +66,7 @@ export function Typewriter({
   return (
     <Tag className={cn(className)}>
       {displayedText}
-      <span className={cn(cursorClassName, "animate-pulse")}>.</span>
+      <span className={cn(cursorClassName)}>.</span>
     </Tag>
   );
 }
