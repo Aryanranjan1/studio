@@ -42,9 +42,19 @@ export default function DashboardPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const unsubProjects = getProjects(setProjects);
-        const unsubMessages = getMessages(setMessages);
-        const unsubIntakes = getIntakes(setIntakes);
+        let loadedDataCount = 0;
+        const totalDataSources = 3;
+
+        const handleDataLoad = () => {
+            loadedDataCount++;
+            if (loadedDataCount === totalDataSources) {
+                setLoading(false);
+            }
+        };
+
+        const unsubProjects = getProjects((data) => { setProjects(data); handleDataLoad(); });
+        const unsubMessages = getMessages((data) => { setMessages(data); handleDataLoad(); });
+        const unsubIntakes = getIntakes((data) => { setIntakes(data); handleDataLoad(); });
 
         return () => {
             unsubProjects();
@@ -54,7 +64,7 @@ export default function DashboardPage() {
     }, []);
 
     useEffect(() => {
-        if(projects.length > 0 || messages.length > 0 || intakes.length > 0) {
+        if (!loading) {
             const combinedActivities: Activity[] = [
                 ...intakes.map(i => ({ type: 'intake', text: `New intake from ${i.fullName}`, timestamp: i.submittedAt, href: '/admin/intake' } as Activity)),
                 ...messages.map(m => ({ type: 'message', text: `New message from ${m.name}`, timestamp: m.submittedAt, href: '/admin/messages' } as Activity)),
@@ -64,9 +74,8 @@ export default function DashboardPage() {
             combinedActivities.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
             
             setActivities(combinedActivities.slice(0, 10)); // Limit to 10 recent activities
-            setLoading(false);
         }
-    }, [projects, messages, intakes]);
+    }, [projects, messages, intakes, loading]);
 
     const getProjectCountByStatus = (status: ProjectStatus) => {
         return projects.filter(p => p.status === status).length;
@@ -121,7 +130,7 @@ export default function DashboardPage() {
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <StatCard title="Pending Projects" value={getProjectCountByStatus('Pending')} icon={Clock} color="text-yellow-500" />
-                <StatCard title="In Progress" value={getProjectCountByStatus('In Progress')} icon={Zap} color="text-blue-500" />
+                <StatCard title="In Progress" value={getProjectCountBy-s('In Progress')} icon={Zap} color="text-blue-500" />
                 <StatCard title="Completed" value={getProjectCountByStatus('Completed')} icon={CheckCircle} color="text-green-500" />
                 <StatCard title="Billed" value={getProjectCountByStatus('Billed')} icon={DollarSign} color="text-purple-500" />
             </div>
@@ -133,26 +142,30 @@ export default function DashboardPage() {
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-4">
-                        {activities.map((activity, index) => (
-                            <div key={index} className="flex items-center">
-                                <div className="flex-shrink-0">
-                                    <div className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center">
-                                        {activity.type === 'intake' && <ClipboardList className="h-4 w-4 text-muted-foreground" />}
-                                        {activity.type === 'message' && <MessageSquare className="h-4 w-4 text-muted-foreground" />}
-                                        {activity.type === 'project' && <FileText className="h-4 w-4 text-muted-foreground" />}
+                        {activities.length > 0 ? (
+                            activities.map((activity, index) => (
+                                <div key={index} className="flex items-center">
+                                    <div className="flex-shrink-0">
+                                        <div className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center">
+                                            {activity.type === 'intake' && <ClipboardList className="h-4 w-4 text-muted-foreground" />}
+                                            {activity.type === 'message' && <MessageSquare className="h-4 w-4 text-muted-foreground" />}
+                                            {activity.type === 'project' && <FileText className="h-4 w-4 text-muted-foreground" />}
+                                        </div>
                                     </div>
+                                    <div className="ml-4 flex-1">
+                                        <p className="text-sm">{activity.text}</p>
+                                        <p className="text-xs text-muted-foreground">
+                                            {activity.timestamp.toLocaleDateString()} {activity.timestamp.toLocaleTimeString()}
+                                        </p>
+                                    </div>
+                                    <Button variant="ghost" size="sm" asChild>
+                                        <Link href={activity.href}>View</Link>
+                                    </Button>
                                 </div>
-                                <div className="ml-4 flex-1">
-                                    <p className="text-sm">{activity.text}</p>
-                                    <p className="text-xs text-muted-foreground">
-                                        {activity.timestamp.toLocaleDateString()} {activity.timestamp.toLocaleTimeString()}
-                                    </p>
-                                </div>
-                                <Button variant="ghost" size="sm" asChild>
-                                    <Link href={activity.href}>View</Link>
-                                </Button>
-                            </div>
-                        ))}
+                            ))
+                        ) : (
+                            <p className="text-sm text-muted-foreground">No recent activity.</p>
+                        )}
                     </div>
                 </CardContent>
             </Card>
