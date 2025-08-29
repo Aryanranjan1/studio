@@ -6,9 +6,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "./ui/badge";
-import { AiSummary } from "./ai-summary";
 import type { Project } from "@/lib/data";
 import { ScrollReveal } from "./scroll-reveal";
+import { Sparkles } from "lucide-react";
 
 interface PortfolioCardProps {
   project: Project;
@@ -39,7 +39,10 @@ export function PortfolioCard({ project, index }: PortfolioCardProps) {
               </Badge>
             ))}
           </div>
-          <AiSummary description={project.longDescription} />
+          <div className="flex items-start gap-2 pt-2">
+            <Sparkles className="h-4 w-4 flex-shrink-0 text-primary" />
+            <p className="text-sm text-muted-foreground">{project.summary}</p>
+          </div>
         </CardContent>
       </Card>
     </ScrollReveal>
