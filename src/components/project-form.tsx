@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -18,6 +18,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Project, services } from "@/lib/data";
 import { addProject, updateProject, NewProject } from "@/lib/firestore";
+import { summarizeProject } from "@/ai/flows/portfolio-project-summary";
 import {
     Dialog,
     DialogContent,
@@ -26,6 +27,7 @@ import {
     DialogTitle,
   } from "@/components/ui/dialog"
 import { Checkbox } from "./ui/checkbox";
+import { Sparkles } from "lucide-react";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters."),
@@ -45,6 +47,7 @@ interface ProjectFormProps {
 
 export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectFormProps) {
   const { toast } = useToast();
+  const [isGenerating, setIsGenerating] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -73,25 +76,56 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
     }
   }, [project, form]);
 
+  const handleGenerateSummary = async () => {
+    const longDescription = form.getValues("longDescription");
+    if (!longDescription || longDescription.length < 10) {
+      toast({
+        title: "Description Too Short",
+        description: "Please enter a longer project description to generate a summary.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsGenerating(true);
+    try {
+      const result = await summarizeProject({ projectDescription: longDescription });
+      if (result?.projectSummary) {
+        form.setValue("summary", result.projectSummary, { shouldValidate: true });
+        toast({
+          title: "Summary Generated!",
+          description: "The AI-powered summary has been added.",
+        });
+      }
+    } catch (error) {
+      console.error("Failed to generate summary", error);
+      toast({
+        title: "Generation Failed",
+        description: "There was an error generating the summary. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
         if (project) {
-            // Update existing project
             await updateProject(project.id, values);
             toast({
                 title: "Success",
                 description: "Project updated successfully.",
             });
         } else {
-            // Add new project
             await addProject(values as NewProject);
             toast({
                 title: "Success",
                 description: "Project added successfully.",
             });
         }
-        onFinished(); // Callback to refresh data
-        setIsOpen(false); // Close dialog
+        onFinished();
+        setIsOpen(false);
     } catch (error) {
         toast({
             title: "Error",
@@ -127,12 +161,12 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
                         />
                     <FormField
                         control={form.control}
-                        name="summary"
+                        name="longDescription"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Short Summary</FormLabel>
+                                <FormLabel>Full Description</FormLabel>
                                 <FormControl>
-                                    <Textarea placeholder="A concise summary for the portfolio card..." {...field} />
+                                    <Textarea placeholder="The detailed description of the project..." className="min-h-[120px]" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -140,12 +174,18 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
                         />
                     <FormField
                         control={form.control}
-                        name="longDescription"
+                        name="summary"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Full Description</FormLabel>
+                                <div className="flex justify-between items-center">
+                                  <FormLabel>Short Summary</FormLabel>
+                                  <Button type="button" size="sm" variant="outline" onClick={handleGenerateSummary} disabled={isGenerating}>
+                                    <Sparkles className="mr-2 h-4 w-4" />
+                                    {isGenerating ? "Generating..." : "Generate with AI"}
+                                  </Button>
+                                </div>
                                 <FormControl>
-                                    <Textarea placeholder="The detailed description of the project..." className="min-h-[120px]" {...field} />
+                                    <Textarea placeholder="A concise summary for the portfolio card..." {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
