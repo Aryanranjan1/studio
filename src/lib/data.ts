@@ -40,7 +40,7 @@ export interface Article {
     createdAt: Date;
 }
 
-export const socialPlatforms = ['Facebook', 'Twitter', 'Instagram', 'Linkedin'] as const;
+export const socialPlatforms = ['Facebook', 'Whatsapp', 'Instagram', 'Linkedin'] as const;
 
 export interface SocialLink {
     platform: typeof socialPlatforms[number];
@@ -285,10 +285,11 @@ export const sampleSettings: Omit<SiteSettings, 'id'> = {
     address: "Kuala Lumpur, Malaysia",
     socials: [
       { platform: "Facebook", href: "https://facebook.com" },
-      { platform: "Twitter", href: "https://twitter.com" },
+      { platform: "Whatsapp", href: "https://whatsapp.com" },
       { platform: "Instagram", href: "https://instagram.com" },
       { platform: "Linkedin", href: "https://linkedin.com" },
     ]
   };
+
 
 
