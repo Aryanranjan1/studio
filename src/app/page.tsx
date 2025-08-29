@@ -6,6 +6,7 @@ import { AdvantageSection } from '@/components/advantage-section';
 import { ProcessSection } from '@/components/process-section';
 import { PortfolioSection } from '@/components/portfolio-section';
 import { TestimonialSection } from '@/components/testimonial-section';
+import { CtaSection } from '@/components/cta-section';
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
         <ProcessSection />
         <PortfolioSection />
         <TestimonialSection />
+        <CtaSection />
       </main>
       <Footer />
     </div>
