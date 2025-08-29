@@ -5,6 +5,7 @@ import { TestimonialSection } from '@/components/testimonial-section';
 import { AdvantageSection } from '@/components/advantage-section';
 import { ProcessSection } from '@/components/process-section';
 import { TsaSection } from '@/components/tsa-section';
+import { ProjectFormTsaSection } from '@/components/project-form-tsa-section';
 
 export default function AboutPage() {
   return (
@@ -12,6 +13,7 @@ export default function AboutPage() {
       <Header />
       <main className="flex-1">
         <AboutSection />
+        <ProjectFormTsaSection />
         <AdvantageSection className="bg-white/5 backdrop-blur-sm" />
         <ProcessSection />
         <TestimonialSection className="bg-white/5 backdrop-blur-sm" />
