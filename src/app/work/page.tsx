@@ -4,6 +4,7 @@ import { PortfolioSection } from '@/components/portfolio-section';
 import { ProcessSection } from '@/components/process-section';
 import { AdvantageSection } from '@/components/advantage-section';
 import { TestimonialSection } from '@/components/testimonial-section';
+import { TsaSection } from '@/components/tsa-section';
 
 export default function WorkPage() {
   return (
@@ -14,6 +15,7 @@ export default function WorkPage() {
         <ProcessSection className="bg-white/5 backdrop-blur-sm" />
         <AdvantageSection />
         <TestimonialSection className="bg-white/5 backdrop-blur-sm" />
+        <TsaSection />
       </main>
       <Footer />
     </div>

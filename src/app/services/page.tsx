@@ -6,6 +6,7 @@ import { AdvantageSection } from '@/components/advantage-section';
 import { TestimonialSection } from '@/components/testimonial-section';
 import { ContactSection } from '@/components/contact-section';
 import { FaqSection } from '@/components/faq-section';
+import { TsaSection } from '@/components/tsa-section';
 
 export default function ServicesPage() {
   return (
@@ -18,6 +19,7 @@ export default function ServicesPage() {
         <TestimonialSection className="bg-white/5 backdrop-blur-sm" />
         <ContactSection />
         <FaqSection className="bg-white/5 backdrop-blur-sm" />
+        <TsaSection />
       </main>
       <Footer />
     </div>
