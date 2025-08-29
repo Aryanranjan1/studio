@@ -72,6 +72,7 @@ interface ContactSectionProps {
 export function ContactSection({ className }: ContactSectionProps) {
   const { toast } = useToast();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     const unsubscribe = getSettings((settingsData) => {
@@ -92,6 +93,7 @@ export function ContactSection({ className }: ContactSectionProps) {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSending(true);
     try {
         await addMessage(values as NewMessage);
         toast({
@@ -105,6 +107,8 @@ export function ContactSection({ className }: ContactSectionProps) {
             description: "Failed to send message. Please try again later.",
             variant: "destructive",
         });
+    } finally {
+        setIsSending(false);
     }
   }
 
@@ -210,8 +214,8 @@ export function ContactSection({ className }: ContactSectionProps) {
                                           </FormItem>
                                       )}
                                       />
-                                  <Button type="submit" size="lg" disabled={form.formState.isSubmitting}>
-                                    {form.formState.isSubmitting ? "Sending..." : "Submit Request"}
+                                  <Button type="submit" size="lg" disabled={isSending}>
+                                    {isSending ? "Sending..." : "Submit Request"}
                                   </Button>
                               </form>
                           </Form>
