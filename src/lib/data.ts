@@ -216,7 +216,6 @@ export const sampleProjects = [
     },
   ];
 
-
 export const services = ["Branding", "UI/UX Design", "Web Development", "Mobile App", "E-commerce", "Marketing"];
 
 export const sampleTestimonials = [
@@ -288,3 +287,4 @@ export const sampleSettings = {
       { platform: "Linkedin", href: "/" },
     ]
   };
+
