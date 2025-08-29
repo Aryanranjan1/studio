@@ -12,9 +12,6 @@ export const AmpireLogo = ({ className, ...props }: React.SVGProps<SVGSVGElement
     className={cn("w-8 h-8", className)}
     {...props}
   >
-    <path d="m2 16 4-12 4 12" />
-    <path d="M6 16h8" />
-    <path d="M12 16s-1.5-4.5-3-8" />
-    <path d="M22 16h-5l-1-4-1 4h-5" />
+    <path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14" />
   </svg>
 );
