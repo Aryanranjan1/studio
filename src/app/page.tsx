@@ -8,26 +8,32 @@ import { PortfolioSection } from '@/components/portfolio-section';
 import { TestimonialSection } from '@/components/testimonial-section';
 import { ContactSection } from '@/components/contact-section';
 import { FaqSection } from '@/components/faq-section';
+import { SparklesCore } from '@/components/ui/sparkles';
 
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
+      <div className="w-full fixed inset-0 h-screen z-0">
+        <SparklesCore
+          id="tsparticles"
+          background="transparent"
+          minSize={0.4}
+          maxSize={1}
+          particleDensity={30}
+          className="w-full h-full"
+          particleColor="#FFFFFF"
+        />
+      </div>
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 relative z-10">
         <HeroSection />
-        <div className="bg-secondary/50">
+        <div className="bg-background/80 backdrop-blur-sm">
           <ServicesSection />
-        </div>
-        <AdvantageSection />
-        <div className="bg-secondary/50">
+          <AdvantageSection />
           <ProcessSection />
-        </div>
-        <PortfolioSection />
-        <div className="bg-secondary/50">
+          <PortfolioSection />
           <TestimonialSection />
-        </div>
-        <ContactSection />
-        <div className="bg-secondary/50">
+          <ContactSection />
           <FaqSection />
         </div>
       </main>
