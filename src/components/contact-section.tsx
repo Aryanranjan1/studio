@@ -28,9 +28,10 @@ import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, LucideIcon
 import Link from "next/link";
 import { ScrollReveal } from "./scroll-reveal";
 import { cn } from "@/lib/utils";
-import { addMessage, NewMessage, getSettings } from "@/lib/firestore";
+import { addMessage } from "@/lib/firestore";
+import { getSettings } from "@/lib/data";
 import { useEffect, useState } from "react";
-import type { SocialLink } from "@/lib/data";
+import type { SocialLink, NewMessage } from "@/lib/data";
 
 
 const formSchema = z.object({
@@ -57,11 +58,10 @@ export function ContactSection({ className }: ContactSectionProps) {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
-    const fetchSettings = async () => {
-        const settingsData = await getSettings();
+    const unsubscribe = getSettings((settingsData) => {
         setSettings(settingsData);
-    };
-    fetchSettings();
+    });
+    return () => unsubscribe();
   }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({

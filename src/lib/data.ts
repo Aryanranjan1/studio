@@ -1,4 +1,4 @@
-import { collection, getDocs, onSnapshot, query, orderBy } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query, orderBy, doc } from "firebase/firestore";
 import { db } from "./firebase";
 
 export interface Project {

@@ -6,17 +6,16 @@ import { Phone } from "lucide-react";
 import { ScrollReveal } from "./scroll-reveal";
 import { useState, useEffect } from "react";
 import { SiteSettings } from "@/lib/data";
-import { getSettings } from "@/lib/firestore";
+import { getSettings } from "@/lib/data";
 
 export function TsaSection() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
 
   useEffect(() => {
-    const fetchSettings = async () => {
-        const settingsData = await getSettings();
-        setSettings(settingsData);
-    };
-    fetchSettings();
+    const unsubscribe = getSettings((settingsData) => {
+      setSettings(settingsData);
+    });
+    return () => unsubscribe();
   }, []);
 
   return (
