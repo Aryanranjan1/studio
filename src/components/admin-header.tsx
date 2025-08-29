@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { AmpireLogo } from "./logo";
 import { Button } from "./ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { Menu, LogOut } from "lucide-react";
 import { navLinks } from "./admin-sidebar";
 import { usePathname, useRouter } from "next/navigation";
@@ -47,6 +47,9 @@ export function AdminHeader() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="lg:hidden w-64 p-0">
+                <SheetHeader className="sr-only">
+                    <SheetTitle>Admin Menu</SheetTitle>
+                </SheetHeader>
                 <div className="flex h-16 items-center border-b px-6">
                     <Link href="/" className="flex items-center gap-2">
                         <AmpireLogo className="text-primary" />

@@ -5,6 +5,8 @@ import { ThemeSwitcher } from "./theme-switcher";
 import {
   Sheet,
   SheetContent,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Menu } from "lucide-react";
@@ -51,6 +53,9 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="right">
+                <SheetHeader className="sr-only">
+                  <SheetTitle>Mobile Menu</SheetTitle>
+                </SheetHeader>
                 <div className="p-4">
                   <nav className="flex flex-col gap-4">
                     {navLinks.map((link) => (
