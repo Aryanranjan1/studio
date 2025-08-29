@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Project, services } from "@/lib/data";
+import { Project, Service, getServices, projectStatuses, ProjectStatus } from "@/lib/data";
 import { addProject, updateProject, NewProject } from "@/lib/firestore";
 import { summarizeProject } from "@/ai/flows/portfolio-project-summary";
 import {
@@ -29,6 +29,8 @@ import {
   } from "@/components/ui/dialog"
 import { Checkbox } from "./ui/checkbox";
 import { Sparkles } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters."),
@@ -38,6 +40,7 @@ const formSchema = z.object({
   imageUrl: z.string().url("Please enter a valid image URL."),
   imageHint: z.string().min(2, "Image hint must be at least 2 characters."),
   services: z.array(z.string()).min(1, "Please select at least one service."),
+  status: z.enum(projectStatuses).default('Pending'),
 });
 
 interface ProjectFormProps {
@@ -50,21 +53,29 @@ interface ProjectFormProps {
 export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectFormProps) {
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);
+  const [services, setServices] = useState<Service[]>([]);
   
+  useEffect(() => {
+    const unsubscribe = getServices(setServices);
+    return () => unsubscribe();
+  }, []);
+
+  const defaultValues = {
+    title: "",
+    slug: "",
+    longDescription: "",
+    summary: "",
+    imageUrl: "",
+    imageHint: "",
+    services: [],
+    status: 'Pending' as ProjectStatus,
+  }
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      slug: "",
-      longDescription: "",
-      summary: "",
-      imageUrl: "",
-      imageHint: "",
-      services: [],
-    },
+    defaultValues,
   });
 
-  // Reset form when project or open state changes
   React.useEffect(() => {
     if (isOpen) {
         if (project) {
@@ -73,15 +84,7 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
             slug: project.slug || project.title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, ''),
           });
         } else {
-          form.reset({
-            title: "",
-            slug: "",
-            longDescription: "",
-            summary: "",
-            imageUrl: "",
-            imageHint: "",
-            services: [],
-          });
+          form.reset(defaultValues);
         }
     }
   }, [project, isOpen, form]);
@@ -257,31 +260,31 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
                                 <div className="grid grid-cols-3 gap-2 rounded-lg border p-4">
                                 {services.map((item) => (
                                     <FormField
-                                    key={item}
+                                    key={item.id}
                                     control={form.control}
                                     name="services"
                                     render={({ field }) => {
                                         return (
                                         <FormItem
-                                            key={item}
+                                            key={item.id}
                                             className="flex flex-row items-start space-x-3 space-y-0"
                                         >
                                             <FormControl>
                                             <Checkbox
-                                                checked={field.value?.includes(item)}
+                                                checked={field.value?.includes(item.title)}
                                                 onCheckedChange={(checked) => {
                                                 return checked
-                                                    ? field.onChange([...(field.value || []), item])
+                                                    ? field.onChange([...(field.value || []), item.title])
                                                     : field.onChange(
                                                         field.value?.filter(
-                                                        (value) => value !== item
+                                                        (value) => value !== item.title
                                                         )
                                                     )
                                                 }}
                                             />
                                             </FormControl>
                                             <FormLabel className="font-normal">
-                                            {item}
+                                            {item.title}
                                             </FormLabel>
                                         </FormItem>
                                         )
@@ -290,6 +293,27 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
                                 ))}
                                 </div>
                                 <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="status"
+                        render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Project Status</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select a status" />
+                                </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {projectStatuses.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
                             </FormItem>
                         )}
                     />
@@ -307,5 +331,3 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
     </Dialog>
   );
 }
-
-    

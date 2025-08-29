@@ -1,3 +1,4 @@
+
 "use client";
 
 import { z } from "zod";
@@ -22,16 +23,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { services } from "@/lib/data";
 import { Card } from "./ui/card";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { ScrollReveal } from "./scroll-reveal";
 import { cn } from "@/lib/utils";
 import { addMessage } from "@/lib/firestore";
-import { getSettings } from "@/lib/data";
+import { getSettings, getServices } from "@/lib/data";
 import { useEffect, useState } from "react";
-import type { SocialLink, NewMessage, SiteSettings } from "@/lib/data";
+import type { SocialLink, NewMessage, SiteSettings, Service } from "@/lib/data";
 
 const WhatsappIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
@@ -72,13 +72,21 @@ interface ContactSectionProps {
 export function ContactSection({ className }: ContactSectionProps) {
   const { toast } = useToast();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const [services, setServices] = useState<Service[]>([]);
   const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = getSettings((settingsData) => {
+    const unsubSettings = getSettings((settingsData) => {
         setSettings(settingsData);
     });
-    return () => unsubscribe();
+    const unsubServices = getServices((fetchedServices) => {
+        setServices(fetchedServices);
+    });
+
+    return () => {
+        unsubSettings();
+        unsubServices();
+    }
   }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -189,7 +197,7 @@ export function ContactSection({ className }: ContactSectionProps) {
                                                   </SelectTrigger>
                                                   </FormControl>
                                                   <SelectContent>
-                                                      {services.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                                                      {services.map(s => <SelectItem key={s.id} value={s.title}>{s.title}</SelectItem>)}
                                                   </SelectContent>
                                               </Select>
                                               <FormMessage />

@@ -1,6 +1,9 @@
 import { collection, getDocs, onSnapshot, query, orderBy, doc, where, limit } from "firebase/firestore";
 import { db } from "./firebase";
 
+export const projectStatuses = ['Pending', 'In Progress', 'Completed', 'Billed', 'Documentation Pending'] as const;
+export type ProjectStatus = typeof projectStatuses[number];
+
 export interface Project {
   id: string;
   title: string;
@@ -10,6 +13,20 @@ export interface Project {
   imageUrl: string;
   imageHint: string;
   services: string[];
+  createdAt?: Date; // Add this to track creation
+  status: ProjectStatus;
+}
+
+export const serviceIcons = ['Branding', 'UI/UX Design', 'Web Development', 'Mobile App', 'E-commerce', 'Marketing'] as const;
+export type ServiceIcon = typeof serviceIcons[number];
+
+export interface Service {
+    id: string;
+    title: string;
+    slug: string;
+    description: string;
+    longDescription: string;
+    icon: ServiceIcon;
 }
 
 export interface Testimonial {
@@ -89,11 +106,16 @@ export type NewIntake = Omit<Intake, 'id' | 'submittedAt'>;
 
 
 export const getProjects = (callback: (projects: Project[]) => void) => {
-    const projectsQuery = query(collection(db, "projects"), orderBy("title"));
+    const projectsQuery = query(collection(db, "projects"), orderBy("createdAt", "desc"));
     return onSnapshot(projectsQuery, (querySnapshot) => {
         const projects: Project[] = [];
         querySnapshot.forEach((doc) => {
-            projects.push({ id: doc.id, ...doc.data() } as Project);
+            const data = doc.data();
+            projects.push({ 
+                id: doc.id,
+                ...data,
+                createdAt: data.createdAt?.toDate(),
+            } as Project);
         });
         callback(projects);
     });
@@ -106,8 +128,35 @@ export const getProjectBySlug = async (slug: string): Promise<Project | null> =>
         return null;
     }
     const doc = querySnapshot.docs[0];
-    return { id: doc.id, ...doc.data() } as Project;
+    const data = doc.data();
+    return { 
+        id: doc.id,
+        ...data,
+        createdAt: data.createdAt?.toDate()
+    } as Project;
 };
+
+export const getServices = (callback: (services: Service[]) => void) => {
+    const servicesQuery = query(collection(db, "services"), orderBy("title"));
+    return onSnapshot(servicesQuery, (querySnapshot) => {
+        const services: Service[] = [];
+        querySnapshot.forEach((doc) => {
+            services.push({ id: doc.id, ...doc.data() } as Service);
+        });
+        callback(services);
+    });
+};
+
+export const getServiceBySlug = async (slug: string): Promise<Service | null> => {
+    const q = query(collection(db, "services"), where("slug", "==", slug), limit(1));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+        return null;
+    }
+    const doc = querySnapshot.docs[0];
+    return { id: doc.id, ...doc.data() } as Service;
+};
+
 
 export const getTestimonials = (callback: (testimonials: Testimonial[]) => void) => {
     const testimonialsQuery = query(collection(db, "testimonials"), orderBy("name"));
@@ -196,7 +245,7 @@ export const getSettings = (callback: (settings: SiteSettings | null) => void) =
 };
 
 
-export const sampleProjects: Omit<Project, 'id'>[] = [
+export const sampleProjects: Omit<Project, 'id' | 'createdAt'>[] = [
     {
       title: "Nova Financial Website",
       slug: "nova-financial-website",
@@ -205,6 +254,7 @@ export const sampleProjects: Omit<Project, 'id'>[] = [
       imageUrl: "https://picsum.photos/600/400",
       imageHint: "finance dashboard",
       services: ["Web Development", "UI/UX Design"],
+      status: "Completed",
     },
     {
       title: "Helia Skincare Branding",
@@ -214,6 +264,7 @@ export const sampleProjects: Omit<Project, 'id'>[] = [
       imageUrl: "https://picsum.photos/600/400",
       imageHint: "skincare product",
       services: ["Branding"],
+      status: "Completed",
     },
     {
       title: "Traverse Travel App",
@@ -223,37 +274,54 @@ export const sampleProjects: Omit<Project, 'id'>[] = [
       imageUrl: "https://picsum.photos/400/600",
       imageHint: "travel app",
       services: ["Mobile App", "UI/UX Design"],
-    },
-    {
-      title: "The Culinary Collective E-commerce Store",
-      slug: "culinary-collective-ecommerce",
-      longDescription: "We built a sophisticated e-commerce platform for The Culinary Collective, a purveyor of gourmet foods. The platform was built on Shopify Plus and heavily customized to support features like product bundling, subscription boxes, and a wholesale portal. We also integrated their ERP system for seamless inventory management. The design is clean, appetizing, and optimized for conversions.",
-      summary: "Built a custom Shopify Plus e-commerce platform with subscription and wholesale features, leading to streamlined operations and increased online sales.",
-      imageUrl: "https://picsum.photos/600/400",
-      imageHint: "gourmet food",
-      services: ["E-commerce", "Web Development"],
-    },
-    {
-      title: "Orion Robotics Marketing Launch",
-      slug: "orion-robotics-marketing",
-      longDescription: "Executed a comprehensive digital marketing campaign for the launch of Orion Robotics' new line of autonomous warehouse robots. The campaign included creating a new landing page, producing a product launch video, running targeted ad campaigns on LinkedIn and Google, and developing a content marketing strategy to drive organic traffic. The campaign exceeded lead generation goals by 150% in the first quarter.",
-      summary: "Launched a multi-channel digital marketing campaign for a robotics company, exceeding lead generation targets by 150% through video, ads, and content.",
-      imageUrl: "https://picsum.photos/600/400",
-      imageHint: "robotics technology",
-      services: ["Marketing"],
-    },
-    {
-      title: "MindWell Mental Health App",
-      slug: "mindwell-mental-health-app",
-      longDescription: "A UI/UX design project for MindWell, a new mental health application. Our goal was to create an interface that was calming, non-judgmental, and easy to navigate. We conducted extensive user research to understand the needs and sensitivities of the target audience. The final design features a soothing color palette, gentle animations, and a clear information architecture that guides users to resources like guided journaling, meditation, and therapist directories.",
-      summary: "Designed a calming and intuitive UI/UX for a mental health app, focusing on user research to create a supportive and easy-to-navigate experience.",
-      imageUrl: "https://picsum.photos/400/600",
-      imageHint: "meditation app",
-      services: ["UI/UX Design"],
+      status: "In Progress",
     },
 ];
 
-export const services = ["Branding", "UI/UX Design", "Web Development", "Mobile App", "E-commerce", "Marketing"];
+export const sampleServices: Omit<Service, 'id'>[] = [
+    {
+        title: 'Branding',
+        slug: 'branding',
+        description: 'We craft unique brand identities that tell your story and resonate with your audience.',
+        longDescription: 'Our branding process is a deep dive into your company\'s essence. We start with understanding your mission, vision, and values. From there, we develop a comprehensive brand strategy that informs every design decision. This includes logo design, color palette selection, typography, and voice & tone guidelines. We create a complete visual identity system that ensures consistency across all your marketing materials, from your website to your social media profiles to your business cards. The result is a powerful, cohesive brand that builds trust and loyalty.',
+        icon: 'Branding',
+    },
+    {
+        title: 'UI/UX Design',
+        slug: 'ui-ux-design',
+        description: 'We design intuitive and beautiful user interfaces for exceptional digital experiences.',
+        longDescription: 'User-Experience (UX) and User-Interface (UI) are at the heart of everything we build. Our design process is human-centered, starting with in-depth research to understand your users\' needs, behaviors, and pain points. We create detailed user personas and journey maps to guide the design. From there, we move to wireframing and prototyping, creating interactive models of the user flow. Finally, we craft a visually stunning UI that is not only beautiful but also accessible and easy to use. Our goal is to create seamless, engaging experiences that users love.',
+        icon: 'UI/UX Design',
+    },
+    {
+        title: 'Web Development',
+        slug: 'web-development',
+        description: 'We build fast, responsive, and scalable websites using modern technologies.',
+        longDescription: 'Our web development team specializes in building high-performance websites that are both visually stunning and technically sound. We use modern frameworks like Next.js and React to create fast, scalable, and SEO-friendly sites. We follow best practices for coding, ensuring your website is maintainable and secure. Whether you need a simple marketing site, a complex web application, or a headless CMS integration, we have the expertise to deliver a solution that meets your specific needs and exceeds your expectations.',
+        icon: 'Web Development',
+    },
+    {
+        title: 'Mobile App',
+        slug: 'mobile-app',
+        description: 'We design and develop high-performance mobile applications for iOS and Android.',
+        longDescription: 'We build native and cross-platform mobile apps that deliver a fantastic user experience. Our team handles the entire lifecycle, from ideation and design to development, testing, and App Store submission. We focus on performance, security, and scalability, ensuring your app can grow with your user base. Whether you need a simple utility app or a complex social network, we have the skills to bring your mobile vision to life on both iOS and Android platforms.',
+        icon: 'Mobile App',
+    },
+    {
+        title: 'E-commerce',
+        slug: 'e-commerce',
+        description: 'We develop robust e-commerce solutions that drive sales and customer loyalty.',
+        longDescription: 'We create powerful e-commerce experiences on platforms like Shopify, as well as custom-built solutions. Our focus is on creating a seamless shopping journey for your customers, from product discovery to checkout. We integrate secure payment gateways, manage complex product catalogs, and optimize for conversions. We can also build custom features like subscription models, customer accounts, and loyalty programs to help you build a thriving online business.',
+        icon: 'E-commerce',
+    },
+    {
+        title: 'Marketing',
+        slug: 'marketing',
+        description: 'We execute data-driven marketing strategies to grow your reach and impact.',
+        longDescription: 'Our digital marketing services are designed to help you reach your target audience and achieve your business goals. We develop comprehensive strategies that can include Search Engine Optimization (SEO), Pay-Per-Click (PPC) advertising, social media management, content marketing, and email campaigns. We are data-driven, constantly analyzing performance and optimizing our campaigns to deliver the best possible return on investment. Let us help you grow your brand and connect with more customers online.',
+        icon: 'Marketing',
+    }
+];
 
 export const sampleTestimonials: Omit<Testimonial, 'id'>[] = [
   {
@@ -333,5 +401,3 @@ export const sampleSettings: Omit<SiteSettings, 'id'> = {
       { platform: "Linkedin", href: "https://linkedin.com" },
     ]
   };
-
-    

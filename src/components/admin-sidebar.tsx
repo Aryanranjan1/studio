@@ -8,12 +8,13 @@ import { Button } from "./ui/button";
 import { getAuth, signOut } from "firebase/auth";
 import { useToast } from "@/hooks/use-toast";
 import { app } from "@/lib/firebase";
-import { LayoutDashboard, Newspaper, FileText, MessageSquare, Star, Settings, LogOut, ClipboardList } from "lucide-react";
+import { LayoutDashboard, Newspaper, FileText, MessageSquare, Star, Settings, LogOut, ClipboardList, Briefcase } from "lucide-react";
 
 export const navLinks = [
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
     { name: "Intake", href: "/admin/intake", icon: ClipboardList },
     { name: "Projects", href: "/admin/projects", icon: FileText },
+    { name: "Services", href: "/admin/services", icon: Briefcase },
     { name: "Articles", href: "/admin/articles", icon: Newspaper },
     { name: "Messages", href: "/admin/messages", icon: MessageSquare },
     { name: "Testimonials", href: "/admin/testimonials", icon: Star },

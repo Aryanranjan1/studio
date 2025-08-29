@@ -1,9 +1,10 @@
 import { db } from './firebase';
 import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, DocumentReference, writeBatch, serverTimestamp, query, orderBy, where, limit, getDoc, setDoc } from 'firebase/firestore';
-import type { Project, Testimonial, Message, Article, SiteSettings, Intake, NewIntake } from './data';
-import { sampleProjects, sampleTestimonials, sampleArticles, sampleSettings } from './data';
+import type { Project, Testimonial, Message, Article, SiteSettings, Intake, NewIntake, Service } from './data';
+import { sampleProjects, sampleTestimonials, sampleArticles, sampleSettings, sampleServices } from './data';
 
 const PROJECTS_COLLECTION = 'projects';
+const SERVICES_COLLECTION = 'services';
 const TESTIMONIALS_COLLECTION = 'testimonials';
 const MESSAGES_COLLECTION = 'messages';
 const ARTICLES_COLLECTION = 'articles';
@@ -12,7 +13,8 @@ const INTAKES_COLLECTION = 'intakes';
 
 
 // Type for a new project, omitting the 'id' as Firestore will generate it.
-export type NewProject = Omit<Project, 'id'>;
+export type NewProject = Omit<Project, 'id' | 'createdAt'>;
+export type NewService = Omit<Service, 'id'>;
 export type NewTestimonial = Omit<Testimonial, 'id'>;
 export type NewMessage = Omit<Message, 'id' | 'submittedAt'>;
 export type NewArticle = Omit<Article, 'id' | 'createdAt'>;
@@ -23,7 +25,10 @@ export type NewSiteSettings = Omit<SiteSettings, 'id'>;
 
 export const addProject = async (project: NewProject): Promise<DocumentReference> => {
   try {
-    const docRef = await addDoc(collection(db, PROJECTS_COLLECTION), project);
+    const docRef = await addDoc(collection(db, PROJECTS_COLLECTION), {
+        ...project,
+        createdAt: serverTimestamp()
+    });
     return docRef;
   } catch (error) {
     console.error("Error adding document: ", error);
@@ -60,7 +65,7 @@ export const seedProjects = async () => {
             const batch = writeBatch(db);
             sampleProjects.forEach((project) => {
                 const docRef = doc(projectsCollection);
-                batch.set(docRef, project);
+                batch.set(docRef, { ...project, createdAt: serverTimestamp() });
             });
             await batch.commit();
             console.log("Sample projects have been added to Firestore.");
@@ -70,6 +75,58 @@ export const seedProjects = async () => {
         throw new Error("Failed to seed projects.");
     }
 };
+
+// ----------------- SERVICES -----------------
+
+export const addService = async (service: NewService): Promise<DocumentReference> => {
+    try {
+      const docRef = await addDoc(collection(db, SERVICES_COLLECTION), service);
+      return docRef;
+    } catch (error) {
+      console.error("Error adding service: ", error);
+      throw new Error("Failed to add service.");
+    }
+  };
+  
+  export const updateService = async (serviceId: string, service: Partial<NewService>): Promise<void> => {
+    try {
+      const serviceRef = doc(db, SERVICES_COLLECTION, serviceId);
+      await updateDoc(serviceRef, service);
+    } catch (error) {
+      console.error("Error updating service: ", error);
+      throw new Error("Failed to update service.");
+    }
+  };
+  
+  export const deleteService = async (serviceId: string): Promise<void> => {
+    try {
+      const serviceRef = doc(db, SERVICES_COLLECTION, serviceId);
+      await deleteDoc(serviceRef);
+    } catch (error) {
+      console.error("Error deleting service: ", error);
+      throw new Error("Failed to delete service.");
+    }
+  };
+  
+  export const seedServices = async () => {
+      try {
+          const servicesCollection = collection(db, SERVICES_COLLECTION);
+          const querySnapshot = await getDocs(servicesCollection);
+          if (querySnapshot.empty) {
+              console.log("Services collection is empty, seeding with sample data...");
+              const batch = writeBatch(db);
+              sampleServices.forEach((service) => {
+                  const docRef = doc(servicesCollection);
+                  batch.set(docRef, service);
+              });
+              await batch.commit();
+              console.log("Sample services have been added to Firestore.");
+          }
+      } catch (error) {
+          console.error("Error seeding services: ", error);
+          throw new Error("Failed to seed services.");
+      }
+  };
 
 // ----------------- TESTIMONIALS -----------------
 
@@ -274,5 +331,3 @@ export const deleteIntake = async (intakeId: string): Promise<void> => {
     throw new Error("Failed to delete intake submission.");
   }
 };
-
-    

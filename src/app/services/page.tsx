@@ -4,8 +4,6 @@ import { ServiceCategorySection } from '@/components/service-category-section';
 import { ProcessSection } from '@/components/process-section';
 import { AdvantageSection } from '@/components/advantage-section';
 import { TestimonialSection } from '@/components/testimonial-section';
-import { ContactSection } from '@/components/contact-section';
-import { FaqSection } from '@/components/faq-section';
 import { TsaSection } from '@/components/tsa-section';
 
 export default function ServicesPage() {
@@ -17,8 +15,6 @@ export default function ServicesPage() {
         <ProcessSection className="bg-alt" />
         <AdvantageSection />
         <TestimonialSection className="bg-alt" />
-        <ContactSection />
-        <FaqSection className="bg-alt" />
         <TsaSection />
       </main>
       <Footer />

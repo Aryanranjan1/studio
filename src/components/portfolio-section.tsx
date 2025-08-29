@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getProjects, services } from "@/lib/data";
-import type { Project } from "@/lib/data";
+import { getProjects, getServices } from "@/lib/data";
+import type { Project, Service } from "@/lib/data";
 import { PortfolioCard } from "./portfolio-card";
 import { Button } from "./ui/button";
 import { ScrollReveal } from "./scroll-reveal";
@@ -17,14 +17,22 @@ interface PortfolioSectionProps {
 export function PortfolioSection({ className, filterBy }: PortfolioSectionProps) {
   const [activeFilter, setActiveFilter] = useState(filterBy || "All");
   const [projects, setProjects] = useState<Project[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = getProjects((fetchedProjects) => {
+    const unsubProjects = getProjects((fetchedProjects) => {
       setProjects(fetchedProjects);
-      setLoading(false);
+      if (services.length > 0) setLoading(false);
     });
-    return () => unsubscribe();
+    const unsubServices = getServices((fetchedServices) => {
+        setServices(fetchedServices);
+        if (projects.length > 0 || fetchedServices.length > 0) setLoading(false);
+    });
+    return () => {
+        unsubProjects();
+        unsubServices();
+    }
   }, []);
 
   const filteredProjects =
@@ -61,12 +69,12 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
                 </Button>
                 {services.map((service) => (
                 <Button
-                    key={service}
-                    variant={activeFilter === service ? "default" : "outline"}
-                    onClick={() => setActiveFilter(service)}
+                    key={service.id}
+                    variant={activeFilter === service.title ? "default" : "outline"}
+                    onClick={() => setActiveFilter(service.title)}
                     className="rounded-full"
                 >
-                    {service}
+                    {service.title}
                 </Button>
                 ))}
             </div>
@@ -96,5 +104,3 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
     </section>
   );
 }
-
-    
