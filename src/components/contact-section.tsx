@@ -28,6 +28,7 @@ import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter } from "luc
 import Link from "next/link";
 import { ScrollReveal } from "./scroll-reveal";
 import { cn } from "@/lib/utils";
+import { addMessage, NewMessage } from "@/lib/firestore";
 
 
 const formSchema = z.object({
@@ -55,14 +56,22 @@ export function ContactSection({ className }: ContactSectionProps) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Form submitted:", values);
-    toast({
-      title: "Message Sent!",
-      description: "Thanks for reaching out. We'll get back to you shortly.",
-      variant: "default"
-    });
-    form.reset();
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+        await addMessage(values as NewMessage);
+        toast({
+          title: "Message Sent!",
+          description: "Thanks for reaching out. We'll get back to you shortly.",
+          variant: "default"
+        });
+        form.reset();
+    } catch(error) {
+        toast({
+            title: "Error",
+            description: "Failed to send message. Please try again later.",
+            variant: "destructive",
+        });
+    }
   }
 
   return (
@@ -167,7 +176,9 @@ export function ContactSection({ className }: ContactSectionProps) {
                                           </FormItem>
                                       )}
                                       />
-                                  <Button type="submit" size="lg">Submit Request</Button>
+                                  <Button type="submit" size="lg" disabled={form.formState.isSubmitting}>
+                                    {form.formState.isSubmitting ? "Sending..." : "Submit Request"}
+                                  </Button>
                               </form>
                           </Form>
                       </div>

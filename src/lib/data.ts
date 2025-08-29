@@ -11,6 +11,26 @@ export interface Project {
   services: string[];
 }
 
+export interface Testimonial {
+    id: string;
+    name: string;
+    title: string;
+    company: string;
+    quote: string;
+    avatarUrl: string;
+}
+
+export interface Message {
+    id: string;
+    name: string;
+    email: string;
+    phone?: string;
+    service: string;
+    details: string;
+    submittedAt: Date;
+}
+
+
 export const fetchProjects = async (): Promise<Project[]> => {
     const querySnapshot = await getDocs(collection(db, "projects"));
     const projects: Project[] = [];
@@ -29,6 +49,16 @@ export const getProjects = (callback: (projects: Project[]) => void) => {
         callback(projects);
     });
 };
+
+export const getTestimonials = (callback: (testimonials: Testimonial[]) => void) => {
+    return onSnapshot(collection(db, "testimonials"), (querySnapshot) => {
+        const testimonials: Testimonial[] = [];
+        querySnapshot.forEach((doc) => {
+            testimonials.push({ id: doc.id, ...doc.data() } as Testimonial);
+        });
+        callback(testimonials);
+    });
+}
 
 export const sampleProjects = [
     {
@@ -84,9 +114,8 @@ export const sampleProjects = [
 
 export const services = ["Branding", "UI/UX Design", "Web Development", "Mobile App", "E-commerce", "Marketing"];
 
-export const testimonials = [
+export const sampleTestimonials = [
   {
-    id: 1,
     name: "Sarah Johnson",
     title: "Marketing Director",
     company: "QuantumLeap",
@@ -94,7 +123,6 @@ export const testimonials = [
     avatarUrl: "https://picsum.photos/100/100",
   },
   {
-    id: 2,
     name: "Michael Chen",
     title: "Founder",
     company: "Artisan's Corner",
@@ -102,7 +130,6 @@ export const testimonials = [
     avatarUrl: "https://picsum.photos/100/100",
   },
   {
-    id: 3,
     name: "Jessica Rodriguez",
     title: "CEO",
     company: "ConnectApp",
