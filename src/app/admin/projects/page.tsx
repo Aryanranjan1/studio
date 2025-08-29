@@ -20,7 +20,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { getProjects, deleteProject, seedProjects } from "@/lib/firestore";
+import { deleteProject, seedProjects } from "@/lib/firestore";
+import { getProjects } from "@/lib/data";
 import type { Project } from "@/lib/data";
 import { useToast } from "@/hooks/use-toast";
 import { ProjectForm } from "@/components/project-form";
@@ -37,27 +38,14 @@ export default function ProjectsPage() {
   const [projectToDelete, setProjectToDelete] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const fetchProjects = async () => {
-    setLoading(true);
-    try {
-      const projectsData = await getProjects();
-      setProjects(projectsData);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch projects.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    // Seed the database on initial load if it's empty
     const init = async () => {
       await seedProjects();
-      await fetchProjects();
+      const unsubscribe = getProjects((fetchedProjects) => {
+        setProjects(fetchedProjects);
+        setLoading(false);
+      });
+      return () => unsubscribe && unsubscribe();
     };
     init();
   }, []);
@@ -85,7 +73,7 @@ export default function ProjectsPage() {
               title: "Success",
               description: "Project deleted successfully.",
           });
-          fetchProjects(); // Refresh the list
+          // onSnapshot will handle the UI update automatically
       } catch (error) {
           toast({
               title: "Error",
@@ -157,7 +145,7 @@ export default function ProjectsPage() {
         isOpen={isFormOpen}
         setIsOpen={setIsFormOpen}
         project={selectedProject}
-        onFinished={fetchProjects}
+        onFinished={() => { /* Listener will handle update */ }}
       />
 
         <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>

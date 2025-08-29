@@ -20,7 +20,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { getTestimonials, deleteTestimonial, seedTestimonials } from "@/lib/firestore";
+import { deleteTestimonial, seedTestimonials } from "@/lib/firestore";
+import { getTestimonials } from "@/lib/data";
 import type { Testimonial } from "@/lib/data";
 import { useToast } from "@/hooks/use-toast";
 import { PlusCircle, Edit, Trash2 } from "lucide-react";
@@ -37,26 +38,14 @@ export default function TestimonialsPage() {
   const [testimonialToDelete, setTestimonialToDelete] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const fetchTestimonials = async () => {
-    setLoading(true);
-    try {
-      const testimonialsData = await getTestimonials();
-      setTestimonials(testimonialsData);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch testimonials.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     const init = async () => {
       await seedTestimonials();
-      await fetchTestimonials();
+      const unsubscribe = getTestimonials((fetchedTestimonials) => {
+        setTestimonials(fetchedTestimonials);
+        setLoading(false);
+      });
+      return () => unsubscribe && unsubscribe();
     };
     init();
   }, []);
@@ -84,7 +73,7 @@ export default function TestimonialsPage() {
               title: "Success",
               description: "Testimonial deleted successfully.",
           });
-          fetchTestimonials(); // Refresh the list
+          // onSnapshot will handle the UI update automatically
       } catch (error) {
           toast({
               title: "Error",
@@ -165,7 +154,7 @@ export default function TestimonialsPage() {
         isOpen={isFormOpen}
         setIsOpen={setIsFormOpen}
         testimonial={selectedTestimonial}
-        onFinished={fetchTestimonials}
+        onFinished={() => { /* Listener will handle update */ }}
       />
 
         <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}>
