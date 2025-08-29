@@ -20,7 +20,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { getProjects, deleteProject } from "@/lib/firestore";
+import { getProjects, deleteProject, seedProjects } from "@/lib/firestore";
 import type { Project } from "@/lib/data";
 import { useToast } from "@/hooks/use-toast";
 import { ProjectForm } from "@/components/project-form";
@@ -54,7 +54,12 @@ export default function ProjectsPage() {
   };
 
   useEffect(() => {
-    fetchProjects();
+    // Seed the database on initial load if it's empty
+    const init = async () => {
+      await seedProjects();
+      await fetchProjects();
+    };
+    init();
   }, []);
 
   const handleAddClick = () => {

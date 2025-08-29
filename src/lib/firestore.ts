@@ -1,6 +1,7 @@
 import { db } from './firebase';
-import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, DocumentReference } from 'firebase/firestore';
+import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, DocumentReference, writeBatch } from 'firebase/firestore';
 import type { Project } from './data';
+import { sampleProjects } from './data';
 
 const PROJECTS_COLLECTION = 'projects';
 
@@ -52,4 +53,27 @@ export const deleteProject = async (projectId: string): Promise<void> => {
     console.error("Error deleting document: ", error);
     throw new Error("Failed to delete project.");
   }
+};
+
+// Seed the database with sample projects if it's empty
+export const seedProjects = async () => {
+    try {
+        const projectsCollection = collection(db, PROJECTS_COLLECTION);
+        const querySnapshot = await getDocs(projectsCollection);
+        if (querySnapshot.empty) {
+            console.log("Projects collection is empty, seeding with sample data...");
+            const batch = writeBatch(db);
+            sampleProjects.forEach((project) => {
+                const docRef = doc(projectsCollection);
+                batch.set(docRef, project);
+            });
+            await batch.commit();
+            console.log("Sample projects have been added to Firestore.");
+        } else {
+            console.log("Projects collection already has data, no seeding needed.");
+        }
+    } catch (error) {
+        console.error("Error seeding projects: ", error);
+        throw new Error("Failed to seed projects.");
+    }
 };
