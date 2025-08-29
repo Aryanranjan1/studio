@@ -1,14 +1,19 @@
+"use client";
+
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Linkedin, MapPin, Mail, Phone } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, MapPin, Mail, Phone, LucideIcon } from "lucide-react";
 import { AmpireLogo } from "./logo";
 import { Button } from "./ui/button";
+import { useEffect, useState } from "react";
+import { getSettings } from "@/lib/firestore";
+import type { SiteSettings, SocialLink } from "@/lib/data";
 
-const socialLinks = [
-  { icon: <Facebook className="h-4 w-4" />, href: "/", label: "Facebook" },
-  { icon: <Twitter className="h-4 w-4" />, href: "/", label: "Twitter" },
-  { icon: <Instagram className="h-4 w-4" />, href: "/", label: "Instagram" },
-  { icon: <Linkedin className="h-4 w-4" />, href: "/", label: "LinkedIn" },
-];
+const socialIcons: { [key in SocialLink['platform']]: LucideIcon } = {
+  Facebook: Facebook,
+  Twitter: Twitter,
+  Instagram: Instagram,
+  Linkedin: Linkedin,
+};
 
 const serviceLinks = [
     { name: "Web Design & Development", href: "/#services" },
@@ -28,6 +33,16 @@ const quickLinks = [
 ];
 
 export function Footer() {
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+        const settingsData = await getSettings();
+        setSettings(settingsData);
+    };
+    fetchSettings();
+  }, []);
+
   return (
     <footer className="border-t border-white/10 bg-background/50 backdrop-blur-lg">
       <div className="container py-12 lg:py-16">
@@ -42,11 +57,14 @@ export function Footer() {
               We help businesses establish, enhance, and grow their digital presence through strategic design and development solutions.
             </p>
             <div className="flex items-center gap-2">
-              {socialLinks.map((link) => (
-                <Button key={link.label} variant="outline" size="icon" asChild>
-                  <Link href={link.href} aria-label={link.label}>{link.icon}</Link>
-                </Button>
-              ))}
+              {settings?.socials?.map((link) => {
+                  const Icon = socialIcons[link.platform];
+                  return (
+                    <Button key={link.platform} variant="outline" size="icon" asChild>
+                      <Link href={link.href} aria-label={link.platform}><Icon className="h-4 w-4" /></Link>
+                    </Button>
+                  );
+              })}
             </div>
           </div>
 
@@ -81,24 +99,32 @@ export function Footer() {
           {/* Contact Info */}
           <div className="space-y-4">
             <h4 className="font-headline font-semibold text-lg text-foreground">Contact Info</h4>
-            <ul className="space-y-3 text-sm">
-              <li className="flex items-start gap-3">
-                <MapPin className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
-                <span className="text-muted-foreground">Kuala Lumpur, Malaysia</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Mail className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
-                <a href="mailto:contact@ampirestudio.com" className="text-muted-foreground hover:text-primary transition-colors">
-                  contact@ampirestudio.com
-                </a>
-              </li>
-              <li className="flex items-start gap-3">
-                <Phone className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
-                <a href="tel:+15551234567" className="text-muted-foreground hover:text-primary transition-colors">
-                  +1 (555) 123-4567
-                </a>
-              </li>
-            </ul>
+            {settings ? (
+                <ul className="space-y-3 text-sm">
+                <li className="flex items-start gap-3">
+                    <MapPin className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
+                    <span className="text-muted-foreground">{settings.address}</span>
+                </li>
+                <li className="flex items-start gap-3">
+                    <Mail className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
+                    <a href={`mailto:${settings.contactEmail}`} className="text-muted-foreground hover:text-primary transition-colors">
+                    {settings.contactEmail}
+                    </a>
+                </li>
+                <li className="flex items-start gap-3">
+                    <Phone className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
+                    <a href={`tel:${settings.contactPhone}`} className="text-muted-foreground hover:text-primary transition-colors">
+                    {settings.contactPhone}
+                    </a>
+                </li>
+                </ul>
+            ) : (
+                <div className="space-y-2">
+                    <div className="h-4 bg-muted rounded w-3/4"></div>
+                    <div className="h-4 bg-muted rounded w-full"></div>
+                    <div className="h-4 bg-muted rounded w-1/2"></div>
+                </div>
+            )}
           </div>
         </div>
 

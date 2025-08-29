@@ -1,18 +1,21 @@
 import { db } from './firebase';
-import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, DocumentReference, writeBatch, serverTimestamp, query, orderBy, where, limit, getDoc } from 'firebase/firestore';
-import type { Project, Testimonial, Message, Article } from './data';
-import { sampleProjects, sampleTestimonials, sampleArticles } from './data';
+import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, DocumentReference, writeBatch, serverTimestamp, query, orderBy, where, limit, getDoc, setDoc } from 'firebase/firestore';
+import type { Project, Testimonial, Message, Article, SiteSettings } from './data';
+import { sampleProjects, sampleTestimonials, sampleArticles, sampleSettings } from './data';
 
 const PROJECTS_COLLECTION = 'projects';
 const TESTIMONIALS_COLLECTION = 'testimonials';
 const MESSAGES_COLLECTION = 'messages';
 const ARTICLES_COLLECTION = 'articles';
+const SETTINGS_COLLECTION = 'settings';
+
 
 // Type for a new project, omitting the 'id' as Firestore will generate it.
 export type NewProject = Omit<Project, 'id'>;
 export type NewTestimonial = Omit<Testimonial, 'id'>;
 export type NewMessage = Omit<Message, 'id' | 'submittedAt'>;
 export type NewArticle = Omit<Article, 'id' | 'createdAt'>;
+export type NewSiteSettings = Omit<SiteSettings, 'id'>;
 
 
 // ----------------- PROJECTS -----------------
@@ -260,5 +263,45 @@ export const getArticleBySlug = async (slug: string): Promise<Article | null> =>
         }
     } catch (error) {
         console.error("Error seeding articles: ", error);
+    }
+};
+
+// ----------------- SETTINGS -----------------
+
+export const updateSettings = async (settings: NewSiteSettings): Promise<void> => {
+    try {
+      const settingsRef = doc(db, SETTINGS_COLLECTION, 'global');
+      await setDoc(settingsRef, settings, { merge: true });
+    } catch (error) {
+      console.error("Error updating settings: ", error);
+      throw new Error("Failed to update settings.");
+    }
+};
+
+export const getSettings = async (): Promise<SiteSettings | null> => {
+    try {
+      const settingsRef = doc(db, SETTINGS_COLLECTION, 'global');
+      const docSnap = await getDoc(settingsRef);
+      if (docSnap.exists()) {
+        return { id: docSnap.id, ...docSnap.data() } as SiteSettings;
+      }
+      return null;
+    } catch (error) {
+      console.error("Error getting settings: ", error);
+      throw new Error("Failed to get settings.");
+    }
+};
+
+export const seedSettings = async () => {
+    try {
+      const settingsRef = doc(db, SETTINGS_COLLECTION, 'global');
+      const docSnap = await getDoc(settingsRef);
+      if (!docSnap.exists()) {
+        console.log("Settings document not found, seeding with sample data...");
+        await setDoc(settingsRef, sampleSettings);
+        console.log("Sample settings have been added to Firestore.");
+      }
+    } catch (error) {
+      console.error("Error seeding settings: ", error);
     }
 };

@@ -22,13 +22,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { services } from "@/lib/data";
+import { services, SiteSettings } from "@/lib/data";
 import { Card } from "./ui/card";
-import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter } from "lucide-react";
+import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { ScrollReveal } from "./scroll-reveal";
 import { cn } from "@/lib/utils";
-import { addMessage, NewMessage } from "@/lib/firestore";
+import { addMessage, NewMessage, getSettings } from "@/lib/firestore";
+import { useEffect, useState } from "react";
+import type { SocialLink } from "@/lib/data";
 
 
 const formSchema = z.object({
@@ -39,12 +41,29 @@ const formSchema = z.object({
   details: z.string().min(10, "Details must be at least 10 characters."),
 });
 
+const socialIcons: { [key in SocialLink['platform']]: LucideIcon } = {
+    Facebook: Facebook,
+    Twitter: Twitter,
+    Instagram: Instagram,
+    Linkedin: Linkedin,
+  };
+
 interface ContactSectionProps {
     className?: string;
 }
 
 export function ContactSection({ className }: ContactSectionProps) {
   const { toast } = useToast();
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+        const settingsData = await getSettings();
+        setSettings(settingsData);
+    };
+    fetchSettings();
+  }, []);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -184,45 +203,49 @@ export function ContactSection({ className }: ContactSectionProps) {
                       </div>
                       <div className="lg:col-span-2 bg-primary/90 text-primary-foreground p-8">
                           <h3 className="text-2xl font-bold font-headline mb-6">Contact Information</h3>
-                          <ul className="space-y-6">
-                              <li className="flex items-start gap-4">
-                                  <MapPin className="h-6 w-6 mt-1 flex-shrink-0" />
-                                  <div>
-                                      <h4 className="font-semibold">Our Office</h4>
-                                      <p className="text-primary-foreground/80">Kuala Lumpur, Malaysia</p>
-                                  </div>
-                              </li>
-                              <li className="flex items-start gap-4">
-                                  <Mail className="h-6 w-6 mt-1 flex-shrink-0" />
-                                  <div>
-                                      <h4 className="font-semibold">Email Us</h4>
-                                      <a href="mailto:contact@ampirestudio.com" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">contact@ampirestudio.com</a>
-                                  </div>
-                              </li>
-                              <li className="flex items-start gap-4">
-                                  <Phone className="h-6 w-6 mt-1 flex-shrink-0" />
-                                  <div>
-                                      <h4 className="font-semibold">Call Us</h4>
-                                      <a href="tel:+15551234567" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">+1 (555) 123-4567</a>
-                                  </div>
-                              </li>
-                          </ul>
+                          {settings ? (
+                            <ul className="space-y-6">
+                                <li className="flex items-start gap-4">
+                                    <MapPin className="h-6 w-6 mt-1 flex-shrink-0" />
+                                    <div>
+                                        <h4 className="font-semibold">Our Office</h4>
+                                        <p className="text-primary-foreground/80">{settings.address}</p>
+                                    </div>
+                                </li>
+                                <li className="flex items-start gap-4">
+                                    <Mail className="h-6 w-6 mt-1 flex-shrink-0" />
+                                    <div>
+                                        <h4 className="font-semibold">Email Us</h4>
+                                        <a href={`mailto:${settings.contactEmail}`} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">{settings.contactEmail}</a>
+                                    </div>
+                                </li>
+                                <li className="flex items-start gap-4">
+                                    <Phone className="h-6 w-6 mt-1 flex-shrink-0" />
+                                    <div>
+                                        <h4 className="font-semibold">Call Us</h4>
+                                        <a href={`tel:${settings.contactPhone}`} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">{settings.contactPhone}</a>
+                                    </div>
+                                </li>
+                            </ul>
+                          ) : (
+                            <div className="space-y-4">
+                                <div className="h-5 bg-primary/50 rounded w-3/4"></div>
+                                <div className="h-5 bg-primary/50 rounded w-full"></div>
+                                <div className="h-5 bg-primary/50 rounded w-1/2"></div>
+                            </div>
+                          )}
 
                           <div className="mt-8 pt-8 border-t border-primary-foreground/20">
                               <h4 className="font-semibold mb-4">Follow Us</h4>
                               <div className="flex items-center gap-3">
-                                  <Button size="icon" variant="outline" className="text-primary-foreground bg-transparent border-primary-foreground/50 hover:bg-primary-foreground/10" asChild>
-                                      <Link href="/"><Facebook className="h-5 w-5" /></Link>
-                                  </Button>
-                                  <Button size="icon" variant="outline" className="text-primary-foreground bg-transparent border-primary-foreground/50 hover:bg-primary-foreground/10" asChild>
-                                      <Link href="/"><Twitter className="h-5 w-5" /></Link>
-                                  </Button>
-                                  <Button size="icon" variant="outline" className="text-primary-foreground bg-transparent border-primary-foreground/50 hover:bg-primary-foreground/10" asChild>
-                                      <Link href="/"><Instagram className="h-5 w-5" /></Link>
-                                  </Button>
-                                  <Button size="icon" variant="outline" className="text-primary-foreground bg-transparent border-primary-foreground/50 hover:bg-primary-foreground/10" asChild>
-                                      <Link href="/"><Linkedin className="h-5 w-5" /></Link>
-                                  </Button>
+                                {settings?.socials?.map((link) => {
+                                    const Icon = socialIcons[link.platform];
+                                    return(
+                                        <Button key={link.platform} size="icon" variant="outline" className="text-primary-foreground bg-transparent border-primary-foreground/50 hover:bg-primary-foreground/10" asChild>
+                                            <Link href={link.href}><Icon className="h-5 w-5" /></Link>
+                                        </Button>
+                                    )
+                                })}
                               </div>
                           </div>
                       </div>

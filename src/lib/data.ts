@@ -14,7 +14,7 @@ export interface Project {
 export interface Testimonial {
     id: string;
     name: string;
-    title: string;
+    title:string;
     company: string;
     quote: string;
     avatarUrl: string;
@@ -40,15 +40,19 @@ export interface Article {
     createdAt: Date;
 }
 
-
-export const fetchProjects = async (): Promise<Project[]> => {
-    const querySnapshot = await getDocs(collection(db, "projects"));
-    const projects: Project[] = [];
-    querySnapshot.forEach((doc) => {
-        projects.push({ id: doc.id, ...doc.data() } as Project);
-    });
-    return projects;
+export interface SocialLink {
+    platform: 'Facebook' | 'Twitter' | 'Instagram' | 'Linkedin';
+    href: string;
 }
+  
+export interface SiteSettings {
+    id: string;
+    contactEmail: string;
+    contactPhone: string;
+    address: string;
+    socials: SocialLink[];
+}
+
 
 export const getProjects = (callback: (projects: Project[]) => void) => {
     const projectsQuery = query(collection(db, "projects"), orderBy("title"));
@@ -84,6 +88,18 @@ export const getArticles = (callback: (articles: Article[]) => void) => {
             } as Article);
         });
         callback(articles);
+    });
+};
+
+export const getSettings = (callback: (settings: SiteSettings | null) => void) => {
+    const settingsDocRef = doc(db, "settings", "global");
+    return onSnapshot(settingsDocRef, (docSnap) => {
+        if (docSnap.exists()) {
+            callback({ id: docSnap.id, ...docSnap.data() } as SiteSettings);
+        } else {
+            console.warn("Settings document not found!");
+            callback(null);
+        }
     });
 };
 
@@ -192,3 +208,15 @@ export const sampleArticles = [
         createdAt: new Date('2023-12-01'),
     }
 ];
+
+export const sampleSettings = {
+    contactEmail: "contact@ampirestudio.com",
+    contactPhone: "+1 (555) 123-4567",
+    address: "Kuala Lumpur, Malaysia",
+    socials: [
+      { platform: "Facebook", href: "/" },
+      { platform: "Twitter", href: "/" },
+      { platform: "Instagram", href: "/" },
+      { platform: "Linkedin", href: "/" },
+    ]
+  };

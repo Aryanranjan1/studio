@@ -1,9 +1,24 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { Phone } from "lucide-react";
 import { ScrollReveal } from "./scroll-reveal";
+import { useState, useEffect } from "react";
+import { SiteSettings } from "@/lib/data";
+import { getSettings } from "@/lib/firestore";
 
 export function TsaSection() {
+  const [settings, setSettings] = useState<SiteSettings | null>(null);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+        const settingsData = await getSettings();
+        setSettings(settingsData);
+    };
+    fetchSettings();
+  }, []);
+
   return (
     <section className="py-24 sm:py-32 bg-primary/90 text-primary-foreground">
       <div className="container">
@@ -21,7 +36,7 @@ export function TsaSection() {
                 <Link href="/contact">Get Started Now</Link>
               </Button>
               <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
-                <Link href="tel:+15551234567">
+                <Link href={settings ? `tel:${settings.contactPhone}` : '#'}>
                   <Phone className="mr-2 h-5 w-5" />
                   Call Us
                 </Link>
