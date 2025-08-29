@@ -33,7 +33,7 @@ export function PortfolioCard({ project, index }: PortfolioCardProps) {
         <CardContent className="p-6">
           <CardTitle className="font-headline text-xl mb-2">{project.title}</CardTitle>
           <div className="flex flex-wrap gap-2 mb-4">
-            {project.services.map((service) => (
+            {project.services?.map((service) => (
               <Badge key={service} variant="secondary">
                 {service}
               </Badge>
