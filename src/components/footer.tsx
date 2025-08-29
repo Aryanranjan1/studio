@@ -1,27 +1,26 @@
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Linkedin, MapPin, Mail, Phone, Clock } from "lucide-react";
+import { Facebook, Twitter, Instagram, Linkedin, MapPin, Mail, Phone } from "lucide-react";
 import { AmpireLogo } from "./logo";
 import { Button } from "./ui/button";
 
 const socialLinks = [
-  { icon: <Facebook className="h-4 w-4" />, href: "#", label: "Facebook" },
-  { icon: <Twitter className="h-4 w-4" />, href: "#", label: "Twitter" },
-  { icon: <Instagram className="h-4 w-4" />, href: "#", label: "Instagram" },
-  { icon: <Linkedin className="h-4 w-4" />, href: "#", label: "LinkedIn" },
+  { icon: <Facebook className="h-4 w-4" />, href: "/", label: "Facebook" },
+  { icon: <Twitter className="h-4 w-4" />, href: "/", label: "Twitter" },
+  { icon: <Instagram className="h-4 w-4" />, href: "/", label: "Instagram" },
+  { icon: <Linkedin className="h-4 w-4" />, href: "/", label: "LinkedIn" },
 ];
 
 const serviceLinks = [
-  "Web Design & Development",
-  "E-Commerce Solutions",
-  "Branding & Graphic Design",
-  "Social Media Management",
-  "SEO & Digital Marketing",
-  "Mobile App Development",
+    { name: "Web Design & Development", href: "/#services" },
+    { name: "E-Commerce Solutions", href: "/#services" },
+    { name: "Branding & Graphic Design", href: "/#services" },
+    { name: "Social Media Management", href: "/#services" },
+    { name: "SEO & Digital Marketing", href: "/#services" },
+    { name: "Mobile App Development", href: "/#services" },
 ];
 
 const quickLinks = [
   { name: "Home", href: "/" },
-  { name: "Services", href: "#services" },
   { name: "About Us", href: "/about" },
   { name: "Portfolio", href: "/work" },
   { name: "Contact", href: "/contact" },
@@ -55,9 +54,9 @@ export function Footer() {
             <h4 className="font-headline font-semibold text-lg text-foreground">Services</h4>
             <ul className="space-y-2">
               {serviceLinks.map((service) => (
-                <li key={service}>
-                  <Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                    {service}
+                <li key={service.name}>
+                  <Link href={service.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                    {service.name}
                   </Link>
                 </li>
               ))}
@@ -84,7 +83,7 @@ export function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-3">
                 <MapPin className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
-                <span className="text-muted-foreground">123 Digital Avenue, Tech City, TC 10001</span>
+                <span className="text-muted-foreground">Kuala Lumpur, Malaysia</span>
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
@@ -98,10 +97,6 @@ export function Footer() {
                   +1 (555) 123-4567
                 </a>
               </li>
-              <li className="flex items-start gap-3">
-                <Clock className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
-                <span className="text-muted-foreground">Mon-Fri: 9AM - 6PM</span>
-              </li>
             </ul>
           </div>
         </div>
@@ -111,9 +106,9 @@ export function Footer() {
                 &copy; {new Date().getFullYear()} AMpire Studio. All rights reserved.
             </p>
             <div className="flex items-center gap-6 text-sm">
-                <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
-                <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>
-                <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Articles</Link>
+                <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
+                <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>
+                <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Articles</Link>
             </div>
         </div>
       </div>

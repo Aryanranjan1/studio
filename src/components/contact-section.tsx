@@ -23,8 +23,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { services } from "@/lib/data";
-import { Card, CardContent } from "./ui/card";
-import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter, Clock } from "lucide-react";
+import { Card } from "./ui/card";
+import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter } from "lucide-react";
 import Link from "next/link";
 import { ScrollReveal } from "./scroll-reveal";
 
@@ -173,7 +173,7 @@ export function ContactSection() {
                                   <MapPin className="h-6 w-6 mt-1 flex-shrink-0" />
                                   <div>
                                       <h4 className="font-semibold">Our Office</h4>
-                                      <p className="text-primary-foreground/80">123 Digital Avenue, Tech City, TC 10001</p>
+                                      <p className="text-primary-foreground/80">Kuala Lumpur, Malaysia</p>
                                   </div>
                               </li>
                               <li className="flex items-start gap-4">
@@ -190,30 +190,22 @@ export function ContactSection() {
                                       <a href="tel:+15551234567" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">+1 (555) 123-4567</a>
                                   </div>
                               </li>
-                              <li className="flex items-start gap-4">
-                                  <Clock className="h-6 w-6 mt-1 flex-shrink-0" />
-                                  <div>
-                                      <h4 className="font-semibold">Working Hours</h4>
-                                      <p className="text-primary-foreground/80">Monday - Friday: 9AM - 6PM</p>
-                                      <p className="text-primary-foreground/80">Saturday: 10AM - 3PM</p>
-                                  </div>
-                              </li>
                           </ul>
 
                           <div className="mt-8 pt-8 border-t border-primary-foreground/20">
                               <h4 className="font-semibold mb-4">Follow Us</h4>
                               <div className="flex items-center gap-3">
                                   <Button size="icon" variant="outline" className="text-primary-foreground bg-transparent border-primary-foreground/50 hover:bg-primary-foreground/10" asChild>
-                                      <Link href="#"><Facebook className="h-5 w-5" /></Link>
+                                      <Link href="/"><Facebook className="h-5 w-5" /></Link>
                                   </Button>
                                   <Button size="icon" variant="outline" className="text-primary-foreground bg-transparent border-primary-foreground/50 hover:bg-primary-foreground/10" asChild>
-                                      <Link href="#"><Twitter className="h-5 w-5" /></Link>
+                                      <Link href="/"><Twitter className="h-5 w-5" /></Link>
                                   </Button>
                                   <Button size="icon" variant="outline" className="text-primary-foreground bg-transparent border-primary-foreground/50 hover:bg-primary-foreground/10" asChild>
-                                      <Link href="#"><Instagram className="h-5 w-5" /></Link>
+                                      <Link href="/"><Instagram className="h-5 w-5" /></Link>
                                   </Button>
                                   <Button size="icon" variant="outline" className="text-primary-foreground bg-transparent border-primary-foreground/50 hover:bg-primary-foreground/10" asChild>
-                                      <Link href="#"><Linkedin className="h-5 w-5" /></Link>
+                                      <Link href="/"><Linkedin className="h-5 w-5" /></Link>
                                   </Button>
                               </div>
                           </div>
