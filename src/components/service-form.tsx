@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -44,6 +44,7 @@ interface ServiceFormProps {
 
 export function ServiceForm({ isOpen, setIsOpen, service, onFinished }: ServiceFormProps) {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const defaultValues = {
     title: service?.title || "",
@@ -69,29 +70,29 @@ export function ServiceForm({ isOpen, setIsOpen, service, onFinished }: ServiceF
   }, [service, form, isOpen]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-        if (service) {
-            await updateService(service.id, values);
-            toast({
-                title: "Success",
-                description: "Service updated successfully.",
-            });
-        } else {
-            await addService(values as NewService);
-            toast({
-                title: "Success",
-                description: "Service created successfully.",
-            });
-        }
+    setIsSubmitting(true);
+
+    const operation = service
+        ? updateService(service.id, values)
+        : addService(values as NewService);
+    
+    operation.then(() => {
+        toast({
+            title: "Success",
+            description: `Service ${service ? 'updated' : 'created'} successfully.`,
+        });
         onFinished();
-        setIsOpen(false);
-    } catch (error) {
+    }).catch((error) => {
         toast({
             title: "Error",
             description: `Failed to ${service ? 'update' : 'add'} service.`,
             variant: "destructive",
         });
-    }
+    }).finally(() => {
+        setIsSubmitting(false);
+    });
+
+    setIsOpen(false);
   }
 
   return (
@@ -186,8 +187,8 @@ export function ServiceForm({ isOpen, setIsOpen, service, onFinished }: ServiceF
 
                     <div className="flex justify-end pt-4">
                         <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="mr-2">Cancel</Button>
-                        <Button type="submit" disabled={form.formState.isSubmitting}>
-                            {form.formState.isSubmitting ? 'Saving...' : (service ? "Save Changes" : "Create Service")}
+                        <Button type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? 'Saving...' : (service ? "Save Changes" : "Create Service")}
                         </Button>
                     </div>
                 </form>

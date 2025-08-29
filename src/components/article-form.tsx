@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -48,6 +48,7 @@ interface ArticleFormProps {
 
 export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleFormProps) {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const defaultValues = {
     title: article?.title || "",
@@ -69,33 +70,29 @@ export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleF
   }, [article, form, isOpen]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-        if (article) {
-            await updateArticle(article.id, values);
-            toast({
-                title: "Success",
-                description: "Article updated successfully.",
-            });
-        } else {
-            const newArticle: NewArticle = {
-                ...values,
-                createdAt: new Date(), // This will be replaced by serverTimestamp
-            };
-            await addArticle(newArticle);
-            toast({
-                title: "Success",
-                description: "Article created successfully.",
-            });
-        }
+    setIsSubmitting(true);
+    
+    const operation = article
+        ? updateArticle(article.id, values)
+        : addArticle({ ...values, createdAt: new Date() });
+
+    operation.then(() => {
+        toast({
+            title: "Success",
+            description: `Article ${article ? 'updated' : 'created'} successfully.`,
+        });
         onFinished();
-        setIsOpen(false);
-    } catch (error) {
+    }).catch((error) => {
         toast({
             title: "Error",
             description: `Failed to ${article ? 'update' : 'add'} article.`,
             variant: "destructive",
         });
-    }
+    }).finally(() => {
+        setIsSubmitting(false);
+    });
+    
+    setIsOpen(false);
   }
 
   return (
@@ -254,8 +251,8 @@ export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleF
 
                     <div className="flex justify-end pt-4">
                         <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="mr-2">Cancel</Button>
-                        <Button type="submit" disabled={form.formState.isSubmitting}>
-                            {form.formState.isSubmitting ? 'Saving...' : (article ? "Save Changes" : "Create Article")}
+                        <Button type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? 'Saving...' : (article ? "Save Changes" : "Create Article")}
                         </Button>
                     </div>
                 </form>

@@ -53,6 +53,7 @@ interface ProjectFormProps {
 export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectFormProps) {
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [services, setServices] = useState<Service[]>([]);
   
   useEffect(() => {
@@ -123,29 +124,29 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-        if (project) {
-            await updateProject(project.id, values);
-            toast({
-                title: "Success",
-                description: "Project updated successfully.",
-            });
-        } else {
-            await addProject(values as NewProject);
-            toast({
-                title: "Success",
-                description: "Project added successfully.",
-            });
-        }
+    setIsSubmitting(true);
+    
+    const operation = project
+        ? updateProject(project.id, values)
+        : addProject(values as NewProject);
+
+    operation.then(() => {
+        toast({
+            title: "Success",
+            description: `Project ${project ? 'updated' : 'added'} successfully.`,
+        });
         onFinished();
-        setIsOpen(false);
-    } catch (error) {
+    }).catch((error) => {
         toast({
             title: "Error",
             description: `Failed to ${project ? 'update' : 'add'} project.`,
             variant: "destructive",
         });
-    }
+    }).finally(() => {
+        setIsSubmitting(false);
+    });
+    
+    setIsOpen(false);
   }
 
   return (
@@ -321,8 +322,8 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
 
                     <div className="flex justify-end pt-4">
                         <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="mr-2">Cancel</Button>
-                        <Button type="submit" disabled={form.formState.isSubmitting}>
-                            {form.formState.isSubmitting ? 'Saving...' : (project ? "Save Changes" : "Create Project")}
+                        <Button type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? 'Saving...' : (project ? "Save Changes" : "Create Project")}
                         </Button>
                     </div>
                 </form>

@@ -95,21 +95,20 @@ export function IntakeForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-        await addIntake(values as NewIntake);
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    addIntake(values as NewIntake).then(() => {
         toast({
           title: "Submission Received!",
           description: "Thank you for filling out the discovery form. We'll be in touch with you shortly.",
         });
         form.reset();
-    } catch(error) {
+    }).catch((error) => {
         toast({
             title: "Submission Error",
             description: "There was a problem submitting your form. Please try again later.",
             variant: "destructive",
         });
-    }
+    });
   }
 
   return (
