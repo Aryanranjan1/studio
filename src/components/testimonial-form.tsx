@@ -174,8 +174,8 @@ export function TestimonialForm({ isOpen, setIsOpen, testimonial, onFinished }: 
                     />
                     <div className="flex justify-end pt-4">
                         <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="mr-2">Cancel</Button>
-                        <Button type="submit">
-                            {testimonial ? "Save Changes" : "Create Testimonial"}
+                        <Button type="submit" disabled={form.formState.isSubmitting}>
+                            {form.formState.isSubmitting ? 'Saving...' : (testimonial ? "Save Changes" : "Create Testimonial")}
                         </Button>
                     </div>
                 </form>

@@ -268,8 +268,8 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
 
                     <div className="flex justify-end pt-4">
                         <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="mr-2">Cancel</Button>
-                        <Button type="submit">
-                            {project ? "Save Changes" : "Create Project"}
+                        <Button type="submit" disabled={form.formState.isSubmitting}>
+                            {form.formState.isSubmitting ? 'Saving...' : (project ? "Save Changes" : "Create Project")}
                         </Button>
                     </div>
                 </form>

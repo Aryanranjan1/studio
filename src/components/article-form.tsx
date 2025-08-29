@@ -180,8 +180,8 @@ export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleF
 
                     <div className="flex justify-end pt-4">
                         <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="mr-2">Cancel</Button>
-                        <Button type="submit">
-                            {article ? "Save Changes" : "Create Article"}
+                        <Button type="submit" disabled={form.formState.isSubmitting}>
+                            {form.formState.isSubmitting ? 'Saving...' : (article ? "Save Changes" : "Create Article")}
                         </Button>
                     </div>
                 </form>
