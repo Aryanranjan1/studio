@@ -27,13 +27,13 @@ export default function Home() {
       <Header />
       <main className="flex-1 relative z-10">
         <HeroSection />
-        <ServicesSection className="bg-background/50 backdrop-blur-sm" />
+        <ServicesSection className="bg-black/30 backdrop-blur-sm" />
         <AdvantageSection />
-        <ProcessSection className="bg-background/50 backdrop-blur-sm" />
+        <ProcessSection className="bg-black/30 backdrop-blur-sm" />
         <PortfolioSection />
-        <TestimonialSection className="bg-background/50 backdrop-blur-sm" />
+        <TestimonialSection className="bg-black/30 backdrop-blur-sm" />
         <ContactSection />
-        <FaqSection className="bg-background/50 backdrop-blur-sm" />
+        <FaqSection className="bg-black/30 backdrop-blur-sm" />
       </main>
       <Footer />
     </div>
