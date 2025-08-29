@@ -95,7 +95,7 @@ export default function ProjectsPage() {
             Manage your portfolio projects here.
           </p>
         </div>
-        <Button onClick={handleAddClick}>
+        <Button onClick={handleAddClick} disabled={loading}>
           <PlusCircle className="mr-2" />
           Add Project
         </Button>

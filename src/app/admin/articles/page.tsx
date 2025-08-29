@@ -95,7 +95,7 @@ export default function ArticlesPage() {
             Write and manage your blog articles here.
           </p>
         </div>
-        <Button onClick={handleAddClick}>
+        <Button onClick={handleAddClick} disabled={loading}>
           <PlusCircle className="mr-2" />
           Add Article
         </Button>

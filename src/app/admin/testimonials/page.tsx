@@ -95,7 +95,7 @@ export default function TestimonialsPage() {
             Manage client testimonials here.
           </p>
         </div>
-        <Button onClick={handleAddClick}>
+        <Button onClick={handleAddClick} disabled={loading}>
           <PlusCircle className="mr-2" />
           Add Testimonial
         </Button>
