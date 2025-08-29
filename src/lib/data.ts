@@ -53,6 +53,35 @@ export interface SiteSettings {
     socials: SocialLink[];
 }
 
+export interface Intake {
+    id: string;
+    submittedAt: Date;
+    fullName: string;
+    companyName: string;
+    email: string;
+    phone?: string;
+    currentWebsite?: string;
+    companyDescription?: string;
+    primaryPurpose: string;
+    targetAudience?: string;
+    visitorActions?: string[];
+    successMetrics?: string;
+    designAdjectives?: string;
+    likedWebsites?: string;
+    dislikedWebsites?: string;
+    logoAndBranding: string;
+    neededPages?: string[];
+    contentProvider: string;
+    neededFeatures?: string[];
+    otherFeatures?: string;
+    domainAndHosting: string;
+    budget: string;
+    deadline?: string;
+    finalThoughts?: string;
+}
+
+export type NewIntake = Omit<Intake, 'id' | 'submittedAt'>;
+
 
 export const getProjects = (callback: (projects: Project[]) => void) => {
     const projectsQuery = query(collection(db, "projects"), orderBy("title"));

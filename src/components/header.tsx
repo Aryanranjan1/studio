@@ -28,7 +28,7 @@ export function Header() {
           <span className="font-headline text-xl font-bold">AMpire Studio</span>
         </Link>
         <nav className="ml-auto hidden md:flex items-center gap-6 text-sm font-medium">
-          {navLinks.slice(0, 4).map((link) => (
+          {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -39,9 +39,9 @@ export function Header() {
           ))}
         </nav>
         <div className="ml-auto flex items-center gap-2 md:ml-6">
-            <ThemeSwitcher />
-          <Button asChild className="hidden md:flex">
-            <Link href="/contact">Get in touch</Link>
+          <ThemeSwitcher />
+          <Button asChild>
+            <Link href="/project-intake">Start a Project</Link>
           </Button>
           <div className="md:hidden">
             <Sheet>

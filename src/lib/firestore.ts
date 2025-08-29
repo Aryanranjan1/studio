@@ -1,6 +1,6 @@
 import { db } from './firebase';
 import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, DocumentReference, writeBatch, serverTimestamp, query, orderBy, where, limit, getDoc, setDoc } from 'firebase/firestore';
-import type { Project, Testimonial, Message, Article, SiteSettings } from './data';
+import type { Project, Testimonial, Message, Article, SiteSettings, Intake, NewIntake } from './data';
 import { sampleProjects, sampleTestimonials, sampleArticles, sampleSettings } from './data';
 
 const PROJECTS_COLLECTION = 'projects';
@@ -8,6 +8,7 @@ const TESTIMONIALS_COLLECTION = 'testimonials';
 const MESSAGES_COLLECTION = 'messages';
 const ARTICLES_COLLECTION = 'articles';
 const SETTINGS_COLLECTION = 'settings';
+const INTAKES_COLLECTION = 'intakes';
 
 
 // Type for a new project, omitting the 'id' as Firestore will generate it.
@@ -304,4 +305,48 @@ export const seedSettings = async () => {
     } catch (error) {
       console.error("Error seeding settings: ", error);
     }
+};
+
+
+// ----------------- INTAKE -----------------
+
+export const addIntake = async (intake: NewIntake): Promise<DocumentReference> => {
+  try {
+    const docRef = await addDoc(collection(db, INTAKES_COLLECTION), {
+      ...intake,
+      submittedAt: serverTimestamp() 
+    });
+    return docRef;
+  } catch (error) {
+    console.error("Error adding intake: ", error);
+    throw new Error("Failed to submit intake form.");
+  }
+};
+
+export const getIntakes = async (): Promise<Intake[]> => {
+  try {
+    const intakesQuery = query(collection(db, INTAKES_COLLECTION), orderBy("submittedAt", "desc"));
+    const querySnapshot = await getDocs(intakesQuery);
+    return querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+        submittedAt: data.submittedAt?.toDate(),
+      } as Intake;
+    });
+  } catch (error) {
+    console.error("Error getting intakes: ", error);
+    throw new Error("Failed to get intake submissions.");
+  }
+};
+
+export const deleteIntake = async (intakeId: string): Promise<void> => {
+  try {
+    const intakeRef = doc(db, INTAKES_COLLECTION, intakeId);
+    await deleteDoc(intakeRef);
+  } catch (error) {
+    console.error("Error deleting intake: ", error);
+    throw new Error("Failed to delete intake submission.");
+  }
 };
