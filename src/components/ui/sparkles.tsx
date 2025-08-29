@@ -41,6 +41,10 @@ export const SparklesCore = (props: {
                 enable: true,
                 mode: "bubble",
               },
+              onClick: {
+                enable: true,
+                mode: "push",
+              }
             },
             modes: {
               bubble: {
@@ -48,6 +52,9 @@ export const SparklesCore = (props: {
                 size: 4,
                 duration: 2,
                 opacity: 0.8,
+              },
+              push: {
+                quantity: 4,
               }
             },
           },
@@ -100,7 +107,7 @@ export const SparklesCore = (props: {
           emitters: {
             direction: "top-right",
             rate: {
-              delay: 2.5,
+              delay: 3.5, // Random delay between 2-5 seconds. (2 + 3 * Math.random())
               quantity: 1
             },
             position: {
