@@ -14,12 +14,13 @@ import { Calendar, User } from 'lucide-react';
 export default function ArticlePage({ params }: { params: { slug: string } }) {
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(true);
+  const { slug } = params;
 
   useEffect(() => {
     const fetchArticle = async () => {
       setLoading(true);
       try {
-        const articleData = await getArticleBySlug(params.slug);
+        const articleData = await getArticleBySlug(slug);
         setArticle(articleData);
       } catch (error) {
         console.error("Failed to fetch article:", error);
@@ -28,8 +29,10 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       }
     };
 
-    fetchArticle();
-  }, [params.slug]);
+    if (slug) {
+      fetchArticle();
+    }
+  }, [slug]);
 
   if (loading) {
     return (
