@@ -29,7 +29,7 @@ const quickLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-background border-t border-white/10">
+    <footer className="border-t border-white/10 bg-background/50 backdrop-blur-lg">
       <div className="container py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* AMpire Studio */}

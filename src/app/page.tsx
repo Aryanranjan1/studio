@@ -7,6 +7,7 @@ import { ProcessSection } from '@/components/process-section';
 import { PortfolioSection } from '@/components/portfolio-section';
 import { TestimonialSection } from '@/components/testimonial-section';
 import { ContactSection } from '@/components/contact-section';
+import { FaqSection } from '@/components/faq-section';
 
 export default function Home() {
   return (
@@ -26,6 +27,9 @@ export default function Home() {
           <TestimonialSection />
         </div>
         <ContactSection />
+        <div className="bg-secondary/50">
+          <FaqSection />
+        </div>
       </main>
       <Footer />
     </div>
