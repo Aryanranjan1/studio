@@ -38,6 +38,8 @@ const prompt = ai.definePrompt({
   Given the following project description, create a short summary that highlights the project's value proposition and key achievements.
 
   Project Description: {{{projectDescription}}}
+
+  Generate a response in the required JSON format.
   `,
 });
 
