@@ -6,9 +6,9 @@ export function AboutSection() {
   return (
     <section id="about" className="py-24 sm:py-32">
       <div className="container">
-        <ScrollReveal>
+        
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden">
+            <ScrollReveal className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden slide-reveal-left">
                 <Card className="h-full w-full border-white/20 bg-background/50 shadow-lg backdrop-blur-lg">
                     <Image 
                         src="https://picsum.photos/800/600"
@@ -18,8 +18,8 @@ export function AboutSection() {
                         data-ai-hint="team business"
                     />
                 </Card>
-            </div>
-            <div>
+            </ScrollReveal>
+            <ScrollReveal className="slide-reveal-right">
               <h2 className="font-headline text-4xl font-bold tracking-tight text-primary sm:text-5xl">
                 About AMpire Studio
               </h2>
@@ -29,9 +29,9 @@ export function AboutSection() {
               <p className="mt-4 text-lg text-foreground/80">
                 Our mission is to translate your ideas into powerful digital solutions that not only look beautiful but also perform flawlessly. We believe in building partnerships with our clients, working together to achieve outstanding results.
               </p>
-            </div>
+            </ScrollReveal>
           </div>
-        </ScrollReveal>
+        
       </div>
     </section>
   );
