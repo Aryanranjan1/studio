@@ -39,17 +39,16 @@ export const SparklesCore = (props: {
             events: {
               onHover: {
                 enable: true,
-                mode: "grab",
+                mode: "bubble",
               },
             },
             modes: {
-              grab: {
+              bubble: {
                 distance: 150,
-                links: {
-                  opacity: 0.5,
-                  color: "#ffffff"
-                }
-              },
+                size: 4,
+                duration: 2,
+                opacity: 0.8,
+              }
             },
           },
           particles: {
@@ -57,11 +56,7 @@ export const SparklesCore = (props: {
               value: props.particleColor,
             },
             links: {
-              color: props.particleColor,
-              distance: 150,
               enable: false,
-              opacity: 0.2,
-              width: 1,
             },
             move: {
               direction: "none",
@@ -102,7 +97,6 @@ export const SparklesCore = (props: {
             },
           },
           detectRetina: true,
-          // Shooting stars
           emitters: {
             direction: "top-right",
             rate: {
@@ -120,7 +114,7 @@ export const SparklesCore = (props: {
             particles: {
               move: {
                 speed: 10,
-                direction: "top-right",
+                direction: "none",
                 straight: true,
                 outModes: {
                   default: "destroy"
