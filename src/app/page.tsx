@@ -17,9 +17,9 @@ export default function Home() {
         <SparklesCore
           id="tsparticles"
           background="transparent"
-          minSize={0.4}
-          maxSize={1}
-          particleDensity={100}
+          minSize={0.6}
+          maxSize={1.4}
+          particleDensity={120}
           className="w-full h-full"
           particleColor="#FFFFFF"
         />
@@ -27,15 +27,13 @@ export default function Home() {
       <Header />
       <main className="flex-1 relative z-10">
         <HeroSection />
-        <div className="bg-transparent backdrop-blur-sm">
-          <ServicesSection />
-          <AdvantageSection />
-          <ProcessSection />
-          <PortfolioSection />
-          <TestimonialSection />
-          <ContactSection />
-          <FaqSection />
-        </div>
+        <ServicesSection className="bg-background/50 backdrop-blur-sm" />
+        <AdvantageSection />
+        <ProcessSection className="bg-background/50 backdrop-blur-sm" />
+        <PortfolioSection />
+        <TestimonialSection className="bg-background/50 backdrop-blur-sm" />
+        <ContactSection />
+        <FaqSection className="bg-background/50 backdrop-blur-sm" />
       </main>
       <Footer />
     </div>

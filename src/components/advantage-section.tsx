@@ -1,6 +1,7 @@
 import { CheckCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { ScrollReveal } from './scroll-reveal';
+import { cn } from '@/lib/utils';
 
 const advantages = [
   {
@@ -51,9 +52,13 @@ const technologies = [
     { name: 'Google Cloud', icon: <GoogleCloudIcon /> },
 ]
 
-export function AdvantageSection() {
+interface AdvantageSectionProps {
+  className?: string;
+}
+
+export function AdvantageSection({ className }: AdvantageSectionProps) {
   return (
-    <section id="advantage" className="py-24 sm:py-32">
+    <section id="advantage" className={cn("py-24 sm:py-32", className)}>
       <div className="container">
         <ScrollReveal>
           <div className="text-center max-w-3xl mx-auto">

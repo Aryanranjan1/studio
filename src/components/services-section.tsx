@@ -1,6 +1,7 @@
 import { ScrollReveal } from "./scroll-reveal";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Code, Brush, Smartphone, ShoppingCart, Megaphone, PenTool } from 'lucide-react';
+import { cn } from "@/lib/utils";
 
 const services = [
   {
@@ -35,9 +36,13 @@ const services = [
   },
 ];
 
-export function ServicesSection() {
+interface ServicesSectionProps {
+  className?: string;
+}
+
+export function ServicesSection({ className }: ServicesSectionProps) {
   return (
-    <section id="services" className="py-24 sm:py-32">
+    <section id="services" className={cn("py-24 sm:py-32", className)}>
       <div className="container">
         <ScrollReveal>
           <div className="text-center">

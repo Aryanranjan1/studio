@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { ScrollReveal } from "./scroll-reveal";
 
 const processSteps = [
@@ -39,9 +40,13 @@ const processSteps = [
     },
   ];
 
-export function ProcessSection() {
+interface ProcessSectionProps {
+    className?: string;
+}
+
+export function ProcessSection({ className }: ProcessSectionProps) {
     return (
-        <section id="process" className="py-24 sm:py-32">
+        <section id="process" className={cn("py-24 sm:py-32", className)}>
             <div className="container">
                 <ScrollReveal>
                     <div className="text-center max-w-3xl mx-auto">

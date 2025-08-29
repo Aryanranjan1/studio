@@ -5,6 +5,7 @@ import {
     AccordionTrigger,
   } from "@/components/ui/accordion"
 import { ScrollReveal } from "./scroll-reveal";
+import { cn } from "@/lib/utils";
   
   const faqs = [
     {
@@ -28,10 +29,14 @@ import { ScrollReveal } from "./scroll-reveal";
         answer: "Getting started is easy! Simply fill out our contact form with some details about your project, and we'll get back to you within 24 hours to schedule a free consultation. We look forward to hearing from you!"
     }
   ]
+
+  interface FaqSectionProps {
+    className?: string;
+  }
   
-  export function FaqSection() {
+  export function FaqSection({ className }: FaqSectionProps) {
     return (
-      <section id="faq" className="py-24 sm:py-32">
+      <section id="faq" className={cn("py-24 sm:py-32", className)}>
         <div className="container">
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto">

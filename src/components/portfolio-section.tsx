@@ -5,8 +5,13 @@ import { portfolioData, services } from "@/lib/data";
 import { PortfolioCard } from "./portfolio-card";
 import { Button } from "./ui/button";
 import { ScrollReveal } from "./scroll-reveal";
+import { cn } from "@/lib/utils";
 
-export function PortfolioSection() {
+interface PortfolioSectionProps {
+  className?: string;
+}
+
+export function PortfolioSection({ className }: PortfolioSectionProps) {
   const [activeFilter, setActiveFilter] = useState("All");
 
   const filteredProjects =
@@ -15,7 +20,7 @@ export function PortfolioSection() {
       : portfolioData.filter((p) => p.services.includes(activeFilter));
 
   return (
-    <section id="portfolio" className="overflow-x-hidden py-24 sm:py-32">
+    <section id="portfolio" className={cn("overflow-x-hidden py-24 sm:py-32", className)}>
       <div className="container">
         <ScrollReveal>
           <div className="text-center">

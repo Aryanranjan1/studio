@@ -3,10 +3,15 @@ import { Card, CardContent } from "./ui/card";
 import { ScrollReveal } from "./scroll-reveal";
 import { testimonials } from "@/lib/data";
 import { Quote } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-export function TestimonialSection() {
+interface TestimonialSectionProps {
+  className?: string;
+}
+
+export function TestimonialSection({ className }: TestimonialSectionProps) {
   return (
-    <section id="testimonials" className="py-24 sm:py-32">
+    <section id="testimonials" className={cn("py-24 sm:py-32", className)}>
       <div className="container">
         <ScrollReveal>
           <div className="text-center max-w-3xl mx-auto">

@@ -27,6 +27,7 @@ import { Card } from "./ui/card";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, Twitter } from "lucide-react";
 import Link from "next/link";
 import { ScrollReveal } from "./scroll-reveal";
+import { cn } from "@/lib/utils";
 
 
 const formSchema = z.object({
@@ -37,7 +38,11 @@ const formSchema = z.object({
   details: z.string().min(10, "Details must be at least 10 characters."),
 });
 
-export function ContactSection() {
+interface ContactSectionProps {
+    className?: string;
+}
+
+export function ContactSection({ className }: ContactSectionProps) {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -61,7 +66,7 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-24 sm:py-32">
+    <section id="contact" className={cn("py-24 sm:py-32", className)}>
         <div className="container">
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto">
