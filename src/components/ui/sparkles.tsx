@@ -39,15 +39,16 @@ export const SparklesCore = (props: {
             events: {
               onHover: {
                 enable: true,
-                mode: "bubble",
+                mode: "grab",
               },
             },
             modes: {
-              bubble: {
-                distance: 100,
-                duration: 2,
-                opacity: 0.8,
-                size: 6,
+              grab: {
+                distance: 150,
+                links: {
+                  opacity: 0.5,
+                  color: "#ffffff"
+                }
               },
             },
           },
@@ -105,7 +106,7 @@ export const SparklesCore = (props: {
           emitters: {
             direction: "top-right",
             rate: {
-              delay: 0.1,
+              delay: 2.5,
               quantity: 1
             },
             position: {
