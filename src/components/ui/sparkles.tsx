@@ -41,10 +41,6 @@ export const SparklesCore = (props: {
                 enable: true,
                 mode: "bubble",
               },
-              onClick: {
-                enable: true,
-                mode: "push",
-              },
             },
             modes: {
               bubble: {
@@ -53,10 +49,6 @@ export const SparklesCore = (props: {
                 opacity: 0.8,
                 size: 6,
               },
-              push: {
-                quantity: 1,
-                particles_nb: 1,
-              }
             },
           },
           particles: {
@@ -107,47 +99,47 @@ export const SparklesCore = (props: {
                 sync: false
               }
             },
-            // Shooting stars
-            emitters: {
-              direction: "top-right",
-              rate: {
-                delay: 0.1,
-                quantity: 1
-              },
-              position: {
-                x: 0,
-                y: 50
+          },
+          detectRetina: true,
+          // Shooting stars
+          emitters: {
+            direction: "top-right",
+            rate: {
+              delay: 0.1,
+              quantity: 1
+            },
+            position: {
+              x: 0,
+              y: 50
+            },
+            size: {
+              width: 0,
+              height: 0
+            },
+            particles: {
+              move: {
+                speed: 10,
+                direction: "top-right",
+                straight: true,
+                outModes: {
+                  default: "destroy"
+                }
               },
               size: {
-                width: 0,
-                height: 0
+                value: 2
               },
-              particles: {
-                move: {
-                  speed: 10,
-                  direction: "top-right",
-                  straight: true,
-                  outModes: {
-                    default: "destroy"
-                  }
-                },
-                size: {
-                  value: 2
-                },
-                opacity: {
-                  value: 1,
-                  animation: {
-                    enable: true,
-                    speed: 1,
-                    minimumValue: 0,
-                    startValue: "max",
-                    destroy: "min"
-                  }
+              opacity: {
+                value: 1,
+                animation: {
+                  enable: true,
+                  speed: 1,
+                  minimumValue: 0,
+                  startValue: "max",
+                  destroy: "min"
                 }
               }
             }
-          },
-          detectRetina: true,
+          }
         },
       });
     }

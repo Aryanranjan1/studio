@@ -70,7 +70,7 @@ export function AdvantageSection() {
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {advantages.map((advantage, index) => (
             <ScrollReveal key={advantage.title} delay={index * 100}>
-              <Card className="h-full border-white/20 bg-card shadow-lg backdrop-blur-lg text-center transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
+              <Card className="h-full text-center transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
                 <CardHeader>
                   <div className="flex justify-center mb-4">{advantage.icon}</div>
                   <CardTitle className="font-headline text-xl">{advantage.title}</CardTitle>
@@ -111,7 +111,7 @@ export function AdvantageSection() {
                 </p>
                 <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                     {technologies.map((tech) => (
-                        <div key={tech.name} className="flex flex-col items-center justify-center text-center gap-2 rounded-lg bg-card border border-white/20 p-4">
+                        <div key={tech.name} className="flex flex-col items-center justify-center text-center gap-2 rounded-lg bg-card/50 backdrop-blur-lg p-4">
                             <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
                                 {tech.icon}
                             </div>

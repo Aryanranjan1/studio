@@ -23,7 +23,7 @@ export function TestimonialSection() {
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((testimonial, index) => (
             <ScrollReveal key={testimonial.id} delay={index * 100}>
-              <Card className="h-full border-white/20 bg-card shadow-lg backdrop-blur-lg flex flex-col">
+              <Card className="h-full flex flex-col">
                 <CardContent className="flex-1 flex flex-col justify-between p-6">
                   <div>
                     <Quote className="h-8 w-8 text-primary/50 mb-4" />

@@ -76,7 +76,7 @@ export function ContactSection() {
           </ScrollReveal>
 
             <ScrollReveal delay={200}>
-              <Card className="mt-16 overflow-hidden bg-card/50 border-primary/20 backdrop-blur-lg">
+              <Card className="mt-16 overflow-hidden">
                   <div className="grid lg:grid-cols-5">
                       <div className="lg:col-span-3 p-8">
                           <h3 className="text-2xl font-bold font-headline mb-6">Send Us a Message</h3>

@@ -19,7 +19,7 @@ export default function Home() {
           background="transparent"
           minSize={0.4}
           maxSize={1}
-          particleDensity={100}
+          particleDensity={120}
           className="w-full h-full"
           particleColor="#FFFFFF"
         />
@@ -27,7 +27,7 @@ export default function Home() {
       <Header />
       <main className="flex-1 relative z-10">
         <HeroSection />
-        <div className="bg-background/80 backdrop-blur-sm">
+        <div className="bg-transparent">
           <ServicesSection />
           <AdvantageSection />
           <ProcessSection />
