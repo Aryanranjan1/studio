@@ -10,7 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { app } from "@/lib/firebase";
 import { LayoutDashboard, Newspaper, FileText, MessageSquare, Star, Settings, LogOut } from "lucide-react";
 
-const navLinks = [
+export const navLinks = [
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
     { name: "Projects", href: "/admin/projects", icon: FileText },
     { name: "Articles", href: "/admin/articles", icon: Newspaper },
@@ -44,33 +44,35 @@ export function AdminSidebar() {
     };
 
     return (
-        <aside className="hidden w-64 flex-col border-r bg-background sm:flex">
+        <aside className="hidden lg:block w-64 flex-col border-r bg-background">
             <div className="flex h-16 items-center border-b px-6">
                 <Link href="/" className="flex items-center gap-2">
                     <AmpireLogo className="text-primary" />
                     <span className="font-headline text-xl font-bold">AMpire Studio</span>
                 </Link>
             </div>
-            <nav className="flex-1 space-y-2 p-4">
-                {navLinks.map((link) => (
-                <Link
-                    key={link.href}
-                    href={link.href}
-                    className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                    pathname === link.href && "bg-muted text-primary"
-                    )}
-                >
-                    <link.icon className="h-4 w-4" />
-                    {link.name}
-                </Link>
-                ))}
-            </nav>
-            <div className="mt-auto p-4 border-t">
-                <Button variant="ghost" className="w-full justify-start" onClick={handleLogout}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Logout
-                </Button>
+            <div className="flex h-[calc(100vh-4rem)] flex-col justify-between">
+                <nav className="flex-1 space-y-2 p-4">
+                    {navLinks.map((link) => (
+                    <Link
+                        key={link.href}
+                        href={link.href}
+                        className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                        pathname === link.href && "bg-muted text-primary"
+                        )}
+                    >
+                        <link.icon className="h-4 w-4" />
+                        {link.name}
+                    </Link>
+                    ))}
+                </nav>
+                <div className="mt-auto p-4 border-t">
+                    <Button variant="ghost" className="w-full justify-start" onClick={handleLogout}>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        Logout
+                    </Button>
+                </div>
             </div>
         </aside>
     )
