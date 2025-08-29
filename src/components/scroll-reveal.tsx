@@ -22,6 +22,7 @@ export function ScrollReveal({
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
+        // Update state to true when element is intersecting, false otherwise
         setIsVisible(entry.isIntersecting);
       },
       { threshold }
@@ -39,25 +40,15 @@ export function ScrollReveal({
     };
   }, [threshold]);
 
-  const getAnimationClass = () => {
-    if (className?.includes("slide-reveal-left")) {
-      return isVisible ? "animate-slide-in-from-left" : "animate-slide-out-to-left";
-    }
-    if (className?.includes("slide-reveal-right")) {
-      return isVisible ? "animate-slide-in-from-right" : "animate-slide-out-to-right";
-    }
-    return isVisible ? "animate-fade-in-up" : "animate-fade-out-down";
-  };
-
   return (
     <div
       ref={ref}
       className={cn(
-        "transition-opacity",
-        getAnimationClass(),
+        "reveal-element",
+        isVisible ? "is-visible" : "",
         className
       )}
-      style={{ animationDelay: `${delay}ms` }}
+      style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
     </div>
