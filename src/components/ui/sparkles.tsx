@@ -41,6 +41,10 @@ export const SparklesCore = (props: {
                 enable: true,
                 mode: "bubble",
               },
+              onClick: {
+                enable: true,
+                mode: "push",
+              },
             },
             modes: {
               bubble: {
@@ -49,6 +53,10 @@ export const SparklesCore = (props: {
                 opacity: 0.8,
                 size: 6,
               },
+              push: {
+                quantity: 1,
+                particles_nb: 1,
+              }
             },
           },
           particles: {

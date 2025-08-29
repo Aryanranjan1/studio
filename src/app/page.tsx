@@ -19,7 +19,7 @@ export default function Home() {
           background="transparent"
           minSize={0.4}
           maxSize={1}
-          particleDensity={30}
+          particleDensity={100}
           className="w-full h-full"
           particleColor="#FFFFFF"
         />
