@@ -1,25 +1,25 @@
-import { CheckCircle, Award, DollarSign, Headphones, Zap } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { ScrollReveal } from './scroll-reveal';
 
 const advantages = [
   {
-    icon: <Award className="h-8 w-8 text-primary" />,
+    icon: <ProvenExpertiseIcon />,
     title: 'Proven Expertise',
     description: 'Our team combines years of experience with cutting-edge technologies to deliver exceptional results.',
   },
   {
-    icon: <DollarSign className="h-8 w-8 text-primary" />,
+    icon: <TransparentPricingIcon />,
     title: 'Transparent Pricing',
-    description: 'No hidden fees. We offer competitive rates with clear breakdowns of what you\'re paying for.',
+    description: "No hidden fees. We offer competitive rates with clear breakdowns of what you're paying for.",
   },
   {
-    icon: <Headphones className="h-8 w-8 text-primary" />,
+    icon: <DedicatedSupportIcon />,
     title: 'Dedicated Support',
     description: 'We provide ongoing support and maintenance to ensure your digital assets remain optimal.',
   },
   {
-    icon: <Zap className="h-8 w-8 text-primary" />,
+    icon: <FastTurnaroundIcon />,
     title: 'Fast Turnaround',
     description: 'We respect your time with efficient processes that deliver quality results without unnecessary delays.',
   },
@@ -273,4 +273,47 @@ function GoogleCloudIcon() {
       <path d="M12 2v7h7" />
     </svg>
   );
+}
+
+function ProvenExpertiseIcon() {
+  return (
+    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <path d="m9 12 2 2 4-4"></path>
+        </svg>
+    </div>
+  );
+}
+
+function TransparentPricingIcon() {
+    return (
+        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
+                <path d="M12 12a5 5 0 1 1-5-5"></path>
+            </svg>
+        </div>
+    );
+}
+
+function DedicatedSupportIcon() {
+    return (
+        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21.2 8.8a5.5 5.5 0 0 0-7.8 0L12 10l-1.4-1.2a5.5 5.5 0 0 0-7.8 0c-2.3 2.3-2.3 6.1 0 8.5l7.8 7.8 7.8-7.8c2.3-2.3 2.3-6.1 0-8.5z"></path>
+                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+            </svg>
+        </div>
+    );
+}
+
+function FastTurnaroundIcon() {
+    return (
+        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+            </svg>
+        </div>
+    );
 }
