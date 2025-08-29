@@ -28,7 +28,7 @@ export const SparklesCore = (props: {
     if (init) {
         const isLight = props.id.includes('light');
         const options = isLight
-          ? { // Light mode options - now using a similar config to dark mode
+          ? { // Light mode options - constellation effect
               background: {
                 color: {
                   value: props.background,
@@ -39,49 +39,56 @@ export const SparklesCore = (props: {
                 events: {
                   onHover: {
                     enable: true,
-                    mode: "bubble",
+                    mode: "grab",
                   },
                 },
                 modes: {
-                  bubble: {
-                    distance: 150,
-                    size: 2,
-                    duration: 2,
-                    opacity: 0.8,
+                  grab: {
+                    distance: 140,
+                    links: {
+                      opacity: 1,
+                    },
                   },
                 },
               },
               particles: {
                 color: {
-                  value: props.particleColor, // Kept the purple color
+                  value: props.particleColor,
                 },
                 links: {
-                  enable: false,
+                  color: props.particleColor,
+                  distance: 150,
+                  enable: true,
+                  opacity: 0.5,
+                  width: 1,
+                },
+                collisions: {
+                  enable: true,
                 },
                 move: {
                   direction: "none",
                   enable: true,
                   outModes: {
-                    default: "out",
+                    default: "bounce",
                   },
-                  random: true,
-                  speed: 0.1,
+                  random: false,
+                  speed: 0.5,
                   straight: false,
                 },
                 number: {
                   density: {
                     enable: true,
                   },
-                  value: props.particleDensity,
+                  value: 80,
                 },
                 opacity: {
-                  value: {min: 0.1, max: 0.5},
+                  value: 0.5,
                 },
                 shape: {
                   type: "circle",
                 },
                 size: {
-                  value: { min: props.minSize, max: props.maxSize },
+                  value: { min: 1, max: 5 },
                 },
               },
               detectRetina: true,
