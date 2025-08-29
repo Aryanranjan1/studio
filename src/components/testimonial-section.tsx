@@ -6,7 +6,7 @@ import { Quote } from "lucide-react";
 
 export function TestimonialSection() {
   return (
-    <section id="testimonials" className="py-24 sm:py-32 bg-background/50">
+    <section id="testimonials" className="py-24 sm:py-32">
       <div className="container">
         <ScrollReveal>
           <div className="text-center max-w-3xl mx-auto">

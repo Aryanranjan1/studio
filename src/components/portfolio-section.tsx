@@ -15,7 +15,7 @@ export function PortfolioSection() {
       : portfolioData.filter((p) => p.services.includes(activeFilter));
 
   return (
-    <section id="portfolio" className="overflow-x-hidden bg-background/50 py-24 sm:py-32">
+    <section id="portfolio" className="overflow-x-hidden py-24 sm:py-32">
       <div className="container">
         <ScrollReveal>
           <div className="text-center">

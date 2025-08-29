@@ -4,7 +4,7 @@ import { Card } from "./ui/card";
 
 export function AboutSection() {
   return (
-    <section id="about" className="py-24 sm:py-32 bg-background/50">
+    <section id="about" className="py-24 sm:py-32">
       <div className="container">
         <ScrollReveal>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">

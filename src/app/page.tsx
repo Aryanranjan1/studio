@@ -14,11 +14,17 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <HeroSection />
-        <ServicesSection />
+        <div className="bg-secondary/50">
+          <ServicesSection />
+        </div>
         <AdvantageSection />
-        <ProcessSection />
+        <div className="bg-secondary/50">
+          <ProcessSection />
+        </div>
         <PortfolioSection />
-        <TestimonialSection />
+        <div className="bg-secondary/50">
+          <TestimonialSection />
+        </div>
         <CtaSection />
       </main>
       <Footer />

@@ -53,7 +53,7 @@ const technologies = [
 
 export function AdvantageSection() {
   return (
-    <section id="advantage" className="py-24 sm:py-32 bg-background/50">
+    <section id="advantage" className="py-24 sm:py-32">
       <div className="container">
         <ScrollReveal>
           <div className="text-center max-w-3xl mx-auto">

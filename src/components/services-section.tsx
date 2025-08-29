@@ -52,7 +52,7 @@ export function ServicesSection() {
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
             <ScrollReveal key={service.title} delay={index * 100}>
-              <Card className="h-full border-white/20 bg-background/50 shadow-lg backdrop-blur-lg text-center transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
+              <Card className="h-full border-white/20 bg-card shadow-lg backdrop-blur-lg text-center transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
                 <CardHeader>
                   <div className="flex justify-center mb-4">
                     {service.icon}
