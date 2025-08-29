@@ -96,3 +96,7 @@
 .light .bg-alt {
     background-color: hsl(240 10% 96%); /* Light Grey alternate */
 }
+
+.dark .bg-alt {
+    background-color: hsl(222.2 84% 6.5%); /* Slightly Lighter Dark Background */
+}
