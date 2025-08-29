@@ -22,7 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { services, SiteSettings } from "@/lib/data";
+import { services } from "@/lib/data";
 import { Card } from "./ui/card";
 import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, LucideIcon } from "lucide-react";
 import Link from "next/link";
@@ -31,7 +31,7 @@ import { cn } from "@/lib/utils";
 import { addMessage } from "@/lib/firestore";
 import { getSettings } from "@/lib/data";
 import { useEffect, useState } from "react";
-import type { SocialLink, NewMessage } from "@/lib/data";
+import type { SocialLink, NewMessage, SiteSettings } from "@/lib/data";
 
 const WhatsappIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
@@ -97,7 +97,6 @@ export function ContactSection({ className }: ContactSectionProps) {
         toast({
           title: "Message Sent!",
           description: "Thanks for reaching out. We'll get back to you shortly.",
-          variant: "default"
         });
         form.reset();
     } catch(error) {
