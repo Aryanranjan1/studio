@@ -14,11 +14,11 @@ export default function AboutPage() {
       <Header />
       <main className="flex-1">
         <AboutSection />
-        <SuccessRateSection className="bg-white/5 backdrop-blur-sm" />
+        <SuccessRateSection className="bg-alt" />
         <ProjectFormTsaSection />
-        <AdvantageSection className="bg-white/5 backdrop-blur-sm" />
+        <AdvantageSection className="bg-alt" />
         <ProcessSection />
-        <TestimonialSection className="bg-white/5 backdrop-blur-sm" />
+        <TestimonialSection className="bg-alt" />
         <TsaSection />
       </main>
       <Footer />

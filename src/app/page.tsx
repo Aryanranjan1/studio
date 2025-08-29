@@ -15,13 +15,13 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <HeroSection />
-        <ServicesSection className="bg-white/5 backdrop-blur-sm" />
+        <ServicesSection className="bg-alt" />
         <AdvantageSection />
-        <ProcessSection className="bg-white/5 backdrop-blur-sm" />
+        <ProcessSection className="bg-alt" />
         <PortfolioSection />
-        <TestimonialSection className="bg-white/5 backdrop-blur-sm" />
+        <TestimonialSection className="bg-alt" />
         <ContactSection />
-        <FaqSection className="bg-white/5 backdrop-blur-sm" />
+        <FaqSection className="bg-alt" />
       </main>
       <Footer />
     </div>

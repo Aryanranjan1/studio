@@ -12,9 +12,9 @@ export default function WorkPage() {
       <Header />
       <main className="flex-1">
         <PortfolioSection />
-        <ProcessSection className="bg-white/5 backdrop-blur-sm" />
+        <ProcessSection className="bg-alt" />
         <AdvantageSection />
-        <TestimonialSection className="bg-white/5 backdrop-blur-sm" />
+        <TestimonialSection className="bg-alt" />
         <TsaSection />
       </main>
       <Footer />

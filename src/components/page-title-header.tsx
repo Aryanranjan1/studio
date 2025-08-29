@@ -7,7 +7,7 @@ interface PageTitleHeaderProps {
 
 export function PageTitleHeader({ title, subtitle }: PageTitleHeaderProps) {
     return (
-        <section className="py-24 sm:py-32 bg-primary/10">
+        <section className="py-24 sm:py-32 bg-primary/10 dark:bg-primary/10">
             <div className="container">
                 <ScrollReveal>
                     <div className="max-w-3xl mx-auto text-center">

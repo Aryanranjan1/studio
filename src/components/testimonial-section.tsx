@@ -67,7 +67,7 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
                       <Quote className="h-8 w-8 text-primary/50 mb-4" />
                       <p className="text-muted-foreground italic">"{testimonial.quote}"</p>
                     </div>
-                    <div className="flex items-center gap-4 mt-6 pt-6 border-t border-white/10">
+                    <div className="flex items-center gap-4 mt-6 pt-6 border-t dark:border-white/10">
                       <Avatar>
                         <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} />
                         <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>

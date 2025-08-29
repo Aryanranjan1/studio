@@ -60,7 +60,7 @@ export function Footer() {
   }, []);
 
   return (
-    <footer className="border-t border-white/10 bg-background/50 backdrop-blur-lg">
+    <footer className="border-t dark:border-white/10 dark:bg-background/50 dark:backdrop-blur-lg">
       <div className="container py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* AMpire Studio */}
@@ -144,7 +144,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="mt-12 pt-8 border-t dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted-foreground">
                 &copy; {new Date().getFullYear()} AMpire Studio. All rights reserved.
             </p>

@@ -103,7 +103,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
             </article>
         </div>
 
-        <PortfolioSection className="bg-white/5 backdrop-blur-sm" />
+        <PortfolioSection className="bg-alt" />
       </main>
       <Footer />
     </div>

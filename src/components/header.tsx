@@ -22,7 +22,7 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/50 backdrop-blur-lg">
+    <header className="sticky top-0 z-50 w-full border-b dark:border-white/10 bg-background/80 backdrop-blur-lg">
       <div className="container flex h-16 items-center">
         <Link href="/" className="flex items-center gap-2">
           <AmpireLogo className="text-primary" />
