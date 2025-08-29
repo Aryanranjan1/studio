@@ -59,3 +59,30 @@ export const portfolioData: Project[] = [
 ];
 
 export const services = Array.from(new Set(portfolioData.flatMap(p => p.services)));
+
+export const testimonials = [
+  {
+    id: 1,
+    name: "Sarah Johnson",
+    title: "Marketing Director",
+    company: "QuantumLeap",
+    quote: "AMpire Studio transformed our online presence. Their strategic approach to design and development doubled our lead generation in just three months. A truly remarkable team!",
+    avatarUrl: "https://picsum.photos/100/100",
+  },
+  {
+    id: 2,
+    name: "Michael Chen",
+    title: "Founder",
+    company: "Artisan's Corner",
+    quote: "The e-commerce platform they built for us is both beautiful and highly functional. Our vendors love the new system, and sales have increased by 40% since launch.",
+    avatarUrl: "https://picsum.photos/100/100",
+  },
+  {
+    id: 3,
+    name: "Jessica Rodriguez",
+    title: "CEO",
+    company: "ConnectApp",
+    quote: "From initial concept to final launch, the team was professional, creative, and incredibly responsive. They delivered a mobile app that exceeded all our expectations.",
+    avatarUrl: "https://picsum.photos/100/100",
+  },
+]

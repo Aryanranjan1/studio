@@ -5,6 +5,7 @@ import { ServicesSection } from '@/components/services-section';
 import { AdvantageSection } from '@/components/advantage-section';
 import { ProcessSection } from '@/components/process-section';
 import { PortfolioSection } from '@/components/portfolio-section';
+import { TestimonialSection } from '@/components/testimonial-section';
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
         <AdvantageSection />
         <ProcessSection />
         <PortfolioSection />
+        <TestimonialSection />
       </main>
       <Footer />
     </div>
