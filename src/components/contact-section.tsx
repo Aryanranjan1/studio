@@ -1,4 +1,3 @@
-
 "use client";
 
 import { z } from "zod";
@@ -32,6 +31,7 @@ import { addMessage } from "@/lib/firestore";
 import { getSettings, getServices } from "@/lib/data";
 import { useEffect, useState } from "react";
 import type { SocialLink, NewMessage, SiteSettings, Service } from "@/lib/data";
+import { useSuccessPopup } from "@/hooks/use-success-popup";
 
 const WhatsappIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
@@ -71,6 +71,7 @@ interface ContactSectionProps {
 
 export function ContactSection({ className }: ContactSectionProps) {
   const { toast } = useToast();
+  const { showSuccessPopup } = useSuccessPopup();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [services, setServices] = useState<Service[]>([]);
 
@@ -100,12 +101,9 @@ export function ContactSection({ className }: ContactSectionProps) {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    form.reset();
     addMessage(values as NewMessage).then(() => {
-        toast({
-          title: "Message Sent!",
-          description: "Thanks for reaching out. We'll get back to you shortly.",
-        });
-        form.reset();
+        showSuccessPopup("Message Sent!");
     }).catch((error) => {
         toast({
             title: "Error",
@@ -278,5 +276,3 @@ export function ContactSection({ className }: ContactSectionProps) {
     </section>
   );
 }
-
-    

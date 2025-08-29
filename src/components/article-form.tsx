@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Article, allArticleTags } from "@/lib/data";
-import { addArticle, updateArticle, NewArticle } from "@/lib/firestore";
+import { addArticle, updateArticle } from "@/lib/firestore";
 import {
     Dialog,
     DialogContent,
@@ -28,6 +28,7 @@ import {
   } from "@/components/ui/dialog"
 import { Switch } from "./ui/switch";
 import { Checkbox } from "./ui/checkbox";
+import { useSuccessPopup } from "@/hooks/use-success-popup";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters."),
@@ -48,7 +49,7 @@ interface ArticleFormProps {
 
 export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleFormProps) {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { showSuccessPopup } = useSuccessPopup();
   
   const defaultValues = {
     title: article?.title || "",
@@ -70,17 +71,14 @@ export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleF
   }, [article, form, isOpen]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true);
+    setIsOpen(false);
     
     const operation = article
         ? updateArticle(article.id, values)
         : addArticle({ ...values, createdAt: new Date() });
 
     operation.then(() => {
-        toast({
-            title: "Success",
-            description: `Article ${article ? 'updated' : 'created'} successfully.`,
-        });
+        showSuccessPopup("Article Saved!");
         onFinished();
     }).catch((error) => {
         toast({
@@ -88,11 +86,7 @@ export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleF
             description: `Failed to ${article ? 'update' : 'add'} article.`,
             variant: "destructive",
         });
-    }).finally(() => {
-        setIsSubmitting(false);
     });
-    
-    setIsOpen(false);
   }
 
   return (
@@ -251,8 +245,8 @@ export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleF
 
                     <div className="flex justify-end pt-4">
                         <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="mr-2">Cancel</Button>
-                        <Button type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? 'Saving...' : (article ? "Save Changes" : "Create Article")}
+                        <Button type="submit" disabled={form.formState.isSubmitting}>
+                            {form.formState.isSubmitting ? 'Saving...' : (article ? "Save Changes" : "Create Article")}
                         </Button>
                     </div>
                 </form>
@@ -261,5 +255,3 @@ export function ArticleForm({ isOpen, setIsOpen, article, onFinished }: ArticleF
     </Dialog>
   );
 }
-
-    

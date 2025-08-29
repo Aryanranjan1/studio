@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Testimonial } from "@/lib/data";
-import { addTestimonial, updateTestimonial, NewTestimonial } from "@/lib/firestore";
+import { addTestimonial, updateTestimonial } from "@/lib/firestore";
 import {
     Dialog,
     DialogContent,
@@ -25,6 +25,7 @@ import {
     DialogHeader,
     DialogTitle,
   } from "@/components/ui/dialog"
+import { useSuccessPopup } from "@/hooks/use-success-popup";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
@@ -43,7 +44,7 @@ interface TestimonialFormProps {
 
 export function TestimonialForm({ isOpen, setIsOpen, testimonial, onFinished }: TestimonialFormProps) {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { showSuccessPopup } = useSuccessPopup();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -71,17 +72,14 @@ export function TestimonialForm({ isOpen, setIsOpen, testimonial, onFinished }: 
   }, [testimonial, form]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true);
+    setIsOpen(false);
     
     const operation = testimonial
         ? updateTestimonial(testimonial.id, values)
-        : addTestimonial(values as NewTestimonial);
+        : addTestimonial(values);
 
     operation.then(() => {
-        toast({
-            title: "Success",
-            description: `Testimonial ${testimonial ? 'updated' : 'added'} successfully.`,
-        });
+        showSuccessPopup("Testimonial Saved!");
         onFinished();
     }).catch((error) => {
         toast({
@@ -89,11 +87,7 @@ export function TestimonialForm({ isOpen, setIsOpen, testimonial, onFinished }: 
             description: `Failed to ${testimonial ? 'update' : 'add'} testimonial.`,
             variant: "destructive",
         });
-    }).finally(() => {
-        setIsSubmitting(false);
     });
-    
-    setIsOpen(false);
   }
 
   return (
@@ -176,8 +170,8 @@ export function TestimonialForm({ isOpen, setIsOpen, testimonial, onFinished }: 
                     />
                     <div className="flex justify-end pt-4">
                         <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="mr-2">Cancel</Button>
-                        <Button type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? 'Saving...' : (testimonial ? "Save Changes" : "Create Testimonial")}
+                        <Button type="submit" disabled={form.formState.isSubmitting}>
+                            {form.formState.isSubmitting ? 'Saving...' : (testimonial ? "Save Changes" : "Create Testimonial")}
                         </Button>
                     </div>
                 </form>

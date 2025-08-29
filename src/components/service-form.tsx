@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Service, serviceIcons } from "@/lib/data";
-import { addService, updateService, NewService } from "@/lib/firestore";
+import { addService, updateService } from "@/lib/firestore";
 import {
     Dialog,
     DialogContent,
@@ -26,6 +26,7 @@ import {
     DialogTitle,
   } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { useSuccessPopup } from "@/hooks/use-success-popup";
 
 const formSchema = z.object({
   title: z.string().min(2, "Title must be at least 2 characters."),
@@ -44,7 +45,7 @@ interface ServiceFormProps {
 
 export function ServiceForm({ isOpen, setIsOpen, service, onFinished }: ServiceFormProps) {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { showSuccessPopup } = useSuccessPopup();
   
   const defaultValues = {
     title: service?.title || "",
@@ -70,17 +71,14 @@ export function ServiceForm({ isOpen, setIsOpen, service, onFinished }: ServiceF
   }, [service, form, isOpen]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true);
+    setIsOpen(false);
 
     const operation = service
         ? updateService(service.id, values)
-        : addService(values as NewService);
+        : addService(values);
     
     operation.then(() => {
-        toast({
-            title: "Success",
-            description: `Service ${service ? 'updated' : 'created'} successfully.`,
-        });
+        showSuccessPopup("Service Saved!");
         onFinished();
     }).catch((error) => {
         toast({
@@ -88,11 +86,7 @@ export function ServiceForm({ isOpen, setIsOpen, service, onFinished }: ServiceF
             description: `Failed to ${service ? 'update' : 'add'} service.`,
             variant: "destructive",
         });
-    }).finally(() => {
-        setIsSubmitting(false);
     });
-
-    setIsOpen(false);
   }
 
   return (
@@ -187,8 +181,8 @@ export function ServiceForm({ isOpen, setIsOpen, service, onFinished }: ServiceF
 
                     <div className="flex justify-end pt-4">
                         <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="mr-2">Cancel</Button>
-                        <Button type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? 'Saving...' : (service ? "Save Changes" : "Create Service")}
+                        <Button type="submit" disabled={form.formState.isSubmitting}>
+                            {form.formState.isSubmitting ? 'Saving...' : (service ? "Save Changes" : "Create Service")}
                         </Button>
                     </div>
                 </form>

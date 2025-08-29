@@ -21,6 +21,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { addIntake } from "@/lib/firestore";
 import type { NewIntake } from "@/lib/data";
+import { useSuccessPopup } from "@/hooks/use-success-popup";
 
 const formSchema = z.object({
   fullName: z.string().min(2, "Full name is required."),
@@ -80,6 +81,7 @@ const neededFeaturesItems = ["E-commerce (shopping cart, payment processing)", "
 
 export function IntakeForm() {
   const { toast } = useToast();
+  const { showSuccessPopup } = useSuccessPopup();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -96,12 +98,9 @@ export function IntakeForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    form.reset();
     addIntake(values as NewIntake).then(() => {
-        toast({
-          title: "Submission Received!",
-          description: "Thank you for filling out the discovery form. We'll be in touch with you shortly.",
-        });
-        form.reset();
+        showSuccessPopup("Inquiry Submitted!");
     }).catch((error) => {
         toast({
             title: "Submission Error",

@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Project, Service, getServices, projectStatuses, ProjectStatus } from "@/lib/data";
-import { addProject, updateProject, NewProject } from "@/lib/firestore";
+import { addProject, updateProject } from "@/lib/firestore";
 import { summarizeProject } from "@/ai/flows/portfolio-project-summary";
 import {
     Dialog,
@@ -30,6 +30,7 @@ import {
 import { Checkbox } from "./ui/checkbox";
 import { Sparkles } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { useSuccessPopup } from "@/hooks/use-success-popup";
 
 
 const formSchema = z.object({
@@ -52,8 +53,8 @@ interface ProjectFormProps {
 
 export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectFormProps) {
   const { toast } = useToast();
+  const { showSuccessPopup } = useSuccessPopup();
   const [isGenerating, setIsGenerating] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [services, setServices] = useState<Service[]>([]);
   
   useEffect(() => {
@@ -124,17 +125,14 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true);
+    setIsOpen(false);
     
     const operation = project
         ? updateProject(project.id, values)
-        : addProject(values as NewProject);
+        : addProject(values);
 
     operation.then(() => {
-        toast({
-            title: "Success",
-            description: `Project ${project ? 'updated' : 'added'} successfully.`,
-        });
+        showSuccessPopup("Project Saved!");
         onFinished();
     }).catch((error) => {
         toast({
@@ -142,11 +140,7 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
             description: `Failed to ${project ? 'update' : 'add'} project.`,
             variant: "destructive",
         });
-    }).finally(() => {
-        setIsSubmitting(false);
     });
-    
-    setIsOpen(false);
   }
 
   return (
@@ -322,8 +316,8 @@ export function ProjectForm({ isOpen, setIsOpen, project, onFinished }: ProjectF
 
                     <div className="flex justify-end pt-4">
                         <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="mr-2">Cancel</Button>
-                        <Button type="submit" disabled={isSubmitting}>
-                            {isSubmitting ? 'Saving...' : (project ? "Save Changes" : "Create Project")}
+                        <Button type="submit" disabled={form.formState.isSubmitting}>
+                            {form.formState.isSubmitting ? 'Saving...' : (project ? "Save Changes" : "Create Project")}
                         </Button>
                     </div>
                 </form>

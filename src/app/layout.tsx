@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from '@/components/theme-provider';
 import { Background } from '@/components/background';
 import { AuthProvider } from '@/hooks/use-auth';
+import { SuccessPopupProvider } from '@/hooks/use-success-popup';
 
 export const metadata: Metadata = {
   title: 'AMpire Studio Dynamic Showcase',
@@ -31,11 +32,13 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Background />
-            <div className='relative z-10'>
-              {children}
-            </div>
-            <Toaster />
+            <SuccessPopupProvider>
+              <Background />
+              <div className='relative z-10'>
+                {children}
+              </div>
+              <Toaster />
+            </SuccessPopupProvider>
           </ThemeProvider>
         </AuthProvider>
       </body>
