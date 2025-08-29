@@ -26,124 +26,168 @@ export const SparklesCore = (props: {
 
   useEffect(() => {
     if (init) {
-      tsParticles.load({
-        id: props.id,
-        options: {
-          background: {
-            color: {
-              value: props.background,
-            },
-          },
-          fpsLimit: 60,
-          interactivity: {
-            events: {
-              onHover: {
-                enable: true,
-                mode: "bubble",
+        const isLight = props.id.includes('light');
+        const options = isLight
+          ? {
+              background: {
+                color: { value: props.background },
               },
-              onClick: {
-                enable: true,
-                mode: "push",
-              }
-            },
-            modes: {
-              bubble: {
-                distance: 150,
-                size: 4,
-                duration: 2,
-                opacity: 0.8,
-              },
-              push: {
-                quantity: 4,
-              }
-            },
-          },
-          particles: {
-            color: {
-              value: props.particleColor,
-            },
-            links: {
-              enable: false,
-            },
-            move: {
-              direction: "none",
-              enable: true,
-              outModes: {
-                default: "out",
-              },
-              random: true,
-              speed: 0.1,
-              straight: false,
-            },
-            number: {
-              density: {
-                enable: true,
-              },
-              value: props.particleDensity,
-            },
-            opacity: {
-              value: {min: 0.1, max: 0.5},
-              animation: {
-                enable: true,
-                speed: 1,
-                minimumValue: 0.1,
-                sync: false,
-              },
-            },
-            shape: {
-              type: "circle",
-            },
-            size: {
-              value: { min: props.minSize, max: props.maxSize },
-              animation: {
-                enable: true,
-                speed: 3,
-                minimumValue: 0.1,
-                sync: false
-              }
-            },
-          },
-          detectRetina: true,
-          emitters: {
-            direction: "top-right",
-            rate: {
-              delay: 3.5, // Random delay between 2-5 seconds. (2 + 3 * Math.random())
-              quantity: 1
-            },
-            position: {
-              x: 0,
-              y: 50
-            },
-            size: {
-              width: 0,
-              height: 0
-            },
-            particles: {
-              move: {
-                speed: 10,
-                direction: "none",
-                straight: true,
-                outModes: {
-                  default: "destroy"
-                }
-              },
-              size: {
-                value: 2
-              },
-              opacity: {
-                value: 1,
-                animation: {
+              fpsLimit: 60,
+              particles: {
+                number: {
+                  value: props.particleDensity,
+                  density: { enable: true, value_area: 800 },
+                },
+                color: { value: props.particleColor },
+                shape: { type: "triangle" },
+                opacity: { value: 0.2, random: true },
+                size: { value: {min: 3, max: 6}, random: true },
+                move: {
                   enable: true,
-                  speed: 1,
-                  minimumValue: 0,
-                  startValue: "max",
-                  destroy: "min"
+                  speed: 0.5,
+                  direction: "none",
+                  random: true,
+                  straight: false,
+                  out_mode: "out",
+                  bounce: false,
+                },
+                links: {
+                    enable: true,
+                    distance: 150,
+                    color: "#999999",
+                    opacity: 0.1,
+                    width: 1
+                }
+              },
+              interactivity: {
+                detect_on: "canvas",
+                events: {
+                  onhover: { enable: true, mode: "repulse" },
+                  resize: true,
+                },
+                modes: {
+                    repulse: { distance: 50, duration: 0.4 },
+                }
+              },
+              detectRetina: true,
+            }
+          : { // Dark mode options
+              background: {
+                color: {
+                  value: props.background,
+                },
+              },
+              fpsLimit: 60,
+              interactivity: {
+                events: {
+                  onHover: {
+                    enable: true,
+                    mode: "bubble",
+                  },
+                  onClick: {
+                    enable: true,
+                    mode: "push",
+                  }
+                },
+                modes: {
+                  bubble: {
+                    distance: 150,
+                    size: 4,
+                    duration: 2,
+                    opacity: 0.8,
+                  },
+                  push: {
+                    quantity: 4,
+                  }
+                },
+              },
+              particles: {
+                color: {
+                  value: props.particleColor,
+                },
+                links: {
+                  enable: false,
+                },
+                move: {
+                  direction: "none",
+                  enable: true,
+                  outModes: {
+                    default: "out",
+                  },
+                  random: true,
+                  speed: 0.1,
+                  straight: false,
+                },
+                number: {
+                  density: {
+                    enable: true,
+                  },
+                  value: props.particleDensity,
+                },
+                opacity: {
+                  value: {min: 0.1, max: 0.5},
+                  animation: {
+                    enable: true,
+                    speed: 1,
+                    minimumValue: 0.1,
+                    sync: false,
+                  },
+                },
+                shape: {
+                  type: "circle",
+                },
+                size: {
+                  value: { min: props.minSize, max: props.maxSize },
+                  animation: {
+                    enable: true,
+                    speed: 3,
+                    minimumValue: 0.1,
+                    sync: false
+                  }
+                },
+              },
+              detectRetina: true,
+              emitters: {
+                direction: "top-right",
+                rate: {
+                  delay: 3.5,
+                  quantity: 1
+                },
+                position: {
+                  x: 0,
+                  y: 50
+                },
+                size: {
+                  width: 0,
+                  height: 0
+                },
+                particles: {
+                  move: {
+                    speed: 10,
+                    direction: "none",
+                    straight: true,
+                    outModes: {
+                      default: "destroy"
+                    }
+                  },
+                  size: {
+                    value: 2
+                  },
+                  opacity: {
+                    value: 1,
+                    animation: {
+                      enable: true,
+                      speed: 1,
+                      minimumValue: 0,
+                      startValue: "max",
+                      destroy: "min"
+                    }
+                  }
                 }
               }
-            }
-          }
-        },
-      });
+            };
+
+      tsParticles.load({ id: props.id, options });
     }
   }, [init, props]);
 

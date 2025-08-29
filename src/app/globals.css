@@ -4,9 +4,9 @@
 
 @layer base {
   :root {
-    --background: 240 10% 97%; /* Light grey */
+    --background: 240 10% 99%; /* Very Light Grey */
     --foreground: 222.2 84% 4.9%;
-    --card: 240 10% 99%;
+    --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
@@ -23,7 +23,6 @@
     --border: 263.4 95.3% 78.2%; /* Lighter Purple Border */
     --input: 214.3 31.8% 91.4%;
     --ring: 263.4 95.3% 58.2%;
-    --radius: 0.8rem;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 340 80% 55%;
@@ -95,5 +94,5 @@
 }
 
 .light .bg-alt {
-    background-color: hsl(56, 89%, 96%);
+    background-color: hsl(240 10% 96%); /* Light Grey alternate */
 }

@@ -19,7 +19,15 @@ export function Background() {
                     particleColor="#FFFFFF"
                 />
             ) : (
-                <div className="w-full h-full bg-background" />
+                <SparklesCore
+                    id="tsparticles-light"
+                    background="transparent"
+                    minSize={1}
+                    maxSize={1.5}
+                    particleDensity={30}
+                    className="w-full h-full"
+                    particleColor="#888888"
+                />
             )}
         </div>
     )
