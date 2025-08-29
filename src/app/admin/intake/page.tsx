@@ -12,7 +12,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { getIntakes, deleteIntake } from "@/lib/firestore";
+import { deleteIntake } from "@/lib/firestore";
+import { getIntakes } from "@/lib/data";
 import type { Intake } from "@/lib/data";
 import { useToast } from "@/hooks/use-toast";
 import { Trash2 } from "lucide-react";
@@ -38,24 +39,12 @@ export default function IntakePage() {
   const [intakeToDelete, setIntakeToDelete] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const fetchIntakes = async () => {
-    setLoading(true);
-    try {
-      const intakesData = await getIntakes();
-      setIntakes(intakesData);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch intake submissions.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchIntakes();
+    const unsubscribe = getIntakes((fetchedIntakes) => {
+      setIntakes(fetchedIntakes);
+      setLoading(false);
+    });
+    return () => unsubscribe && unsubscribe();
   }, []);
 
   const handleDeleteClick = (intakeId: string) => {
@@ -71,7 +60,7 @@ export default function IntakePage() {
         title: "Success",
         description: "Intake submission deleted successfully.",
       });
-      fetchIntakes(); // Refresh the list
+      // UI will update automatically via listener
     } catch (error) {
       toast({
         title: "Error",

@@ -120,6 +120,38 @@ export const getArticles = (callback: (articles: Article[]) => void) => {
     });
 };
 
+export const getMessages = (callback: (messages: Message[]) => void) => {
+    const messagesQuery = query(collection(db, "messages"), orderBy("submittedAt", "desc"));
+    return onSnapshot(messagesQuery, (querySnapshot) => {
+        const messages: Message[] = [];
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            messages.push({
+                id: doc.id,
+                ...data,
+                submittedAt: data.submittedAt?.toDate(), // Convert Firestore Timestamp to JS Date
+              } as Message);
+        });
+        callback(messages);
+    });
+};
+
+export const getIntakes = (callback: (intakes: Intake[]) => void) => {
+    const intakesQuery = query(collection(db, "intakes"), orderBy("submittedAt", "desc"));
+    return onSnapshot(intakesQuery, (querySnapshot) => {
+        const intakes: Intake[] = [];
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            intakes.push({
+                id: doc.id,
+                ...data,
+                submittedAt: data.submittedAt?.toDate(),
+              } as Intake);
+        });
+        callback(intakes);
+    });
+};
+
 export const getSettings = (callback: (settings: SiteSettings | null) => void) => {
     const settingsDocRef = doc(db, "settings", "global");
     return onSnapshot(settingsDocRef, (docSnap) => {

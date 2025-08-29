@@ -17,7 +17,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { SiteSettings, SocialLink } from "@/lib/data";
-import { updateSettings, getSettings, seedSettings } from "@/lib/firestore";
+import { updateSettings, seedSettings } from "@/lib/firestore";
+import { getSettings } from "@/lib/data";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Trash2 } from "lucide-react";
@@ -57,13 +58,14 @@ export default function SettingsPage() {
   useEffect(() => {
     const initAndFetch = async () => {
         setLoading(true);
-        // Ensure settings are seeded if they don't exist
         await seedSettings();
-        const settings = await getSettings();
-        if (settings) {
-            form.reset(settings);
-        }
-        setLoading(false);
+        const unsubscribe = getSettings((settings) => {
+            if (settings) {
+                form.reset(settings);
+            }
+            setLoading(false);
+        });
+        return () => unsubscribe && unsubscribe();
     }
     initAndFetch();
   }, [form]);

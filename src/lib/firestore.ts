@@ -31,20 +31,6 @@ export const addProject = async (project: NewProject): Promise<DocumentReference
   }
 };
 
-export const getProjects = async (): Promise<Project[]> => {
-  try {
-    const projectsQuery = query(collection(db, PROJECTS_COLLECTION), orderBy("title"));
-    const querySnapshot = await getDocs(projectsQuery);
-    return querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    } as Project));
-  } catch (error) {
-    console.error("Error getting documents: ", error);
-    throw new Error("Failed to get projects.");
-  }
-};
-
 export const updateProject = async (projectId: string, project: Partial<NewProject>): Promise<void> => {
   try {
     const projectRef = doc(db, PROJECTS_COLLECTION, projectId);
@@ -94,19 +80,6 @@ export const addTestimonial = async (testimonial: NewTestimonial): Promise<Docum
     } catch (error) {
       console.error("Error adding testimonial: ", error);
       throw new Error("Failed to add testimonial.");
-    }
-  };
-  
-  export const getTestimonials = async (): Promise<Testimonial[]> => {
-    try {
-      const querySnapshot = await getDocs(collection(db, TESTIMONIALS_COLLECTION));
-      return querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      } as Testimonial));
-    } catch (error) {
-      console.error("Error getting testimonials: ", error);
-      throw new Error("Failed to get testimonials.");
     }
   };
   
@@ -161,24 +134,6 @@ export const addMessage = async (message: NewMessage): Promise<DocumentReference
     } catch (error) {
       console.error("Error adding message: ", error);
       throw new Error("Failed to send message.");
-    }
-  };
-
-  export const getMessages = async (): Promise<Message[]> => {
-    try {
-      const messagesQuery = query(collection(db, MESSAGES_COLLECTION), orderBy("submittedAt", "desc"));
-      const querySnapshot = await getDocs(messagesQuery);
-      return querySnapshot.docs.map(doc => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          ...data,
-          submittedAt: data.submittedAt?.toDate(), // Convert Firestore Timestamp to JS Date
-        } as Message;
-      });
-    } catch (error) {
-      console.error("Error getting messages: ", error);
-      throw new Error("Failed to get messages.");
     }
   };
 
@@ -269,27 +224,13 @@ export const getArticleBySlug = async (slug: string): Promise<Article | null> =>
 
 // ----------------- SETTINGS -----------------
 
-export const updateSettings = async (settings: NewSiteSettings): Promise<void> => {
+export const updateSettings = async (settings: Partial<NewSiteSettings>): Promise<void> => {
     try {
       const settingsRef = doc(db, SETTINGS_COLLECTION, 'global');
       await setDoc(settingsRef, settings, { merge: true });
     } catch (error) {
       console.error("Error updating settings: ", error);
       throw new Error("Failed to update settings.");
-    }
-};
-
-export const getSettings = async (): Promise<SiteSettings | null> => {
-    try {
-      const settingsRef = doc(db, SETTINGS_COLLECTION, 'global');
-      const docSnap = await getDoc(settingsRef);
-      if (docSnap.exists()) {
-        return { id: docSnap.id, ...docSnap.data() } as SiteSettings;
-      }
-      return null;
-    } catch (error) {
-      console.error("Error getting settings: ", error);
-      throw new Error("Failed to get settings.");
     }
 };
 
@@ -320,24 +261,6 @@ export const addIntake = async (intake: NewIntake): Promise<DocumentReference> =
   } catch (error) {
     console.error("Error adding intake: ", error);
     throw new Error("Failed to submit intake form.");
-  }
-};
-
-export const getIntakes = async (): Promise<Intake[]> => {
-  try {
-    const intakesQuery = query(collection(db, INTAKES_COLLECTION), orderBy("submittedAt", "desc"));
-    const querySnapshot = await getDocs(intakesQuery);
-    return querySnapshot.docs.map(doc => {
-      const data = doc.data();
-      return {
-        id: doc.id,
-        ...data,
-        submittedAt: data.submittedAt?.toDate(),
-      } as Intake;
-    });
-  } catch (error) {
-    console.error("Error getting intakes: ", error);
-    throw new Error("Failed to get intake submissions.");
   }
 };
 

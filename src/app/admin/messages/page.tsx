@@ -12,7 +12,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { getMessages, deleteMessage } from "@/lib/firestore";
+import { deleteMessage } from "@/lib/firestore";
+import { getMessages } from "@/lib/data";
 import type { Message } from "@/lib/data";
 import { useToast } from "@/hooks/use-toast";
 import { Trash2 } from "lucide-react";
@@ -27,24 +28,12 @@ export default function MessagesPage() {
   const [messageToDelete, setMessageToDelete] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const fetchMessages = async () => {
-    setLoading(true);
-    try {
-      const messagesData = await getMessages();
-      setMessages(messagesData);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch messages.",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchMessages();
+    const unsubscribe = getMessages((fetchedMessages) => {
+      setMessages(fetchedMessages);
+      setLoading(false);
+    });
+    return () => unsubscribe && unsubscribe();
   }, []);
 
   const handleDeleteClick = (messageId: string) => {
@@ -60,7 +49,7 @@ export default function MessagesPage() {
         title: "Success",
         description: "Message deleted successfully.",
       });
-      fetchMessages(); // Refresh the list
+      // UI will update automatically from listener
     } catch (error) {
       toast({
         title: "Error",
