@@ -9,12 +9,13 @@ import { AmpireLogo } from "@/components/logo";
 import { useRouter } from "next/navigation";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useToast } from "@/hooks/use-toast";
+import { app } from "@/lib/firebase";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  const auth = getAuth();
+  const auth = getAuth(app);
   const { toast } = useToast();
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -33,49 +34,53 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-sm">
-        <CardHeader className="text-center">
-          <div className="mb-4 inline-block">
-            <AmpireLogo className="mx-auto" />
-          </div>
-          <CardTitle className="text-2xl font-headline">Admin Login</CardTitle>
-          <CardDescription>Enter your credentials to access the dashboard.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="admin@example.com"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+    <div className="flex min-h-screen items-center justify-center bg-background p-4 relative">
+       <div className="w-full absolute inset-0 h-screen z-0 bg-muted/40">
+       </div>
+       <div className="relative z-10 w-full max-w-sm">
+        <Card>
+            <CardHeader className="text-center">
+            <div className="mb-4 inline-block">
+                <AmpireLogo className="mx-auto text-primary" />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <Button type="submit" className="w-full">
-              Sign In
-            </Button>
-          </form>
-        </CardContent>
-        <CardFooter>
-            <p className="text-xs text-muted-foreground text-center w-full">
-                &copy; {new Date().getFullYear()} AMpire Studio
-            </p>
-        </CardFooter>
-      </Card>
+            <CardTitle className="text-2xl font-headline">Admin Login</CardTitle>
+            <CardDescription>Enter your credentials to access the dashboard.</CardDescription>
+            </CardHeader>
+            <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+                <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                    id="email"
+                    type="email"
+                    placeholder="admin@example.com"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                </div>
+                <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                    id="password"
+                    type="password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                </div>
+                <Button type="submit" className="w-full">
+                Sign In
+                </Button>
+            </form>
+            </CardContent>
+            <CardFooter>
+                <p className="text-xs text-muted-foreground text-center w-full">
+                    &copy; {new Date().getFullYear()} AMpire Studio
+                </p>
+            </CardFooter>
+        </Card>
+       </div>
     </div>
   );
 }
