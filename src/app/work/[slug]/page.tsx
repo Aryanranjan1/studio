@@ -13,9 +13,9 @@ import { Badge } from '@/components/ui/badge';
 import { PortfolioSection } from '@/components/portfolio-section';
 
 export default function ProjectPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
+  const { slug } = params;
 
   useEffect(() => {
     const fetchProject = async () => {
