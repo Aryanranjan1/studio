@@ -130,7 +130,7 @@ export default function DashboardPage() {
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <StatCard title="Pending Projects" value={getProjectCountByStatus('Pending')} icon={Clock} color="text-yellow-500" />
-                <StatCard title="In Progress" value={getProjectCountBy-s('In Progress')} icon={Zap} color="text-blue-500" />
+                <StatCard title="In Progress" value={getProjectCountByStatus('In Progress')} icon={Zap} color="text-blue-500" />
                 <StatCard title="Completed" value={getProjectCountByStatus('Completed')} icon={CheckCircle} color="text-green-500" />
                 <StatCard title="Billed" value={getProjectCountByStatus('Billed')} icon={DollarSign} color="text-purple-500" />
             </div>
