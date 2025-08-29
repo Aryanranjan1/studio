@@ -21,11 +21,11 @@ export const SuccessPopupProvider = ({ children }: { children: ReactNode }) => {
     }, 2000); // Popup will disappear after 2 seconds
   }, []);
 
-  return (
-    <SuccessContext.Provider value={{ showSuccessPopup }}>
-      {children}
-      <SuccessPopup isOpen={isPopupOpen} message={popupMessage} />
-    </SuccessContext.Provider>
+  return React.createElement(
+    SuccessContext.Provider,
+    { value: { showSuccessPopup } },
+    children,
+    React.createElement(SuccessPopup, { isOpen: isPopupOpen, message: popupMessage })
   );
 };
 
