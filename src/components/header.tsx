@@ -5,6 +5,7 @@ import { ThemeSwitcher } from "./theme-switcher";
 
 export function Header() {
   const navLinks = [
+    { name: "Home", href: "/" },
     { name: "Services", href: "/#services" },
     { name: "Work", href: "/work" },
     { name: "About", href: "/about" },
