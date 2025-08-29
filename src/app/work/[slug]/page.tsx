@@ -3,7 +3,7 @@
 
 import { useEffect, useState, use } from 'react';
 import Image from 'next/image';
-import { getProjectBySlug, getProjects } from '@/lib/firestore';
+import { getProjectBySlug } from '@/lib/data';
 import type { Project } from '@/lib/data';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PageTitleHeader } from '@/components/page-title-header';
@@ -11,21 +11,6 @@ import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { Badge } from '@/components/ui/badge';
 import { PortfolioSection } from '@/components/portfolio-section';
-
-
-// This hint is needed to let Next know about the existing routes at build time
-export async function generateStaticParams() {
-    const projects: Project[] = await new Promise((resolve) => {
-      const unsubscribe = getProjects((projects) => {
-        unsubscribe();
-        resolve(projects);
-      });
-    });
-   
-    return projects.map((project) => ({
-      slug: project.slug,
-    }));
-}
 
 export default function ProjectPage({ params }: { params: { slug: string } }) {
   const { slug } = params;
@@ -124,5 +109,3 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
     </div>
   );
 }
-
-    
