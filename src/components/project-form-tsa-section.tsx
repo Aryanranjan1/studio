@@ -9,7 +9,7 @@ export function ProjectFormTsaSection() {
       <div className="absolute inset-0">
         <Image
           src="https://picsum.photos/1200/800"
-          alt="Developer desk"
+          alt="Developer desk with code"
           fill
           className="object-cover"
           data-ai-hint="code laptop"
