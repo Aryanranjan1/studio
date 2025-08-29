@@ -1,16 +1,18 @@
 import { db } from './firebase';
-import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, DocumentReference, writeBatch, serverTimestamp, query, orderBy } from 'firebase/firestore';
-import type { Project, Testimonial, Message } from './data';
-import { sampleProjects, sampleTestimonials } from './data';
+import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, DocumentReference, writeBatch, serverTimestamp, query, orderBy, where, limit, getDoc } from 'firebase/firestore';
+import type { Project, Testimonial, Message, Article } from './data';
+import { sampleProjects, sampleTestimonials, sampleArticles } from './data';
 
 const PROJECTS_COLLECTION = 'projects';
 const TESTIMONIALS_COLLECTION = 'testimonials';
 const MESSAGES_COLLECTION = 'messages';
+const ARTICLES_COLLECTION = 'articles';
 
 // Type for a new project, omitting the 'id' as Firestore will generate it.
 export type NewProject = Omit<Project, 'id'>;
 export type NewTestimonial = Omit<Testimonial, 'id'>;
 export type NewMessage = Omit<Message, 'id' | 'submittedAt'>;
+export type NewArticle = Omit<Article, 'id' | 'createdAt'>;
 
 
 // ----------------- PROJECTS -----------------
@@ -27,7 +29,8 @@ export const addProject = async (project: NewProject): Promise<DocumentReference
 
 export const getProjects = async (): Promise<Project[]> => {
   try {
-    const querySnapshot = await getDocs(collection(db, PROJECTS_COLLECTION));
+    const projectsQuery = query(collection(db, PROJECTS_COLLECTION), orderBy("title"));
+    const querySnapshot = await getDocs(projectsQuery);
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
@@ -184,3 +187,78 @@ export const addMessage = async (message: NewMessage): Promise<DocumentReference
       throw new Error("Failed to delete message.");
     }
   };
+
+
+// ----------------- ARTICLES -----------------
+
+export const addArticle = async (article: NewArticle): Promise<DocumentReference> => {
+    try {
+      const docRef = await addDoc(collection(db, ARTICLES_COLLECTION), {
+        ...article,
+        createdAt: serverTimestamp()
+      });
+      return docRef;
+    } catch (error) {
+      console.error("Error adding article: ", error);
+      throw new Error("Failed to add article.");
+    }
+  };
+  
+export const getArticleBySlug = async (slug: string): Promise<Article | null> => {
+    try {
+        const q = query(collection(db, ARTICLES_COLLECTION), where("slug", "==", slug), limit(1));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.empty) {
+            return null;
+        }
+        const doc = querySnapshot.docs[0];
+        const data = doc.data();
+        return {
+            id: doc.id,
+            ...data,
+            createdAt: data.createdAt?.toDate(),
+        } as Article;
+    } catch (error) {
+        console.error("Error getting article by slug: ", error);
+        throw new Error("Failed to get article.");
+    }
+}
+  
+  export const updateArticle = async (articleId: string, article: Partial<NewArticle>): Promise<void> => {
+    try {
+      const articleRef = doc(db, ARTICLES_COLLECTION, articleId);
+      await updateDoc(articleRef, article);
+    } catch (error) {
+      console.error("Error updating article: ", error);
+      throw new Error("Failed to update article.");
+    }
+  };
+  
+  export const deleteArticle = async (articleId: string): Promise<void> => {
+    try {
+      const articleRef = doc(db, ARTICLES_COLLECTION, articleId);
+      await deleteDoc(articleRef);
+    } catch (error) {
+      console.error("Error deleting article: ", error);
+      throw new Error("Failed to delete article.");
+    }
+  };
+
+  export const seedArticles = async () => {
+    try {
+        const articlesCollection = collection(db, ARTICLES_COLLECTION);
+        const querySnapshot = await getDocs(articlesCollection);
+        if (querySnapshot.empty) {
+            console.log("Articles collection is empty, seeding with sample data...");
+            const batch = writeBatch(db);
+            sampleArticles.forEach((article) => {
+                const docRef = doc(articlesCollection);
+                batch.set(docRef, article);
+            });
+            await batch.commit();
+            console.log("Sample articles have been added to Firestore.");
+        }
+    } catch (error) {
+        console.error("Error seeding articles: ", error);
+    }
+};

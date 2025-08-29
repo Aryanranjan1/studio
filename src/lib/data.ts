@@ -1,4 +1,4 @@
-import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query, orderBy } from "firebase/firestore";
 import { db } from "./firebase";
 
 export interface Project {
@@ -30,6 +30,16 @@ export interface Message {
     submittedAt: Date;
 }
 
+export interface Article {
+    id: string;
+    title: string;
+    slug: string;
+    content: string;
+    imageUrl: string;
+    status: 'draft' | 'published';
+    createdAt: Date;
+}
+
 
 export const fetchProjects = async (): Promise<Project[]> => {
     const querySnapshot = await getDocs(collection(db, "projects"));
@@ -41,7 +51,8 @@ export const fetchProjects = async (): Promise<Project[]> => {
 }
 
 export const getProjects = (callback: (projects: Project[]) => void) => {
-    return onSnapshot(collection(db, "projects"), (querySnapshot) => {
+    const projectsQuery = query(collection(db, "projects"), orderBy("title"));
+    return onSnapshot(projectsQuery, (querySnapshot) => {
         const projects: Project[] = [];
         querySnapshot.forEach((doc) => {
             projects.push({ id: doc.id, ...doc.data() } as Project);
@@ -59,6 +70,23 @@ export const getTestimonials = (callback: (testimonials: Testimonial[]) => void)
         callback(testimonials);
     });
 }
+
+export const getArticles = (callback: (articles: Article[]) => void) => {
+    const articlesQuery = query(collection(db, "articles"), orderBy("createdAt", "desc"));
+    return onSnapshot(articlesQuery, (querySnapshot) => {
+        const articles: Article[] = [];
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            articles.push({ 
+                id: doc.id, 
+                ...data,
+                createdAt: data.createdAt?.toDate(),
+            } as Article);
+        });
+        callback(articles);
+    });
+};
+
 
 export const sampleProjects = [
     {
@@ -136,4 +164,31 @@ export const sampleTestimonials = [
     quote: "From initial concept to final launch, the team was professional, creative, and incredibly responsive. They delivered a mobile app that exceeded all our expectations.",
     avatarUrl: "https://picsum.photos/100/100",
   },
-]
+];
+
+export const sampleArticles = [
+    {
+        title: "The Art of Digital Storytelling in Branding",
+        slug: "art-of-digital-storytelling-in-branding",
+        content: "In a world saturated with content, the ability to tell a compelling story is what separates successful brands from the rest. Digital storytelling isn't just about stringing words together; it's about weaving a narrative across multiple platforms that captivates, engages, and converts your audience. It involves understanding your audience's emotional triggers, crafting a consistent brand voice, and using visuals to enhance the message. From your website's 'About Us' page to your latest social media campaign, every piece of content should contribute to a larger, cohesive brand story. This approach builds trust, fosters loyalty, and ultimately drives business growth. A well-told story doesn't just sell a product; it sells an experience, a lifestyle, and a connection that resonates long after the initial interaction.",
+        imageUrl: "https://picsum.photos/800/400",
+        status: 'published',
+        createdAt: new Date('2023-10-26'),
+    },
+    {
+        title: "5 UI/UX Trends to Watch in the Coming Year",
+        slug: "5-ui-ux-trends-to-watch",
+        content: "The digital landscape is in constant flux, and user interface (UI) and user experience (UX) design are at the forefront of this evolution. As we look ahead, several key trends are emerging that promise to shape how we interact with technology. First, expect to see more immersive experiences powered by augmented and virtual reality (AR/VR). Second, hyper-personalization, driven by AI, will deliver content and interfaces tailored to individual users. Third, neumorphism, a design style that uses soft, subtle shadows and highlights, is making a comeback for a tactile feel. Fourth, voice-activated interfaces (VUIs) will become more integrated into our daily digital lives. Finally, a renewed focus on digital well-being will lead to designs that are more mindful, ethical, and less intrusive. Staying ahead of these trends will be crucial for creating products that are not only functional but also delightful to use.",
+        imageUrl: "https://picsum.photos/800/400",
+        status: 'published',
+        createdAt: new Date('2023-11-15'),
+    },
+    {
+        title: "Why Your Next Web Project Should Be on Next.js",
+        slug: "why-choose-next-js",
+        content: "When it comes to modern web development, choosing the right framework can make all the difference. Next.js, the React framework, has emerged as a dominant force for good reason. It offers a powerful combination of features that streamline development and boost performance. Server-Side Rendering (SSR) and Static Site Generation (SSG) provide incredible speed and SEO benefits. Its file-based routing system is intuitive and simplifies navigation. The built-in image optimization component automatically serves perfectly sized images for any device. Furthermore, its support for API routes allows you to build a full-stack application within a single project. For developers, the fast refresh and robust tooling create a world-class development experience. For businesses, the result is a fast, scalable, and maintainable website that delivers a superior user experience. If you're planning a new web project, Next.js should be at the top of your list.",
+        imageUrl: "https://picsum.photos/800/400",
+        status: 'draft',
+        createdAt: new Date('2023-12-01'),
+    }
+];

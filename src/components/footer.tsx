@@ -23,6 +23,7 @@ const quickLinks = [
   { name: "Home", href: "/" },
   { name: "About Us", href: "/about" },
   { name: "Portfolio", href: "/work" },
+  { name: "Articles", href: "/articles" },
   { name: "Contact", href: "/contact" },
 ];
 
@@ -108,7 +109,6 @@ export function Footer() {
             <div className="flex items-center gap-6 text-sm">
                 <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
                 <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>
-                <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Articles</Link>
             </div>
         </div>
       </div>
