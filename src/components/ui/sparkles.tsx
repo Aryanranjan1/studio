@@ -28,46 +28,61 @@ export const SparklesCore = (props: {
     if (init) {
         const isLight = props.id.includes('light');
         const options = isLight
-          ? {
+          ? { // Light mode options - now using a similar config to dark mode
               background: {
-                color: { value: props.background },
+                color: {
+                  value: props.background,
+                },
               },
               fpsLimit: 60,
-              particles: {
-                number: {
-                  value: props.particleDensity,
-                  density: { enable: true, value_area: 800 },
-                },
-                color: { value: props.particleColor },
-                shape: { type: "triangle" },
-                opacity: { value: 0.2, random: true },
-                size: { value: {min: 3, max: 6}, random: true },
-                move: {
-                  enable: true,
-                  speed: 0.5,
-                  direction: "none",
-                  random: true,
-                  straight: false,
-                  out_mode: "out",
-                  bounce: false,
-                },
-                links: {
-                    enable: true,
-                    distance: 150,
-                    color: "#999999",
-                    opacity: 0.1,
-                    width: 1
-                }
-              },
               interactivity: {
-                detect_on: "canvas",
                 events: {
-                  onhover: { enable: true, mode: "repulse" },
-                  resize: true,
+                  onHover: {
+                    enable: true,
+                    mode: "bubble",
+                  },
                 },
                 modes: {
-                    repulse: { distance: 50, duration: 0.4 },
-                }
+                  bubble: {
+                    distance: 150,
+                    size: 2,
+                    duration: 2,
+                    opacity: 0.8,
+                  },
+                },
+              },
+              particles: {
+                color: {
+                  value: props.particleColor, // Kept the purple color
+                },
+                links: {
+                  enable: false,
+                },
+                move: {
+                  direction: "none",
+                  enable: true,
+                  outModes: {
+                    default: "out",
+                  },
+                  random: true,
+                  speed: 0.1,
+                  straight: false,
+                },
+                number: {
+                  density: {
+                    enable: true,
+                  },
+                  value: props.particleDensity,
+                },
+                opacity: {
+                  value: {min: 0.1, max: 0.5},
+                },
+                shape: {
+                  type: "circle",
+                },
+                size: {
+                  value: { min: props.minSize, max: props.maxSize },
+                },
               },
               detectRetina: true,
             }
