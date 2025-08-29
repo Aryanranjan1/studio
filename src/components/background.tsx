@@ -26,7 +26,7 @@ export function Background() {
                     maxSize={1.5}
                     particleDensity={30}
                     className="w-full h-full"
-                    particleColor="#888888"
+                    particleColor="#9333ea"
                 />
             )}
         </div>
