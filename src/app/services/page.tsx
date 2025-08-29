@@ -1,6 +1,11 @@
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { ServiceCategorySection } from '@/components/service-category-section';
+import { ProcessSection } from '@/components/process-section';
+import { AdvantageSection } from '@/components/advantage-section';
+import { TestimonialSection } from '@/components/testimonial-section';
+import { ContactSection } from '@/components/contact-section';
+import { FaqSection } from '@/components/faq-section';
 
 export default function ServicesPage() {
   return (
@@ -8,6 +13,11 @@ export default function ServicesPage() {
       <Header />
       <main className="flex-1">
         <ServiceCategorySection />
+        <ProcessSection />
+        <AdvantageSection />
+        <TestimonialSection />
+        <ContactSection />
+        <FaqSection />
       </main>
       <Footer />
     </div>

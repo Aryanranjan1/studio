@@ -2,6 +2,8 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { AboutSection } from '@/components/about-section';
 import { TestimonialSection } from '@/components/testimonial-section';
+import { AdvantageSection } from '@/components/advantage-section';
+import { ProcessSection } from '@/components/process-section';
 
 export default function AboutPage() {
   return (
@@ -9,7 +11,10 @@ export default function AboutPage() {
       <Header />
       <main className="flex-1">
         <AboutSection />
+        <AdvantageSection />
+        <ProcessSection />
         <TestimonialSection className="bg-white/5 backdrop-blur-sm" />
+        <TestimonialSection />
       </main>
       <Footer />
     </div>
