@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { AmpireLogo } from "./logo";
 import { Button } from "./ui/button";
-import { ThemeToggle } from "./theme-toggle";
 
 export function Header() {
   const navLinks = [
@@ -29,7 +28,6 @@ export function Header() {
           ))}
         </nav>
         <div className="ml-auto flex items-center gap-2 md:ml-6">
-          <ThemeToggle />
           <Button asChild>
             <Link href="/contact">Get in touch</Link>
           </Button>
