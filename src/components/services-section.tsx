@@ -7,21 +7,28 @@ import { ScrollReveal } from './scroll-reveal';
 import { cn } from '@/lib/utils';
 
 const serviceImages = [
-    'https://picsum.photos/seed/branding-service/600/400',
     'https://picsum.photos/seed/uiux-service/600/400',
     'https://picsum.photos/seed/webdev-service/600/400',
     'https://picsum.photos/seed/mobile-service/600/400',
     'https://picsum.photos/seed/ecomm-service/600/400',
-    'https://picsum.photos/seed/marketing-service/600/400',
+    'https://picsum.photos/seed/marketing-service/600/400', // This will now be SEO
+    'https://picsum.photos/seed/branding-service/600/400', // This will now be Automation
 ]
+
+const servicesToShow = ["UI/UX Design", "Web Development", "Mobile App", "E-commerce", "SEO Service", "Automation"];
 
 interface ServicesSectionProps {
   className?: string;
 }
 
 export function ServicesSection({ className }: ServicesSectionProps) {
-    const services = getServices();
-    const menuItems = services.map((service, index) => ({
+    const allServices = getServices();
+    
+    // In a real app with more services, you might fetch specific service images.
+    // For now, we're just filtering the list of services to show.
+    const filteredServices = allServices.filter(service => servicesToShow.includes(service.title));
+
+    const menuItems = filteredServices.map((service, index) => ({
         link: `/services/${service.slug}`,
         text: service.title,
         image: serviceImages[index]

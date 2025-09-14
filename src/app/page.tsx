@@ -15,8 +15,8 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <HeroSection />
-        <ServicesSection />
-        <PortfolioSection className="bg-alt" />
+        <PortfolioSection />
+        <ServicesSection className="bg-alt" />
         <AdvantageSection />
         <ProcessSection className="bg-alt" />
         <TestimonialSection />
