@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -21,13 +22,24 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let projectsLoaded = false;
+    let servicesLoaded = false;
+
+    const checkLoading = () => {
+        if (projectsLoaded && servicesLoaded) {
+            setLoading(false);
+        }
+    }
+
     const unsubProjects = getProjects((fetchedProjects) => {
       setProjects(fetchedProjects);
-      if (services.length > 0) setLoading(false);
+      projectsLoaded = true;
+      checkLoading();
     });
     const unsubServices = getServices((fetchedServices) => {
         setServices(fetchedServices);
-        if (projects.length > 0 || fetchedServices.length > 0) setLoading(false);
+        servicesLoaded = true;
+        checkLoading();
     });
     return () => {
         unsubProjects();
