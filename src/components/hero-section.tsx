@@ -95,20 +95,27 @@ const menuItems = [
 const HeroHeader = () => {
     const [menuState, setMenuState] = React.useState(false)
     const [scrolled, setScrolled] = React.useState(false)
-    const { scrollYProgress } = useScroll()
+    const [visible, setVisible] = React.useState(true);
+    const [lastScrollY, setLastScrollY] = React.useState(0);
+    const { scrollY } = useScroll();
 
     React.useEffect(() => {
-        const unsubscribe = scrollYProgress.on('change', (latest) => {
-            setScrolled(latest > 0.05)
+        return scrollY.on("change", (latest) => {
+            setScrolled(latest > 50);
+            if (latest > lastScrollY && latest > 100) {
+                setVisible(false);
+            } else {
+                setVisible(true);
+            }
+            setLastScrollY(latest);
         })
-        return () => unsubscribe()
-    }, [scrollYProgress])
+    }, [scrollY, lastScrollY]);
 
     return (
         <header>
             <nav
                 data-state={menuState && 'active'}
-                className="group fixed z-20 w-full pt-2">
+                className={cn('group fixed z-20 w-full pt-2 transition-transform duration-300', visible ? 'translate-y-0' : '-translate-y-full')}>
                 <div className={cn('mx-auto max-w-7xl rounded-3xl px-6 transition-all duration-300 lg:px-12', scrolled && 'bg-background/50 backdrop-blur-2xl')}>
                     <motion.div
                         key={1}
