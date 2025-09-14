@@ -4,6 +4,7 @@ import { PortfolioSection } from '@/components/portfolio-section';
 import { AdvantageSection } from '@/components/advantage-section';
 import { TestimonialSection } from '@/components/testimonial-section';
 import { TsaSection } from '@/components/tsa-section';
+import { ProcessSection } from '@/components/process-section';
 
 export default function WorkPage() {
   return (
@@ -11,8 +12,9 @@ export default function WorkPage() {
       <main className="flex-1">
         <PortfolioSection />
         <AdvantageSection />
-        <TestimonialSection className="bg-alt" />
-        <TsaSection />
+        <ProcessSection className="bg-alt" />
+        <TestimonialSection />
+        <TsaSection className="bg-alt" />
       </main>
       <Footer />
     </div>

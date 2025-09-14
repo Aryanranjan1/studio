@@ -4,6 +4,7 @@ import { ServiceCategorySection } from '@/components/service-category-section';
 import { AdvantageSection } from '@/components/advantage-section';
 import { TestimonialSection } from '@/components/testimonial-section';
 import { TsaSection } from '@/components/tsa-section';
+import { ProcessSection } from '@/components/process-section';
 
 export default function ServicesPage() {
   return (
@@ -11,8 +12,9 @@ export default function ServicesPage() {
       <main className="flex-1">
         <ServiceCategorySection />
         <AdvantageSection />
-        <TestimonialSection className="bg-alt" />
-        <TsaSection />
+        <ProcessSection className="bg-alt" />
+        <TestimonialSection />
+        <TsaSection className="bg-alt" />
       </main>
       <Footer />
     </div>
