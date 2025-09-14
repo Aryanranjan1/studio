@@ -24,8 +24,8 @@ export default function RootLayout({
   const navLinks = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
     { label: 'About', ariaLabel: 'Learn about us', link: '/about' },
-    { label: 'How it works', ariaLabel: 'View our process', link: '/services' },
-    { label: 'Pricing', ariaLabel: 'View our pricing', link: '/contact' }
+    { label: 'Services', ariaLabel: 'View our process', link: '/services' },
+    { label: 'Contact', ariaLabel: 'View our pricing', link: '/contact' }
   ];
   const socialLinks = settings.socials.map(s => ({ label: s.platform, link: s.href }));
 

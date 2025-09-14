@@ -5,15 +5,15 @@ import { Typewriter } from "./typewriter";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-transparent py-32 md:py-40 lg:py-48 h-auto flex items-center justify-center">
+    <section className="relative overflow-hidden bg-accent/50 py-32 md:py-40 lg:py-48 h-auto flex items-center justify-center rounded-b-3xl">
       <div className="container relative z-10">
         <div className="mx-auto max-w-4xl text-center">
           <div className="animate-in fade-in slide-in-from-bottom-12 duration-1000 ease-out">
-            <div className="relative inline-block rounded-3xl">
+            <div className="relative inline-block">
                 <Typewriter 
                   as="h1"
                   texts="We Don't Just Build Websites, We Build Empires."
-                  className="font-headline text-5xl font-bold tracking-tight text-primary sm:text-6xl md:text-7xl"
+                  className="font-headline text-5xl font-bold tracking-tight text-foreground sm:text-6xl md:text-7xl"
                 />
                 <Typewriter
                   texts={[
