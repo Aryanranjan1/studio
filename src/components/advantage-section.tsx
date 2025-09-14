@@ -6,38 +6,38 @@ import { cn } from '@/lib/utils';
 const advantages = [
   {
     icon: <ProvenExpertiseIcon />,
-    title: 'Proven Expertise',
-    description: 'Our team combines years of experience with cutting-edge technologies to deliver exceptional results.',
+    title: 'Clarity Over Confusion',
+    description: "We demystify technology, offering clear solutions with trusted stacks like WordPress for flexibility and Next.js for performance.",
   },
   {
     icon: <TransparentPricingIcon />,
-    title: 'Transparent Pricing',
-    description: "No hidden fees. We offer competitive rates with clear breakdowns of what you're paying for.",
+    title: 'Visible Results',
+    description: "We make you visible online with proven SEO strategies that bring targeted traffic and valuable leads to your digital doorstep.",
   },
   {
     icon: <DedicatedSupportIcon />,
-    title: 'Dedicated Support',
-    description: 'We provide ongoing support and maintenance to ensure your digital assets remain optimal.',
+    title: 'Automated Efficiency',
+    description: "We save you time and streamline your operations by building custom automations that handle your repetitive, time-consuming tasks.",
   },
   {
     icon: <FastTurnaroundIcon />,
-    title: 'Fast Turnaround',
-    description: 'We respect your time with efficient processes that deliver quality results without unnecessary delays.',
+    title: 'Built to Scale',
+    description: 'We help you grow with custom apps, integrations, and performance-focused websites that can handle more users and complexity.',
   },
 ];
 
 const commitments = [
     {
-      title: 'Strategic Approach',
-      description: 'We analyze your business objectives to create solutions that align with your goals.',
+      title: 'For Small Businesses & Startups',
+      description: "We give you a professional digital identity that looks modern, performs flawlessly, and doesn't break the bank.",
     },
     {
-      title: 'Quality Assurance',
-      description: 'Rigorous testing ensures flawless performance across all devices and platforms.',
+      title: 'For Influencers & Personal Brands',
+      description: 'We craft sleek, customized websites that perfectly reflect your personal brand and integrate seamlessly with your social media.',
     },
     {
-      title: 'Client-Centric Process',
-      description: 'Regular updates and collaboration ensure the final product exceeds expectations.',
+      title: 'For Growing Brands',
+      description: 'Ready to scale? We provide the SEO, automation, and custom app development you need to gain a competitive edge.',
     },
 ]
 
@@ -62,12 +62,12 @@ export function AdvantageSection({ className }: AdvantageSectionProps) {
       <div className="container">
         <ScrollReveal>
           <div className="text-center max-w-3xl mx-auto">
-            <p className="font-headline text-sm font-semibold uppercase tracking-wider text-primary">Why Choose Us</p>
+            <p className="font-headline text-sm font-semibold uppercase tracking-wider text-primary">What We Solve</p>
             <h2 className="font-headline mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-              The AMpire Studio Advantage
+              The Ampire Studios Advantage
             </h2>
             <p className="mt-6 text-lg text-foreground/80">
-              We don't just deliver projects - we build partnerships that drive real business results.
+              You're facing scaling challenges, tech confusion, and online invisibility. We provide the solutions to help you claim your digital throne.
             </p>
           </div>
         </ScrollReveal>
@@ -91,9 +91,9 @@ export function AdvantageSection({ className }: AdvantageSectionProps) {
         <div className="mt-24 grid grid-cols-1 lg:grid-cols-2 gap-16">
           <ScrollReveal className="slide-reveal-left">
             <div>
-              <h3 className="font-headline text-3xl font-bold text-foreground">Our Commitment to Excellence</h3>
+              <h3 className="font-headline text-3xl font-bold text-foreground">Solutions For Your Stage</h3>
               <p className="mt-4 text-foreground/80">
-                At AMpire Studio, we approach every project with the same level of dedication and professionalism, whether it's a small business website or a complex enterprise application.
+                Whether you're just starting out or ready to scale, we tailor our approach to fit your unique needs. We're not just a service provider; we're your dedicated digital partner.
               </p>
               <ul className="mt-8 space-y-6">
                 {commitments.map((commitment) => (
@@ -112,7 +112,7 @@ export function AdvantageSection({ className }: AdvantageSectionProps) {
             <div>
                 <h3 className="font-headline text-3xl font-bold text-foreground">Technologies We Master</h3>
                 <p className="mt-4 text-foreground/80">
-                    We stay at the forefront of technology to deliver modern, scalable solutions for our clients.
+                    We stay at the forefront of technology to deliver modern, scalable, and future-proof solutions for our clients.
                 </p>
                 <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                     {technologies.map((tech) => (
@@ -252,8 +252,8 @@ function ProvenExpertiseIcon() {
   return (
     <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            <path d="m9 12 2 2 4-4"></path>
+           <path d="M4 11a8 8 0 0 1 0-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8 8 8 0 0 1 0-8z"></path>
+           <path d="m12 12 7 7"></path>
         </svg>
     </div>
   );
@@ -263,8 +263,9 @@ function TransparentPricingIcon() {
     return (
         <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2a10 10 0 1 0 10 10H12V2z"></path>
-                <path d="M12 12a5 5 0 1 1-5-5"></path>
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
             </svg>
         </div>
     );
@@ -274,8 +275,8 @@ function DedicatedSupportIcon() {
     return (
         <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21.2 8.8a5.5 5.5 0 0 0-7.8 0L12 10l-1.4-1.2a5.5 5.5 0 0 0-7.8 0c-2.3 2.3-2.3 6.1 0 8.5l7.8 7.8 7.8-7.8c2.3-2.3 2.3-6.1 0-8.5z"></path>
-                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+               <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 0 2l-.15.08a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1 0-2l.15-.08a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
             </svg>
         </div>
     );
@@ -285,7 +286,9 @@ function FastTurnaroundIcon() {
     return (
         <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+               <path d="M12 2L2 7l10 5 10-5L12 2z"></path>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
             </svg>
         </div>
     );

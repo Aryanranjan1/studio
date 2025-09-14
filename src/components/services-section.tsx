@@ -42,10 +42,10 @@ export function ServicesSection({ className }: ServicesSectionProps) {
         <ScrollReveal>
           <div className="text-center">
             <h2 className="font-headline text-4xl font-bold tracking-tight text-primary sm:text-5xl">
-              Our Capabilities
+              Our Arsenal
             </h2>
             <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
-              We offer a comprehensive suite of design and development services to bring your vision to life.
+              From crafting your brand identity to scaling your business with custom tech, we provide the tools you need to conquer the digital world.
             </p>
           </div>
         </ScrollReveal>

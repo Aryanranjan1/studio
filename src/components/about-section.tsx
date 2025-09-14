@@ -11,23 +11,29 @@ export function AboutSection() {
             <ScrollReveal className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden slide-reveal-left">
                 <Card className="h-full w-full border-white/20 bg-background/50 shadow-lg backdrop-blur-lg">
                     <Image 
-                        src="https://picsum.photos/800/600"
-                        alt="Our Team"
+                        src="https://picsum.photos/seed/about-us/800/600"
+                        alt="Ampire Studios Team"
                         fill
                         className="object-cover"
-                        data-ai-hint="team business"
+                        data-ai-hint="team collaboration"
                     />
                 </Card>
             </ScrollReveal>
             <ScrollReveal className="slide-reveal-right">
               <h2 className="font-headline text-4xl font-bold tracking-tight text-primary sm:text-5xl">
-                About AMpire Studio
+                Our Brand Story
               </h2>
               <p className="mt-6 text-lg text-foreground/80">
-                We are a passionate team of designers, developers, and strategists dedicated to crafting exceptional digital experiences. Our studio thrives on collaboration, innovation, and a shared commitment to pushing the boundaries of design and technology.
+                At Ampire Studios, we believe every brand deserves its crown. That’s why our symbol is a crown—because we exist to help businesses and creators rise above the noise and claim their digital throne.
               </p>
               <p className="mt-4 text-lg text-foreground/80">
-                Our mission is to translate your ideas into powerful digital solutions that not only look beautiful but also perform flawlessly. We believe in building partnerships with our clients, working together to achieve outstanding results.
+                We started with a simple vision: to design and build websites that don’t just look good, but work hard. For small businesses, influencers, and growing brands, we craft digital experiences that attract, engage, and convert. From sleek WordPress builds to powerful Next.js applications, our work blends creativity with technology to deliver results that last.
+              </p>
+              <p className="mt-4 text-lg text-foreground/80">
+                With a modern aesthetic shaped by Space Grotesk and Inter, and a bold color palette led by vibrant purple, our brand is designed to be clean, timeless, and unmistakably digital. At Ampire Studios, we’re not just building websites—we’re building empires.
+              </p>
+              <p className="mt-6 font-headline text-xl font-bold text-primary">
+                Built For You. Crowned By Us. 👑
               </p>
             </ScrollReveal>
           </div>

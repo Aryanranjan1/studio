@@ -53,7 +53,7 @@ export function AdminHeader() {
                 <div className="flex h-16 items-center border-b px-6">
                     <Link href="/" className="flex items-center gap-2">
                         <AmpireLogo className="text-primary" />
-                        <span className="font-headline text-xl font-bold">AMpire Studio</span>
+                        <span className="font-headline text-xl font-bold">Ampire Studios</span>
                     </Link>
                 </div>
                 <div className="flex h-[calc(100vh-4rem)] flex-col justify-between">

@@ -8,11 +8,11 @@ export function ProjectFormTsaSection() {
     <section className="relative py-24 sm:py-32">
       <div className="absolute inset-0">
         <Image
-          src="https://picsum.photos/1200/800"
+          src="https://picsum.photos/seed/project-cta/1200/800"
           alt="Developer desk with code"
           fill
           className="object-cover"
-          data-ai-hint="code laptop"
+          data-ai-hint="code computer"
         />
         <div className="absolute inset-0 bg-black/60"></div>
       </div>
@@ -20,14 +20,14 @@ export function ProjectFormTsaSection() {
         <ScrollReveal>
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="font-headline text-4xl font-bold tracking-tight text-white sm:text-5xl">
-              Have a Project in Mind?
+              Ready to Claim Your Throne?
             </h2>
             <p className="mt-6 text-lg text-white/80">
-              Let's talk about how we can work together to create something amazing.
+              Let's talk about how we can build your digital empire together.
             </p>
             <div className="mt-10">
               <Button size="lg" asChild>
-                <Link href="/contact">Get a Free Consultation</Link>
+                <Link href="/project-intake">Start Your Project</Link>
               </Button>
             </div>
           </div>

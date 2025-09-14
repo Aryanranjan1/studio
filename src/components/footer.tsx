@@ -33,12 +33,12 @@ const socialIcons: { [key in SocialLink['platform']]: LucideIcon | ((props: Reac
 };
 
 const serviceLinks = [
-    { name: "Web Design & Development", href: "/#services" },
-    { name: "E-Commerce Solutions", href: "/#services" },
-    { name: "Branding & Graphic Design", href: "/#services" },
-    { name: "Social Media Management", href: "/#services" },
-    { name: "SEO & Digital Marketing", href: "/#services" },
-    { name: "Mobile App Development", href: "/#services" },
+    { name: "Web Design & Development", href: "/services" },
+    { name: "E-Commerce Solutions", href: "/services" },
+    { name: "Branding & Graphic Design", href: "/services" },
+    { name: "SEO Strategies", href: "/services" },
+    { name: "Custom Automations", href: "/services" },
+    { name: "Mobile App Development", href: "/services" },
 ];
 
 const quickLinks = [
@@ -63,14 +63,14 @@ export function Footer() {
     <footer className="border-t dark:border-white/10 dark:bg-background/50 dark:backdrop-blur-lg">
       <div className="container py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* AMpire Studio */}
+          {/* Ampire Studios */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
               <AmpireLogo className="text-primary" />
-              <span className="font-headline text-xl font-bold">AMpire Studio</span>
+              <span className="font-headline text-xl font-bold">Ampire Studios</span>
             </Link>
             <p className="text-muted-foreground text-sm">
-              We help businesses establish, enhance, and grow their digital presence through strategic design and development solutions.
+              We help businesses and creators rise above the noise and claim their digital throne.
             </p>
             <div className="flex items-center gap-2">
               {settings?.socials?.map((link) => {
@@ -145,9 +145,14 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-8 border-t dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-muted-foreground">
-                &copy; {new Date().getFullYear()} AMpire Studio. All rights reserved.
-            </p>
+            <div className="text-center md:text-left">
+                <p className="text-sm text-muted-foreground">
+                    &copy; {new Date().getFullYear()} Ampire Studios. All rights reserved.
+                </p>
+                <p className="text-sm text-muted-foreground mt-1 font-headline">
+                    Built For You. Crowned By Us. 👑
+                </p>
+            </div>
             <div className="flex items-center gap-6 text-sm">
                 <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
                 <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>

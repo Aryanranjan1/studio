@@ -282,43 +282,43 @@ export const sampleServices: Omit<Service, 'id'>[] = [
     {
         title: 'Branding',
         slug: 'branding',
-        description: 'We craft unique brand identities that tell your story and resonate with your audience.',
+        description: 'We craft unique brand identities that tell your story and help you claim your digital throne.',
         longDescription: 'Our branding process is a deep dive into your company\'s essence. We start with understanding your mission, vision, and values. From there, we develop a comprehensive brand strategy that informs every design decision. This includes logo design, color palette selection, typography, and voice & tone guidelines. We create a complete visual identity system that ensures consistency across all your marketing materials, from your website to your social media profiles to your business cards. The result is a powerful, cohesive brand that builds trust and loyalty.',
         icon: 'Branding',
     },
     {
         title: 'UI/UX Design',
         slug: 'ui-ux-design',
-        description: 'We design intuitive and beautiful user interfaces for exceptional digital experiences.',
+        description: 'We design intuitive and beautiful user interfaces that captivate and convert.',
         longDescription: 'User-Experience (UX) and User-Interface (UI) are at the heart of everything we build. Our design process is human-centered, starting with in-depth research to understand your users\' needs, behaviors, and pain points. We create detailed user personas and journey maps to guide the design. From there, we move to wireframing and prototyping, creating interactive models of the user flow. Finally, we craft a visually stunning UI that is not only beautiful but also accessible and easy to use. Our goal is to create seamless, engaging experiences that users love.',
         icon: 'UI/UX Design',
     },
     {
         title: 'Web Development',
         slug: 'web-development',
-        description: 'We build fast, responsive, and scalable websites using modern technologies.',
-        longDescription: 'Our web development team specializes in building high-performance websites that are both visually stunning and technically sound. We use modern frameworks like Next.js and React to create fast, scalable, and SEO-friendly sites. We follow best practices for coding, ensuring your website is maintainable and secure. Whether you need a simple marketing site, a complex web application, or a headless CMS integration, we have the expertise to deliver a solution that meets your specific needs and exceeds your expectations.',
+        description: 'We build fast, responsive, and scalable websites using modern technologies like Next.js and WordPress.',
+        longDescription: 'Our web development team specializes in building high-performance websites that are both visually stunning and technically sound. We use modern frameworks like Next.js for performance and trusted platforms like WordPress for flexibility. We follow best practices for coding, ensuring your website is maintainable and secure. Whether you need a simple marketing site, a complex web application, or a headless CMS integration, we have the expertise to deliver a solution that meets your specific needs and exceeds your expectations.',
         icon: 'Web Development',
     },
     {
         title: 'Mobile App',
         slug: 'mobile-app',
-        description: 'We design and develop high-performance mobile applications for iOS and Android.',
-        longDescription: 'We build native and cross-platform mobile apps that deliver a fantastic user experience. Our team handles the entire lifecycle, from ideation and design to development, testing, and App Store submission. We focus on performance, security, and scalability, ensuring your app can grow with your user base. Whether you need a simple utility app or a complex social network, we have the skills to bring your mobile vision to life on both iOS and Android platforms.',
+        description: 'We design and develop high-performance mobile applications that amplify your impact.',
+        longDescription: 'We build native and cross-platform mobile apps that deliver a fantastic user experience. Our team handles the entire lifecycle, from ideation and design to development, testing, and App Store submission. We focus on performance, security, and scalability, ensuring your app can grow with your user base. Whether you need a simple utility app to streamline your workflow or a complex social network to build a community, we have the skills to bring your mobile vision to life.',
         icon: 'Mobile App',
     },
     {
         title: 'E-commerce',
         slug: 'e-commerce',
-        description: 'We develop robust e-commerce solutions that drive sales and customer loyalty.',
+        description: 'We develop robust e-commerce solutions that drive sales and help you scale.',
         longDescription: 'We create powerful e-commerce experiences on platforms like Shopify, as well as custom-built solutions. Our focus is on creating a seamless shopping journey for your customers, from product discovery to checkout. We integrate secure payment gateways, manage complex product catalogs, and optimize for conversions. We can also build custom features like subscription models, customer accounts, and loyalty programs to help you build a thriving online business.',
         icon: 'E-commerce',
     },
     {
         title: 'Marketing',
         slug: 'marketing',
-        description: 'We execute data-driven marketing strategies to grow your reach and impact.',
-        longDescription: 'Our digital marketing services are designed to help you reach your target audience and achieve your business goals. We develop comprehensive strategies that can include Search Engine Optimization (SEO), Pay-Per-Click (PPC) advertising, social media management, content marketing, and email campaigns. We are data-driven, constantly analyzing performance and optimizing our campaigns to deliver the best possible return on investment. Let us help you grow your brand and connect with more customers online.',
+        description: 'We execute data-driven SEO and marketing strategies to make you visible online.',
+        longDescription: 'Our digital marketing services are designed to help you reach your target audience and achieve your business goals. We develop comprehensive strategies that include Search Engine Optimization (SEO) to make you visible in search results, Pay-Per-Click (PPC) advertising, and custom automations to save you time. We are data-driven, constantly analyzing performance and optimizing our campaigns to deliver the best possible return on investment. Let us help you grow your brand and connect with more customers online.',
         icon: 'Marketing',
     }
 ];
@@ -328,7 +328,7 @@ export const sampleTestimonials: Omit<Testimonial, 'id'>[] = [
     name: "Aisha Khan",
     title: "CEO",
     company: "Helia Skincare",
-    quote: "Working with AMpire Studio was a dream. They took our vision and translated it into a brand that is both beautiful and authentic. Their attention to detail is unmatched.",
+    quote: "Working with Ampire Studios was a dream. They took our vision and translated it into a brand that is both beautiful and authentic. Their attention to detail is unmatched.",
     avatarUrl: "https://picsum.photos/seed/person1/100/100",
   },
   {
@@ -388,7 +388,7 @@ export const allArticleTags = Array.from(new Set(sampleServices.map(a => a.title
 
 
 export const sampleSettings: Omit<SiteSettings, 'id'> = {
-    contactEmail: "contact@ampirestudio.com",
+    contactEmail: "contact@ampirestudios.com",
     contactPhone: "+1 (555) 123-4567",
     address: "Kuala Lumpur, Malaysia",
     socials: [

@@ -7,8 +7,8 @@ import { AuthProvider } from '@/hooks/use-auth';
 import { SuccessPopupProvider } from '@/hooks/use-success-popup';
 
 export const metadata: Metadata = {
-  title: 'AMpire Studio Dynamic Showcase',
-  description: 'A dynamic portfolio for AMpire Studio',
+  title: 'Ampire Studios | Built For You. Crowned By Us.',
+  description: 'We help businesses and creators rise above the noise and claim their digital throne. We craft digital experiences that attract, engage, and convert.',
 };
 
 export default function RootLayout({

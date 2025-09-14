@@ -12,15 +12,14 @@ export function HeroSection() {
             <div className="relative inline-block rounded-3xl">
                 <Typewriter 
                   as="h1"
-                  texts="We Craft Digital Excellence"
+                  texts="We Don't Just Build Websites, We Build Empires."
                   className="font-headline text-5xl font-bold tracking-tight text-primary sm:text-6xl md:text-7xl"
                 />
                 <Typewriter
                   texts={[
-                    "AMpire Studio is a creative powerhouse specializing in UI/UX design.",
-                    "We build stunning, user-centric digital experiences.",
-                    "We specialize in branding and web development.",
-                    "Our digital experiences captivate and convert.",
+                    "For small businesses, influencers, and growing brands.",
+                    "We craft digital experiences that attract, engage, and convert.",
+                    "Claim your digital throne.",
                   ]}
                   className="mt-6 text-lg leading-8 text-foreground/80 md:text-xl min-h-[56px] md:min-h-[64px]"
                 />
@@ -32,7 +31,7 @@ export function HeroSection() {
                 </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <Link href="/#contact">Get in Touch</Link>
+                <Link href="/contact">Claim Your Throne</Link>
               </Button>
             </div>
           </div>

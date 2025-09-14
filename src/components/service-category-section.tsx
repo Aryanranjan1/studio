@@ -44,7 +44,7 @@ export function ServiceCategorySection({ className }: ServiceCategorySectionProp
               Our Services
             </h2>
             <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
-              We offer a comprehensive suite of design and development services to bring your vision to life, from initial concept to final launch and beyond.
+              We offer a comprehensive suite of services to build your digital empire, from crafting your brand's identity to scaling your operations with custom technology.
             </p>
           </div>
         </ScrollReveal>
