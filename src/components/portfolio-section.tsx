@@ -15,6 +15,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ArrowRight, Plus, Minus } from "lucide-react";
+import { useState } from "react";
 
 interface PortfolioSectionProps {
   className?: string;
@@ -24,11 +25,14 @@ interface PortfolioSectionProps {
 export function PortfolioSection({ className, filterBy }: PortfolioSectionProps) {
   const allProjects = getProjects();
   const allServices = getServices();
+  const [value, setValue] = useState(allServices.length > 0 ? allServices.filter(s => s.title !== "Marketing" && s.title !== "Branding")[0]?.title : '');
+
 
   // Filter services if a filter is provided
-  const servicesToShow = filterBy
+  const servicesToShow = (filterBy
     ? allServices.filter((s) => s.title === filterBy)
-    : allServices;
+    : allServices
+  ).filter(s => s.title !== "Marketing" && s.title !== "Branding");
 
   return (
     <section id="portfolio" className={cn("py-24 sm:py-32", className)}>
@@ -50,7 +54,8 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
             type="single"
             collapsible
             className="w-full space-y-4"
-            defaultValue={servicesToShow[0]?.title}
+            value={value}
+            onValueChange={setValue}
           >
             {servicesToShow.map((service) => {
               const serviceProjects = allProjects.filter((p) =>
@@ -61,6 +66,7 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
                   key={service.id}
                   value={service.title}
                   className="border rounded-2xl bg-card overflow-hidden"
+                  onMouseEnter={() => setValue(service.title)}
                 >
                   <AccordionTrigger className="p-6 text-xl font-headline hover:no-underline [&[data-state=open]>svg.plus]:hidden [&[data-state=closed]>svg.minus]:hidden">
                     <div className="flex items-center gap-4">
