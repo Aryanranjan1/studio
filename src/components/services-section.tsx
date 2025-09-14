@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
@@ -34,7 +34,7 @@ const servicesData = [
     imageUrl: 'https://picsum.photos/seed/automation/800/600',
     imageHint: 'business process automation',
     icon: <Zap className="h-8 w-8" />,
-    href: '/services/marketing', // Assuming automation falls under marketing/ops
+    href: '/services/marketing',
   },
   {
     id: 4,
@@ -53,10 +53,37 @@ interface ServicesSectionProps {
 
 export function ServicesSection({ className }: ServicesSectionProps) {
   const [activeService, setActiveService] = useState(servicesData[0]);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  // Scroll detection logic
+  useEffect(() => {
+    const handleScroll = () => {
+      if (sectionRef.current) {
+        const { top, bottom, height } = sectionRef.current.getBoundingClientRect();
+        const sectionThird = height / 4;
+        const scrollPosition = window.innerHeight - top;
+
+        if (scrollPosition > 0 && top < window.innerHeight && bottom > 0) {
+           if (scrollPosition > sectionThird * 3) {
+             setActiveService(servicesData[3]);
+           } else if (scrollPosition > sectionThird * 2) {
+             setActiveService(servicesData[2]);
+           } else if (scrollPosition > sectionThird) {
+             setActiveService(servicesData[1]);
+           } else {
+             setActiveService(servicesData[0]);
+           }
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <section id="services" className={cn('py-24 sm:py-32', className)}>
-      <div className="container">
+    <section ref={sectionRef} id="services" className={cn('py-24 sm:py-32 h-[150vh]', className)}>
+      <div className="container sticky top-24">
         <ScrollReveal>
           <div className="text-center max-w-3xl mx-auto">
              <h2 className="font-headline text-4xl font-bold tracking-tight text-primary sm:text-5xl">
@@ -68,69 +95,59 @@ export function ServicesSection({ className }: ServicesSectionProps) {
           </div>
         </ScrollReveal>
 
-        <div className="mt-20 grid grid-cols-1 items-center gap-16 lg:grid-cols-12">
-          {/* Left Column: Service Selector */}
-          <ScrollReveal className="lg:col-span-4" delay={200}>
-            <div className="flex flex-col gap-4">
+        <div className="mt-20 grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-16 h-[500px]">
+          {/* Left Column: Image */}
+          <div className="lg:col-span-5 h-full relative">
+             <Image
+                src={activeService.imageUrl}
+                alt={activeService.title}
+                fill
+                className="object-cover rounded-2xl transition-opacity duration-500"
+                data-ai-hint={activeService.imageHint}
+                key={activeService.id} // Re-triggers animation
+              />
+          </div>
+
+          {/* Middle Column: Service Selector */}
+          <div className="lg:col-span-2 h-full flex items-center justify-center">
+            <div className="flex flex-col items-center justify-center gap-8">
               {servicesData.map((service) => (
                 <button
                   key={service.id}
                   onClick={() => setActiveService(service)}
                   className={cn(
-                    'flex items-center gap-4 rounded-xl p-4 text-left transition-all duration-300',
+                    'flex items-center justify-center rounded-full transition-all duration-300 ease-in-out',
+                    'h-16 w-16 bg-card shadow-lg',
                     activeService.id === service.id
-                      ? 'bg-primary/10'
-                      : 'hover:bg-muted/50'
+                      ? 'bg-primary text-primary-foreground scale-125'
+                      : 'text-primary hover:bg-primary/10'
                   )}
                 >
-                  <div
-                    className={cn(
-                      'flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-background shadow-lg transition-all duration-300',
-                      activeService.id === service.id
-                        ? 'scale-110 rotate-[360deg] bg-primary text-primary-foreground'
-                        : 'text-primary'
-                    )}
-                  >
+                  <div className={cn(
+                      "transition-transform duration-500",
+                      activeService.id === service.id ? 'animate-float' : ''
+                  )}>
                     {service.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-foreground">
-                      {service.title}
-                    </h3>
                   </div>
                 </button>
               ))}
             </div>
-          </ScrollReveal>
+          </div>
 
           {/* Right Column: Service Display */}
-          <ScrollReveal className="lg:col-span-8" delay={400}>
-            <div className="relative h-[450px] w-full overflow-hidden rounded-2xl bg-card shadow-2xl">
-              <div className="relative h-full w-full">
-                <Image
-                  src={activeService.imageUrl}
-                  alt={activeService.title}
-                  fill
-                  className="object-cover transition-all duration-500 ease-in-out"
-                  data-ai-hint={activeService.imageHint}
-                  key={activeService.id} // Forces re-render on change
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent" />
-              </div>
-
-              <div className="absolute bottom-0 left-0 p-8 text-white">
-                <h3 className="font-headline text-3xl font-bold">
+          <div className="lg:col-span-5 h-full flex flex-col justify-center">
+              <div className="transition-opacity duration-500" key={activeService.id}>
+                <h3 className="font-headline text-3xl font-bold text-foreground">
                   {activeService.title}
                 </h3>
-                <p className="mt-2 max-w-lg text-white/80">
+                <p className="mt-4 max-w-lg text-foreground/80 text-lg">
                   {activeService.description}
                 </p>
-                <Button asChild className="mt-6">
+                <Button asChild className="mt-6" size="lg">
                   <Link href={activeService.href}>Learn More</Link>
                 </Button>
               </div>
-            </div>
-          </ScrollReveal>
+          </div>
         </div>
       </div>
     </section>
