@@ -3,11 +3,10 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { getArticles, allArticleTags } from '@/lib/data';
-import type { Article } from '@/lib/data';
+import { getArticles, getServices } from '@/lib/data';
+import type { Article, Service } from '@/lib/data';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
 import { PageTitleHeader } from '@/components/page-title-header';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
@@ -15,18 +14,10 @@ import { ScrollReveal } from '@/components/scroll-reveal';
 import { Button } from '@/components/ui/button';
 
 export default function ArticlesPage() {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
+  const articles: Article[] = getArticles();
+  const allTags: string[] = getServices().map(s => s.title);
   const [activeFilter, setActiveFilter] = useState("All");
 
-  useEffect(() => {
-    const unsubscribe = getArticles((fetchedArticles) => {
-      setArticles(fetchedArticles.filter(a => a.status === 'published'));
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
-  
   const featuredArticles = articles.filter(a => a.isFeatured);
   const regularArticles = articles.filter(a => !a.isFeatured);
 
@@ -73,18 +64,6 @@ export default function ArticlesPage() {
             subtitle="Insights, trends, and stories from the digital frontier."
         />
         <div className="container py-24 sm:py-32 space-y-24">
-        {loading ? (
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                {Array.from({ length: 6 }).map((_, index) => (
-                    <div key={index} className="space-y-4">
-                        <Skeleton className="h-60 w-full rounded-2xl" />
-                        <Skeleton className="h-6 w-3/4" />
-                        <Skeleton className="h-4 w-1/2" />
-                        <Skeleton className="h-4 w-full" />
-                    </div>
-                ))}
-            </div>
-            ) : (
             <>
                 {/* Featured Articles Section */}
                 {featuredArticles.length > 0 && (
@@ -115,7 +94,7 @@ export default function ArticlesPage() {
                             >
                             All
                             </Button>
-                            {allArticleTags.map((tag) => (
+                            {allTags.map((tag) => (
                             <Button
                                 key={tag}
                                 variant={activeFilter === tag ? "default" : "outline"}
@@ -135,12 +114,9 @@ export default function ArticlesPage() {
                     </div>
                 </section>
             </>
-            )}
         </div>
       </main>
       <Footer />
     </div>
   );
 }
-
-    

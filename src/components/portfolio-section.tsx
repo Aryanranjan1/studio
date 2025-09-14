@@ -1,14 +1,13 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { getProjects, getServices } from "@/lib/data";
 import type { Project, Service } from "@/lib/data";
 import { PortfolioCard } from "./portfolio-card";
 import { Button } from "./ui/button";
 import { ScrollReveal } from "./scroll-reveal";
 import { cn } from "@/lib/utils";
-import { Skeleton } from "./ui/skeleton";
 
 interface PortfolioSectionProps {
   className?: string;
@@ -17,35 +16,8 @@ interface PortfolioSectionProps {
 
 export function PortfolioSection({ className, filterBy }: PortfolioSectionProps) {
   const [activeFilter, setActiveFilter] = useState(filterBy || "All");
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [services, setServices] = useState<Service[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let projectsLoaded = false;
-    let servicesLoaded = false;
-
-    const checkLoading = () => {
-        if (projectsLoaded && servicesLoaded) {
-            setLoading(false);
-        }
-    }
-
-    const unsubProjects = getProjects((fetchedProjects) => {
-      setProjects(fetchedProjects);
-      projectsLoaded = true;
-      checkLoading();
-    });
-    const unsubServices = getServices((fetchedServices) => {
-        setServices(fetchedServices);
-        servicesLoaded = true;
-        checkLoading();
-    });
-    return () => {
-        unsubProjects();
-        unsubServices();
-    }
-  }, []);
+  const projects = getProjects();
+  const services = getServices();
 
   const filteredProjects =
     activeFilter === "All"
@@ -93,25 +65,11 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
             </ScrollReveal>
         )}
 
-
-        {loading ? (
-          <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-             {Array.from({ length: 3 }).map((_, index) => (
-                <div key={index} className="space-y-4">
-                    <Skeleton className="h-60 w-full rounded-2xl" />
-                    <Skeleton className="h-6 w-3/4" />
-                    <Skeleton className="h-4 w-1/2" />
-                    <Skeleton className="h-4 w-full" />
-                </div>
-            ))}
-          </div>
-        ) : (
-          <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {filteredProjects.map((project, index) => (
               <PortfolioCard key={project.id} project={project} index={index} />
             ))}
-          </div>
-        )}
+        </div>
       </div>
     </section>
   );

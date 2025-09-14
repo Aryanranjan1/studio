@@ -19,7 +19,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { addIntake } from "@/lib/firestore";
+import { addIntake } from "@/lib/data";
 import type { NewIntake } from "@/lib/data";
 import { useSuccessPopup } from "@/hooks/use-success-popup";
 
@@ -98,9 +98,9 @@ export function IntakeForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    form.reset();
     addIntake(values as NewIntake).then(() => {
         showSuccessPopup("Inquiry Submitted!");
+        form.reset();
     }).catch((error) => {
         toast({
             title: "Submission Error",

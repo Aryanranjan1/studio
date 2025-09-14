@@ -27,10 +27,9 @@ import { Facebook, Instagram, Linkedin, Mail, MapPin, Phone, LucideIcon } from "
 import Link from "next/link";
 import { ScrollReveal } from "./scroll-reveal";
 import { cn } from "@/lib/utils";
-import { addMessage } from "@/lib/firestore";
+import { addMessage } from "@/lib/data";
 import { getSettings, getServices } from "@/lib/data";
-import { useEffect, useState } from "react";
-import type { SocialLink, NewMessage, SiteSettings, Service } from "@/lib/data";
+import type { SocialLink, SiteSettings, Service } from "@/lib/data";
 import { useSuccessPopup } from "@/hooks/use-success-popup";
 
 const WhatsappIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -72,22 +71,8 @@ interface ContactSectionProps {
 export function ContactSection({ className }: ContactSectionProps) {
   const { toast } = useToast();
   const { showSuccessPopup } = useSuccessPopup();
-  const [settings, setSettings] = useState<SiteSettings | null>(null);
-  const [services, setServices] = useState<Service[]>([]);
-
-  useEffect(() => {
-    const unsubSettings = getSettings((settingsData) => {
-        setSettings(settingsData);
-    });
-    const unsubServices = getServices((fetchedServices) => {
-        setServices(fetchedServices);
-    });
-
-    return () => {
-        unsubSettings();
-        unsubServices();
-    }
-  }, []);
+  const settings: SiteSettings = getSettings();
+  const services: Service[] = getServices();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -101,9 +86,9 @@ export function ContactSection({ className }: ContactSectionProps) {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    form.reset();
-    addMessage(values as NewMessage).then(() => {
+    addMessage(values).then(() => {
         showSuccessPopup("Message Sent!");
+        form.reset();
     }).catch((error) => {
         toast({
             title: "Error",

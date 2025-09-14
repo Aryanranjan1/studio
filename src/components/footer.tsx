@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Facebook, Instagram, Linkedin, MapPin, Mail, Phone, LucideIcon } from "lucide-react";
 import { AmpireLogo } from "./logo";
 import { Button } from "./ui/button";
-import { useEffect, useState } from "react";
 import { getSettings } from "@/lib/data";
 import type { SiteSettings, SocialLink } from "@/lib/data";
 
@@ -50,14 +49,7 @@ const quickLinks = [
 ];
 
 export function Footer() {
-  const [settings, setSettings] = useState<SiteSettings | null>(null);
-
-  useEffect(() => {
-    const unsubscribe = getSettings((settingsData) => {
-        setSettings(settingsData);
-    });
-    return () => unsubscribe();
-  }, []);
+  const settings: SiteSettings = getSettings();
 
   return (
     <footer className="border-t dark:border-white/10 dark:bg-background/50 dark:backdrop-blur-lg">

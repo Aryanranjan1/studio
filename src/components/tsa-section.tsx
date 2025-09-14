@@ -4,19 +4,10 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { Phone } from "lucide-react";
 import { ScrollReveal } from "./scroll-reveal";
-import { useState, useEffect } from "react";
-import { SiteSettings } from "@/lib/data";
-import { getSettings } from "@/lib/data";
+import { SiteSettings, getSettings } from "@/lib/data";
 
 export function TsaSection() {
-  const [settings, setSettings] = useState<SiteSettings | null>(null);
-
-  useEffect(() => {
-    const unsubscribe = getSettings((settingsData) => {
-      setSettings(settingsData);
-    });
-    return () => unsubscribe();
-  }, []);
+  const settings: SiteSettings | null = getSettings();
 
   return (
     <section className="py-24 sm:py-32 bg-primary/90 text-primary-foreground">

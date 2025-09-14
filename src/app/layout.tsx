@@ -3,7 +3,6 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from '@/components/theme-provider';
 import { Background } from '@/components/background';
-import { AuthProvider } from '@/hooks/use-auth';
 import { SuccessPopupProvider } from '@/hooks/use-success-popup';
 
 export const metadata: Metadata = {
@@ -25,7 +24,6 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased" suppressHydrationWarning>
-        <AuthProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -40,7 +38,6 @@ export default function RootLayout({
               <Toaster />
             </SuccessPopupProvider>
           </ThemeProvider>
-        </AuthProvider>
       </body>
     </html>
   );
