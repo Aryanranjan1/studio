@@ -22,25 +22,6 @@ const TestimonialSection = ({ className }: TestimonialSectionProps) => {
     <section className={cn("bg-background py-24 sm:py-32", className)}>
 
       <div className="container z-10 mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          viewport={{ once: true }}
-          className="max-w-3xl mx-auto text-center"
-        >
-          <div className="flex justify-center mb-4">
-            <div className="font-headline text-sm font-semibold uppercase tracking-wider text-primary py-1 px-4 rounded-lg border">Testimonials</div>
-          </div>
-
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tighter">
-            Amazing Feedbacks from Happy Clients
-          </h2>
-          <p className="text-center mt-5 text-lg text-foreground/80">
-            See what our customers have to say about us.
-          </p>
-        </motion.div>
-
         <div className="relative flex justify-center gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden">
           <TestimonialsColumn testimonials={firstColumn} duration={25} />
           <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={19} />
