@@ -1,7 +1,6 @@
 
 import { Footer } from '@/components/footer';
 import { HeroSection } from '@/components/hero-section';
-import { ServicesSection } from '@/components/services-section';
 import { PortfolioSection } from '@/components/portfolio-section';
 import { TestimonialSection } from '@/components/testimonial-section';
 import { FaqSection } from '@/components/faq-section';
@@ -14,7 +13,6 @@ export default function Home() {
     <div className="flex min-h-screen flex-col text-foreground">
       <main className="flex-1">
         <HeroSection />
-        <ServicesSection />
         <PortfolioSection className="bg-alt" />
         <TestimonialSection />
         <FaqSection className="bg-alt" />
