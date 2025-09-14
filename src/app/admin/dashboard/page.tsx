@@ -42,21 +42,23 @@ export default function DashboardPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        let isMounted = true;
         let loadedDataCount = 0;
         const totalDataSources = 3;
 
         const handleDataLoad = () => {
             loadedDataCount++;
-            if (loadedDataCount === totalDataSources) {
+            if (loadedDataCount === totalDataSources && isMounted) {
                 setLoading(false);
             }
         };
 
-        const unsubProjects = getProjects((data) => { setProjects(data); handleDataLoad(); });
-        const unsubMessages = getMessages((data) => { setMessages(data); handleDataLoad(); });
-        const unsubIntakes = getIntakes((data) => { setIntakes(data); handleDataLoad(); });
+        const unsubProjects = getProjects((data) => { if(isMounted) { setProjects(data); handleDataLoad(); } });
+        const unsubMessages = getMessages((data) => { if(isMounted) { setMessages(data); handleDataLoad(); } });
+        const unsubIntakes = getIntakes((data) => { if(isMounted) { setIntakes(data); handleDataLoad(); } });
 
         return () => {
+            isMounted = false;
             unsubProjects();
             unsubMessages();
             unsubIntakes();
