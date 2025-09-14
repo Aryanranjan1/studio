@@ -85,17 +85,17 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
                                 <Link href={`/services/${service.slug}`}>Learn More <ArrowRight className="ml-2 h-4 w-4" /></Link>
                             </Button>
                         </div>
-                        <div className="relative h-64 md:h-80 -rotate-6">
+                        <div className="relative h-64 md:h-80 -rotate-6 group">
                             {serviceProjects.slice(0, 3).map((project, index) => (
-                                <div 
-                                    key={project.id} 
-                                    className="absolute rounded-lg overflow-hidden shadow-2xl"
+                                <div
+                                    key={project.id}
+                                    className="absolute rounded-lg overflow-hidden shadow-2xl transition-transform duration-300 ease-in-out group-hover:scale-105"
                                     style={{
                                         width: '60%',
                                         height: '60%',
                                         top: `${10 + index * 15}%`,
                                         left: `${5 + index * 20}%`,
-                                        transform: `rotate(${index * 5 - 5}deg)`,
+                                        transform: `rotate(${index * 5 - 5}deg) scale(1)`,
                                         zIndex: index,
                                     }}
                                 >
@@ -103,7 +103,7 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
                                         src={project.imageUrl}
                                         alt={project.title}
                                         fill
-                                        className="object-cover"
+                                        className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
                                         data-ai-hint={project.imageHint}
                                     />
                                 </div>

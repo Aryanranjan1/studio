@@ -2,7 +2,7 @@
 
 import { ScrollReveal } from "./scroll-reveal";
 import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
-import { Code, Brush, Smartphone, ShoppingCart, Megaphone, PenTool, Bot } from 'lucide-react';
+import { Code, Brush, Smartphone, ShoppingCart, Megaphone, PenTool, Bot, Search } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -16,6 +16,7 @@ const iconMap: { [key: string]: React.ReactElement } = {
   'E-commerce': <ShoppingCart className="h-10 w-10 text-primary" />,
   'Marketing': <Megaphone className="h-10 w-10 text-primary" />,
   'Automations': <Bot className="h-10 w-10 text-primary" />,
+  'SEO': <Search className="h-10 w-10 text-primary" />,
 };
 
 interface ServiceCategorySectionProps {

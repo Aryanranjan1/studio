@@ -14,7 +14,7 @@ export interface Project {
 export const projectStatuses = ['Pending', 'In Progress', 'Completed', 'Billed'] as const;
 export type ProjectStatus = typeof projectStatuses[number];
 
-export const serviceIcons = ['Branding', 'UI/UX Design', 'Web Development', 'Mobile App', 'E-commerce', 'Marketing', 'Automations'] as const;
+export const serviceIcons = ['Branding', 'UI/UX Design', 'Web Development', 'Mobile App', 'E-commerce', 'Marketing', 'Automations', 'SEO'] as const;
 export type ServiceIcon = typeof serviceIcons[number];
 
 export interface Service {
@@ -110,7 +110,7 @@ export const projects: Project[] = [
       summary: "Launched a secure, compliant, and user-centric website for a top wealth management firm, featuring a custom portfolio dashboard and boosting client engagement.",
       imageUrl: "https://picsum.photos/seed/project1/600/400",
       imageHint: "finance dashboard",
-      services: ["Web Development", "UI/UX Design"],
+      services: ["Web Development", "UI/UX Design", "SEO"],
       status: "Completed",
       createdAt: new Date(),
     },
@@ -122,7 +122,7 @@ export const projects: Project[] = [
       summary: "Created a full brand identity, from name to packaging, for an organic skincare line, resulting in a distinct and luxurious market presence.",
       imageUrl: "https://picsum.photos/seed/project2/600/400",
       imageHint: "skincare product",
-      services: ["Branding"],
+      services: [],
       status: "Completed",
       createdAt: new Date(),
     },
@@ -141,14 +141,6 @@ export const projects: Project[] = [
 ];
 
 export const services: Service[] = [
-    {
-        id: "1",
-        title: 'Branding',
-        slug: 'branding',
-        description: 'We craft unique brand identities that tell your story and help you claim your digital throne.',
-        longDescription: 'Our branding process is a deep dive into your company\'s essence. We start with understanding your mission, vision, and values. From there, we develop a comprehensive brand strategy that informs every design decision. This includes logo design, color palette selection, typography, and voice & tone guidelines. We create a complete visual identity system that ensures consistency across all your marketing materials, from your website to your social media profiles to your business cards. The result is a powerful, cohesive brand that builds trust and loyalty.',
-        icon: 'Branding',
-    },
     {
         id: "2",
         title: 'UI/UX Design',
@@ -182,20 +174,20 @@ export const services: Service[] = [
         icon: 'E-commerce',
     },
     {
-        id: "6",
-        title: 'Marketing',
-        slug: 'marketing',
-        description: 'We execute data-driven SEO and marketing strategies to make you visible online.',
-        longDescription: 'Our digital marketing services are designed to help you reach your target audience and achieve your business goals. We develop comprehensive strategies that include Search Engine Optimization (SEO) to make you visible in search results, Pay-Per-Click (PPC) advertising, and custom automations to save you time. We are data-driven, constantly analyzing performance and optimizing our campaigns to deliver the best possible return on investment. Let us help you grow your brand and connect with more customers online.',
-        icon: 'Marketing',
-    },
-    {
         id: "7",
         title: 'Automations',
         slug: 'automations',
         description: 'We save you time and streamline your operations by building custom automations that handle your repetitive, time-consuming tasks.',
         longDescription: 'In today\'s fast-paced world, efficiency is key. We specialize in creating custom automation solutions that integrate with your existing workflows. Whether it\'s automating data entry, streamlining your social media posting, managing email campaigns, or connecting disparate software systems, we build robust solutions that save you time and reduce errors. Let us handle the repetitive work so you can focus on what you do best: growing your business.',
         icon: 'Automations',
+    },
+    {
+        id: "8",
+        title: 'SEO',
+        slug: 'seo',
+        description: 'We execute data-driven SEO strategies to make you visible online and climb search rankings.',
+        longDescription: 'Our Search Engine Optimization (SEO) services are designed to increase your visibility on search engines like Google. We conduct thorough keyword research, on-page optimization, technical SEO audits, and quality link-building to improve your rankings for the terms that matter most to your business. We focus on sustainable, white-hat strategies that build long-term authority and drive organic traffic to your website, resulting in more leads and sales.',
+        icon: 'SEO',
     }
 ];
 

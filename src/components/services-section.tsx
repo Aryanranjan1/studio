@@ -6,7 +6,7 @@ import type { Service } from "@/lib/data";
 import { ScrollReveal } from './scroll-reveal';
 import { cn } from '@/lib/utils';
 import { Card } from './ui/card';
-import { ArrowRight, Code, Brush, Smartphone, ShoppingCart, Megaphone, PenTool, Bot } from 'lucide-react';
+import { ArrowRight, Code, Brush, Smartphone, ShoppingCart, Megaphone, PenTool, Bot, Search } from 'lucide-react';
 import Link from 'next/link';
 
 interface ServicesSectionProps {
@@ -21,6 +21,7 @@ const iconMap: { [key: string]: React.ReactElement } = {
   'E-commerce': <ShoppingCart className="h-8 w-8 text-primary" />,
   'Marketing': <Megaphone className="h-8 w-8 text-primary" />,
   'Automations': <Bot className="h-8 w-8 text-primary" />,
+  'SEO': <Search className="h-8 w-8 text-primary" />,
 };
 
 export function ServicesSection({ className }: ServicesSectionProps) {
