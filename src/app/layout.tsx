@@ -4,6 +4,9 @@ import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from '@/components/theme-provider';
 import { Background } from '@/components/background';
 import { SuccessPopupProvider } from '@/hooks/use-success-popup';
+import { StaggeredMenu } from '@/components/staggered-menu';
+import { getServices, getSettings } from '@/lib/data';
+import type { Service, SiteSettings } from '@/lib/data';
 
 export const metadata: Metadata = {
   title: 'AMpire Studio | Built For You. Crowned By Us.',
@@ -15,6 +18,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings: SiteSettings = getSettings();
+  const navLinks = [
+    { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
+    { label: 'Work', ariaLabel: 'View our work', link: '/work' },
+    { label: 'Services', ariaLabel: 'View our services', link: '/services' },
+    { label: 'About', ariaLabel: 'Learn about us', link: '/about' },
+    { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
+  ];
+  const socialLinks = settings.socials.map(s => ({ label: s.platform, link: s.href }));
+
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
@@ -32,6 +45,10 @@ export default function RootLayout({
           >
             <SuccessPopupProvider>
               <Background />
+              <StaggeredMenu
+                items={navLinks}
+                socialItems={socialLinks}
+                />
               <div className='relative z-10'>
                 {children}
               </div>
