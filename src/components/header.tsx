@@ -13,7 +13,6 @@ const menuItems = [
     { label: 'About', ariaLabel: 'Learn about us', link: '/about' },
     { label: 'Services', ariaLabel: 'View our services', link: '/services' },
     { label: 'Work', ariaLabel: 'View our work', link: '/work' },
-    { label: 'Articles', ariaLabel: 'Read our articles', link: '/articles' },
     { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
   ];
 
