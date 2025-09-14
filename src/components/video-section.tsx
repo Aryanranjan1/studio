@@ -1,21 +1,21 @@
 
 "use client";
 
-import Image from "next/image";
+import { DynamicFrameLayout } from "@/components/ui/dynamic-frame-layout";
+import { ScrollReveal } from "./scroll-reveal";
 import { getProjects } from "@/lib/data";
 import type { Project } from "@/lib/data";
-import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { ScrollReveal } from "./scroll-reveal";
+
+const initialFrames = [
+  { id: 1, video: "https://cdn.dribbble.com/userupload/13072381/file/original-4b3db1123497a688d363321528437298.mp4", defaultPos: { x: 0, y: 0, w: 4, h: 4 }, mediaSize: 1.5, },
+  { id: 2, video: "https://cdn.dribbble.com/userupload/12918809/file/original-3c7d677d248b11d8b98b9a1039d99786.mp4", defaultPos: { x: 4, y: 0, w: 4, h: 4 }, mediaSize: 1.5, },
+  { id: 3, video: "https://cdn.dribbble.com/userupload/12693836/file/original-13838119865a9a4b8689b9644f2d0a3d.mp4", defaultPos: { x: 8, y: 0, w: 4, h: 8 }, mediaSize: 1.5, },
+  { id: 4, video: "https://cdn.dribbble.com/userupload/12271810/file/original-a7465f241a35017c181f47137f8d758f.mp4", defaultPos: { x: 0, y: 4, w: 8, h: 8 }, mediaSize: 1.5, },
+  { id: 5, video: "https://cdn.dribbble.com/userupload/11831515/file/original-a0ee159f84803d3c7c211440c96f014e.mp4", defaultPos: { x: 8, y: 8, w: 4, h: 4 }, mediaSize: 1.5, },
+];
+
 
 export function VideoSection({ className }: { className?: string }) {
-  const projects = getProjects();
 
   return (
     <section id="gallery" className={className}>
@@ -31,40 +31,12 @@ export function VideoSection({ className }: { className?: string }) {
           </div>
         </ScrollReveal>
         <ScrollReveal delay={200}>
-          <div className="mt-16 max-w-5xl mx-auto">
-            <Carousel
-              opts={{
-                align: "start",
-                loop: true,
-              }}
-              className="w-full"
-            >
-              <CarouselContent>
-                {projects.map((project) => (
-                  <CarouselItem key={project.id} className="md:basis-1/2 lg:basis-1/2">
-                    <div className="p-1">
-                      <Card className="overflow-hidden">
-                        <CardContent className="flex aspect-video items-center justify-center p-0">
-                           <Image
-                                src={project.imageUrl}
-                                alt={project.title}
-                                width={600}
-                                height={400}
-                                className="w-full h-full object-cover"
-                                data-ai-hint={project.imageHint}
-                           />
-                        </CardContent>
-                      </Card>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+          <div className="mt-16 max-w-5xl mx-auto h-[600px]">
+            <DynamicFrameLayout frames={initialFrames} />
           </div>
         </ScrollReveal>
       </div>
     </section>
   );
 }
+
