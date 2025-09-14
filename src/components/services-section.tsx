@@ -62,14 +62,11 @@ export function ServicesSection({ className }: ServicesSectionProps) {
       if (!section) return;
 
       const { top, height } = section.getBoundingClientRect();
-      const scrollPosition = window.scrollY;
-      const sectionTop = section.offsetTop;
+      const scrollableHeight = height - window.innerHeight;
+      const scrollY = window.scrollY - section.offsetTop;
 
-      // Check if we are within the scrollable section area
-      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + height - window.innerHeight) {
-        const scrollableHeight = height - window.innerHeight;
-        const progress = (scrollPosition - sectionTop) / scrollableHeight;
-        
+      if (scrollY >= 0 && scrollY <= scrollableHeight) {
+        const progress = scrollY / scrollableHeight;
         const serviceIndex = Math.min(Math.floor(progress * servicesData.length), servicesData.length - 1);
         
         if (servicesData[serviceIndex] && activeService.id !== servicesData[serviceIndex].id) {
@@ -78,7 +75,7 @@ export function ServicesSection({ className }: ServicesSectionProps) {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [activeService]);
 
@@ -98,89 +95,89 @@ export function ServicesSection({ className }: ServicesSectionProps) {
   };
 
   return (
-    <section ref={sectionRef} id="services" className={cn('py-24 sm:py-32 h-[300vh]', className)}>
-      <div className="container sticky top-24">
-        <ScrollReveal>
-          <div className="text-center max-w-3xl mx-auto mb-20">
-             <h2 className="font-headline text-4xl font-bold tracking-tight text-primary sm:text-5xl">
-              Our Arsenal
-            </h2>
-            <p className="mt-4 text-lg text-foreground/80">
-              From crafting your brand identity to scaling your business with custom tech, we provide the tools you need to conquer the digital world.
-            </p>
-          </div>
-        </ScrollReveal>
-
-        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-16 h-[500px]">
-          {/* Left Column: Image */}
-          <div className="lg:col-span-5 h-full w-full relative overflow-hidden rounded-2xl">
-            {servicesData.map((service) => (
-               <Image
-                  key={service.id}
-                  src={service.imageUrl}
-                  alt={service.title}
-                  fill
-                  className={cn(
-                    "object-cover transition-opacity duration-1000 ease-in-out",
-                    activeService.id === service.id ? "opacity-100" : "opacity-0"
-                  )}
-                  data-ai-hint={service.imageHint}
-                />
-            ))}
-          </div>
-
-          {/* Middle Column: Service Selector */}
-          <div className="lg:col-span-2 h-full flex items-center justify-center">
-            <div className="flex flex-col items-center justify-center gap-8">
-              {servicesData.map((service) => (
-                <button
-                  key={service.id}
-                  onClick={() => onCircleClick(service.id)}
-                  className={cn(
-                    'flex items-center justify-center rounded-full transition-all duration-500 ease-in-out',
-                    'h-16 w-16 bg-card shadow-lg',
-                    activeService.id === service.id
-                      ? 'bg-primary text-primary-foreground scale-125'
-                      : 'text-primary hover:bg-primary/10'
-                  )}
-                >
-                  <div className={cn(
-                      "transition-transform duration-500",
-                      activeService.id === service.id ? 'animate-float' : ''
-                  )}>
-                    {service.icon}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Right Column: Service Display */}
-          <div className="lg:col-span-5 h-full flex flex-col justify-center relative overflow-hidden">
-            {servicesData.map(service => (
-              <div
-                key={service.id}
-                className={cn(
-                  "absolute transition-opacity duration-1000 ease-in-out",
-                  activeService.id === service.id ? "opacity-100" : "opacity-0"
-                )}
-              >
-                <h3 className="font-headline text-3xl font-bold text-foreground">
-                  {service.title}
-                </h3>
-                <p className="mt-4 max-w-lg text-foreground/80 text-lg">
-                  {service.description}
+    <section ref={sectionRef} id="services" className={cn('relative py-24 sm:py-32 h-[300vh]', className)}>
+      <div className="sticky top-0 h-screen flex flex-col justify-center">
+        <div className='container'>
+            <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto mb-20">
+                <h2 className="font-headline text-4xl font-bold tracking-tight text-primary sm:text-5xl">
+                Our Arsenal
+                </h2>
+                <p className="mt-4 text-lg text-foreground/80">
+                From crafting your brand identity to scaling your business with custom tech, we provide the tools you need to conquer the digital world.
                 </p>
-                <Button asChild className="mt-6" size="lg">
-                  <Link href={service.href}>Learn More</Link>
-                </Button>
-              </div>
-            ))}
-          </div>
+            </div>
+            </ScrollReveal>
+
+            <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-16">
+            {/* Left Column: Image */}
+            <div className="lg:col-span-5 h-96 w-full relative overflow-hidden rounded-2xl">
+                {servicesData.map((service) => (
+                <Image
+                    key={service.id}
+                    src={service.imageUrl}
+                    alt={service.title}
+                    fill
+                    className={cn(
+                        "object-cover transition-opacity duration-1000 ease-in-out",
+                        activeService.id === service.id ? "opacity-100" : "opacity-0"
+                    )}
+                    data-ai-hint={service.imageHint}
+                    />
+                ))}
+            </div>
+
+            {/* Middle Column: Service Selector */}
+            <div className="lg:col-span-2 flex items-center justify-center">
+                <div className="flex flex-col items-center justify-center gap-8">
+                {servicesData.map((service) => (
+                    <button
+                    key={service.id}
+                    onClick={() => onCircleClick(service.id)}
+                    className={cn(
+                        'flex items-center justify-center rounded-full transition-all duration-500 ease-in-out',
+                        'h-16 w-16 bg-card shadow-lg',
+                        activeService.id === service.id
+                        ? 'bg-primary text-primary-foreground scale-125'
+                        : 'text-primary hover:bg-primary/10'
+                    )}
+                    >
+                    <div className={cn(
+                        "transition-transform duration-500",
+                        activeService.id === service.id ? 'animate-float' : ''
+                    )}>
+                        {service.icon}
+                    </div>
+                    </button>
+                ))}
+                </div>
+            </div>
+
+            {/* Right Column: Service Display */}
+            <div className="lg:col-span-5 h-96 flex flex-col justify-center relative overflow-hidden">
+                {servicesData.map(service => (
+                <div
+                    key={service.id}
+                    className={cn(
+                    "absolute transition-all duration-1000 ease-in-out",
+                    activeService.id === service.id ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+                    )}
+                >
+                    <h3 className="font-headline text-3xl font-bold text-foreground">
+                    {service.title}
+                    </h3>
+                    <p className="mt-4 max-w-lg text-foreground/80 text-lg">
+                    {service.description}
+                    </p>
+                    <Button asChild className="mt-6" size="lg">
+                    <Link href={service.href}>Learn More</Link>
+                    </Button>
+                </div>
+                ))}
+            </div>
+            </div>
         </div>
       </div>
     </section>
   );
 }
-
-    
