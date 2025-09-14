@@ -27,8 +27,8 @@ interface FrameComponentProps {
   mediaSize: number
   borderThickness: number
   borderSize: number
-  showFrame: boolean
-  isHovered: boolean
+  showFrame: boolean;
+  isPlaying: boolean;
 }
 
 function FrameComponent({
@@ -43,17 +43,18 @@ function FrameComponent({
   borderThickness,
   borderSize,
   showFrame,
-  isHovered,
+  isPlaying,
 }: FrameComponentProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
-    if (isHovered) {
-      videoRef.current?.play()
+    if (isPlaying) {
+      videoRef.current?.play().catch(e => console.log("Video play interrupted"));
     } else {
-      videoRef.current?.pause()
+      videoRef.current?.pause();
+      videoRef.current!.currentTime = 0;
     }
-  }, [isHovered])
+  }, [isPlaying])
 
   return (
     <div
@@ -173,6 +174,19 @@ export function DynamicFrameLayout({
 }: DynamicFrameLayoutProps) {
     const [frames] = useState(initialFrames.map(f => ({...f, isHovered: false, corner: '', edgeHorizontal: '', edgeVertical: '', borderThickness: 0, borderSize: 0 })))
     const [hovered, setHovered] = useState<{ row: number; col: number } | null>(null)
+    const [autoplayId, setAutoplayId] = useState<number | null>(null);
+
+    useEffect(() => {
+        const autoplayInterval = setInterval(() => {
+            if (hovered === null) {
+                const randomIndex = Math.floor(Math.random() * frames.length);
+                setAutoplayId(frames[randomIndex].id);
+            }
+        }, 4000); // Change video every 4 seconds
+
+        return () => clearInterval(autoplayInterval);
+    }, [hovered, frames]);
+
 
   const getRowSizes = () => {
     if (hovered === null) return "4fr 4fr 4fr"
@@ -209,6 +223,7 @@ export function DynamicFrameLayout({
         const row = Math.floor(frame.defaultPos.y / 4)
         const col = Math.floor(frame.defaultPos.x / 4)
         const transformOrigin = getTransformOrigin(frame.defaultPos.x, frame.defaultPos.y)
+        const isHovered = hovered?.row === row && hovered?.col === col;
 
         return (
           <motion.div
@@ -237,7 +252,7 @@ export function DynamicFrameLayout({
               borderThickness={frame.borderThickness}
               borderSize={frame.borderSize}
               showFrame={showFrames}
-              isHovered={hovered?.row === row && hovered?.col === col}
+              isPlaying={isHovered || autoplayId === frame.id}
             />
           </motion.div>
         )
