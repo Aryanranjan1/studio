@@ -138,6 +138,30 @@ export const projects: Project[] = [
       status: "In Progress",
       createdAt: new Date(),
     },
+    {
+      id: "4",
+      title: "Artisan Coffee E-commerce",
+      slug: "artisan-coffee-ecommerce",
+      longDescription: "We built a bespoke Shopify theme for a purveyor of fine artisan coffees. The site features a subscription service, detailed product pages with tasting notes, and an integrated blog for coffee brewing guides. The design is clean, modern, and focuses on beautiful product photography to create an immersive and appealing shopping experience for coffee connoisseurs.",
+      summary: "Developed a custom Shopify experience with a subscription model, boosting online sales and customer retention for a specialty coffee brand.",
+      imageUrl: "https://picsum.photos/seed/project4/600/400",
+      imageHint: "coffee beans",
+      services: ["E-commerce", "Web Development"],
+      status: "Completed",
+      createdAt: new Date(),
+    },
+    {
+      id: "5",
+      title: "Workflow Automation Tool",
+      slug: "workflow-automation-tool",
+      longDescription: "A legal firm required a custom tool to automate their client intake and document generation process. We built a secure web application that integrates with their existing case management software. The tool uses a simple form to gather client data and then automatically generates, populates, and files the necessary legal documents, saving the firm dozens of hours per week and reducing manual data entry errors.",
+      summary: "Built a custom web app to automate client intake and document generation, saving a legal firm significant time and reducing errors.",
+      imageUrl: "https://picsum.photos/seed/project5/600/400",
+      imageHint: "documents contract",
+      services: ["Automations", "Web Development"],
+      status: "Completed",
+      createdAt: new Date(),
+    }
 ];
 
 export const services: Service[] = [
