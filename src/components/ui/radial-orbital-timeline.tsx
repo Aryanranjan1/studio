@@ -1,10 +1,11 @@
 
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { ArrowRight, Link, Zap } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 
 interface TimelineItem {
   id: number;
@@ -140,19 +141,6 @@ export default function RadialOrbitalTimeline({
     return relatedItems.includes(itemId);
   };
 
-  const getStatusStyles = (status: TimelineItem["status"]): string => {
-    switch (status) {
-      case "completed":
-        return "text-primary-foreground bg-primary border-primary";
-      case "in-progress":
-        return "text-accent-foreground bg-accent border-accent";
-      case "pending":
-        return "text-muted-foreground bg-muted border-muted";
-      default:
-        return "text-muted-foreground bg-muted border-muted";
-    }
-  };
-
   return (
     <div
       className="w-full h-full flex flex-col items-center justify-center bg-transparent overflow-hidden"
@@ -256,23 +244,10 @@ export default function RadialOrbitalTimeline({
                   <Card className="absolute top-20 left-1/2 -translate-x-1/2 w-64 bg-card/90 backdrop-blur-lg border-border/30 shadow-xl shadow-black/20 overflow-visible">
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-px h-3 bg-border/50"></div>
                     <CardHeader className="pb-2">
-                      <div className="flex justify-between items-center">
-                        <Badge
-                          className={`px-2 text-xs ${getStatusStyles(
-                            item.status
-                          )}`}
-                        >
-                          {item.status === "completed"
-                            ? "COMPLETE"
-                            : item.status === "in-progress"
-                            ? "IN PROGRESS"
-                            : "PENDING"}
-                        </Badge>
                         <span className="text-xs font-mono text-muted-foreground">
                           {item.date}
                         </span>
-                      </div>
-                      <CardTitle className="text-sm mt-2 text-foreground">
+                      <CardTitle className="text-sm mt-1 text-foreground">
                         {item.title}
                       </CardTitle>
                     </CardHeader>
@@ -280,56 +255,10 @@ export default function RadialOrbitalTimeline({
                       <p>{item.content}</p>
 
                       <div className="mt-4 pt-3 border-t border-border/10">
-                        <div className="flex justify-between items-center text-xs mb-1">
-                          <span className="flex items-center">
-                            <Zap size={10} className="mr-1" />
-                            Energy Level
-                          </span>
-                          <span className="font-mono">{item.energy}%</span>
-                        </div>
-                        <div className="w-full h-1 bg-muted rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-gradient-to-r from-accent to-primary"
-                            style={{ width: `${item.energy}%` }}
-                          ></div>
-                        </div>
+                        <Button asChild size="sm" className="w-full">
+                           <Link href="/project-intake">Get Started <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                        </Button>
                       </div>
-
-                      {item.relatedIds.length > 0 && (
-                        <div className="mt-4 pt-3 border-t border-border/10">
-                          <div className="flex items-center mb-2">
-                            <Link size={10} className="text-muted-foreground mr-1" />
-                            <h4 className="text-xs uppercase tracking-wider font-medium text-muted-foreground">
-                              Connected Nodes
-                            </h4>
-                          </div>
-                          <div className="flex flex-wrap gap-1">
-                            {item.relatedIds.map((relatedId) => {
-                              const relatedItem = timelineData.find(
-                                (i) => i.id === relatedId
-                              );
-                              return (
-                                <Button
-                                  key={relatedId}
-                                  variant="outline"
-                                  size="sm"
-                                  className="flex items-center h-6 px-2 py-0 text-xs rounded-md border-border/20 bg-transparent hover:bg-muted text-muted-foreground hover:text-foreground transition-all"
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    toggleItem(relatedId);
-                                  }}
-                                >
-                                  {relatedItem?.title}
-                                  <ArrowRight
-                                    size={8}
-                                    className="ml-1 text-muted-foreground"
-                                  />
-                                </Button>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      )}
                     </CardContent>
                   </Card>
                 )}
