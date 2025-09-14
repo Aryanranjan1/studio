@@ -7,7 +7,6 @@ import { FaqSection } from '@/components/faq-section';
 import { TsaSection } from '@/components/tsa-section';
 import { VideoSection } from '@/components/video-section';
 import { ScrollRevealText } from '@/components/scroll-reveal-text';
-import { InteractiveImageAccordion } from '@/components/interactive-image-accordion';
 
 
 export default function Home() {
@@ -25,7 +24,6 @@ export default function Home() {
                 </ScrollRevealText>
             </div>
         </section>
-        <InteractiveImageAccordion />
         <PortfolioSection className="bg-alt" />
         <VideoSection />
         <TestimonialSection className="bg-alt"/>
