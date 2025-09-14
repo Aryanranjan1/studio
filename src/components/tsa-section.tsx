@@ -9,16 +9,16 @@ import { ArrowRight } from "lucide-react";
 export function TsaSection() {
 
   return (
-    <section className="py-24 sm:py-32 bg-alt">
+    <section className="py-24 sm:py-32 bg-primary text-primary-foreground">
       <div className="container">
         <ScrollReveal>
-          <div className="bg-card rounded-2xl shadow-lg overflow-hidden">
+          <div className="bg-primary/80 rounded-2xl shadow-lg overflow-hidden backdrop-blur-sm border border-primary-foreground/10">
             <div className="grid lg:grid-cols-2 items-center">
               <div className="p-8 lg:p-12">
                 <h2 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
                   Have an amazing project idea in mind?
                 </h2>
-                <p className="mt-6 text-lg text-muted-foreground">
+                <p className="mt-6 text-lg text-primary-foreground/80">
                   Let's discuss how we can help your brand rise above the noise.
                   Schedule your free strategy call today.
                 </p>
