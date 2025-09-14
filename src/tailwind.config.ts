@@ -69,6 +69,7 @@ export default {
       },
       rotate: {
         '15': '15deg',
+        '50': '50deg',
       },
       backgroundImage: {
         'noise': "url('https://www.reactbits.dev/assets/noise.png')",

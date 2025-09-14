@@ -79,7 +79,7 @@ export function GridMotion({
           background: `radial-gradient(circle, ${gradientColor} 0%, transparent 100%)`,
         }}
       >
-        <div className="relative z-2 flex-none grid h-[150vh] w-[150vw] gap-4 grid-rows-[repeat(4,1fr)] grid-cols-[100%] -rotate-15 origin-center">
+        <div className="relative z-2 flex-none grid h-[150vh] w-[150vw] gap-4 grid-rows-[repeat(4,1fr)] grid-cols-[100%] -rotate-50 origin-center">
           {[...Array(4)].map((_, rowIndex) => (
             <div
               key={rowIndex}
@@ -89,7 +89,7 @@ export function GridMotion({
               {[...Array(7)].map((_, itemIndex) => {
                 const content = combinedItems[rowIndex * 7 + itemIndex]
                 return (
-                  <div key={itemIndex} className="relative aspect-square rotate-15">
+                  <div key={itemIndex} className="relative aspect-square rotate-50">
                     <div className="relative h-full w-full overflow-hidden rounded-lg flex items-center justify-center text-foreground text-xl">
                       {typeof content === 'string' && content.startsWith('http') ? (
                         <div
