@@ -3,7 +3,7 @@
 
 import { cn } from "@/lib/utils";
 import { ScrollReveal } from "./scroll-reveal";
-import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
+import { ClientOnlyTimeline } from "@/components/ui/client-only-timeline";
 import { Calendar, PenTool, Code, Search, CheckCircle, Rocket } from "lucide-react";
 
 const processSteps = [
@@ -96,7 +96,7 @@ export function ProcessSection({ className }: ProcessSectionProps) {
                 </ScrollReveal>
 
                 <div className="relative mt-16 h-[500px] md:h-[600px] w-full">
-                    <RadialOrbitalTimeline timelineData={processSteps} />
+                    <ClientOnlyTimeline timelineData={processSteps} />
                 </div>
             </div>
         </section>
