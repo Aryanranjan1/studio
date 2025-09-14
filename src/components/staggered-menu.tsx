@@ -57,7 +57,6 @@ export const StaggeredMenu = ({
   const iconRef = useRef<HTMLSpanElement>(null);
   const textInnerRef = useRef<HTMLSpanElement>(null);
   const toggleBtnRef = useRef<HTMLButtonElement>(null);
-  const [textLines, setTextLines] = useState(['Menu', 'Close']);
 
   const openTlRef = useRef<gsap.core.Timeline | null>(null);
   const closeTweenRef = useRef<gsap.core.Tween | null>(null);
