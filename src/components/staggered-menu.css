@@ -5,8 +5,14 @@
   left: 0;
   width: 100%;
   z-index: 50;
+  transition: top 0.3s ease-in-out;
   pointer-events: none;
 }
+
+.staggered-menu-wrapper.hidden {
+  top: -100px;
+}
+
 
 .staggered-menu-header {
   display: flex;
@@ -16,6 +22,13 @@
   margin: 0 auto;
   pointer-events: auto;
   transition: all 0.3s ease;
+  background-color: hsl(var(--card) / 0.5);
+  border-radius: 9999px;
+  padding: 0.5rem;
+  border: 1px solid hsl(var(--border) / 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 .sm-logo {
@@ -23,6 +36,7 @@
   align-items: center;
   user-select: none;
   flex-shrink: 0;
+  color: hsl(var(--foreground));
 }
 
 .sm-nav {
@@ -41,7 +55,7 @@
 }
 
 .sm-panel-item {
-  color: hsl(var(--primary-foreground));
+  color: hsl(var(--foreground));
   font-weight: 500;
   font-size: 0.875rem;
   text-decoration: none;
@@ -53,15 +67,12 @@
 }
 
 .sm-panel-item:hover, .sm-panel-item.active {
-  color: hsl(var(--primary));
-  background-color: hsl(var(--primary-foreground));
+  color: hsl(var(--primary-foreground));
+  background-color: hsl(var(--primary));
 }
 
-.dark .sm-panel-item {
-  color: hsl(var(--primary-foreground));
-}
 .dark .sm-panel-item:hover, .dark .sm-panel-item.active {
-  color: hsl(var(--primary-foreground));
+  color: hsl(var(--accent-foreground));
   background-color: hsl(var(--accent));
 }
 

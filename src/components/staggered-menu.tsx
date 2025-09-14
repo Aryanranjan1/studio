@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './staggered-menu.css';
 import { AmpireLogo } from './logo';
 import Link from 'next/link';
@@ -27,13 +27,36 @@ export const StaggeredMenu = ({
   className,
 }: StaggeredMenuProps) => {
   const pathname = usePathname();
+  const [visible, setVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const controlNavbar = () => {
+      if (typeof window !== 'undefined') {
+        if (window.scrollY > lastScrollY && window.scrollY > 100) { // if scroll down hide the navbar
+          setVisible(false);
+        } else { // if scroll up show the navbar
+          setVisible(true);
+        }
+        setLastScrollY(window.scrollY);
+      }
+    };
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', controlNavbar);
+
+      return () => {
+        window.removeEventListener('scroll', controlNavbar);
+      };
+    }
+  }, [lastScrollY]);
 
   return (
-    <div className={cn('staggered-menu-wrapper', className)}>
+    <div className={cn('staggered-menu-wrapper', !visible && 'hidden', className)}>
       <header className="staggered-menu-header" aria-label="Main navigation header">
         <Link href="/" className="sm-logo" aria-label="Logo">
-          <AmpireLogo className='h-8 w-auto text-primary-foreground' />
-          <span className='font-headline text-xl font-bold ml-2 text-primary-foreground'>AMpire</span>
+          <AmpireLogo className='h-8 w-auto text-primary' />
+          <span className='font-headline text-xl font-bold ml-2'>AMpire</span>
         </Link>
         
         <nav className="sm-nav hidden md:flex">
