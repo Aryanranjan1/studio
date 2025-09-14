@@ -97,12 +97,12 @@ export default {
           "100%": { transform: "translateY(0px) rotate(0deg)" },
         },
         "marquee": {
-          "0%": { transform: "translateX(0%)" },
-          "100%": { transform: "translateX(-200%)" },
+            "from": { "transform": "translateX(0)" },
+            "to": { "transform": "translateX(calc(-100% - 2.5rem))" }
         },
         "marquee-reverse": {
-            "0%": { transform: "translateX(-200%)" },
-            "100%": { transform: "translateX(0%)" },
+            "from": { "transform": "translateX(calc(-100% - 2.5rem))" },
+            "to": { "transform": "translateX(0)" }
         }
       },
       animation: {
@@ -116,5 +116,3 @@ export default {
   },
   plugins: [require('tailwindcss-animate')],
 } satisfies Config;
-
-    
