@@ -1,60 +1,58 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Card, CardContent } from "./ui/card";
-import { ScrollReveal } from "./scroll-reveal";
-import { getTestimonials, Testimonial } from "@/lib/data";
-import { Quote } from "lucide-react";
+import { motion } from "framer-motion";
+import { getTestimonials } from "@/lib/data";
+import type { Testimonial } from "@/lib/data";
+import { TestimonialsColumn } from "@/components/ui/testimonials-column";
 import { cn } from "@/lib/utils";
 
 interface TestimonialSectionProps {
   className?: string;
 }
 
-export function TestimonialSection({ className }: TestimonialSectionProps) {
-  const testimonials = getTestimonials();
+const TestimonialSection = ({ className }: TestimonialSectionProps) => {
+  const testimonials = getTestimonials().map(t => ({
+      text: t.quote,
+      image: t.avatarUrl,
+      name: t.name,
+      role: `${t.title}, ${t.company}`
+  }));
+
+  const firstColumn = testimonials.slice(0, 3);
+  const secondColumn = testimonials.slice(1, 4);
+  const thirdColumn = testimonials.slice(2, 5);
 
   return (
-    <section id="testimonials" className={cn("py-24 sm:py-32", className)}>
-      <div className="container">
-        <ScrollReveal>
-          <div className="text-center max-w-3xl mx-auto">
-            <p className="font-headline text-sm font-semibold uppercase tracking-wider text-primary">Testimonials</p>
-            <h2 className="font-headline mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-              What Our Clients Say
-            </h2>
-            <p className="mt-6 text-lg text-foreground/80">
-              We're proud to have partnered with amazing companies and delivered exceptional results.
-            </p>
-          </div>
-        </ScrollReveal>
+    <section className={cn("bg-background my-20 relative", className)}>
 
-          <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {testimonials.map((testimonial, index) => (
-              <ScrollReveal key={testimonial.id} delay={index * 100}>
-                <Card className="h-full flex flex-col">
-                  <CardContent className="flex-1 flex flex-col justify-between p-6">
-                    <div>
-                      <Quote className="h-8 w-8 text-primary/50 mb-4" />
-                      <p className="text-muted-foreground italic">"{testimonial.quote}"</p>
-                    </div>
-                    <div className="flex items-center gap-4 mt-6 pt-6 border-t dark:border-white/10">
-                      <Avatar>
-                        <AvatarImage src={testimonial.avatarUrl} alt={testimonial.name} />
-                        <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-semibold text-foreground">{testimonial.name}</p>
-                        <p className="text-sm text-muted-foreground">{testimonial.title}, {testimonial.company}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </ScrollReveal>
-            ))}
+      <div className="container z-10 mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          viewport={{ once: true }}
+          className="flex flex-col items-center justify-center max-w-[540px] mx-auto"
+        >
+          <div className="flex justify-center">
+            <div className="border py-1 px-4 rounded-lg">Testimonials</div>
           </div>
 
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tighter mt-5 text-center">
+            What our clients say
+          </h2>
+          <p className="text-center mt-5 opacity-75">
+            See what our customers have to say about us.
+          </p>
+        </motion.div>
+
+        <div className="flex justify-center gap-6 mt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-[740px] overflow-hidden">
+          <TestimonialsColumn testimonials={firstColumn} duration={15} />
+          <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={19} />
+          <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={17} />
+        </div>
       </div>
     </section>
   );
-}
+};
+
+export { TestimonialSection };
