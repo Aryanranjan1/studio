@@ -9,9 +9,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 
 const stats = [
-    { value: "50+", label: "Happy Clients" },
-    { value: "80+", label: "Projects Delivered" },
-    { value: "5k+", label: "Hours of Work" },
+    { value: "5+", label: "Projects Launched" },
+    { value: "1k+", label: "Commits Pushed" },
+    { value: "100%", label: "On-Time Delivery" },
     { value: "100%", label: "Client Satisfaction" },
 ];
 
@@ -51,10 +51,10 @@ export function SuccessRateSection({ className }: SuccessRateSectionProps) {
                 <ScrollReveal>
                     <div className="text-center max-w-3xl mx-auto">
                         <h2 className="font-headline text-4xl font-bold tracking-tight text-white sm:text-5xl">
-                            Proven Success, Tangible Results
+                            Our Commitment to Excellence
                         </h2>
                         <p className="mt-4 text-lg text-white/80">
-                            We are proud of our track record in helping businesses grow and succeed.
+                            We are obsessed with quality and dedicated to delivering results that exceed expectations.
                         </p>
                     </div>
                 </ScrollReveal>
