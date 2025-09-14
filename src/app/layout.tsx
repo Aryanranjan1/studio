@@ -7,6 +7,8 @@ import { SuccessPopupProvider } from '@/hooks/use-success-popup';
 import { StaggeredMenu } from '@/components/staggered-menu';
 import { getServices, getSettings } from '@/lib/data';
 import type { Service, SiteSettings } from '@/lib/data';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'AMpire Studio | Built For You. Crowned By Us.',
@@ -21,10 +23,9 @@ export default function RootLayout({
   const settings: SiteSettings = getSettings();
   const navLinks = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
-    { label: 'Work', ariaLabel: 'View our work', link: '/work' },
-    { label: 'Services', ariaLabel: 'View our services', link: '/services' },
     { label: 'About', ariaLabel: 'Learn about us', link: '/about' },
-    { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
+    { label: 'How it works', ariaLabel: 'View our process', link: '/services' },
+    { label: 'Pricing', ariaLabel: 'View our pricing', link: '/contact' }
   ];
   const socialLinks = settings.socials.map(s => ({ label: s.platform, link: s.href }));
 
@@ -39,15 +40,18 @@ export default function RootLayout({
       <body className="font-body antialiased" suppressHydrationWarning>
           <ThemeProvider
             attribute="class"
-            defaultTheme="dark"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >
             <SuccessPopupProvider>
-              <Background />
               <StaggeredMenu
                 items={navLinks}
-                socialItems={socialLinks}
+                cta={
+                  <Button asChild size="sm">
+                    <Link href="/contact">Book a call with Carepro</Link>
+                  </Button>
+                }
                 />
               <div className='relative z-10'>
                 {children}
