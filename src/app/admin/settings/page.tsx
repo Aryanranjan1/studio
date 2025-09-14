@@ -25,6 +25,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Skeleton } from "@/components/ui/skeleton";
 import { Trash2, PlusCircle } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useSuccessPopup } from "@/hooks/use-success-popup";
 
 const socialLinkSchema = z.object({
     platform: z.enum(socialPlatforms),
@@ -40,6 +41,7 @@ const formSchema = z.object({
 
 export default function SettingsPage() {
   const { toast } = useToast();
+  const { showSuccessPopup } = useSuccessPopup();
   const [loading, setLoading] = useState(true);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -74,19 +76,15 @@ export default function SettingsPage() {
   }, [form]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-        await updateSettings(values);
-        toast({
-            title: "Success",
-            description: "Settings updated successfully.",
-        });
-    } catch (error) {
+    updateSettings(values).then(() => {
+        showSuccessPopup("Settings Saved!");
+    }).catch((error) => {
         toast({
             title: "Error",
             description: "Failed to update settings.",
             variant: "destructive",
         });
-    }
+    });
   }
 
   if (loading) {

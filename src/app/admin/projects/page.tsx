@@ -66,24 +66,31 @@ export default function ProjectsPage() {
   };
   
   const confirmDelete = async () => {
-      if (!projectToDelete) return;
-      try {
-          await deleteProject(projectToDelete);
-          toast({
-              title: "Success",
-              description: "Project deleted successfully.",
-          });
-          // onSnapshot will handle the UI update automatically
-      } catch (error) {
-          toast({
-              title: "Error",
-              description: "Failed to delete project.",
-              variant: "destructive",
-            });
-        } finally {
-            setIsAlertOpen(false);
-            setProjectToDelete(null);
+    if (!projectToDelete) return;
+    const originalProject = projects.find(p => p.id === projectToDelete);
+    // Optimistic deletion
+    setProjects(projects.filter(p => p.id !== projectToDelete));
+    setIsAlertOpen(false);
+
+    try {
+        await deleteProject(projectToDelete);
+        toast({
+            title: "Success",
+            description: "Project deleted successfully.",
+        });
+        setProjectToDelete(null);
+    } catch (error) {
+        toast({
+            title: "Error",
+            description: "Failed to delete project.",
+            variant: "destructive",
+        });
+        // Revert if deletion fails
+        if(originalProject) {
+            setProjects(prev => [...prev, originalProject].sort((a,b) => (b.createdAt?.getTime() || 0) - (a.createdAt?.getTime() || 0)));
         }
+        setProjectToDelete(null);
+      }
     };
 
   return (
@@ -114,6 +121,7 @@ export default function ProjectsPage() {
                 <TableRow>
                     <TableHead>Title</TableHead>
                     <TableHead>Services</TableHead>
+                    <TableHead>Status</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
                 </TableHeader>
@@ -125,6 +133,11 @@ export default function ProjectsPage() {
                         <div className="flex flex-wrap gap-1">
                             {project.services.map(s => <Badge key={s} variant="secondary">{s}</Badge>)}
                         </div>
+                    </TableCell>
+                     <TableCell>
+                        <Badge variant={project.status === 'Completed' ? 'default' : 'secondary'}>
+                            {project.status}
+                        </Badge>
                     </TableCell>
                     <TableCell className="text-right">
                         <Button variant="ghost" size="icon" onClick={() => handleEditClick(project)}>

@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, DocumentReference, writeBatch, serverTimestamp, query, orderBy, where, limit, getDoc, setDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, DocumentReference, writeBatch, serverTimestamp, query, where, limit, getDoc, setDoc } from 'firebase/firestore';
 import type { Project, Testimonial, Message, Article, SiteSettings, Intake, NewIntake, Service } from './data';
 import { sampleProjects, sampleTestimonials, sampleArticles, sampleSettings, sampleServices } from './data';
 
@@ -17,7 +17,7 @@ export type NewProject = Omit<Project, 'id' | 'createdAt'>;
 export type NewService = Omit<Service, 'id'>;
 export type NewTestimonial = Omit<Testimonial, 'id'>;
 export type NewMessage = Omit<Message, 'id' | 'submittedAt'>;
-export type NewArticle = Omit<Article, 'id' | 'createdAt'>;
+export type NewArticle = Omit<Article, 'id'>;
 export type NewSiteSettings = Omit<SiteSettings, 'id'>;
 
 
@@ -269,7 +269,11 @@ export const getArticleBySlug = async (slug: string): Promise<Article | null> =>
             const batch = writeBatch(db);
             sampleArticles.forEach((article) => {
                 const docRef = doc(articlesCollection);
-                batch.set(docRef, article);
+                const articleWithTimestamp = {
+                    ...article,
+                    createdAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000) // random date in last 30 days
+                };
+                batch.set(docRef, articleWithTimestamp);
             });
             await batch.commit();
             console.log("Sample articles have been added to Firestore.");
