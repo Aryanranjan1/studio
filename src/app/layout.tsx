@@ -3,12 +3,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from '@/components/theme-provider';
 import { SuccessPopupProvider } from '@/hooks/use-success-popup';
-import { StaggeredMenu } from '@/components/staggered-menu';
 import { getSettings } from '@/lib/data';
 import type { SiteSettings } from '@/lib/data';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'AMpire Studio | Built For You. Crowned By Us.',
@@ -21,13 +17,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const settings: SiteSettings = getSettings();
-  const navLinks = [
-    { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
-    { label: 'About', ariaLabel: 'Learn about us', link: '/about' },
-    { label: 'Services', ariaLabel: 'View our services', link: '/services' },
-    { label: 'Work', ariaLabel: 'View our work', link: '/work' },
-    { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
-  ];
   
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
@@ -45,14 +34,6 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <SuccessPopupProvider>
-              <StaggeredMenu
-                items={navLinks}
-                cta={
-                  <Button variant="secondary" className="rounded-full bg-accent text-accent-foreground hover:bg-accent/80" asChild>
-                    <Link href="/contact">Get Started <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                  </Button>
-                }
-                />
               <div className='relative z-0'>
                 {children}
               </div>
