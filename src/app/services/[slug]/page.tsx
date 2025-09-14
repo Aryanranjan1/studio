@@ -15,7 +15,6 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
   if (!service) {
     return (
         <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-            
             <main className="flex-1">
                 <PageTitleHeader 
                     title="Service Not Found"
@@ -29,7 +28,6 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-      
       <main className="flex-1">
         <PageTitleHeader 
             title={service.title}

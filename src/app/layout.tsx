@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { SuccessPopupProvider } from '@/hooks/use-success-popup';
 import { getSettings } from '@/lib/data';
 import type { SiteSettings } from '@/lib/data';
+import { Header } from '@/components/header';
 
 export const metadata: Metadata = {
   title: 'AMpire Studio | Built For You. Crowned By Us.',
@@ -34,6 +35,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <SuccessPopupProvider>
+              <Header />
               <div className='relative z-0'>
                 {children}
               </div>

@@ -17,7 +17,6 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
   if (!project) {
     return (
         <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-            
             <main className="flex-1">
                 <PageTitleHeader 
                     title="Project Not Found"
@@ -31,7 +30,6 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-      
       <main className="flex-1">
         <PageTitleHeader 
             title={project.title}

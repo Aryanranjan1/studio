@@ -6,7 +6,6 @@ import { PageTitleHeader } from '@/components/page-title-header';
 export default function ProjectIntakePage() {
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-      
       <main className="flex-1">
         <PageTitleHeader
             title="Web Design Project Discovery"

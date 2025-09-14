@@ -9,7 +9,6 @@ import { TsaSection } from '@/components/tsa-section';
 export default function WorkPage() {
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-      
       <main className="flex-1">
         <PortfolioSection />
         <ProcessSection className="bg-alt" />
