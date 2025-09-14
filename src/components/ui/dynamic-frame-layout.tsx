@@ -52,7 +52,9 @@ function FrameComponent({
       videoRef.current?.play().catch(e => console.log("Video play interrupted"));
     } else {
       videoRef.current?.pause();
-      videoRef.current!.currentTime = 0;
+      if(videoRef.current) {
+        videoRef.current.currentTime = 0;
+      }
     }
   }, [isPlaying])
 
@@ -173,31 +175,62 @@ export function DynamicFrameLayout({
   gapSize = 4
 }: DynamicFrameLayoutProps) {
     const [frames] = useState(initialFrames.map(f => ({...f, isHovered: false, corner: '', edgeHorizontal: '', edgeVertical: '', borderThickness: 0, borderSize: 0 })))
-    const [hovered, setHovered] = useState<{ row: number; col: number } | null>(null)
-    const [autoplayId, setAutoplayId] = useState<number | null>(null);
+    const [activeItem, setActiveItem] = useState<{ row: number; col: number } | null>(null);
+    const [isHovering, setIsHovering] = useState(false);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+    const setActiveCell = (row: number, col: number) => {
+        setActiveItem({ row, col });
+    };
 
     useEffect(() => {
-        const autoplayInterval = setInterval(() => {
-            if (hovered === null) {
-                const randomIndex = Math.floor(Math.random() * frames.length);
-                setAutoplayId(frames[randomIndex].id);
-            }
-        }, 4000); // Change video every 4 seconds
+        const startAutoplay = () => {
+            if (isHovering || document.hidden) return;
 
-        return () => clearInterval(autoplayInterval);
-    }, [hovered, frames]);
+            intervalRef.current = setInterval(() => {
+                const randomIndex = Math.floor(Math.random() * frames.length);
+                const frame = frames[randomIndex];
+                const row = Math.floor(frame.defaultPos.y / 4);
+                const col = Math.floor(frame.defaultPos.x / 4);
+                setActiveCell(row, col);
+            }, 4000);
+        };
+
+        const stopAutoplay = () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
+        };
+
+        const handleVisibilityChange = () => {
+            if (document.hidden) {
+                stopAutoplay();
+            } else {
+                startAutoplay();
+            }
+        };
+
+        startAutoplay();
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+
+        return () => {
+            stopAutoplay();
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+        };
+    }, [isHovering, frames]);
 
 
   const getRowSizes = () => {
-    if (hovered === null) return "4fr 4fr 4fr"
-    const { row } = hovered
+    if (activeItem === null) return "4fr 4fr 4fr"
+    const { row } = activeItem
     const nonHoveredSize = (12 - hoverSize) / 2
     return [0, 1, 2].map((r) => (r === row ? `${hoverSize}fr` : `${nonHoveredSize}fr`)).join(" ")
   }
 
   const getColSizes = () => {
-    if (hovered === null) return "4fr 4fr 4fr"
-    const { col } = hovered
+    if (activeItem === null) return "4fr 4fr 4fr"
+    const { col } = activeItem
     const nonHoveredSize = (12 - hoverSize) / 2
     return [0, 1, 2].map((c) => (c === col ? `${hoverSize}fr` : `${nonHoveredSize}fr`)).join(" ")
   }
@@ -207,6 +240,17 @@ export function DynamicFrameLayout({
     const horizontal = x === 0 ? "left" : x === 4 ? "center" : "right"
     return `${vertical} ${horizontal}`
   }
+
+  const handleMouseEnter = (row: number, col: number) => {
+    setIsHovering(true);
+    setActiveItem({ row, col });
+  }
+  
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setActiveItem(null);
+  };
+
 
   return (
     <div
@@ -218,12 +262,13 @@ export function DynamicFrameLayout({
         gap: `${gapSize}px`,
         transition: "grid-template-rows 0.4s ease, grid-template-columns 0.4s ease",
       }}
+      onMouseLeave={handleMouseLeave}
     >
       {frames.map((frame) => {
         const row = Math.floor(frame.defaultPos.y / 4)
         const col = Math.floor(frame.defaultPos.x / 4)
         const transformOrigin = getTransformOrigin(frame.defaultPos.x, frame.defaultPos.y)
-        const isHovered = hovered?.row === row && hovered?.col === col;
+        const isActive = activeItem?.row === row && activeItem?.col === col;
 
         return (
           <motion.div
@@ -237,8 +282,7 @@ export function DynamicFrameLayout({
               gridRowEnd: row + 1 + Math.round(frame.defaultPos.h / 4),
               gridColumnEnd: col + 1 + Math.round(frame.defaultPos.w / 4),
             }}
-            onMouseEnter={() => setHovered({ row, col })}
-            onMouseLeave={() => setHovered(null)}
+            onMouseEnter={() => handleMouseEnter(row, col)}
           >
             <FrameComponent
               video={frame.video}
@@ -252,7 +296,7 @@ export function DynamicFrameLayout({
               borderThickness={frame.borderThickness}
               borderSize={frame.borderSize}
               showFrame={showFrames}
-              isPlaying={isHovered || autoplayId === frame.id}
+              isPlaying={isActive}
             />
           </motion.div>
         )
