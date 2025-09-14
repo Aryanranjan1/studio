@@ -27,14 +27,24 @@ export function ServiceCategorySection({ className }: ServiceCategorySectionProp
   const services: Service[] = getServices();
 
   return (
-    <section id="services" className={cn("py-24 sm:py-32", className)}>
-      <div className="container">
+    <section id="services" className={cn("relative py-24 sm:py-32 text-white overflow-hidden", className)}>
+       <div className="absolute inset-0 overflow-hidden z-0">
+            <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="size-full object-cover"
+                src="https://www.pexels.com/download/video/3163534/"></video>
+            <div className="absolute inset-0 bg-black/70"></div>
+        </div>
+      <div className="container relative z-10">
         <ScrollReveal>
           <div className="text-center">
             <h2 className="font-headline text-4xl font-bold tracking-tight text-primary sm:text-5xl">
               Our Services
             </h2>
-            <p className="mt-4 text-lg text-foreground/80 max-w-2xl mx-auto">
+            <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
               We offer a comprehensive suite of services to build your digital empire, from crafting your brand's identity to scaling your operations with custom technology.
             </p>
           </div>
