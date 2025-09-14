@@ -1,140 +1,120 @@
 
 'use client';
 
-import { cn } from '@/lib/utils';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useRef, ReactNode } from 'react'
+import { gsap } from 'gsap'
+import { cn } from "@/lib/utils"
 
-const generateGridItems = (count: number) => {
-  return Array.from({ length: count }, (_, i) => `Item ${i + 1}`);
-};
+interface GridMotionProps {
+  /**
+   * Array of items to display in the grid
+   */
+  items?: (string | ReactNode)[]
+  /**
+   * Color for the radial gradient background
+   */
+  gradientColor?: string
+  /**
+   * Additional CSS classes
+   */
+  className?: string
+}
 
-export const GridMotion = ({
-  items,
+export function GridMotion({
+  items = [],
   gradientColor = 'hsl(var(--primary))',
-  className,
-}: {
-  items?: React.ReactNode[];
-  gradientColor?: string;
-  className?: string;
-}) => {
-  const [isMounted, setIsMounted] = useState(false);
+  className
+}: GridMotionProps) {
+  const gridRef = useRef<HTMLDivElement>(null)
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([])
+  const mouseXRef = useRef(typeof window !== 'undefined' ? window.innerWidth / 2 : 0)
 
-  const gridItems = useMemo(() => {
-    if (items && items.length > 0) {
-      return items;
-    }
-    return generateGridItems(50);
-  }, [items]);
-
-  const grid_items_1 = useMemo(() => gridItems.slice(0, Math.ceil(gridItems.length / 3)), [gridItems]);
-  const grid_items_2 = useMemo(() => gridItems.slice(Math.ceil(gridItems.length / 3), Math.ceil(gridItems.length / 3) * 2), [gridItems]);
-  const grid_items_3 = useMemo(() => gridItems.slice(Math.ceil(gridItems.length / 3) * 2), [gridItems]);
+  const totalItems = 28
+  const defaultItems = Array.from({ length: totalItems }, (_, index) => `Item ${index + 1}`)
+  const combinedItems = items.length > 0 ? items.slice(0, totalItems) : defaultItems
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    // Ensure this runs only on the client
+    if (typeof window === 'undefined') return;
 
-  if (!isMounted) {
-    return null;
-  }
+    gsap.ticker.lagSmoothing(0)
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseXRef.current = e.clientX
+    }
+
+    const updateMotion = () => {
+      const maxMoveAmount = 300
+      const baseDuration = 0.8
+      const inertiaFactors = [0.6, 0.4, 0.3, 0.2]
+
+      rowRefs.current.forEach((row, index) => {
+        if (row) {
+          const direction = index % 2 === 0 ? 1 : -1
+          const moveAmount = ((mouseXRef.current / window.innerWidth) * maxMoveAmount - maxMoveAmount / 2) * direction
+
+          gsap.to(row, {
+            x: moveAmount,
+            duration: baseDuration + inertiaFactors[index % inertiaFactors.length],
+            ease: 'power3.out',
+            overwrite: 'auto',
+          })
+        }
+      })
+    }
+
+    const removeAnimationLoop = gsap.ticker.add(updateMotion)
+    window.addEventListener('mousemove', handleMouseMove)
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      removeAnimationLoop()
+    }
+  }, [])
 
   return (
-    <div
-      className={cn(
-        'grid-motion-wrapper group h-full w-full overflow-hidden',
-        className
-      )}
-    >
-      <div
-        className="grid-motion-overlay"
-        style={{ ['--gradient-color' as any]: gradientColor }}
-      />
-      <div className="grid-motion-container h-full w-full">
-        <div className="grid-motion-col">
-          {grid_items_1.map((item, i) => (
-            <div className="grid-motion-item" key={i}>
-              {item}
+    <div className={cn("h-full w-full overflow-hidden", className)} ref={gridRef}>
+      <section
+        className="relative flex h-screen w-full items-center justify-center overflow-hidden"
+        style={{
+          background: `radial-gradient(circle, ${gradientColor} 0%, transparent 100%)`,
+        }}
+      >
+        <div className="relative z-2 flex-none grid h-[150vh] w-[150vw] gap-4 grid-rows-[repeat(4,1fr)] grid-cols-[100%] -rotate-15 origin-center">
+          {[...Array(4)].map((_, rowIndex) => (
+            <div
+              key={rowIndex}
+              className="grid gap-4 grid-cols-[repeat(7,1fr)] will-change-transform will-change-filter"
+              ref={(el) => (rowRefs.current[rowIndex] = el)}
+            >
+              {[...Array(7)].map((_, itemIndex) => {
+                const content = combinedItems[rowIndex * 7 + itemIndex]
+                return (
+                  <div key={itemIndex} className="relative aspect-square">
+                    <div className="relative h-full w-full overflow-hidden rounded-lg bg-muted flex items-center justify-center text-foreground text-xl">
+                      {typeof content === 'string' && content.startsWith('http') ? (
+                        <div
+                          className="absolute inset-0 bg-cover bg-center"
+                          style={{
+                            backgroundImage: `url(${content})`,
+                          }}
+                        />
+                      ) : (
+                        <div className="p-4 text-center z-1">
+                          {content}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           ))}
         </div>
-        <div className="grid-motion-col">
-          {grid_items_2.map((item, i) => (
-            <div className="grid-motion-item" key={i}>
-              {item}
-            </div>
-          ))}
+        <div className="relative pointer-events-none h-full w-full inset-0">
+          <div className="rounded-none" />
         </div>
-        <div className="grid-motion-col">
-          {grid_items_3.map((item, i) => (
-            <div className="grid-motion-item" key={i}>
-              {item}
-            </div>
-          ))}
-        </div>
-      </div>
-      <style>{`
-        .grid-motion-wrapper {
-            position: relative;
-        }
-        .grid-motion-overlay {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, transparent 20%, var(--gradient-color) 120%);
-            z-index: 5;
-            pointer-events: none;
-        }
-        .grid-motion-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1rem;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-        .grid-motion-col {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            min-height: 100%;
-            min-width: 0;
-            animation: scroll linear infinite;
-        }
-        .grid-motion-col:nth-child(1) {
-            --duration: 40s;
-            animation-duration: var(--duration);
-        }
-        .grid-motion-col:nth-child(2) {
-            --duration: 60s;
-            animation-duration: var(--duration);
-            animation-direction: reverse;
-        }
-        .grid-motion-col:nth-child(3) {
-            --duration: 45s;
-            animation-duration: var(--duration);
-        }
-        .grid-motion-wrapper:hover .grid-motion-col {
-            animation-play-state: paused;
-        }
-        .grid-motion-item {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            border-radius: 0.75rem;
-            overflow: hidden;
-            background: hsl(var(--muted));
-            transition: transform 0.3s ease;
-        }
-        .grid-motion-item:hover {
-            transform: scale(1.05);
-            z-index: 10;
-        }
-
-        @keyframes scroll {
-            from { transform: translateY(-33.33%); }
-            to { transform: translateY(0); }
-        }
-      `}</style>
+      </section>
     </div>
-  );
-};
+  )
+}

@@ -67,6 +67,12 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      rotate: {
+        '15': '15deg',
+      },
+      backgroundImage: {
+        'noise': "url('https://www.reactbits.dev/assets/noise.png')",
+      },
       keyframes: {
         'accordion-down': {
           from: {
