@@ -3,8 +3,6 @@
 
 import { DynamicFrameLayout } from "@/components/ui/dynamic-frame-layout";
 import { ScrollReveal } from "./scroll-reveal";
-import { getProjects } from "@/lib/data";
-import type { Project } from "@/lib/data";
 
 const initialFrames = [
   { id: 1, video: "https://cdn.dribbble.com/userupload/13072381/file/original-4b3db1123497a688d363321528437298.mp4", defaultPos: { x: 0, y: 0, w: 4, h: 4 }, mediaSize: 1.5, },
@@ -19,24 +17,17 @@ export function VideoSection({ className }: { className?: string }) {
 
   return (
     <section id="gallery" className={className}>
-      <div className="container py-24 sm:py-32">
+      <div className="container py-12 sm:py-16">
         <ScrollReveal>
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="font-headline text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-              Our Visual Showcase
-            </h2>
-            <p className="mt-4 text-lg text-foreground/80">
-              A curated look at the stunning visuals and user-centric designs we've brought to life for our clients.
-            </p>
-          </div>
-        </ScrollReveal>
-        <ScrollReveal delay={200}>
-          <div className="mt-16 max-w-5xl mx-auto h-[600px]">
-            <DynamicFrameLayout frames={initialFrames} />
+          <div className="mt-8 max-w-5xl mx-auto h-[600px]">
+            <DynamicFrameLayout 
+                frames={initialFrames} 
+                hoverSize={6}
+                gapSize={4}
+            />
           </div>
         </ScrollReveal>
       </div>
     </section>
   );
 }
-
