@@ -1,44 +1,79 @@
+
+"use client";
+
 import { cn } from "@/lib/utils";
 import { ScrollReveal } from "./scroll-reveal";
+import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
+import { Calendar, PenTool, Code, Search, CheckCircle, Rocket } from "lucide-react";
 
 const processSteps = [
     {
-      step: 1,
+      id: 1,
       title: "Discovery & Strategy",
-      description: "We dive deep into your brand, goals, and audience to create a strategic blueprint for your digital empire.",
-      color: "bg-blue-500",
+      date: "Step 1",
+      content: "We dive deep into your brand, goals, and audience to create a strategic blueprint for your digital empire.",
+      category: "Planning",
+      icon: Calendar,
+      relatedIds: [2],
+      status: "completed" as const,
+      energy: 100,
     },
     {
-      step: 2,
+      id: 2,
       title: "Design & Prototyping",
-      description: "We craft stunning, user-centric designs and interactive prototypes. This is where your vision starts to take shape.",
-      color: "bg-pink-500",
+      date: "Step 2",
+      content: "We craft stunning, user-centric designs and interactive prototypes. This is where your vision starts to take shape.",
+      category: "Design",
+      icon: PenTool,
+      relatedIds: [1, 3],
+      status: "completed" as const,
+      energy: 90,
     },
     {
-      step: 3,
+      id: 3,
       title: "Development & Build",
-      description: "Our developers bring the designs to life with clean, efficient code, whether it's a WordPress site or a Next.js app.",
-      color: "bg-purple-500",
+      date: "Step 3",
+      content: "Our developers bring the designs to life with clean, efficient code, whether it's a WordPress site or a Next.js app.",
+      category: "Development",
+      icon: Code,
+      relatedIds: [2, 4],
+      status: "completed" as const,
+      energy: 80,
     },
-    {
-      step: 4,
+     {
+      id: 4,
       title: "SEO & Automation Setup",
-      description: "We implement foundational SEO and time-saving automations to ensure your site works hard for you from day one.",
-      color: "bg-sky-500",
+      date: "Step 4",
+      content: "We implement foundational SEO and time-saving automations to ensure your site works hard for you from day one.",
+      category: "Setup",
+      icon: Search,
+      relatedIds: [3, 5],
+      status: "in-progress" as const,
+      energy: 60,
     },
     {
-      step: 5,
+      id: 5,
       title: "Testing & Quality Assurance",
-      description: "We rigorously test everything across all devices to ensure a flawless, bug-free launch for your audience.",
-      color: "bg-green-500",
+      date: "Step 5",
+      content: "We rigorously test everything across all devices to ensure a flawless, bug-free launch for your audience.",
+      category: "Testing",
+      icon: CheckCircle,
+      relatedIds: [4, 6],
+      status: "pending" as const,
+      energy: 40,
     },
     {
-      step: 6,
+      id: 6,
       title: "Launch & Coronation",
-      description: "We deploy your project and hand you the keys to your new digital throne. Ongoing support ensures your reign is long and successful.",
-      color: "bg-yellow-500",
+      date: "Step 6",
+      content: "We deploy your project and hand you the keys to your new digital throne. Ongoing support ensures your reign is long and successful.",
+      category: "Release",
+      icon: Rocket,
+      relatedIds: [5],
+      status: "pending" as const,
+      energy: 20,
     },
-  ];
+];
 
 interface ProcessSectionProps {
     className?: string;
@@ -60,23 +95,8 @@ export function ProcessSection({ className }: ProcessSectionProps) {
                     </div>
                 </ScrollReveal>
 
-                <div className="relative mt-16 max-w-2xl mx-auto">
-                    <div className="absolute left-4 top-0 h-full w-px bg-border -translate-x-1/2"></div>
-                    {processSteps.map((item, index) => (
-                        <ScrollReveal key={item.step} delay={index * 100}>
-                            <div className="relative flex items-start gap-8 last:mb-0 mb-12">
-                                <div className="relative z-10 flex-shrink-0">
-                                    <div className={`flex items-center justify-center w-8 h-8 rounded-full text-white font-bold ${item.color}`}>
-                                        {item.step}
-                                    </div>
-                                </div>
-                                <div className="mt-px">
-                                    <h3 className="text-xl font-bold text-foreground">{item.title}</h3>
-                                    <p className="mt-2 text-muted-foreground">{item.description}</p>
-                                </div>
-                            </div>
-                        </ScrollReveal>
-                    ))}
+                <div className="relative mt-16 h-[500px] md:h-[600px] w-full">
+                    <RadialOrbitalTimeline timelineData={processSteps} />
                 </div>
             </div>
         </section>
