@@ -6,7 +6,7 @@ import { getProjectBySlug } from '@/lib/data';
 import type { Project } from '@/lib/data';
 import { PageTitleHeader } from '@/components/page-title-header';
 import { Footer } from '@/components/footer';
-import { Header } from '@/components/header';
+
 import { Badge } from '@/components/ui/badge';
 import { PortfolioSection } from '@/components/portfolio-section';
 
@@ -17,7 +17,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
   if (!project) {
     return (
         <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-            <Header />
+            
             <main className="flex-1">
                 <PageTitleHeader 
                     title="Project Not Found"
@@ -31,7 +31,7 @@ export default function ProjectPage({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-      <Header />
+      
       <main className="flex-1">
         <PageTitleHeader 
             title={project.title}

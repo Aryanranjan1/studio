@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PageTitleHeader } from '@/components/page-title-header';
 import { Footer } from '@/components/footer';
-import { Header } from '@/components/header';
+
 import { ScrollReveal } from '@/components/scroll-reveal';
 import { Button } from '@/components/ui/button';
 
@@ -57,7 +57,7 @@ export default function ArticlesPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-      <Header />
+      
       <main className="flex-1">
         <PageTitleHeader 
             title="Our Articles"

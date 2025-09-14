@@ -1,11 +1,11 @@
-import { Header } from '@/components/header';
+
 import { Footer } from '@/components/footer';
 import { ContactSection } from '@/components/contact-section';
 
 export default function ContactPage() {
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-      <Header />
+      
       <main className="flex-1 py-16">
         <ContactSection />
       </main>

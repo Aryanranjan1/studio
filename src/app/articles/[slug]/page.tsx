@@ -7,7 +7,7 @@ import type { Article } from '@/lib/data';
 import { Skeleton } from '@/components/ui/skeleton';
 import { PageTitleHeader } from '@/components/page-title-header';
 import { Footer } from '@/components/footer';
-import { Header } from '@/components/header';
+
 import { Badge } from '@/components/ui/badge';
 import { Calendar, User } from 'lucide-react';
 
@@ -18,7 +18,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
   if (!article) {
     return (
         <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-            <Header />
+            
             <main className="flex-1">
                 <PageTitleHeader 
                     title="Article Not Found"
@@ -32,7 +32,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-      <Header />
+      
       <main className="flex-1">
         <PageTitleHeader 
             title={article.title}

@@ -4,7 +4,7 @@ import { getServiceBySlug } from '@/lib/data';
 import type { Service } from '@/lib/data';
 import { PageTitleHeader } from '@/components/page-title-header';
 import { Footer } from '@/components/footer';
-import { Header } from '@/components/header';
+
 import { PortfolioSection } from '@/components/portfolio-section';
 import { TsaSection } from '@/components/tsa-section';
 
@@ -15,7 +15,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
   if (!service) {
     return (
         <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-            <Header />
+            
             <main className="flex-1">
                 <PageTitleHeader 
                     title="Service Not Found"
@@ -29,7 +29,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
 
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-      <Header />
+      
       <main className="flex-1">
         <PageTitleHeader 
             title={service.title}
