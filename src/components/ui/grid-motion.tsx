@@ -89,8 +89,8 @@ export function GridMotion({
               {[...Array(7)].map((_, itemIndex) => {
                 const content = combinedItems[rowIndex * 7 + itemIndex]
                 return (
-                  <div key={itemIndex} className="relative aspect-square rotate-15">
-                    <div className="relative h-full w-full overflow-hidden rounded-lg bg-muted flex items-center justify-center text-foreground text-xl">
+                  <div key={itemIndex} className="relative aspect-square">
+                    <div className="relative h-full w-full overflow-hidden rounded-lg flex items-center justify-center text-foreground text-xl">
                       {typeof content === 'string' && content.startsWith('http') ? (
                         <div
                           className="absolute inset-0 bg-cover bg-center"
