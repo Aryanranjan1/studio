@@ -2,9 +2,19 @@
 
 import { useTheme } from "next-themes";
 import { SparklesCore } from "@/components/ui/sparkles";
+import { useEffect, useState } from "react";
 
 export function Background() {
     const { theme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return null;
+    }
 
     return (
         <div className="w-full fixed inset-0 h-screen z-0">
