@@ -16,11 +16,8 @@ export default function Home() {
 
   // We need 15 projects for the parallax effect.
   // If we don't have enough, we'll duplicate them.
-  const parallaxProjects = [...projects];
-  while (parallaxProjects.length < 15) {
-    parallaxProjects.push(...projects);
-  }
-
+  const parallaxProjects = [...projects, ...projects, ...projects, ...projects, ...projects];
+  
   const products = parallaxProjects.slice(0, 15).map((project) => ({
     title: project.title,
     link: `/work/${project.slug}`,
