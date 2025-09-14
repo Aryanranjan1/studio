@@ -55,11 +55,11 @@ export function Footer() {
     <footer className="border-t dark:border-white/10 dark:bg-background/50 dark:backdrop-blur-lg">
       <div className="container py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Ampire Studios */}
+          {/* AMpire Studio */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
               <AmpireLogo className="text-primary" />
-              <span className="font-headline text-xl font-bold">Ampire Studios</span>
+              <span className="font-headline text-xl font-bold">AMpire Studio</span>
             </Link>
             <p className="text-muted-foreground text-sm">
               We help businesses and creators rise above the noise and claim their digital throne.
@@ -139,7 +139,7 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-center md:text-left">
                 <p className="text-sm text-muted-foreground">
-                    &copy; {new Date().getFullYear()} Ampire Studios. All rights reserved.
+                    &copy; {new Date().getFullYear()} AMpire Studio. All rights reserved.
                 </p>
                 <p className="text-sm text-muted-foreground mt-1 font-headline">
                     Built For You. Crowned By Us. 👑

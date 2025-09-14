@@ -64,7 +64,7 @@ export function AdvantageSection({ className }: AdvantageSectionProps) {
           <div className="text-center max-w-3xl mx-auto">
             <p className="font-headline text-sm font-semibold uppercase tracking-wider text-primary">What We Solve</p>
             <h2 className="font-headline mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-              The Ampire Studios Advantage
+              The AMpire Studio Advantage
             </h2>
             <p className="mt-6 text-lg text-foreground/80">
               You're facing scaling challenges, tech confusion, and online invisibility. We provide the solutions to help you claim your digital throne.

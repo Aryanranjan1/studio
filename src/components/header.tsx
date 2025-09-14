@@ -26,7 +26,7 @@ export function Header() {
       <div className="container flex h-16 items-center">
         <Link href="/" className="flex items-center gap-2">
           <AmpireLogo className="text-primary" />
-          <span className="font-headline text-xl font-bold">Ampire Studios</span>
+          <span className="font-headline text-xl font-bold">AMpire Studio</span>
         </Link>
         <nav className="ml-auto hidden md:flex items-center gap-6 text-sm font-medium">
           {navLinks.map((link) => (

@@ -6,7 +6,7 @@ import { Background } from '@/components/background';
 import { SuccessPopupProvider } from '@/hooks/use-success-popup';
 
 export const metadata: Metadata = {
-  title: 'Ampire Studios | Built For You. Crowned By Us.',
+  title: 'AMpire Studio | Built For You. Crowned By Us.',
   description: 'We help businesses and creators rise above the noise and claim their digital throne. We craft digital experiences that attract, engage, and convert.',
 };
 
