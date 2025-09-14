@@ -56,6 +56,11 @@
   overflow: visible;
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.staggered-menu-wrapper[data-open] .sm-toggle {
+    color: hsl(var(--card-foreground));
 }
 
 .sm-toggle:focus-visible {

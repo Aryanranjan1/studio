@@ -25,10 +25,7 @@ interface StaggeredMenuProps {
   displaySocials?: boolean;
   displayItemNumbering?: boolean;
   className?: string;
-  menuButtonColor?: string;
-  openMenuButtonColor?: string;
   accentColor?: string;
-  changeMenuColorOnOpen?: boolean;
   onMenuOpen?: () => void;
   onMenuClose?: () => void;
 }
@@ -41,10 +38,7 @@ export const StaggeredMenu = ({
   displaySocials = true,
   displayItemNumbering = true,
   className,
-  menuButtonColor = 'hsl(var(--foreground))',
-  openMenuButtonColor = 'hsl(var(--card-foreground))',
   accentColor = 'hsl(var(--primary))',
-  changeMenuColorOnOpen = true,
   onMenuOpen,
   onMenuClose
 }: StaggeredMenuProps) => {
@@ -62,7 +56,6 @@ export const StaggeredMenu = ({
   const closeTweenRef = useRef<gsap.core.Tween | null>(null);
   const spinTweenRef = useRef<gsap.core.Tween | null>(null);
   const textCycleAnimRef = useRef<gsap.core.Tween | null>(null);
-  const colorTweenRef = useRef<gsap.core.Tween | null>(null);
   const busyRef = useRef(false);
   const preLayerElsRef = useRef<HTMLDivElement[]>([]);
 
@@ -86,10 +79,9 @@ export const StaggeredMenu = ({
       gsap.set(plusV, { transformOrigin: '50% 50%', rotate: 90 });
       gsap.set(icon, { rotate: 0, transformOrigin: '50% 50%' });
       gsap.set(textInner, { yPercent: 0 });
-      if (toggleBtnRef.current) gsap.set(toggleBtnRef.current, { color: menuButtonColor });
     });
     return () => ctx.revert();
-  }, [menuButtonColor, position]);
+  }, [position]);
 
   const buildOpenTimeline = useCallback(() => {
     const panel = panelRef.current;
@@ -202,29 +194,6 @@ export const StaggeredMenu = ({
     }
   }, []);
 
-  const animateColor = useCallback((opening: boolean) => {
-    const btn = toggleBtnRef.current;
-    if (!btn) return;
-    colorTweenRef.current?.kill();
-    if (changeMenuColorOnOpen) {
-      const targetColor = opening ? openMenuButtonColor : menuButtonColor;
-      colorTweenRef.current = gsap.to(btn, { color: targetColor, delay: 0.18, duration: 0.3, ease: 'power2.out' });
-    } else {
-      gsap.set(btn, { color: menuButtonColor });
-    }
-  }, [openMenuButtonColor, menuButtonColor, changeMenuColorOnOpen]);
-
-  React.useEffect(() => {
-    if (toggleBtnRef.current) {
-      if (changeMenuColorOnOpen) {
-        const targetColor = openRef.current ? openMenuButtonColor : menuButtonColor;
-        gsap.set(toggleBtnRef.current, { color: targetColor });
-      } else {
-        gsap.set(toggleBtnRef.current, { color: menuButtonColor });
-      }
-    }
-  }, [changeMenuColorOnOpen, menuButtonColor, openMenuButtonColor, openRef]);
-
   const animateText = useCallback((opening: boolean) => {
     const inner = textInnerRef.current;
     if (!inner) return;
@@ -246,9 +215,8 @@ export const StaggeredMenu = ({
       playClose();
     }
     animateIcon(target);
-    animateColor(target);
     animateText(target);
-  }, [playOpen, playClose, animateIcon, animateColor, animateText, onMenuOpen, onMenuClose]);
+  }, [playOpen, playClose, animateIcon, animateText, onMenuOpen, onMenuClose]);
 
   return (
     <div
