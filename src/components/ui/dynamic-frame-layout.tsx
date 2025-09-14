@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect, useRef } from "react"
@@ -8,7 +7,13 @@ interface Frame {
   id: number
   video: string
   defaultPos: { x: number; y: number; w: number; h: number }
-  mediaSize: number;
+  corner: string
+  edgeHorizontal: string
+  edgeVertical: string
+  mediaSize: number
+  borderThickness: number
+  borderSize: number
+  isHovered: boolean
 }
 
 interface FrameComponentProps {
@@ -16,7 +21,13 @@ interface FrameComponentProps {
   width: number | string
   height: number | string
   className?: string
+  corner: string
+  edgeHorizontal: string
+  edgeVertical: string
   mediaSize: number
+  borderThickness: number
+  borderSize: number
+  showFrame: boolean
   isHovered: boolean
 }
 
@@ -25,7 +36,13 @@ function FrameComponent({
   width,
   height,
   className = "",
+  corner,
+  edgeHorizontal,
+  edgeVertical,
   mediaSize,
+  borderThickness,
+  borderSize,
+  showFrame,
   isHovered,
 }: FrameComponentProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -53,11 +70,11 @@ function FrameComponent({
           style={{
             zIndex: 1,
             transition: "all 0.3s ease-in-out",
-            padding: "0",
-            width: "100%",
-            height: "100%",
-            left: "0",
-            top: "0",
+            padding: showFrame ? `${borderThickness}px` : "0",
+            width: showFrame ? `${borderSize}%` : "100%",
+            height: showFrame ? `${borderSize}%` : "100%",
+            left: showFrame ? `${(100 - borderSize) / 2}%` : "0",
+            top: showFrame ? `${(100 - borderSize) / 2}%` : "0",
           }}
         >
           <div
@@ -78,6 +95,62 @@ function FrameComponent({
             />
           </div>
         </div>
+
+        {showFrame && (
+          <div className="absolute inset-0" style={{ zIndex: 2 }}>
+            <div
+              className="absolute top-0 left-0 w-16 h-16 bg-contain bg-no-repeat"
+              style={{ backgroundImage: `url(${corner})` }}
+            />
+            <div
+              className="absolute top-0 right-0 w-16 h-16 bg-contain bg-no-repeat"
+              style={{ backgroundImage: `url(${corner})`, transform: "scaleX(-1)" }}
+            />
+            <div
+              className="absolute bottom-0 left-0 w-16 h-16 bg-contain bg-no-repeat"
+              style={{ backgroundImage: `url(${corner})`, transform: "scaleY(-1)" }}
+            />
+            <div
+              className="absolute bottom-0 right-0 w-16 h-16 bg-contain bg-no-repeat"
+              style={{ backgroundImage: `url(${corner})`, transform: "scale(-1, -1)" }}
+            />
+
+            <div
+              className="absolute top-0 left-16 right-16 h-16"
+              style={{
+                backgroundImage: `url(${edgeHorizontal})`,
+                backgroundSize: "auto 64px",
+                backgroundRepeat: "repeat-x",
+              }}
+            />
+            <div
+              className="absolute bottom-0 left-16 right-16 h-16"
+              style={{
+                backgroundImage: `url(${edgeHorizontal})`,
+                backgroundSize: "auto 64px",
+                backgroundRepeat: "repeat-x",
+                transform: "rotate(180deg)",
+              }}
+            />
+            <div
+              className="absolute left-0 top-16 bottom-16 w-16"
+              style={{
+                backgroundImage: `url(${edgeVertical})`,
+                backgroundSize: "64px auto",
+                backgroundRepeat: "repeat-y",
+              }}
+            />
+            <div
+              className="absolute right-0 top-16 bottom-16 w-16"
+              style={{
+                backgroundImage: `url(${edgeVertical})`,
+                backgroundSize: "64px auto",
+                backgroundRepeat: "repeat-y",
+                transform: "scaleX(-1)",
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   )
@@ -94,10 +167,11 @@ interface DynamicFrameLayoutProps {
 export function DynamicFrameLayout({ 
   frames: initialFrames, 
   className,
+  showFrames = false,
   hoverSize = 6,
   gapSize = 4
 }: DynamicFrameLayoutProps) {
-    const [frames] = useState(initialFrames.map(f => ({...f, isHovered: false})))
+    const [frames] = useState(initialFrames.map(f => ({...f, isHovered: false, corner: '', edgeHorizontal: '', edgeVertical: '', borderThickness: 0, borderSize: 0 })))
     const [hovered, setHovered] = useState<{ row: number; col: number } | null>(null)
 
   const getRowSizes = () => {
@@ -156,7 +230,13 @@ export function DynamicFrameLayout({
               width="100%"
               height="100%"
               className="absolute inset-0"
+              corner={frame.corner}
+              edgeHorizontal={frame.edgeHorizontal}
+              edgeVertical={frame.edgeVertical}
               mediaSize={frame.mediaSize}
+              borderThickness={frame.borderThickness}
+              borderSize={frame.borderSize}
+              showFrame={showFrames}
               isHovered={hovered?.row === row && hovered?.col === col}
             />
           </motion.div>
