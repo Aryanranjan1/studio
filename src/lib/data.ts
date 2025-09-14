@@ -14,7 +14,7 @@ export interface Project {
 export const projectStatuses = ['Pending', 'In Progress', 'Completed', 'Billed'] as const;
 export type ProjectStatus = typeof projectStatuses[number];
 
-export const serviceIcons = ['Branding', 'UI/UX Design', 'Web Development', 'Mobile App', 'E-commerce', 'Marketing'] as const;
+export const serviceIcons = ['Branding', 'UI/UX Design', 'Web Development', 'Mobile App', 'E-commerce', 'Marketing', 'Automations'] as const;
 export type ServiceIcon = typeof serviceIcons[number];
 
 export interface Service {
@@ -188,6 +188,14 @@ export const services: Service[] = [
         description: 'We execute data-driven SEO and marketing strategies to make you visible online.',
         longDescription: 'Our digital marketing services are designed to help you reach your target audience and achieve your business goals. We develop comprehensive strategies that include Search Engine Optimization (SEO) to make you visible in search results, Pay-Per-Click (PPC) advertising, and custom automations to save you time. We are data-driven, constantly analyzing performance and optimizing our campaigns to deliver the best possible return on investment. Let us help you grow your brand and connect with more customers online.',
         icon: 'Marketing',
+    },
+    {
+        id: "7",
+        title: 'Automations',
+        slug: 'automations',
+        description: 'We save you time and streamline your operations by building custom automations that handle your repetitive, time-consuming tasks.',
+        longDescription: 'In today\'s fast-paced world, efficiency is key. We specialize in creating custom automation solutions that integrate with your existing workflows. Whether it\'s automating data entry, streamlining your social media posting, managing email campaigns, or connecting disparate software systems, we build robust solutions that save you time and reduce errors. Let us handle the repetitive work so you can focus on what you do best: growing your business.',
+        icon: 'Automations',
     }
 ];
 
