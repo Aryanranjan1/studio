@@ -49,7 +49,7 @@ export const StaggeredMenu = ({
   onMenuClose
 }: StaggeredMenuProps) => {
   const [open, setOpen] = useState(false);
-  const openRef = useRef(false);
+  const openRef = useRef(open);
   const panelRef = useRef<HTMLDivElement>(null);
   const preLayersRef = useRef<HTMLDivElement>(null);
   const plusHRef = useRef<HTMLSpanElement>(null);
@@ -223,7 +223,7 @@ export const StaggeredMenu = ({
         gsap.set(toggleBtnRef.current, { color: menuButtonColor });
       }
     }
-  }, [changeMenuColorOnOpen, menuButtonColor, openMenuButtonColor]);
+  }, [changeMenuColorOnOpen, menuButtonColor, openMenuButtonColor, openRef]);
 
   const animateText = useCallback((opening: boolean) => {
     const inner = textInnerRef.current;
