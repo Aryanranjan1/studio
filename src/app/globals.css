@@ -4,59 +4,48 @@
 
 @layer base {
   :root {
-    --background: 210 20% 98%; /* Light Greyish Blue */
-    --foreground: 224 71% 4%; /* Dark Blue */
-    --card: 210 20% 100%;
-    --card-foreground: 224 71% 4%;
-    --popover: 210 20% 100%;
-    --popover-foreground: 224 71% 4%;
-    --primary: 195 22% 25%; /* Muted Dark Teal */
-    --primary-foreground: 210 20% 98%;
-    --secondary: 210 20% 94%;
-    --secondary-foreground: 224 71% 4%;
-    --muted: 210 20% 94%;
-    --muted-foreground: 224 10% 40%;
-    --accent: 180 31% 91%; /* Soft Teal-Green */
-    --accent-foreground: 224 71% 4%;
+    --background: 240 5% 96%; /* Light Grey */
+    --foreground: 240 6% 10%; /* Near Black */
+    --card: 240 5% 100%;
+    --card-foreground: 240 6% 10%;
+    --popover: 240 5% 100%;
+    --popover-foreground: 240 6% 10%;
+    --primary: 244 81% 59%; /* Vibrant Purple */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 5% 90%;
+    --secondary-foreground: 240 6% 10%;
+    --muted: 240 5% 90%;
+    --muted-foreground: 240 4% 46%;
+    --accent: 74 94% 56%; /* Lime Green */
+    --accent-foreground: 240 6% 10%;
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 210 20% 87%;
-    --input: 210 20% 89%;
-    --ring: 195 22% 25%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 5% 83%;
+    --input: 240 5% 83%;
+    --ring: 244 81% 59%;
     --radius: 0.8rem;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 340 80% 55%;
-    --chart-4: 40 70% 50%;
-    --chart-5: 280 75% 55%;
   }
 
   .dark {
-    --background: 224 71% 4%;
-    --foreground: 210 20% 98%;
-    --card: 224 71% 4%;
-    --card-foreground: 210 20% 98%;
-    --popover: 224 71% 4%;
-    --popover-foreground: 210 20% 98%;
-    --primary: 180 31% 91%;
-    --primary-foreground: 224 71% 4%;
-    --secondary: 224 20% 10%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 224 20% 10%;
-    --muted-foreground: 210 20% 60%;
-    --accent: 224 20% 10%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 224 20% 15%;
-    --input: 224 20% 15%;
-    --ring: 180 31% 91%;
-    --radius: 0.8rem;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 340 80% 55%;
-    --chart-4: 40 70% 50%;
-    --chart-5: 280 75% 55%;
+    --background: 240 6% 10%;
+    --foreground: 0 0% 98%;
+    --card: 240 6% 12%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 6% 12%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 244 81% 59%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 6% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 6% 15%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 74 94% 56%;
+    --accent-foreground: 240 6% 10%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 6% 20%;
+    --input: 240 6% 20%;
+    --ring: 244 81% 59%;
   }
 }
 
@@ -96,11 +85,11 @@
 }
 
 .light .bg-alt {
-    background-color: hsl(210 20% 94%);
+    background-color: hsl(240 5% 96%);
 }
 
 .dark .bg-alt {
-    background-color: hsl(224 20% 10%);
+    background-color: hsl(240 6% 12%);
 }
 
 /* Success Popup Animation */

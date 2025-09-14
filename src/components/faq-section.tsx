@@ -40,7 +40,7 @@ import { cn } from "@/lib/utils";
         <div className="container">
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto">
-              <h2 className="font-headline text-4xl font-bold tracking-tight text-primary sm:text-5xl">
+              <h2 className="font-headline text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
                 Frequently Asked Questions
               </h2>
               <p className="mt-4 text-lg text-foreground/80">
@@ -53,7 +53,7 @@ import { cn } from "@/lib/utils";
             <div className="mt-12 max-w-3xl mx-auto">
               <Accordion type="single" collapsible className="w-full">
                 {faqs.map((faq, index) => (
-                  <AccordionItem key={index} value={`item-${index + 1}`}>
+                  <AccordionItem key={index} value={`item-${index + 1}`} className="bg-card rounded-lg mb-4 px-6">
                     <AccordionTrigger className="text-lg font-semibold text-left hover:no-underline">
                       {faq.question}
                     </AccordionTrigger>

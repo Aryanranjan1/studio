@@ -2,13 +2,13 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from '@/components/theme-provider';
-import { Background } from '@/components/background';
 import { SuccessPopupProvider } from '@/hooks/use-success-popup';
 import { StaggeredMenu } from '@/components/staggered-menu';
-import { getServices, getSettings } from '@/lib/data';
-import type { Service, SiteSettings } from '@/lib/data';
+import { getSettings } from '@/lib/data';
+import type { SiteSettings } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'AMpire Studio | Built For You. Crowned By Us.',
@@ -24,11 +24,11 @@ export default function RootLayout({
   const navLinks = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
     { label: 'About', ariaLabel: 'Learn about us', link: '/about' },
-    { label: 'Services', ariaLabel: 'View our process', link: '/services' },
-    { label: 'Contact', ariaLabel: 'View our pricing', link: '/contact' }
+    { label: 'Services', ariaLabel: 'View our services', link: '/services' },
+    { label: 'Work', ariaLabel: 'View our work', link: '/work' },
+    { label: 'Contact', ariaLabel: 'Get in touch', link: '/contact' }
   ];
-  const socialLinks = settings.socials.map(s => ({ label: s.platform, link: s.href }));
-
+  
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
@@ -40,7 +40,7 @@ export default function RootLayout({
       <body className="font-body antialiased" suppressHydrationWarning>
           <ThemeProvider
             attribute="class"
-            defaultTheme="light"
+            defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >
@@ -48,12 +48,12 @@ export default function RootLayout({
               <StaggeredMenu
                 items={navLinks}
                 cta={
-                  <Button asChild size="sm">
-                    <Link href="/contact">Book a call with Carepro</Link>
+                  <Button variant="secondary" className="rounded-full bg-accent text-accent-foreground hover:bg-accent/80" asChild>
+                    <Link href="/contact">Get Started <ArrowRight className="ml-2 h-4 w-4" /></Link>
                   </Button>
                 }
                 />
-              <div className='relative z-10'>
+              <div className='relative z-0'>
                 {children}
               </div>
               <Toaster />

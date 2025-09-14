@@ -12,14 +12,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  background: hsl(var(--background) / 0.5);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid hsl(var(--border) / 0.5);
-  border-radius: 9999px;
-  padding: 0.5rem;
   pointer-events: auto;
   transition: all 0.3s ease;
 }
@@ -29,7 +23,6 @@
   align-items: center;
   user-select: none;
   flex-shrink: 0;
-  padding-left: 0.75rem;
 }
 
 .sm-nav {
@@ -48,7 +41,7 @@
 }
 
 .sm-panel-item {
-  color: hsl(var(--foreground));
+  color: hsl(var(--primary-foreground));
   font-weight: 500;
   font-size: 0.875rem;
   text-decoration: none;
@@ -59,14 +52,19 @@
     color 0.25s;
 }
 
-.sm-panel-item.active {
-  background-color: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
+.sm-panel-item:hover, .sm-panel-item.active {
+  color: hsl(var(--primary));
+  background-color: hsl(var(--primary-foreground));
 }
 
-.sm-panel-item:hover:not(.active) {
-  background-color: hsl(var(--secondary));
+.dark .sm-panel-item {
+  color: hsl(var(--primary-foreground));
 }
+.dark .sm-panel-item:hover, .dark .sm-panel-item.active {
+  color: hsl(var(--primary-foreground));
+  background-color: hsl(var(--accent));
+}
+
 
 .sm-cta {
   padding-right: 0.25rem;
@@ -76,4 +74,3 @@
 .sm-toggle, .staggered-menu-panel, .sm-prelayers {
   display: none;
 }
-

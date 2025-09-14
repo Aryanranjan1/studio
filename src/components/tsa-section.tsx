@@ -2,35 +2,43 @@
 
 import Link from "next/link";
 import { Button } from "./ui/button";
-import { Phone } from "lucide-react";
 import { ScrollReveal } from "./scroll-reveal";
-import { SiteSettings, getSettings } from "@/lib/data";
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 
 export function TsaSection() {
-  const settings: SiteSettings | null = getSettings();
 
   return (
-    <section className="py-24 sm:py-32 bg-primary/90 text-primary-foreground">
+    <section className="py-24 sm:py-32 bg-alt">
       <div className="container">
         <ScrollReveal>
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
-              Ready to Claim Your Digital Throne?
-            </h2>
-            <p className="mt-6 text-lg text-primary-foreground/80">
-              Let's discuss how we can help your brand rise above the noise.
-              Schedule your free strategy call today.
-            </p>
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button size="lg" variant="secondary" asChild>
-                <Link href="/project-intake">Start Your Project</Link>
-              </Button>
-              <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
-                <Link href={settings ? `tel:${settings.contactPhone}` : '#'}>
-                  <Phone className="mr-2 h-5 w-5" />
-                  Call Us
-                </Link>
-              </Button>
+          <div className="bg-card rounded-2xl shadow-lg overflow-hidden">
+            <div className="grid lg:grid-cols-2 items-center">
+              <div className="p-8 lg:p-12">
+                <h2 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
+                  Have an amazing project idea in mind?
+                </h2>
+                <p className="mt-6 text-lg text-muted-foreground">
+                  Let's discuss how we can help your brand rise above the noise.
+                  Schedule your free strategy call today.
+                </p>
+                <div className="mt-10">
+                  <Button size="lg" variant="secondary" className="bg-accent text-accent-foreground hover:bg-accent/90" asChild>
+                    <Link href="/project-intake">
+                      Get Started <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+              <div className="h-64 lg:h-full relative">
+                 <Image
+                    src="https://picsum.photos/seed/tsa-image/600/500"
+                    alt="Woman with a project idea"
+                    fill
+                    className="object-cover"
+                    data-ai-hint="woman idea"
+                 />
+              </div>
             </div>
           </div>
         </ScrollReveal>

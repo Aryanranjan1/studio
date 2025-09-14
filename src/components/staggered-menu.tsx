@@ -6,6 +6,8 @@ import { AmpireLogo } from './logo';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { Button } from './ui/button';
+import { ThemeSwitcher } from './theme-switcher';
 
 interface MenuItem {
   label: string;
@@ -30,10 +32,11 @@ export const StaggeredMenu = ({
     <div className={cn('staggered-menu-wrapper', className)}>
       <header className="staggered-menu-header" aria-label="Main navigation header">
         <Link href="/" className="sm-logo" aria-label="Logo">
-          <AmpireLogo className='h-8 w-auto text-primary' />
+          <AmpireLogo className='h-8 w-auto text-primary-foreground' />
+          <span className='font-headline text-xl font-bold ml-2 text-primary-foreground'>AMpire</span>
         </Link>
         
-        <nav className="sm-nav">
+        <nav className="sm-nav hidden md:flex">
           <ul className="sm-panel-list" role="list">
             {items && items.length > 0 && (
               items.map((it, idx) => (
@@ -51,8 +54,9 @@ export const StaggeredMenu = ({
           </ul>
         </nav>
 
-        <div className="sm-cta">
-          {cta}
+        <div className="sm-cta flex items-center gap-2">
+            <ThemeSwitcher />
+            {cta}
         </div>
       </header>
     </div>

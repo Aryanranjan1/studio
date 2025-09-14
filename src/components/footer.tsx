@@ -31,18 +31,10 @@ const socialIcons: { [key in SocialLink['platform']]: LucideIcon | ((props: Reac
   Linkedin: Linkedin,
 };
 
-const serviceLinks = [
-    { name: "Web Design & Development", href: "/services" },
-    { name: "E-Commerce Solutions", href: "/services" },
-    { name: "Branding & Graphic Design", href: "/services" },
-    { name: "SEO Strategies", href: "/services" },
-    { name: "Custom Automations", href: "/services" },
-    { name: "Mobile App Development", href: "/services" },
-];
-
 const quickLinks = [
   { name: "Home", href: "/" },
   { name: "About Us", href: "/about" },
+  { name: "Services", href: "/services" },
   { name: "Portfolio", href: "/work" },
   { name: "Articles", href: "/articles" },
   { name: "Contact", href: "/contact" },
@@ -52,10 +44,9 @@ export function Footer() {
   const settings: SiteSettings = getSettings();
 
   return (
-    <footer className="border-t dark:border-white/10 dark:bg-background/50 dark:backdrop-blur-lg">
+    <footer className="bg-card border-t">
       <div className="container py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* AMpire Studio */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
               <AmpireLogo className="text-primary" />
@@ -76,75 +67,66 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Services */}
-          <div className="space-y-4">
-            <h4 className="font-headline font-semibold text-lg text-foreground">Services</h4>
-            <ul className="space-y-2">
-              {serviceLinks.map((service) => (
-                <li key={service.name}>
-                  <Link href={service.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                    {service.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Quick Links */}
-          <div className="space-y-4">
-            <h4 className="font-headline font-semibold text-lg text-foreground">Quick Links</h4>
-            <ul className="space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div className="space-y-4">
-            <h4 className="font-headline font-semibold text-lg text-foreground">Contact Info</h4>
-            {settings ? (
-                <ul className="space-y-3 text-sm">
-                <li className="flex items-start gap-3">
-                    <MapPin className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
-                    <span className="text-muted-foreground">{settings.address}</span>
-                </li>
-                <li className="flex items-start gap-3">
-                    <Mail className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
-                    <a href={`mailto:${settings.contactEmail}`} className="text-muted-foreground hover:text-primary transition-colors">
-                    {settings.contactEmail}
-                    </a>
-                </li>
-                <li className="flex items-start gap-3">
-                    <Phone className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
-                    <a href={`tel:${settings.contactPhone}`} className="text-muted-foreground hover:text-primary transition-colors">
-                    {settings.contactPhone}
-                    </a>
-                </li>
+          <div className="lg:col-span-2 grid grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <h4 className="font-headline font-semibold text-lg text-foreground">Quick Links</h4>
+                <ul className="space-y-2">
+                {quickLinks.map((link) => (
+                    <li key={link.name}>
+                    <Link href={link.href} className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                        {link.name}
+                    </Link>
+                    </li>
+                ))}
                 </ul>
-            ) : (
-                <div className="space-y-2">
-                    <div className="h-4 bg-muted rounded w-3/4"></div>
-                    <div className="h-4 bg-muted rounded w-full"></div>
-                    <div className="h-4 bg-muted rounded w-1/2"></div>
-                </div>
-            )}
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="font-headline font-semibold text-lg text-foreground">Contact Info</h4>
+                {settings ? (
+                    <ul className="space-y-3 text-sm">
+                    <li className="flex items-start gap-3">
+                        <MapPin className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
+                        <span className="text-muted-foreground">{settings.address}</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                        <Mail className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
+                        <a href={`mailto:${settings.contactEmail}`} className="text-muted-foreground hover:text-primary transition-colors">
+                        {settings.contactEmail}
+                        </a>
+                    </li>
+                    <li className="flex items-start gap-3">
+                        <Phone className="h-4 w-4 mt-1 flex-shrink-0 text-primary" />
+                        <a href={`tel:${settings.contactPhone}`} className="text-muted-foreground hover:text-primary transition-colors">
+                        {settings.contactPhone}
+                        </a>
+                    </li>
+                    </ul>
+                ) : (
+                    <div className="space-y-2">
+                        <div className="h-4 bg-muted rounded w-3/4"></div>
+                        <div className="h-4 bg-muted rounded w-full"></div>
+                        <div className="h-4 bg-muted rounded w-1/2"></div>
+                    </div>
+                )}
+              </div>
+          </div>
+          
+          <div className="space-y-4">
+            <h4 className="font-headline font-semibold text-lg text-foreground">Newsletter</h4>
+            <p className="text-sm text-muted-foreground">Subscribe to our newsletter for the latest updates and offers.</p>
+            {/* Simple newsletter form */}
+            <div className="flex gap-2">
+                <input type="email" placeholder="Your email" className="bg-background border border-input rounded-md px-3 py-2 text-sm w-full" />
+                <Button className="bg-accent text-accent-foreground hover:bg-accent/90">Subscribe</Button>
+            </div>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t dark:border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-center md:text-left">
-                <p className="text-sm text-muted-foreground">
-                    &copy; {new Date().getFullYear()} AMpire Studio. All rights reserved.
-                </p>
-                <p className="text-sm text-muted-foreground mt-1 font-headline">
-                    Built For You. Crowned By Us. 👑
-                </p>
-            </div>
+        <div className="mt-12 pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-muted-foreground">
+                &copy; {new Date().getFullYear()} AMpire Studio. All rights reserved.
+            </p>
             <div className="flex items-center gap-6 text-sm">
                 <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link>
                 <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link>
