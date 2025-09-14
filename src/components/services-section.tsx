@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from 'react';
@@ -55,37 +56,52 @@ export function ServicesSection({ className }: ServicesSectionProps) {
   const [activeService, setActiveService] = useState(servicesData[0]);
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  // Scroll detection logic
   useEffect(() => {
     const handleScroll = () => {
-      if (sectionRef.current) {
-        const { top, bottom, height } = sectionRef.current.getBoundingClientRect();
-        const sectionThird = height / 4;
-        const scrollPosition = window.innerHeight - top;
+      const section = sectionRef.current;
+      if (!section) return;
 
-        if (scrollPosition > 0 && top < window.innerHeight && bottom > 0) {
-           if (scrollPosition > sectionThird * 3) {
-             setActiveService(servicesData[3]);
-           } else if (scrollPosition > sectionThird * 2) {
-             setActiveService(servicesData[2]);
-           } else if (scrollPosition > sectionThird) {
-             setActiveService(servicesData[1]);
-           } else {
-             setActiveService(servicesData[0]);
-           }
+      const { top, height } = section.getBoundingClientRect();
+      const scrollPosition = window.scrollY;
+      const sectionTop = section.offsetTop;
+
+      // Check if we are within the scrollable section area
+      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + height - window.innerHeight) {
+        const scrollableHeight = height - window.innerHeight;
+        const progress = (scrollPosition - sectionTop) / scrollableHeight;
+        
+        const serviceIndex = Math.min(Math.floor(progress * servicesData.length), servicesData.length - 1);
+        
+        if (servicesData[serviceIndex] && activeService.id !== servicesData[serviceIndex].id) {
+          setActiveService(servicesData[serviceIndex]);
         }
       }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [activeService]);
+
+  const onCircleClick = (serviceId: number) => {
+    const section = sectionRef.current;
+    const service = servicesData.find(s => s.id === serviceId);
+    if (!section || !service) return;
+
+    const serviceIndex = servicesData.findIndex(s => s.id === serviceId);
+    const scrollableHeight = section.offsetHeight - window.innerHeight;
+    const targetScrollY = section.offsetTop + (serviceIndex / servicesData.length) * scrollableHeight;
+
+    window.scrollTo({
+      top: targetScrollY,
+      behavior: 'smooth',
+    });
+  };
 
   return (
-    <section ref={sectionRef} id="services" className={cn('py-24 sm:py-32 h-[150vh]', className)}>
+    <section ref={sectionRef} id="services" className={cn('py-24 sm:py-32 h-[300vh]', className)}>
       <div className="container sticky top-24">
         <ScrollReveal>
-          <div className="text-center max-w-3xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-20">
              <h2 className="font-headline text-4xl font-bold tracking-tight text-primary sm:text-5xl">
               Our Arsenal
             </h2>
@@ -95,17 +111,22 @@ export function ServicesSection({ className }: ServicesSectionProps) {
           </div>
         </ScrollReveal>
 
-        <div className="mt-20 grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-16 h-[500px]">
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-16 h-[500px]">
           {/* Left Column: Image */}
-          <div className="lg:col-span-5 h-full relative">
-             <Image
-                src={activeService.imageUrl}
-                alt={activeService.title}
-                fill
-                className="object-cover rounded-2xl transition-opacity duration-500"
-                data-ai-hint={activeService.imageHint}
-                key={activeService.id} // Re-triggers animation
-              />
+          <div className="lg:col-span-5 h-full w-full relative overflow-hidden rounded-2xl">
+            {servicesData.map((service) => (
+               <Image
+                  key={service.id}
+                  src={service.imageUrl}
+                  alt={service.title}
+                  fill
+                  className={cn(
+                    "object-cover transition-opacity duration-1000 ease-in-out",
+                    activeService.id === service.id ? "opacity-100" : "opacity-0"
+                  )}
+                  data-ai-hint={service.imageHint}
+                />
+            ))}
           </div>
 
           {/* Middle Column: Service Selector */}
@@ -114,9 +135,9 @@ export function ServicesSection({ className }: ServicesSectionProps) {
               {servicesData.map((service) => (
                 <button
                   key={service.id}
-                  onClick={() => setActiveService(service)}
+                  onClick={() => onCircleClick(service.id)}
                   className={cn(
-                    'flex items-center justify-center rounded-full transition-all duration-300 ease-in-out',
+                    'flex items-center justify-center rounded-full transition-all duration-500 ease-in-out',
                     'h-16 w-16 bg-card shadow-lg',
                     activeService.id === service.id
                       ? 'bg-primary text-primary-foreground scale-125'
@@ -135,21 +156,31 @@ export function ServicesSection({ className }: ServicesSectionProps) {
           </div>
 
           {/* Right Column: Service Display */}
-          <div className="lg:col-span-5 h-full flex flex-col justify-center">
-              <div className="transition-opacity duration-500" key={activeService.id}>
+          <div className="lg:col-span-5 h-full flex flex-col justify-center relative overflow-hidden">
+            {servicesData.map(service => (
+              <div
+                key={service.id}
+                className={cn(
+                  "absolute transition-opacity duration-1000 ease-in-out",
+                  activeService.id === service.id ? "opacity-100" : "opacity-0"
+                )}
+              >
                 <h3 className="font-headline text-3xl font-bold text-foreground">
-                  {activeService.title}
+                  {service.title}
                 </h3>
                 <p className="mt-4 max-w-lg text-foreground/80 text-lg">
-                  {activeService.description}
+                  {service.description}
                 </p>
                 <Button asChild className="mt-6" size="lg">
-                  <Link href={activeService.href}>Learn More</Link>
+                  <Link href={service.href}>Learn More</Link>
                 </Button>
               </div>
+            ))}
           </div>
         </div>
       </div>
     </section>
   );
 }
+
+    
