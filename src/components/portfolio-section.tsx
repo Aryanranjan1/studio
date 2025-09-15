@@ -112,7 +112,7 @@ const AccordionItemWithObserver = ({
   });
 
   // When scrollYProgress is between 0.45 and 0.55, the item is "active"
-  const isActive = useTransform(scrollYProgress, [0.45, 0.55], [0, 1]);
+  const isActive = useTransform(scrollYProgress, (pos) => (pos > 0.45 && pos < 0.55 ? 1 : 0));
 
   useEffect(() => {
     return isActive.onChange((latest) => {
