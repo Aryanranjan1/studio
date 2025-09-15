@@ -39,14 +39,15 @@ const FlippableBentoCard = ({
     const [isHovering, setIsHovering] = useState(false);
     const [animationType, setAnimationType] = useState('flip-horizontal');
   
-    useEffect(() => {
-      // Randomly select an animation type when the component mounts
+    const handleFlip = () => setIsFlipped(!isFlipped);
+    
+    const handleHoverStart = () => {
+      // Choose a new random animation on every hover
       const randomType = animationTypes[Math.floor(Math.random() * animationTypes.length)];
       setAnimationType(randomType);
-    }, []);
-  
-    const handleFlip = () => setIsFlipped(!isFlipped);
-    const handleHoverStart = () => setIsHovering(true);
+      setIsHovering(true);
+    };
+
     const handleHoverEnd = () => {
       setIsHovering(false);
       // If the card is not permanently flipped, revert it
