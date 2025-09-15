@@ -1,6 +1,5 @@
 
 'use client';
-import { ReactLenis } from 'lenis/react';
 import React, { forwardRef } from 'react';
 import Image from 'next/image';
 import { getProjects } from '@/lib/data';
@@ -23,7 +22,6 @@ const StickyScrollGallery = forwardRef<HTMLElement>((props, ref) => {
     const rightImages = getLoopedImages(5);
 
   return (
-    <ReactLenis root>
       <main className='bg-background text-foreground' ref={ref}>
         <section className='text-white w-full bg-background'>
           <div className='grid grid-cols-12 gap-2 p-2'>
@@ -72,7 +70,6 @@ const StickyScrollGallery = forwardRef<HTMLElement>((props, ref) => {
           </div>
         </section>
       </main>
-    </ReactLenis>
   );
 });
 

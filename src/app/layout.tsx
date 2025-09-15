@@ -6,6 +6,7 @@ import { SuccessPopupProvider } from '@/hooks/use-success-popup';
 import { getSettings } from '@/lib/data';
 import type { SiteSettings } from '@/lib/data';
 import { Header } from '@/components/header';
+import { ReactLenis } from 'lenis/react';
 
 export const metadata: Metadata = {
   title: 'AMpire Studio | Built For You. Crowned By Us.',
@@ -28,6 +29,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased" suppressHydrationWarning>
+        <ReactLenis root>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -42,6 +44,7 @@ export default function RootLayout({
               <Toaster />
             </SuccessPopupProvider>
           </ThemeProvider>
+        </ReactLenis>
       </body>
     </html>
   );
