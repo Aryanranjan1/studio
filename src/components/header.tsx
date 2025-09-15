@@ -54,7 +54,7 @@ export const Header = () => {
 
                             <div className="flex items-center gap-2">
                                 <div className='lg:hidden'>
-                                    <ThemeSwitcher />
+                                    
                                 </div>
                                 <button
                                     onClick={() => setMenuState(!menuState)}
@@ -99,7 +99,7 @@ export const Header = () => {
                                 </div>
                                 <div className="flex w-full flex-col items-center space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit border-t lg:border-none pt-6 lg:pt-0">
                                     <div className='hidden lg:block'>
-                                        <ThemeSwitcher />
+                                        
                                     </div>
                                     <Button
                                         asChild

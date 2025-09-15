@@ -78,7 +78,7 @@ export const StaggeredMenu = ({
         </nav>
 
         <div className="sm-cta flex items-center gap-2">
-            <ThemeSwitcher />
+            
             {cta}
         </div>
       </header>
