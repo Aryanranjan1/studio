@@ -104,7 +104,7 @@ export const Header = () => {
                                     <Button
                                         asChild
                                         size="sm">
-                                        <Link href="/contact">
+                                        <Link href="/project-intake">
                                             <span>Get Started</span>
                                         </Link>
                                     </Button>
