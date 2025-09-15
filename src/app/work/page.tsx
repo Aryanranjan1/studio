@@ -8,11 +8,13 @@ import { ProcessSection } from '@/components/process-section';
 import { StickyScrollGallery } from '@/components/ui/sticky-scroll-gallery';
 import { VideoSection } from '@/components/video-section';
 import { ProjectGallerySection } from '@/components/project-gallery-section';
+import { WorkHero } from '@/components/work-hero';
 
 export default function WorkPage() {
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-      <main className="flex-1 pt-24">
+      <main className="flex-1">
+        <WorkHero />
         <StickyScrollGallery />
         <VideoSection />
         <ProjectGallerySection />
