@@ -30,7 +30,6 @@ export default function Home() {
         </section>
         <PortfolioSection />
         <VideoSection />
-        <ProjectGallerySection />
         <AdvantageSection />
         <AgencyComparison className="bg-alt" />
         <TestimonialSection />
