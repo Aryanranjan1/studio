@@ -23,6 +23,19 @@ const StickyScrollGallery = forwardRef<HTMLElement>((props, ref) => {
 
   return (
       <main className='bg-background text-foreground' ref={ref}>
+        <div className='flex h-screen items-center justify-center bg-background'>
+            <div className='max-w-4xl text-center'>
+              <h2 className='text-4xl font-bold font-headline md:text-6xl text-foreground'>
+                A Glimpse Into Our Universe
+              </h2>
+              <p className='mt-4 text-lg text-muted-foreground'>
+                Where creativity meets code. Scroll to explore our work.
+              </p>
+              <div className="mt-8 text-muted-foreground animate-bounce">
+                ↓ Scroll Down ↓
+              </div>
+            </div>
+        </div>
         <section className='text-white w-full bg-background'>
           <div className='grid grid-cols-12 gap-2 p-2'>
             <div className='grid gap-2 col-span-4'>
