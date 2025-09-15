@@ -101,11 +101,20 @@ export default function DarkVeil({
 
     const parent = canvas.parentElement;
     if (!parent) return;
+    
+    let renderer: Renderer | null = null;
+    let frame: number;
 
-    const renderer = new Renderer({
-      dpr: Math.min(window.devicePixelRatio, 2),
-      canvas
-    });
+    try {
+      renderer = new Renderer({
+        dpr: Math.min(window.devicePixelRatio, 2),
+        canvas
+      });
+    } catch (e) {
+      console.warn("Could not create WebGL context.");
+      return;
+    }
+
 
     const gl = renderer.gl;
     const geometry = new Triangle(gl);
@@ -129,7 +138,7 @@ export default function DarkVeil({
     const resize = () => {
       const w = parent.clientWidth,
         h = parent.clientHeight;
-      renderer.setSize(w * resolutionScale, h * resolutionScale);
+      renderer?.setSize(w * resolutionScale, h * resolutionScale);
       program.uniforms.uResolution.value.set(w, h);
     };
 
@@ -137,7 +146,6 @@ export default function DarkVeil({
     resize();
 
     const start = performance.now();
-    let frame: number;
 
     const loop = () => {
       program.uniforms.uTime.value = ((performance.now() - start) / 1000) * speed;
@@ -146,7 +154,7 @@ export default function DarkVeil({
       program.uniforms.uScan.value = scanlineIntensity;
       program.uniforms.uScanFreq.value = scanlineFrequency;
       program.uniforms.uWarp.value = warpAmount;
-      renderer.render({ scene: mesh });
+      renderer?.render({ scene: mesh });
       frame = requestAnimationFrame(loop);
     };
 
@@ -155,6 +163,19 @@ export default function DarkVeil({
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', resize);
+      if (renderer) {
+          try {
+              const loseContextExt = renderer.gl.getExtension('WEBGL_lose_context');
+              if (loseContextExt) {
+                  loseContextExt.loseContext();
+              }
+              if (renderer.gl.canvas && renderer.gl.canvas.parentElement) {
+                  renderer.gl.canvas.parentElement.removeChild(renderer.gl.canvas);
+              }
+          } catch (e) {
+              console.warn("Error during WebGL cleanup:", e);
+          }
+      }
     };
   }, [hueShift, noiseIntensity, scanlineIntensity, speed, scanlineFrequency, warpAmount, resolutionScale]);
   return <canvas ref={ref} className="darkveil-canvas" />;
