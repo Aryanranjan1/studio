@@ -111,15 +111,15 @@ const AccordionItemWithObserver = ({
     offset: ["start end", "end start"],
   });
 
-  // 0.25 to 0.75 is the "active" zone in the center of the viewport
-  const isActive = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
+  // When scrollYProgress is between 0.45 and 0.55, the item is "active"
+  const isActive = useTransform(scrollYProgress, [0.45, 0.55], [0, 1]);
 
   useEffect(() => {
     return isActive.onChange((latest) => {
       if (latest === 1) {
         setActiveService(service.title);
       } else {
-        // Only set to null if it was the active one, to avoid closing other items
+        // Only deactivate if it was the currently active service
         setActiveService((prev) => (prev === service.title ? null : prev));
       }
     });
