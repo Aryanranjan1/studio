@@ -9,6 +9,7 @@ import { ProcessSection } from '@/components/process-section';
 import { StickyScrollGallery } from '@/components/ui/sticky-scroll-gallery';
 import { VideoSection } from '@/components/video-section';
 import { WorkHero } from '@/components/work-hero';
+import { ProjectGallerySection } from '@/components/project-gallery-section';
 
 export default function WorkPage() {
   return (
@@ -17,6 +18,7 @@ export default function WorkPage() {
         <WorkHero />
         <StickyScrollGallery />
         <VideoSection />
+        <ProjectGallerySection />
         <AdvantageSection className="bg-alt" />
         <ProcessSection />
         <TestimonialSection className="bg-alt" />

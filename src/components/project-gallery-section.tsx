@@ -1,16 +1,18 @@
+
 "use client";
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { getProjects } from "@/lib/data";
 import type { Project } from "@/lib/data";
 import { useItemDrawer } from "@/hooks/use-item-drawer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Plus } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { ScrollReveal } from "./scroll-reveal";
+import { cn } from "@/lib/utils";
 
-const ITEMS_PER_PAGE = 9;
+const ITEMS_PER_PAGE = 6;
 
 export function ProjectGallerySection() {
   const allProjects = getProjects();
@@ -55,7 +57,7 @@ export function ProjectGallerySection() {
           {currentProjects.map((project) => (
             <motion.div
               key={project.id}
-              className="group relative aspect-square overflow-hidden rounded-2xl cursor-pointer"
+              className="group relative aspect-[4/3] overflow-hidden rounded-2xl cursor-pointer"
               onClick={() => showItem(project)}
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.3 }}
@@ -67,11 +69,16 @@ export function ProjectGallerySection() {
                 className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
                 data-ai-hint={project.imageHint}
               />
-              <div className="absolute inset-0 bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex flex-col items-center justify-center p-4 text-center">
-                <h3 className="font-headline text-xl font-bold text-white">
-                  {project.title}
-                </h3>
-                <Plus className="h-8 w-8 text-white mt-2" />
+              <div className="absolute inset-0 bg-black/70 p-6 flex flex-col justify-end text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <div>
+                    <h3 className="font-headline text-xl font-bold">
+                        {project.title}
+                    </h3>
+                    <p className="text-sm mt-2 text-white/80 line-clamp-2">{project.summary}</p>
+                    <div className="mt-4 flex items-center text-sm font-semibold">
+                        Read More <ArrowUpRight className="ml-1 h-4 w-4" />
+                    </div>
+                </div>
               </div>
             </motion.div>
           ))}
