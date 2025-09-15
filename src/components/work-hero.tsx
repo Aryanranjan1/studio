@@ -1,65 +1,59 @@
 
 "use client";
 
-import { motion } from "framer-motion";
+import React, { useEffect, useRef } from "react";
+import Image from "next/image";
+import Autoplay from "embla-carousel-autoplay";
+import useEmblaCarousel from "embla-carousel-react";
 
-const title = "Our Work";
-const subtitle = "A showcase of our finest projects and digital experiences.";
-
-const sentence = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      delay: 0.5,
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const letter = {
-  hidden: { opacity: 0, y: 50 },
-  visible: {
-    opacity: 1,
-    y: 0,
-  },
-};
+import { getProjects } from "@/lib/data";
+import type { Project } from "@/lib/data";
+import { useItemDrawer } from "@/hooks/use-item-drawer";
+import { cn } from "@/lib/utils";
 
 export function WorkHero() {
+  const projects = getProjects();
+  const { showItem } = useItemDrawer();
+
+  const [emblaRef] = useEmblaCarousel({ loop: true, duration: 50 }, [
+    Autoplay({ delay: 3000, stopOnInteraction: false }),
+  ]);
+
+  const handleCardClick = (project: Project) => {
+    showItem(project);
+  };
+
   return (
-    <section className="relative flex h-screen items-center justify-center text-white">
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="size-full object-cover"
-          src="https://videos.pexels.com/video-files/5453622/5453622-hd_1920_1080_25fps.mp4"
-        ></video>
-        <div className="absolute inset-0 bg-black/50" />
-      </div>
-      <div className="relative z-10 text-center">
-        <motion.h1
-          className="font-headline text-5xl font-bold tracking-tight text-white sm:text-7xl"
-          variants={sentence}
-          initial="hidden"
-          animate="visible"
-        >
-          {title.split("").map((char, index) => (
-            <motion.span key={char + "-" + index} variants={letter}>
-              {char}
-            </motion.span>
+    <section className="relative h-screen w-full overflow-hidden">
+      <div className="absolute inset-0 z-10 bg-black/40" />
+      <div className="embla h-full" ref={emblaRef}>
+        <div className="embla__container h-full">
+          {projects.map((project) => (
+            <div
+              key={project.id}
+              className="embla__slide relative flex h-full items-center justify-center"
+              onClick={() => handleCardClick(project)}
+            >
+              <Image
+                src={project.imageUrl}
+                alt={project.title}
+                fill
+                priority
+                className="object-cover"
+                data-ai-hint={project.imageHint}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+              <div className="relative z-20 text-center text-white">
+                <h2 className="font-headline text-4xl font-bold tracking-tight text-white sm:text-6xl">
+                  {project.title}
+                </h2>
+                <p className="mt-4 text-lg text-white/80 max-w-xl">
+                  {project.summary}
+                </p>
+              </div>
+            </div>
           ))}
-        </motion.h1>
-        <motion.p
-          className="mt-6 text-lg text-white/80 max-w-2xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 1.5 }}
-        >
-          {subtitle}
-        </motion.p>
+        </div>
       </div>
     </section>
   );
