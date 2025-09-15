@@ -10,6 +10,7 @@ import { VideoSection } from '@/components/video-section';
 import { ScrollRevealText } from '@/components/scroll-reveal-text';
 import { AdvantageSection } from '@/components/advantage-section';
 import AgencyComparison from '@/components/agency-comparison';
+import { ProjectGallerySection } from '@/components/project-gallery-section';
 
 
 export default function Home() {
@@ -29,6 +30,7 @@ export default function Home() {
         </section>
         <PortfolioSection />
         <VideoSection />
+        <ProjectGallerySection />
         <AdvantageSection />
         <AgencyComparison className="bg-alt" />
         <TestimonialSection />
