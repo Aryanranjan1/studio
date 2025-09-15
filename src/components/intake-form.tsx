@@ -1,3 +1,4 @@
+
 "use client";
 
 import { z } from "zod";
@@ -111,7 +112,7 @@ export function IntakeForm() {
   }
 
   return (
-    <Card className="max-w-4xl mx-auto shadow-2xl">
+    <Card className="max-w-4xl mx-auto shadow-2xl bg-card/50 backdrop-blur-lg border border-white/10">
         <CardContent className="p-8">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
@@ -297,7 +298,7 @@ export function IntakeForm() {
                         <FormItem className="space-y-3"><FormLabel>What is your estimated budget for this project? *</FormLabel>
                             <FormControl>
                                 <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col space-y-1">
-                                    <FormItem className="flex items-center space-x-3 space-y-0"><FormControl><RadioGroupItem value="<500" /></FormControl><FormLabel className="font-normal">Under RM 500</FormLabel></FormItem>
+                                    <FormItem className="flex items-center space-x-3 space-y-0"><FormControl><RadioGroupItem value="&lt;500" /></FormControl><FormLabel className="font-normal">Under RM 500</FormLabel></FormItem>
                                     <FormItem className="flex items-center space-x-3 space-y-0"><FormControl><RadioGroupItem value="500-1500" /></FormControl><FormLabel className="font-normal">RM 500 - RM 1,500</FormLabel></FormItem>
                                     <FormItem className="flex items-center space-x-3 space-y-0"><FormControl><RadioGroupItem value="1500-5000" /></FormControl><FormLabel className="font-normal">RM 1,500 - RM 5,000</FormLabel></FormItem>
                                     <FormItem className="flex items-center space-x-3 space-y-0"><FormControl><RadioGroupItem value="5000+" /></FormControl><FormLabel className="font-normal">RM 5,000+</FormLabel></FormItem>
