@@ -100,153 +100,151 @@ export function ContactSection({ className }: ContactSectionProps) {
   }
 
   return (
-    <section id="contact" className={cn("py-24 sm:py-32", className)}>
-        <div className="container relative z-10">
-            <ScrollReveal delay={200}>
-              <Card className="mt-[-12rem] overflow-hidden bg-card/80 backdrop-blur-lg border-border/20 text-foreground shadow-2xl">
-                  <div className="grid lg:grid-cols-5">
-                      <div className="lg:col-span-3 p-8">
-                          <h3 className="text-2xl font-bold font-headline mb-6">Send Us a Message</h3>
-                          <Form {...form}>
-                              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                                  <div className="grid sm:grid-cols-2 gap-6">
-                                  <FormField
-                                      control={form.control}
-                                      name="name"
-                                      render={({ field }) => (
-                                          <FormItem>
-                                              <FormLabel>Your Name</FormLabel>
-                                              <FormControl>
-                                                  <Input placeholder="John Doe" {...field} />
-                                              </FormControl>
-                                              <FormMessage />
-                                          </FormItem>
-                                      )}
-                                      />
-                                  <FormField
-                                      control={form.control}
-                                      name="email"
-                                      render={({ field }) => (
-                                          <FormItem>
-                                              <FormLabel>Email Address</FormLabel>
-                                              <FormControl>
-                                                  <Input placeholder="john.doe@example.com" {...field} />
-                                              </FormControl>
-                                              <FormMessage />
-                                          </FormItem>
-                                      )}
-                                      />
+    <section id="contact" className={cn("container", className)}>
+        <ScrollReveal delay={200}>
+            <Card className="overflow-hidden bg-card/80 backdrop-blur-lg border-border/20 text-foreground shadow-2xl max-w-5xl mx-auto">
+                <div className="grid lg:grid-cols-5">
+                    <div className="lg:col-span-3 p-8">
+                        <h3 className="text-2xl font-bold font-headline mb-6">Send Us a Message</h3>
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                                <div className="grid sm:grid-cols-2 gap-6">
+                                <FormField
+                                    control={form.control}
+                                    name="name"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Your Name</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="John Doe" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                    />
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Email Address</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="john.doe@example.com" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                    />
+                                </div>
+                                <div className="grid sm:grid-cols-2 gap-6">
+                                    <FormField
+                                        control={form.control}
+                                        name="phone"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Phone Number (Optional)</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="+1 (555) 123-4567" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                        />
+                                    <FormField
+                                        control={form.control}
+                                        name="service"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                            <FormLabel>Service Needed</FormLabel>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select a service" />
+                                                </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {services.map(s => <SelectItem key={s.id} value={s.title}>{s.title}</SelectItem>)}
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                            </FormItem>
+                                        )}
+                                        />
+                                </div>
+                                <FormField
+                                    control={form.control}
+                                    name="details"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Project Details</FormLabel>
+                                            <FormControl>
+                                                <Textarea
+                                                    placeholder="Tell us a little bit about your project..."
+                                                    className="min-h-[120px]"
+                                                    {...field}
+                                                    />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                    />
+                                <Button type="submit" size="lg" disabled={form.formState.isSubmitting}>
+                                  {form.formState.isSubmitting ? "Sending..." : "Submit Request"}
+                                </Button>
+                            </form>
+                        </Form>
+                    </div>
+                    <div className="lg:col-span-2 bg-primary/90 text-primary-foreground p-8">
+                        <h3 className="text-2xl font-bold font-headline mb-6">Contact Information</h3>
+                        {settings ? (
+                          <ul className="space-y-6">
+                              <li className="flex items-start gap-4">
+                                  <MapPin className="h-6 w-6 mt-1 flex-shrink-0" />
+                                  <div>
+                                      <h4 className="font-semibold">Our Office</h4>
+                                      <p className="text-primary-foreground/80">{settings.address}</p>
                                   </div>
-                                  <div className="grid sm:grid-cols-2 gap-6">
-                                      <FormField
-                                          control={form.control}
-                                          name="phone"
-                                          render={({ field }) => (
-                                              <FormItem>
-                                                  <FormLabel>Phone Number (Optional)</FormLabel>
-                                                  <FormControl>
-                                                      <Input placeholder="+1 (555) 123-4567" {...field} />
-                                                  </FormControl>
-                                                  <FormMessage />
-                                              </FormItem>
-                                          )}
-                                          />
-                                      <FormField
-                                          control={form.control}
-                                          name="service"
-                                          render={({ field }) => (
-                                              <FormItem>
-                                              <FormLabel>Service Needed</FormLabel>
-                                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                  <FormControl>
-                                                  <SelectTrigger>
-                                                      <SelectValue placeholder="Select a service" />
-                                                  </SelectTrigger>
-                                                  </FormControl>
-                                                  <SelectContent>
-                                                      {services.map(s => <SelectItem key={s.id} value={s.title}>{s.title}</SelectItem>)}
-                                                  </SelectContent>
-                                              </Select>
-                                              <FormMessage />
-                                              </FormItem>
-                                          )}
-                                          />
+                              </li>
+                              <li className="flex items-start gap-4">
+                                  <Mail className="h-6 w-6 mt-1 flex-shrink-0" />
+                                  <div>
+                                      <h4 className="font-semibold">Email Us</h4>
+                                      <a href={`mailto:${settings.contactEmail}`} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">{settings.contactEmail}</a>
                                   </div>
-                                  <FormField
-                                      control={form.control}
-                                      name="details"
-                                      render={({ field }) => (
-                                          <FormItem>
-                                              <FormLabel>Project Details</FormLabel>
-                                              <FormControl>
-                                                  <Textarea
-                                                      placeholder="Tell us a little bit about your project..."
-                                                      className="min-h-[120px]"
-                                                      {...field}
-                                                      />
-                                              </FormControl>
-                                              <FormMessage />
-                                          </FormItem>
-                                      )}
-                                      />
-                                  <Button type="submit" size="lg" disabled={form.formState.isSubmitting}>
-                                    {form.formState.isSubmitting ? "Sending..." : "Submit Request"}
-                                  </Button>
-                              </form>
-                          </Form>
-                      </div>
-                      <div className="lg:col-span-2 bg-primary/90 text-primary-foreground p-8">
-                          <h3 className="text-2xl font-bold font-headline mb-6">Contact Information</h3>
-                          {settings ? (
-                            <ul className="space-y-6">
-                                <li className="flex items-start gap-4">
-                                    <MapPin className="h-6 w-6 mt-1 flex-shrink-0" />
-                                    <div>
-                                        <h4 className="font-semibold">Our Office</h4>
-                                        <p className="text-primary-foreground/80">{settings.address}</p>
-                                    </div>
-                                </li>
-                                <li className="flex items-start gap-4">
-                                    <Mail className="h-6 w-6 mt-1 flex-shrink-0" />
-                                    <div>
-                                        <h4 className="font-semibold">Email Us</h4>
-                                        <a href={`mailto:${settings.contactEmail}`} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">{settings.contactEmail}</a>
-                                    </div>
-                                </li>
-                                <li className="flex items-start gap-4">
-                                    <Phone className="h-6 w-6 mt-1 flex-shrink-0" />
-                                    <div>
-                                        <h4 className="font-semibold">Call Us</h4>
-                                        <a href={`tel:${settings.contactPhone}`} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">{settings.contactPhone}</a>
-                                    </div>
-                                </li>
-                            </ul>
-                          ) : (
-                            <div className="space-y-4">
-                                <div className="h-5 bg-primary/50 rounded w-3/4"></div>
-                                <div className="h-5 bg-primary/50 rounded w-full"></div>
-                                <div className="h-5 bg-primary/50 rounded w-1/2"></div>
-                            </div>
-                          )}
-
-                          <div className="mt-8 pt-8 border-t border-primary-foreground/20">
-                              <h4 className="font-semibold mb-4">Follow Us</h4>
-                              <div className="flex items-center gap-3">
-                                {settings?.socials?.map((link) => {
-                                    const Icon = socialIcons[link.platform];
-                                    return(
-                                        <Button key={link.platform} size="icon" variant="outline" className="text-primary-foreground bg-transparent border-primary-foreground/50 hover:bg-primary-foreground/10" asChild>
-                                            <Link href={link.href}><Icon className="h-5 w-5" /></Link>
-                                        </Button>
-                                    )
-                                })}
-                              </div>
+                              </li>
+                              <li className="flex items-start gap-4">
+                                  <Phone className="h-6 w-6 mt-1 flex-shrink-0" />
+                                  <div>
+                                      <h4 className="font-semibold">Call Us</h4>
+                                      <a href={`tel:${settings.contactPhone}`} className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">{settings.contactPhone}</a>
+                                  </div>
+                              </li>
+                          </ul>
+                        ) : (
+                          <div className="space-y-4">
+                              <div className="h-5 bg-primary/50 rounded w-3/4"></div>
+                              <div className="h-5 bg-primary/50 rounded w-full"></div>
+                              <div className="h-5 bg-primary/50 rounded w-1/2"></div>
                           </div>
-                      </div>
-                  </div>
-              </Card>
-            </ScrollReveal>
-        </div>
+                        )}
+
+                        <div className="mt-8 pt-8 border-t border-primary-foreground/20">
+                            <h4 className="font-semibold mb-4">Follow Us</h4>
+                            <div className="flex items-center gap-3">
+                              {settings?.socials?.map((link) => {
+                                  const Icon = socialIcons[link.platform];
+                                  return(
+                                      <Button key={link.platform} size="icon" variant="outline" className="text-primary-foreground bg-transparent border-primary-foreground/50 hover:bg-primary-foreground/10" asChild>
+                                          <Link href={link.href}><Icon className="h-5 w-5" /></Link>
+                                      </Button>
+                                  )
+                              })}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Card>
+        </ScrollReveal>
     </section>
   );
 }
