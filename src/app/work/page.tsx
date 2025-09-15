@@ -8,6 +8,7 @@ import { TsaSection } from '@/components/tsa-section';
 import { ProcessSection } from '@/components/process-section';
 import { PageTitleHeader } from '@/components/page-title-header';
 import { StickyScrollGallery } from '@/components/ui/sticky-scroll-gallery';
+import { VideoSection } from '@/components/video-section';
 
 export default function WorkPage() {
   return (
@@ -18,6 +19,7 @@ export default function WorkPage() {
             subtitle="A showcase of our finest projects and digital experiences."
         />
         <StickyScrollGallery />
+        <VideoSection />
         <AdvantageSection className="bg-alt" />
         <ProcessSection />
         <TestimonialSection className="bg-alt" />
