@@ -36,9 +36,8 @@ export const ItemDrawerProvider = ({ children }: { children: ReactNode }) => {
 
   const closeItem = () => {
     setIsOpen(false);
-    setTimeout(() => {
-        setItem(null);
-    }, 300); // Delay clearing to allow for exit animation
+    // No need for a timeout here, the sheet's onOpenChange handles the state.
+    // The item state will clear when the sheet is fully closed.
   };
 
   return React.createElement(

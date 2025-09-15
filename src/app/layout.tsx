@@ -7,7 +7,7 @@ import { SuccessPopupProvider } from '@/hooks/use-success-popup';
 import { getSettings } from '@/lib/data';
 import type { SiteSettings } from '@/lib/data';
 import { Header } from '@/components/header';
-import { LenisProvider, useLenis } from 'lenis/react'
+import { ReactLenis, useLenis } from 'lenis/react'
 import { ItemDrawerProvider } from '@/hooks/use-item-drawer';
 import { ItemDrawer } from '@/components/item-drawer';
 
@@ -31,7 +31,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased" suppressHydrationWarning>
-        <LenisProvider>
+        <ReactLenis root>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -49,7 +49,7 @@ export default function RootLayout({
               </ItemDrawerProvider>
             </SuccessPopupProvider>
           </ThemeProvider>
-        </LenisProvider>
+        </ReactLenis>
       </body>
     </html>
   );
