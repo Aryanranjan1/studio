@@ -7,6 +7,7 @@ import { Menu, X } from 'lucide-react'
 import { useScroll } from 'framer-motion'
 import { AmpireLogo } from './logo'
 import { ThemeSwitcher } from './theme-switcher'
+import { MobileMenu } from './mobile-menu'
 
 const menuItems = [
     { label: 'Home', ariaLabel: 'Go to home page', link: '/' },
@@ -40,9 +41,9 @@ export const Header = () => {
             <nav
                 data-state={menuState ? 'active' : 'inactive'}
                 className={cn('group fixed z-50 w-full pt-2 transition-transform duration-300', visible ? 'translate-y-0' : '-translate-y-full')}>
-                <div className={cn('mx-auto max-w-7xl rounded-3xl px-6 transition-all duration-300 lg:px-12', scrolled && 'bg-background/50 backdrop-blur-2xl')}>
+                <div className={cn('mx-auto max-w-7xl rounded-3xl px-6 transition-all duration-300 lg:px-12', scrolled && !menuState && 'bg-background/50 backdrop-blur-2xl')}>
                     <div
-                        className={cn('relative flex flex-wrap items-center justify-between gap-6 py-3 duration-200 lg:gap-0 lg:py-6', scrolled && 'lg:py-4')}>
+                        className={cn('relative flex flex-wrap items-center justify-between gap-6 py-3 duration-200 lg:gap-0 lg:py-6', scrolled && !menuState && 'lg:py-4')}>
                         <div className="flex w-full items-center justify-between gap-12 lg:w-auto">
                             <Link
                                 href="/"
@@ -66,8 +67,8 @@ export const Header = () => {
                             </div>
                         </div>
                         
-                        <div className={cn("lg:flex lg:items-center lg:w-auto", menuState ? "block w-full" : "hidden")}>
-                            <div className={cn("bg-background lg:bg-transparent rounded-3xl lg:rounded-none border lg:border-none p-6 lg:p-0 shadow-2xl lg:shadow-none shadow-zinc-300/20 dark:shadow-none mt-4 lg:mt-0",
+                        <div className={cn("hidden lg:flex lg:items-center lg:w-auto")}>
+                            <div className={cn(
                                 "w-full flex-wrap items-center justify-end space-y-8 md:flex-nowrap lg:flex lg:gap-6 lg:space-y-0"
                             )}>
                                 <div className="hidden lg:block">
@@ -83,20 +84,7 @@ export const Header = () => {
                                         ))}
                                     </ul>
                                 </div>
-                                <div className="lg:hidden">
-                                    <ul className="space-y-6 text-base">
-                                        {menuItems.map((item, index) => (
-                                            <li key={index}>
-                                                <Link
-                                                    href={item.link}
-                                                    onClick={() => setMenuState(false)}
-                                                    className="text-muted-foreground hover:text-accent-foreground block duration-150">
-                                                    <span>{item.label}</span>
-                                                </Link>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+                                
                                 <div className="flex w-full flex-col items-center space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit border-t lg:border-none pt-6 lg:pt-0">
                                     <div className='hidden lg:block'>
                                         
@@ -111,6 +99,8 @@ export const Header = () => {
                                 </div>
                             </div>
                         </div>
+                        
+                        <MobileMenu isOpen={menuState} />
 
                     </div>
                 </div>

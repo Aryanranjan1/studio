@@ -6,11 +6,22 @@ import { ScrollReveal } from "./scroll-reveal";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { getProjects } from "@/lib/data";
+import { useState, useEffect } from "react";
 
 export function TsaSection() {
   const projects = getProjects();
-  const displayImage = projects.length > 0 ? projects[0].imageUrl : "https://picsum.photos/seed/tsa-image/600/500";
-  const displayImageHint = projects.length > 0 ? projects[0].imageHint : "woman idea";
+  const [displayImage, setDisplayImage] = useState("https://picsum.photos/seed/tsa-image/600/500");
+  const [displayImageHint, setDisplayImageHint] = useState("woman idea");
+
+  useEffect(() => {
+    if (projects.length > 0) {
+      const randomIndex = Math.floor(Math.random() * projects.length);
+      const randomProject = projects[randomIndex];
+      setDisplayImage(randomProject.imageUrl);
+      setDisplayImageHint(randomProject.imageHint);
+    }
+  }, [projects]);
+
 
   return (
     <section className="py-24 sm:py-32 bg-primary text-primary-foreground">

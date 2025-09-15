@@ -19,6 +19,9 @@ export function AdvantageSection({ className }: AdvantageSectionProps) {
             <h2 className="font-headline mt-2 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
               Why Choose Us?
             </h2>
+            <p className="mt-4 text-lg text-foreground/80">
+              Here's how we solve your biggest challenges and help you claim your digital throne.
+            </p>
           </div>
         </ScrollReveal>
 

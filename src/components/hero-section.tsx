@@ -26,8 +26,8 @@ export function HeroSection() {
                         loop
                         muted
                         playsInline
-                        className="size-full object-cover opacity-50 invert dark:opacity-35 dark:invert-0 dark:lg:opacity-75"
-                        src="https://www.pexels.com/download/video/3163534/"></video>
+                        className="size-full object-cover"
+                        src="https://assets.mixkit.co/videos/preview/mixkit-liquid-gradient-background-in-warm-tones-43093-large.mp4"></video>
                      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
                 </div>
 

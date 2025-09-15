@@ -102,7 +102,14 @@ export function ContactSection({ className }: ContactSectionProps) {
   return (
     <section id="contact" className={cn("relative py-24 sm:py-32 overflow-hidden text-primary-foreground", className)}>
         <div className="absolute inset-0 z-0">
-            <DarkVeil />
+            <DarkVeil 
+              hueShift={240}
+              noiseIntensity={0.02}
+              scanlineIntensity={0.05}
+              scanlineFrequency={300}
+              warpAmount={0.05}
+              speed={0.2}
+            />
         </div>
         <div className="container relative z-10">
           <ScrollReveal>
