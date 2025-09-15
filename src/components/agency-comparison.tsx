@@ -244,32 +244,6 @@ const AgencyComparison: React.FC<AgencyComparisonProps> = ({ className }) => {
             <ComparisonColumn data={othersData} />
           </motion.div>
         </div>
-
-        <motion.div
-          className="mt-20 text-center"
-          variants={itemVariants}
-        >
-          <motion.div
-            className="bg-gradient-to-r from-primary to-blue-600 p-8 rounded-2xl text-primary-foreground"
-            whileHover={{ scale: 1.02 }}
-            transition={{ duration: 0.2 }}
-          >
-            <h3 className="text-2xl md:text-3xl font-bold mb-4">
-              Ready to Experience the Difference?
-            </h3>
-            <p className="text-lg mb-6 opacity-90">
-              Let's build something amazing together with our custom, growth-focused approach.
-            </p>
-            <motion.button
-              className="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Get Started Today
-              <Rocket className="w-5 h-5" />
-            </motion.button>
-          </motion.div>
-        </motion.div>
       </motion.div>
     </section>
   );
