@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { useState } from "react";
 import {
   BentoGrid,
   BentoGridItem,
@@ -15,57 +15,200 @@ import {
     ShoppingCart
 } from "lucide-react";
 import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { getProjects } from "@/lib/data";
+import type { Project } from "@/lib/data";
+
+const FlippableBentoCard = ({
+  item,
+  className,
+}: {
+  item: (typeof items)[0];
+  className?: string;
+}) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+
+  const flipAnimation =
+    item.animationType === "vertical"
+      ? { rotateX: 180 }
+      : { rotateY: 180 };
+  const backfaceAnimation =
+    item.animationType === "vertical"
+      ? { rotateX: -180 }
+      : { rotateY: -180 };
+
+  const handleFlip = () => setIsFlipped(!isFlipped);
+  const handleHoverStart = () => setIsHovering(true);
+  const handleHoverEnd = () => setIsHovering(false);
+
+  const showFront = !isFlipped && !isHovering;
+  const showBack = isFlipped || isHovering;
+
+  return (
+    <BentoGridItem
+      className={cn("relative", className)}
+      style={{ perspective: "1000px" }}
+      onMouseEnter={handleHoverStart}
+      onMouseLeave={handleHoverEnd}
+      onClick={handleFlip}
+    >
+      <AnimatePresence initial={false}>
+        {showFront && (
+          <motion.div
+            key="front"
+            initial={{ ...flipAnimation }}
+            animate={{ rotateX: 0, rotateY: 0 }}
+            exit={{ ...flipAnimation }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="absolute inset-0 w-full h-full flex flex-col justify-end p-6 bg-cover bg-center"
+            style={{
+              backgroundImage: `url(${item.imageUrl})`,
+              transformStyle: "preserve-3d",
+              backfaceVisibility: "hidden",
+            }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-0" />
+            <div className="relative z-10 flex items-center gap-2">
+              <div className="text-lg font-headline font-bold text-white">
+                {item.problem}
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {showBack && (
+          <motion.div
+            key="back"
+            initial={backfaceAnimation}
+            animate={{ rotateX: 0, rotateY: 0 }}
+            exit={backfaceAnimation}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="absolute inset-0 w-full h-full bg-card p-6 flex flex-col"
+            style={{ transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}
+          >
+            <div className="flex-grow flex flex-col md:flex-row gap-4">
+              <div className="w-full md:w-1/2 flex flex-col">
+                <div className="flex items-center gap-2 mb-2 text-muted-foreground">
+                  {item.icon}
+                  <h3 className="font-headline font-bold text-foreground text-base">
+                    Our Solution
+                  </h3>
+                </div>
+                <p className="text-xs text-muted-foreground flex-grow">
+                  {item.solution}
+                </p>
+              </div>
+              <div className="w-full md:w-1/2 relative rounded-lg overflow-hidden h-32 md:h-auto">
+                 <Link href={`/work/${item.projectSlug}`} className="block w-full h-full group">
+                    <Image
+                        src={item.imageUrl}
+                        alt={item.problem}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        data-ai-hint={item.imageHint}
+                    />
+                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span className="text-white text-xs font-bold bg-black/50 px-2 py-1 rounded-full">View Project</span>
+                    </div>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </BentoGridItem>
+  );
+};
+
 
 export function BentoGridDemo() {
   return (
-    <BentoGrid className="max-w-5xl mx-auto md:auto-rows-[22rem] mt-16">
+    <BentoGrid className="max-w-5xl mx-auto md:auto-rows-[14rem] mt-16">
       {items.map((item, i) => (
-        <BentoGridItem
+        <FlippableBentoCard
           key={i}
-          problem={item.problem}
-          solution={item.solution}
+          item={item}
           className={item.className}
-          icon={item.icon}
-          imageUrl={item.imageUrl}
-          imageHint={item.imageHint}
         />
       ))}
     </BentoGrid>
   );
 }
 
+const allProjects = getProjects();
+
 const items = [
   {
     problem: "Facing tech confusion?",
-    solution: "We demystify technology, offering clear solutions with trusted stacks like Next.js for performance and modern CMS platforms for flexibility.",
+    solution: "We provide clarity with modern, reliable solutions. We'll guide you through choosing and implementing the right technology, like Next.js for blazing-fast performance and a headless CMS for easy content management, ensuring your site is built on a solid, future-proof foundation.",
     className: "md:col-span-2",
     icon: <Lightbulb className="h-4 w-4 text-neutral-500" />,
     imageUrl: "https://picsum.photos/seed/tech-clarity/800/400",
-    imageHint: "code dashboard"
+    imageHint: "code dashboard",
+    animationType: "horizontal",
+    projectSlug: allProjects[0]?.slug ?? "nova-financial-website",
   },
   {
     problem: "Struggling with online invisibility?",
-    solution: "We make you visible online with proven SEO strategies that bring targeted traffic and valuable leads to your digital doorstep.",
+    solution: "We elevate your brand's presence with targeted SEO strategies. By optimizing your site's structure, content, and authority, we drive relevant organic traffic to your digital doorstep, turning searchers into valuable leads and customers.",
     className: "md:col-span-1",
     icon: <BarChart3 className="h-4 w-4 text-neutral-500" />,
     imageUrl: "https://picsum.photos/seed/seo-growth/400/400",
-    imageHint: "chart graph"
+    imageHint: "chart graph",
+    animationType: "vertical",
+    projectSlug: allProjects[4]?.slug ?? "workflow-automation-tool",
   },
   {
-    problem: "Losing time to repetitive tasks?",
-    solution: "We save you time by building custom automations that handle your repetitive, time-consuming tasks.",
+    problem: "Need a stunning brand identity?",
+    solution: "We craft memorable brand identities that tell your unique story. From logos and color palettes to voice and messaging, we build a cohesive and compelling brand that resonates with your audience and sets you apart from the competition.",
     className: "md:col-span-1",
-    icon: <Clock className="h-4 w-4 text-neutral-500" />,
-    imageUrl: "https://picsum.photos/seed/automation-gears/400/400",
-    imageHint: "gears clock"
+    icon: <Rocket className="h-4 w-4 text-neutral-500" />,
+    imageUrl: "https://picsum.photos/seed/branding-rocket/400/400",
+    imageHint: "brand design",
+    animationType: "vertical",
+    projectSlug: allProjects[1]?.slug ?? "helia-skincare-branding",
   },
   {
     problem: "Can't keep up with growth?",
     solution:
-      "We help you grow with custom apps, integrations, and performance-focused websites that can handle more users and complexity.",
+      "We build scalable solutions that grow with your business. From high-performance websites that handle traffic spikes to custom app integrations, we provide the robust infrastructure you need to expand without technical limitations.",
     className: "md:col-span-2",
     icon: <Scaling className="h-4 w-4 text-neutral-500" />,
     imageUrl: "https://picsum.photos/seed/scaling-up/800/400",
-    imageHint: "abstract architecture"
+    imageHint: "abstract architecture",
+    animationType: "horizontal",
+    projectSlug: allProjects[0]?.slug ?? "nova-financial-website",
+  },
+  {
+    problem: "Want to reach customers on mobile?",
+    solution: "We design and develop intuitive mobile apps for iOS and Android. Our focus is on creating a seamless, engaging user experience that keeps your audience connected to your brand, wherever they are.",
+    className: "md:col-span-1",
+    icon: <Smartphone className="h-4 w-4 text-neutral-500" />,
+    imageUrl: "https://picsum.photos/seed/mobile-reach/400/400",
+    imageHint: "mobile app",
+    animationType: "vertical",
+    projectSlug: allProjects[2]?.slug ?? "traverse-travel-app",
+  },
+  {
+    problem: "Looking to sell online effectively?",
+    solution: "We create powerful e-commerce platforms using Shopify or custom solutions. We focus on a frictionless shopping experience, from beautiful product displays to secure, one-click checkouts, all designed to maximize conversions.",
+    className: "md:col-span-1",
+    icon: <ShoppingCart className="h-4 w-4 text-neutral-500" />,
+    imageUrl: "https://picsum.photos/seed/ecommerce-cart/400/400",
+    imageHint: "shopping cart",
+    animationType: "vertical",
+    projectSlug: allProjects[3]?.slug ?? "artisan-coffee-ecommerce",
+  },
+  {
+    problem: "Wasting time on repetitive tasks?",
+    solution: "We build custom automations that streamline your operations. By integrating your systems and automating manual workflows, we free up your team to focus on high-value activities that drive growth.",
+    className: "md:col-span-1",
+    icon: <Clock className="h-4 w-4 text-neutral-500" />,
+    imageUrl: "https://picsum.photos/seed/automation-gears/400/400",
+    imageHint: "gears clock",
+    animationType: "vertical",
+    projectSlug: allProjects[4]?.slug ?? "workflow-automation-tool",
   },
 ];
