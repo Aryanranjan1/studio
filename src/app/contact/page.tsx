@@ -5,7 +5,7 @@ import { ContactSection } from '@/components/contact-section';
 export default function ContactPage() {
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
-      <main className="flex-1 pt-16">
+      <main className="flex-1">
         <ContactSection />
       </main>
       <Footer />
