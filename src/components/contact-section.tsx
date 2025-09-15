@@ -31,7 +31,6 @@ import { addMessage } from "@/lib/data";
 import { getSettings, getServices } from "@/lib/data";
 import type { SocialLink, SiteSettings, Service } from "@/lib/data";
 import { useSuccessPopup } from "@/hooks/use-success-popup";
-import DarkVeil from "./ui/dark-veil";
 
 const WhatsappIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
@@ -100,21 +99,11 @@ export function ContactSection({ className }: ContactSectionProps) {
   }
 
   return (
-    <section id="contact" className={cn("relative py-24 sm:py-32 overflow-hidden text-primary-foreground", className)}>
-        <div className="absolute inset-0 z-0">
-            <DarkVeil 
-              hueShift={244}
-              noiseIntensity={0.02}
-              scanlineIntensity={0.05}
-              scanlineFrequency={300}
-              warpAmount={0.05}
-              speed={0.2}
-            />
-        </div>
+    <section id="contact" className={cn("py-24 sm:py-32 bg-primary text-primary-foreground", className)}>
         <div className="container relative z-10">
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto">
-                <p className="font-headline text-sm font-semibold uppercase tracking-wider text-primary">Get in touch</p>
+                <p className="font-headline text-sm font-semibold uppercase tracking-wider text-accent">Get in touch</p>
                 <h2 className="font-headline mt-2 text-4xl font-bold tracking-tight sm:text-5xl">
                     Ready to Start Your Project?
                 </h2>
