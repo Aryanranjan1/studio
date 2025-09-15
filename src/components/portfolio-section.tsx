@@ -22,50 +22,36 @@ interface PortfolioSectionProps {
   filterBy?: string;
 }
 
-// Custom hook to detect when an element is in view
-const useInView = (options?: IntersectionObserverInit) => {
-  const [isInView, setIsInView] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        setIsInView(true);
-      }
-    }, options);
-
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, [options]);
-
-  return [ref, isInView];
-};
-
-
 export function PortfolioSection({ className, filterBy }: PortfolioSectionProps) {
   const allProjects = getProjects();
   const allServices = getServices();
-  const [openItems, setOpenItems] = useState<string[]>([]);
-  
+  const [activeService, setActiveService] = useState<string | null>(null);
+  const [hoveredService, setHoveredService] = useState<string | null>(null);
+  const observerRefs = useRef<Map<string, IntersectionObserver | null>>(new Map());
+
   const servicesToShow = (filterBy
     ? allServices.filter((s) => s.title === filterBy)
     : allServices
   ).filter(s => s.title !== "Marketing" && s.title !== "Branding");
 
-  const handleInView = (serviceTitle: string) => {
-    setOpenItems((prev) => {
-      if (!prev.includes(serviceTitle)) {
-        return [...prev, serviceTitle];
-      }
-      return prev;
-    });
+  const openItem = hoveredService || activeService;
+
+  useEffect(() => {
+    // Cleanup observers on component unmount
+    return () => {
+      observerRefs.current.forEach(observer => observer?.disconnect());
+    };
+  }, []);
+
+  const handleIntersection = (isIntersecting: boolean, serviceTitle: string) => {
+    if (isIntersecting) {
+        setActiveService(serviceTitle);
+    } else {
+        // Only deactivate if it's the currently active one
+        if (activeService === serviceTitle) {
+            setActiveService(null);
+        }
+    }
   };
 
   return (
@@ -85,21 +71,25 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
 
         <div className="mt-16 max-w-4xl mx-auto">
           <Accordion
-            type="multiple"
+            type="single"
             className="w-full space-y-4"
-            value={openItems}
-            onValueChange={setOpenItems}
+            value={openItem || ""}
+            onValueChange={(value) => {
+                // This is needed for hover to work with keyboard nav, but we primarily control with state
+            }}
           >
             {servicesToShow.map((service) => {
               const serviceProjects = allProjects.filter((p) =>
                 p.services.includes(service.title)
               );
               return (
-                <AccordionItemWithInView
+                <AccordionItemWithObserver
                   key={service.id}
                   service={service}
                   serviceProjects={serviceProjects}
-                  onInView={() => handleInView(service.title)}
+                  onIntersectionChange={(isIntersecting) => handleIntersection(isIntersecting, service.title)}
+                  onHoverChange={(isHovering) => setHoveredService(isHovering ? service.title : null)}
+                  observerRefs={observerRefs}
                 />
               );
             })}
@@ -121,72 +111,98 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
   );
 }
 
-
-interface AccordionItemWithInViewProps {
+interface AccordionItemWithObserverProps {
   service: Service;
   serviceProjects: Project[];
-  onInView: () => void;
+  onIntersectionChange: (isIntersecting: boolean) => void;
+  onHoverChange: (isHovering: boolean) => void;
+  observerRefs: React.MutableRefObject<Map<string, IntersectionObserver | null>>;
 }
 
-const AccordionItemWithInView = ({ service, serviceProjects, onInView }: AccordionItemWithInViewProps) => {
-  const [ref, isInView] = useInView({ threshold: 0.5 });
+const AccordionItemWithObserver = ({
+  service,
+  serviceProjects,
+  onIntersectionChange,
+  onHoverChange,
+  observerRefs
+}: AccordionItemWithObserverProps) => {
+  const itemRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (isInView) {
-      onInView();
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        onIntersectionChange(entry.isIntersecting);
+      },
+      { threshold: 0.5 } // Trigger when 50% of the item is visible
+    );
+
+    if (itemRef.current) {
+      observer.observe(itemRef.current);
     }
-  }, [isInView, onInView]);
+    
+    observerRefs.current.set(service.title, observer);
+
+    return () => {
+        observer.disconnect();
+        observerRefs.current.delete(service.title);
+    };
+     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [service.title, onIntersectionChange]);
 
   return (
-    <div ref={ref}>
-        <AccordionItem
+    <div 
+        ref={itemRef} 
+        onMouseEnter={() => onHoverChange(true)} 
+        onMouseLeave={() => onHoverChange(false)}
+    >
+      <AccordionItem
         value={service.title}
         className="border rounded-2xl bg-card overflow-hidden"
-        >
+      >
         <AccordionTrigger className="p-6 text-xl font-headline hover:no-underline [&[data-state=open]>svg.plus]:hidden [&[data-state=closed]>svg.minus]:hidden">
-            <div className="flex items-center gap-4">
-                <span>{`Smarter ${service.title}`}</span>
-            </div>
-            <Plus className="h-6 w-6 plus transition-transform duration-200" />
-            <Minus className="h-6 w-6 minus transition-transform duration-200" />
+          <div className="flex items-center gap-4">
+            <span>{`Smarter ${service.title}`}</span>
+          </div>
+          <Plus className="h-6 w-6 plus transition-transform duration-200" />
+          <Minus className="h-6 w-6 minus transition-transform duration-200" />
         </AccordionTrigger>
         <AccordionContent className="px-6 pb-6">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <p className="text-muted-foreground mb-6">
-                        {service.longDescription.substring(0, 150) + "..."}
-                    </p>
-                    <Button asChild variant="outline">
-                        <Link href={`/services/${service.slug}`}>Learn More <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                    </Button>
-                </div>
-                <div className="relative h-64 md:h-80 -rotate-6 group">
-                    {serviceProjects.slice(0, 3).map((project, index) => (
-                        <div
-                            key={project.id}
-                            className="absolute rounded-lg overflow-hidden shadow-2xl transition-transform duration-300 ease-in-out group-hover:scale-105"
-                            style={{
-                                width: '60%',
-                                height: '60%',
-                                top: `${10 + index * 15}%`,
-                                left: `${5 + index * 20}%`,
-                                transform: `rotate(${index * 5 - 5}deg) scale(1)`,
-                                zIndex: index,
-                            }}
-                        >
-                            <Image
-                                src={project.imageUrl}
-                                alt={project.title}
-                                fill
-                                className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
-                                data-ai-hint={project.imageHint}
-                            />
-                        </div>
-                    ))}
-                </div>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <p className="text-muted-foreground mb-6">
+                {service.longDescription.substring(0, 150) + "..."}
+              </p>
+              <Button asChild variant="outline">
+                <Link href={`/services/${service.slug}`}>Learn More <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              </Button>
             </div>
+            <div className="relative h-64 md:h-80 -rotate-6 group">
+              {serviceProjects.slice(0, 3).map((project, index) => (
+                <div
+                  key={project.id}
+                  className="absolute rounded-lg overflow-hidden shadow-2xl transition-transform duration-300 ease-in-out group-hover:scale-105"
+                  style={{
+                    width: '60%',
+                    height: '60%',
+                    top: `${10 + index * 15}%`,
+                    left: `${5 + index * 20}%`,
+                    transform: `rotate(${index * 5 - 5}deg) scale(1)`,
+                    zIndex: index,
+                  }}
+                >
+                  <Image
+                    src={project.imageUrl}
+                    alt={project.title}
+                    fill
+                    className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+                    data-ai-hint={project.imageHint}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </AccordionContent>
-        </AccordionItem>
+      </AccordionItem>
     </div>
   );
 };
