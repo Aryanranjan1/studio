@@ -1,7 +1,6 @@
 
 "use client";
 
-import { getProjects, getServices } from "@/lib/data";
 import type { Project, Service } from "@/lib/data";
 import { ScrollReveal } from "./scroll-reveal";
 import { cn } from "@/lib/utils";
@@ -15,22 +14,21 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ArrowRight, Plus, Minus } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
-import { useScroll, useTransform, motion } from "framer-motion";
+import { useState, useRef } from "react";
 import { useItemDrawer } from "@/hooks/use-item-drawer";
 
 interface PortfolioSectionProps {
   className?: string;
   filterBy?: string;
+  projects: Project[];
+  services: Service[];
 }
 
-export async function PortfolioSection({ className, filterBy }: PortfolioSectionProps) {
-  const allProjects = await getProjects();
-  const allServices = await getServices();
+export function PortfolioSection({ className, filterBy, projects, services }: PortfolioSectionProps) {
   
   const servicesToShow = (filterBy
-    ? allServices.filter((s) => s.title === filterBy)
-    : allServices
+    ? services.filter((s) => s.title === filterBy)
+    : services
   ).filter(s => s.title !== "Marketing" && s.title !== "Branding");
 
   return (
@@ -48,7 +46,7 @@ export async function PortfolioSection({ className, filterBy }: PortfolioSection
           </div>
         </ScrollReveal>
 
-        <PortfolioAccordion services={servicesToShow} projects={allProjects} />
+        <PortfolioAccordion services={servicesToShow} projects={projects} />
 
         <div className="mt-16 text-center">
           <Button
@@ -66,20 +64,18 @@ export async function PortfolioSection({ className, filterBy }: PortfolioSection
 }
 
 function PortfolioAccordion({ services, projects }: { services: Service[], projects: Project[] }) {
-  const [activeService, setActiveService] = useState<string | null>(null);
-  const [hoveredService, setHoveredService] = useState<string | null>(null);
+  const [activeService, setActiveService] = useState<string | null>(services[0]?.title || null);
   
-  const openItem = hoveredService || activeService;
-
   const containerRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="mt-16 max-w-4xl mx-auto" ref={containerRef}>
         <Accordion
         type="single"
+        collapsible
         className="w-full space-y-4"
-        value={openItem || ""}
-        onValueChange={() => {}}
+        value={activeService || ""}
+        onValueChange={setActiveService}
         >
         {services.map((service) => {
             const serviceProjects = projects.filter((p) =>
@@ -90,8 +86,6 @@ function PortfolioAccordion({ services, projects }: { services: Service[], proje
                 key={service.id}
                 service={service}
                 serviceProjects={serviceProjects}
-                setActiveService={setActiveService}
-                onHoverChange={(isHovering) => setHoveredService(isHovering ? service.title : null)}
             />
             );
         })}
@@ -103,56 +97,19 @@ function PortfolioAccordion({ services, projects }: { services: Service[], proje
 interface AccordionItemWithObserverProps {
   service: Service;
   serviceProjects: Project[];
-  setActiveService: (title: string | null) => void;
-  onHoverChange: (isHovering: boolean) => void;
 }
 
 const AccordionItemWithObserver = ({
   service,
   serviceProjects,
-  setActiveService,
-  onHoverChange,
 }: AccordionItemWithObserverProps) => {
-  const itemRef = useRef<HTMLDivElement | null>(null);
   const { showItem } = useItemDrawer();
-  const [isAnimating, setIsAnimating] = useState(false);
   
-  const { scrollYProgress } = useScroll({
-    target: itemRef,
-    offset: ["start center", "end center"],
-  });
-
-  useEffect(() => {
-    return scrollYProgress.on("change", (latest) => {
-      const isCentered = latest > 0 && latest < 1;
-      if (isCentered && !isAnimating) {
-        setActiveService(service.title);
-      }
-    });
-  }, [scrollYProgress, service.title, setActiveService, isAnimating]);
-  
-  const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
-    if (e.animationName === 'accordion-down') {
-      setIsAnimating(false);
-    }
-  };
-
-  const handleOpenChange = (isOpen: boolean) => {
-    if (isOpen) {
-      setIsAnimating(true);
-    }
-  };
-
   return (
-    <div 
-        ref={itemRef} 
-        onMouseEnter={() => onHoverChange(true)} 
-        onMouseLeave={() => onHoverChange(false)}
-    >
+    <div>
       <AccordionItem
         value={service.title}
         className="border rounded-2xl bg-card overflow-hidden"
-        onFocusCapture={() => handleOpenChange(true)}
       >
         <AccordionTrigger className="p-6 text-xl font-headline hover:no-underline [&[data-state=open]>svg.plus]:hidden [&[data-state=closed]>svg.minus]:hidden">
           <div className="flex items-center gap-4">
@@ -163,7 +120,6 @@ const AccordionItemWithObserver = ({
         </AccordionTrigger>
         <AccordionContent 
           className="px-6 pb-6"
-          onAnimationEnd={handleAnimationEnd}
         >
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>

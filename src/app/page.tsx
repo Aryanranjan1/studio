@@ -10,12 +10,13 @@ import { ScrollRevealText } from '@/components/scroll-reveal-text';
 import { AdvantageSection } from '@/components/advantage-section';
 import AgencyComparison from '@/components/agency-comparison';
 import { ProjectGallerySection } from '@/components/project-gallery-section';
-import { getProjects, getTestimonials } from '@/lib/data';
-import type { Testimonial, Project } from '@/lib/data';
+import { getProjects, getTestimonials, getServices } from '@/lib/data';
+import type { Testimonial, Project, Service } from '@/lib/data';
 
 export default async function Home() {
   const testimonials: Testimonial[] = await getTestimonials();
   const projects: Project[] = await getProjects();
+  const services: Service[] = await getServices();
 
   return (
     <div className="flex min-h-screen flex-col text-foreground">
@@ -30,7 +31,7 @@ export default async function Home() {
                 </ScrollRevealText>
             </div>
         </section>
-        <PortfolioSection />
+        <PortfolioSection projects={projects} services={services} />
         <VideoSection />
         <AdvantageSection />
         <AgencyComparison className="bg-alt" />
