@@ -15,16 +15,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ArrowRight, Plus, Minus } from "lucide-react";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useScroll, useTransform, motion } from "framer-motion";
 
 interface PortfolioSectionProps {
   className?: string;
   filterBy?: string;
-}
-
-interface IntersectingEntry {
-  title: string;
-  rect: DOMRect;
 }
 
 export function PortfolioSection({ className, filterBy }: PortfolioSectionProps) {
@@ -32,7 +28,6 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
   const allServices = getServices();
   const [activeService, setActiveService] = useState<string | null>(null);
   const [hoveredService, setHoveredService] = useState<string | null>(null);
-  const intersectingItemsRef = useRef<Map<string, DOMRect>>(new Map());
 
   const servicesToShow = (filterBy
     ? allServices.filter((s) => s.title === filterBy)
@@ -41,30 +36,7 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
 
   const openItem = hoveredService || activeService;
 
-  const determineActiveService = useCallback(() => {
-    let lowestItem: IntersectingEntry | null = null;
-    intersectingItemsRef.current.forEach((rect, title) => {
-        if (!lowestItem || rect.top > lowestItem.rect.top) {
-            lowestItem = { title, rect };
-        }
-    });
-
-    if (lowestItem) {
-        setActiveService(lowestItem.title);
-    } else if (!hoveredService) {
-        setActiveService(null);
-    }
-  }, [hoveredService]);
-
-
-  const handleIntersection = useCallback((isIntersecting: boolean, entry: IntersectionObserverEntry, serviceTitle: string) => {
-    if (isIntersecting) {
-        intersectingItemsRef.current.set(serviceTitle, entry.boundingClientRect);
-    } else {
-        intersectingItemsRef.current.delete(serviceTitle);
-    }
-    determineActiveService();
-  }, [determineActiveService]);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   return (
     <section id="portfolio" className={cn("py-24 sm:py-32", className)}>
@@ -81,14 +53,12 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
           </div>
         </ScrollReveal>
 
-        <div className="mt-16 max-w-4xl mx-auto">
+        <div className="mt-16 max-w-4xl mx-auto" ref={containerRef}>
           <Accordion
             type="single"
             className="w-full space-y-4"
             value={openItem || ""}
-            onValueChange={(value) => {
-                // This is needed for hover to work with keyboard nav, but we primarily control with state
-            }}
+            onValueChange={() => {}}
           >
             {servicesToShow.map((service) => {
               const serviceProjects = allProjects.filter((p) =>
@@ -99,7 +69,7 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
                   key={service.id}
                   service={service}
                   serviceProjects={serviceProjects}
-                  onIntersectionChange={handleIntersection}
+                  setActiveService={setActiveService}
                   onHoverChange={(isHovering) => setHoveredService(isHovering ? service.title : null)}
                 />
               );
@@ -125,38 +95,35 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
 interface AccordionItemWithObserverProps {
   service: Service;
   serviceProjects: Project[];
-  onIntersectionChange: (isIntersecting: boolean, entry: IntersectionObserverEntry, serviceTitle: string) => void;
+  setActiveService: (title: string | null) => void;
   onHoverChange: (isHovering: boolean) => void;
 }
 
 const AccordionItemWithObserver = ({
   service,
   serviceProjects,
-  onIntersectionChange,
+  setActiveService,
   onHoverChange,
 }: AccordionItemWithObserverProps) => {
   const itemRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: itemRef,
+    offset: ["start end", "end start"],
+  });
+
+  // 0.25 to 0.75 is the "active" zone in the center of the viewport
+  const isActive = useTransform(scrollYProgress, [0.4, 0.6], [0, 1]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        onIntersectionChange(entry.isIntersecting, entry, service.title);
-      },
-      { threshold: 0.5 } // Trigger when 50% of the item is visible
-    );
-
-    const currentItemRef = itemRef.current;
-    if (currentItemRef) {
-      observer.observe(currentItemRef);
-    }
-    
-    return () => {
-        if (currentItemRef) {
-            observer.unobserve(currentItemRef);
-        }
-    };
-     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [service.title, onIntersectionChange]);
+    return isActive.onChange((latest) => {
+      if (latest === 1) {
+        setActiveService(service.title);
+      } else {
+        // Only set to null if it was the active one, to avoid closing other items
+        setActiveService((prev) => (prev === service.title ? null : prev));
+      }
+    });
+  }, [isActive, service.title, setActiveService]);
 
   return (
     <div 
