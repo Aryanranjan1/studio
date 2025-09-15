@@ -1,4 +1,5 @@
 
+
 import { Footer } from '@/components/footer';
 import { HeroSection } from '@/components/hero-section';
 import { PortfolioSection } from '@/components/portfolio-section';
@@ -7,6 +8,8 @@ import { FaqSection } from '@/components/faq-section';
 import { TsaSection } from '@/components/tsa-section';
 import { VideoSection } from '@/components/video-section';
 import { ScrollRevealText } from '@/components/scroll-reveal-text';
+import { AdvantageSection } from '@/components/advantage-section';
+import { ComparisonSection } from '@/components/comparison-section';
 
 
 export default function Home() {
@@ -24,7 +27,9 @@ export default function Home() {
                 </ScrollRevealText>
             </div>
         </section>
-        <PortfolioSection className="bg-alt" />
+        <AdvantageSection />
+        <ComparisonSection className="bg-alt" />
+        <PortfolioSection />
         <VideoSection />
         <TestimonialSection className="bg-alt"/>
         <FaqSection />
