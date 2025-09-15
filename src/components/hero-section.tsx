@@ -28,7 +28,7 @@ export function HeroSection() {
                         muted
                         playsInline
                         className="absolute z-0 h-full w-full object-cover"
-                        src="https://www.pexels.com/download/video/5453622/"></video>
+                        src="https://videos.pexels.com/video-files/4508060/4508060-hd_1920_1080_25fps.mp4"></video>
                      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
                 </div>
 
