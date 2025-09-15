@@ -1,3 +1,4 @@
+
 "use client";
 
 import { z } from "zod";
@@ -99,7 +100,17 @@ export function ContactSection({ className }: ContactSectionProps) {
   }
 
   return (
-    <section id="contact" className={cn("py-24 sm:py-32 bg-primary text-primary-foreground", className)}>
+    <section id="contact" className={cn("py-24 sm:py-32 relative text-primary-foreground", className)}>
+        <div className="absolute inset-0 overflow-hidden z-0">
+            <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="size-full object-cover"
+                src="https://assets.mixkit.co/videos/preview/mixkit-liquid-gradient-background-in-warm-tones-43093-large.mp4"></video>
+             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
+        </div>
         <div className="container relative z-10">
           <ScrollReveal>
             <div className="text-center max-w-2xl mx-auto">

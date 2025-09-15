@@ -5,18 +5,14 @@ import { TestimonialSection } from '@/components/testimonial-section';
 import { AdvantageSection } from '@/components/advantage-section';
 import { ProcessSection } from '@/components/process-section';
 import { TsaSection } from '@/components/tsa-section';
-import { ProjectFormTsaSection } from '@/components/project-form-tsa-section';
 import { SuccessRateSection } from '@/components/success-rate-section';
-import { PageTitleHeader } from '@/components/page-title-header';
+import { InteractiveImageAccordion } from '@/components/interactive-image-accordion';
 
 export default function AboutPage() {
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
       <main className="flex-1">
-        <PageTitleHeader
-            title="About Ampire Studios"
-            subtitle="We exist to help businesses and creators rise above the noise and claim their digital throne."
-        />
+        <InteractiveImageAccordion />
         <AboutSection />
         <SuccessRateSection className="bg-alt" />
         <AdvantageSection />
