@@ -27,13 +27,13 @@ export default function Home() {
                 </ScrollRevealText>
             </div>
         </section>
-        <AdvantageSection />
-        <ComparisonSection className="bg-alt" />
         <PortfolioSection />
         <VideoSection />
-        <TestimonialSection className="bg-alt"/>
-        <FaqSection />
-        <TsaSection className="bg-alt" />
+        <AdvantageSection />
+        <ComparisonSection className="bg-alt" />
+        <TestimonialSection />
+        <FaqSection className="bg-alt" />
+        <TsaSection />
       </main>
       <Footer />
     </div>
