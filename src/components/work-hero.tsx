@@ -17,7 +17,7 @@ export function WorkHero() {
   const { showItem } = useItemDrawer();
 
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 50 }, [
-    Autoplay({ delay: 4000, stopOnInteraction: false }),
+    Autoplay({ delay: 5000, stopOnInteraction: false }),
   ]);
   const [slidesInView, setSlidesInView] = useState<number[]>([]);
 
