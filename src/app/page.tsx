@@ -9,7 +9,7 @@ import { TsaSection } from '@/components/tsa-section';
 import { VideoSection } from '@/components/video-section';
 import { ScrollRevealText } from '@/components/scroll-reveal-text';
 import { AdvantageSection } from '@/components/advantage-section';
-import { ComparisonSection } from '@/components/comparison-section';
+import AgencyComparison from '@/components/agency-comparison';
 
 
 export default function Home() {
@@ -30,7 +30,7 @@ export default function Home() {
         <PortfolioSection />
         <VideoSection />
         <AdvantageSection />
-        <ComparisonSection className="bg-alt" />
+        <AgencyComparison className="bg-alt" />
         <TestimonialSection />
         <FaqSection className="bg-alt" />
         <TsaSection />
