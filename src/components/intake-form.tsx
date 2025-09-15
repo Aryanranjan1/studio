@@ -1,4 +1,3 @@
-
 "use client";
 
 import { z } from "zod";
@@ -98,17 +97,18 @@ export function IntakeForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    addIntake(values as NewIntake).then(() => {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+        await addIntake(values as NewIntake);
         showSuccessPopup("Inquiry Submitted!");
         form.reset();
-    }).catch((error) => {
+    } catch (error) {
         toast({
             title: "Submission Error",
             description: "There was a problem submitting your form. Please try again later.",
             variant: "destructive",
         });
-    });
+    }
   }
 
   return (

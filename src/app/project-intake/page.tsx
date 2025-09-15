@@ -1,4 +1,3 @@
-
 import { Footer } from '@/components/footer';
 import { IntakeForm } from '@/components/intake-form';
 import { PageTitleHeader } from '@/components/page-title-header';

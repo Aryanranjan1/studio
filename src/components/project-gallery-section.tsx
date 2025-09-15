@@ -1,28 +1,28 @@
-
 "use client";
 
 import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { getProjects } from "@/lib/data";
 import type { Project } from "@/lib/data";
 import { useItemDrawer } from "@/hooks/use-item-drawer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { ScrollReveal } from "./scroll-reveal";
-import { cn } from "@/lib/utils";
 
 const ITEMS_PER_PAGE = 6;
 
-export function ProjectGallerySection() {
-  const allProjects = getProjects();
+interface ProjectGallerySectionProps {
+    projects: Project[];
+}
+
+export function ProjectGallerySection({ projects }: ProjectGallerySectionProps) {
   const { showItem } = useItemDrawer();
   const [currentPage, setCurrentPage] = useState(0);
 
-  const totalPages = Math.ceil(allProjects.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(projects.length / ITEMS_PER_PAGE);
   const startIndex = currentPage * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentProjects = allProjects.slice(startIndex, endIndex);
+  const currentProjects = projects.slice(startIndex, endIndex);
 
   const handleNextPage = () => {
     setCurrentPage((prev) => (prev + 1) % totalPages);

@@ -1,22 +1,20 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { getTestimonials } from "@/lib/data";
 import type { Testimonial } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { TestimonialsColumn } from "@/components/ui/testimonials-column";
 
 interface TestimonialSectionProps {
   className?: string;
+  testimonials: Testimonial[];
 }
 
-const TestimonialSection = ({ className }: TestimonialSectionProps) => {
-  const allTestimonials = getTestimonials();
+const TestimonialSection = ({ className, testimonials }: TestimonialSectionProps) => {
 
-  const firstColumn = allTestimonials.slice(0, 3);
-  const secondColumn = allTestimonials.slice(1, 4);
-  const thirdColumn = allTestimonials.slice(2, 5).length < 3 ? [...allTestimonials.slice(2, 5), ...allTestimonials.slice(0,1)] : allTestimonials.slice(2,5);
-
+  const firstColumn = testimonials.slice(0, 3);
+  const secondColumn = testimonials.slice(1, 4).length < 3 ? [...testimonials.slice(1, 4), ...testimonials.slice(0,1)] : testimonials.slice(1, 4);
+  const thirdColumn = testimonials.slice(2, 5).length < 3 ? [...testimonials.slice(2, 5), ...testimonials.slice(0,2)] : testimonials.slice(2,5);
 
   return (
     <section className={cn("bg-background py-24 sm:py-32", className)}>

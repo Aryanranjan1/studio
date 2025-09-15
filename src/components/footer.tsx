@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { Facebook, Instagram, Linkedin, MapPin, Mail, Phone, LucideIcon } from "lucide-react";
 import { AmpireLogo } from "./logo";
@@ -40,8 +38,8 @@ const quickLinks = [
   { name: "Contact", href: "/contact" },
 ];
 
-export function Footer() {
-  const settings: SiteSettings = getSettings();
+export async function Footer() {
+  const settings: SiteSettings = await getSettings();
 
   return (
     <footer className="bg-card border-t">

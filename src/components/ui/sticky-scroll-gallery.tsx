@@ -1,12 +1,13 @@
-
 'use client';
 import React, { forwardRef } from 'react';
 import Image from 'next/image';
-import { getProjects } from '@/lib/data';
 import type { Project } from '@/lib/data';
 
-const StickyScrollGallery = forwardRef<HTMLElement>((props, ref) => {
-    const projects: Project[] = getProjects();
+interface StickyScrollGalleryProps {
+    projects: Project[];
+}
+
+const StickyScrollGallery = forwardRef<HTMLElement, StickyScrollGalleryProps>(({ projects }, ref) => {
     
     // We need at least 5 images for this layout. If not enough, we'll duplicate some.
     const getLoopedImages = (count: number) => {

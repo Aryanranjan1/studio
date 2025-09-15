@@ -1,9 +1,7 @@
-
 "use client";
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import type { Project, Service } from '@/lib/data';
-import { useLenis } from 'lenis/react';
 
 type DrawerItem = Project | Service;
 
@@ -19,15 +17,19 @@ const ItemDrawerContext = createContext<ItemDrawerContextType | undefined>(undef
 export const ItemDrawerProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [item, setItem] = useState<DrawerItem | null>(null);
-  const lenis = useLenis();
 
   useEffect(() => {
+    const body = document.body;
     if (isOpen) {
-      lenis?.stop();
+      body.style.overflow = 'hidden';
     } else {
-      lenis?.start();
+      body.style.overflow = 'auto';
     }
-  }, [isOpen, lenis]);
+
+    return () => {
+      body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
 
   const showItem = (newItem: DrawerItem) => {
     setItem(newItem);
@@ -36,8 +38,6 @@ export const ItemDrawerProvider = ({ children }: { children: ReactNode }) => {
 
   const closeItem = () => {
     setIsOpen(false);
-    // No need for a timeout here, the sheet's onOpenChange handles the state.
-    // The item state will clear when the sheet is fully closed.
   };
 
   return React.createElement(

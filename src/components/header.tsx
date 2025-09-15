@@ -4,9 +4,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { Menu, X } from 'lucide-react'
-import { useScroll } from 'framer-motion'
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import { AmpireLogo } from './logo'
-import { ThemeSwitcher } from './theme-switcher'
 import { MobileMenu } from './mobile-menu'
 
 const menuItems = [
@@ -19,28 +18,32 @@ const menuItems = [
 
 export const Header = () => {
     const [menuState, setMenuState] = React.useState(false)
-    const [scrolled, setScrolled] = React.useState(false)
-    const [visible, setVisible] = React.useState(true);
-    const [lastScrollY, setLastScrollY] = React.useState(0);
+    const [hidden, setHidden] = React.useState(false);
+    const [scrolled, setScrolled] = React.useState(false);
+
     const { scrollY } = useScroll();
 
-    React.useEffect(() => {
-        return scrollY.on("change", (latest) => {
-            setScrolled(latest > 50);
-            if (latest > lastScrollY && latest > 100) {
-                setVisible(false);
-            } else {
-                setVisible(true);
-            }
-            setLastScrollY(latest);
-        })
-    }, [scrollY, lastScrollY]);
+    useMotionValueEvent(scrollY, "change", (latest) => {
+        const previous = scrollY.getPrevious() ?? 0;
+        if (latest > previous && latest > 150) {
+            setHidden(true);
+        } else {
+            setHidden(false);
+        }
+        setScrolled(latest > 50);
+    });
 
     return (
         <header>
-            <nav
+            <motion.nav
                 data-state={menuState ? 'active' : 'inactive'}
-                className={cn('group fixed z-50 w-full pt-2 transition-transform duration-300', visible ? 'translate-y-0' : '-translate-y-full')}>
+                variants={{
+                    visible: { y: 0 },
+                    hidden: { y: "-100%" },
+                }}
+                animate={hidden ? "hidden" : "visible"}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className={cn('group fixed z-50 w-full pt-2 transition-transform duration-300')}>
                 <div className={cn('mx-auto max-w-7xl rounded-3xl px-6 transition-all duration-300 lg:px-12', scrolled && !menuState && 'bg-background/50 backdrop-blur-2xl')}>
                     <div
                         className={cn('relative flex flex-wrap items-center justify-between gap-6 py-3 duration-200 lg:gap-0 lg:py-6', scrolled && !menuState && 'lg:py-4')}>
@@ -104,7 +107,7 @@ export const Header = () => {
 
                     </div>
                 </div>
-            </nav>
+            </motion.nav>
         </header>
     )
 }

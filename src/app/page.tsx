@@ -1,5 +1,3 @@
-
-
 import { Footer } from '@/components/footer';
 import { HeroSection } from '@/components/hero-section';
 import { PortfolioSection } from '@/components/portfolio-section';
@@ -11,9 +9,11 @@ import { ScrollRevealText } from '@/components/scroll-reveal-text';
 import { AdvantageSection } from '@/components/advantage-section';
 import AgencyComparison from '@/components/agency-comparison';
 import { ProjectGallerySection } from '@/components/project-gallery-section';
+import { getTestimonials } from '@/lib/data';
+import type { Testimonial } from '@/lib/data';
 
-
-export default function Home() {
+export default async function Home() {
+  const testimonials: Testimonial[] = await getTestimonials();
 
   return (
     <div className="flex min-h-screen flex-col text-foreground">
@@ -32,7 +32,7 @@ export default function Home() {
         <VideoSection />
         <AdvantageSection />
         <AgencyComparison className="bg-alt" />
-        <TestimonialSection />
+        <TestimonialSection testimonials={testimonials} />
         <FaqSection className="bg-alt" />
         <TsaSection />
       </main>

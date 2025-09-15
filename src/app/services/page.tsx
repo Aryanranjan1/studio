@@ -1,19 +1,23 @@
-
 import { Footer } from '@/components/footer';
 import { ServiceCategorySection } from '@/components/service-category-section';
 import { AdvantageSection } from '@/components/advantage-section';
 import { TestimonialSection } from '@/components/testimonial-section';
 import { TsaSection } from '@/components/tsa-section';
 import { ProcessSection } from '@/components/process-section';
+import { getServices, getTestimonials } from '@/lib/data';
+import type { Service, Testimonial } from '@/lib/data';
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services: Service[] = await getServices();
+  const testimonials: Testimonial[] = await getTestimonials();
+
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
       <main className="flex-1">
-        <ServiceCategorySection />
+        <ServiceCategorySection services={services} />
         <AdvantageSection />
         <ProcessSection className="bg-alt" />
-        <TestimonialSection />
+        <TestimonialSection testimonials={testimonials} />
         <TsaSection className="bg-alt" />
       </main>
       <Footer />

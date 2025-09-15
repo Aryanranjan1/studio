@@ -1,19 +1,46 @@
-"use client";
-
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { getArticleBySlug } from '@/lib/data';
 import type { Article } from '@/lib/data';
-import { Skeleton } from '@/components/ui/skeleton';
 import { PageTitleHeader } from '@/components/page-title-header';
 import { Footer } from '@/components/footer';
-
 import { Badge } from '@/components/ui/badge';
 import { Calendar, User } from 'lucide-react';
+import type { Metadata } from 'next';
 
-export default function ArticlePage({ params }: { params: { slug: string } }) {
+type Props = {
+    params: { slug: string };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const article = await getArticleBySlug(params.slug);
+  
+    if (!article) {
+      return {
+        title: 'Article Not Found',
+      };
+    }
+  
+    return {
+      title: `${article.title} | AMpire Studio`,
+      description: article.content.substring(0, 160) + '...',
+      openGraph: {
+        title: article.title,
+        description: article.content.substring(0, 160) + '...',
+        images: [
+          {
+            url: article.imageUrl,
+            width: 1200,
+            height: 630,
+            alt: article.title,
+          },
+        ],
+      },
+    };
+  }
+
+export default async function ArticlePage({ params }: { params: { slug: string } }) {
   const { slug } = params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     return (

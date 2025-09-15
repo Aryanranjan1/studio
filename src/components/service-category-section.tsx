@@ -1,4 +1,3 @@
-
 "use client";
 
 import { ScrollReveal } from "./scroll-reveal";
@@ -6,7 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { Code, Brush, Smartphone, ShoppingCart, Megaphone, PenTool, Bot, Search } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
-import { getServices, Service } from "@/lib/data";
+import type { Service } from "@/lib/data";
 import { useItemDrawer } from "@/hooks/use-item-drawer";
 
 const iconMap: { [key: string]: React.ReactElement } = {
@@ -22,10 +21,10 @@ const iconMap: { [key: string]: React.ReactElement } = {
 
 interface ServiceCategorySectionProps {
   className?: string;
+  services: Service[];
 }
 
-export function ServiceCategorySection({ className }: ServiceCategorySectionProps) {
-  const services: Service[] = getServices();
+export function ServiceCategorySection({ className, services }: ServiceCategorySectionProps) {
   const { showItem } = useItemDrawer();
 
   const handleCardClick = (e: React.MouseEvent, service: Service) => {
