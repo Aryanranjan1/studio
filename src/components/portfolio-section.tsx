@@ -24,21 +24,14 @@ interface PortfolioSectionProps {
   filterBy?: string;
 }
 
-export function PortfolioSection({ className, filterBy }: PortfolioSectionProps) {
-  const allProjects = getProjects();
-  const allServices = getServices();
-  const [activeService, setActiveService] = useState<string | null>(null);
-  const [hoveredService, setHoveredService] = useState<string | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
-
+export async function PortfolioSection({ className, filterBy }: PortfolioSectionProps) {
+  const allProjects = await getProjects();
+  const allServices = await getServices();
+  
   const servicesToShow = (filterBy
     ? allServices.filter((s) => s.title === filterBy)
     : allServices
   ).filter(s => s.title !== "Marketing" && s.title !== "Branding");
-
-  const openItem = hoveredService || activeService;
-
-  const containerRef = useRef<HTMLDivElement>(null);
 
   return (
     <section id="portfolio" className={cn("py-24 sm:py-32", className)}>
@@ -55,31 +48,7 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
           </div>
         </ScrollReveal>
 
-        <div className="mt-16 max-w-4xl mx-auto" ref={containerRef}>
-          <Accordion
-            type="single"
-            className="w-full space-y-4"
-            value={openItem || ""}
-            onValueChange={() => {}}
-          >
-            {servicesToShow.map((service) => {
-              const serviceProjects = allProjects.filter((p) =>
-                p.services.includes(service.title)
-              );
-              return (
-                <AccordionItemWithObserver
-                  key={service.id}
-                  service={service}
-                  serviceProjects={serviceProjects}
-                  setActiveService={setActiveService}
-                  onHoverChange={(isHovering) => setHoveredService(isHovering ? service.title : null)}
-                  isAnimating={isAnimating}
-                  setIsAnimating={setIsAnimating}
-                />
-              );
-            })}
-          </Accordion>
-        </div>
+        <PortfolioAccordion services={servicesToShow} projects={allProjects} />
 
         <div className="mt-16 text-center">
           <Button
@@ -96,13 +65,46 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
   );
 }
 
+function PortfolioAccordion({ services, projects }: { services: Service[], projects: Project[] }) {
+  const [activeService, setActiveService] = useState<string | null>(null);
+  const [hoveredService, setHoveredService] = useState<string | null>(null);
+  
+  const openItem = hoveredService || activeService;
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  return (
+    <div className="mt-16 max-w-4xl mx-auto" ref={containerRef}>
+        <Accordion
+        type="single"
+        className="w-full space-y-4"
+        value={openItem || ""}
+        onValueChange={() => {}}
+        >
+        {services.map((service) => {
+            const serviceProjects = projects.filter((p) =>
+            p.services.includes(service.title)
+            );
+            return (
+            <AccordionItemWithObserver
+                key={service.id}
+                service={service}
+                serviceProjects={serviceProjects}
+                setActiveService={setActiveService}
+                onHoverChange={(isHovering) => setHoveredService(isHovering ? service.title : null)}
+            />
+            );
+        })}
+        </Accordion>
+    </div>
+  );
+}
+
 interface AccordionItemWithObserverProps {
   service: Service;
   serviceProjects: Project[];
   setActiveService: (title: string | null) => void;
   onHoverChange: (isHovering: boolean) => void;
-  isAnimating: boolean;
-  setIsAnimating: (isAnimating: boolean) => void;
 }
 
 const AccordionItemWithObserver = ({
@@ -110,11 +112,10 @@ const AccordionItemWithObserver = ({
   serviceProjects,
   setActiveService,
   onHoverChange,
-  isAnimating,
-  setIsAnimating,
 }: AccordionItemWithObserverProps) => {
   const itemRef = useRef<HTMLDivElement | null>(null);
   const { showItem } = useItemDrawer();
+  const [isAnimating, setIsAnimating] = useState(false);
   
   const { scrollYProgress } = useScroll({
     target: itemRef,
