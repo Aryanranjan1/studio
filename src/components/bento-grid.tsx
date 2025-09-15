@@ -21,6 +21,7 @@ import Link from "next/link";
 import { getProjects, getProjectBySlug } from "@/lib/data";
 import type { Project } from "@/lib/data";
 import { useItemDrawer } from "@/hooks/use-item-drawer";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const animationTypes = [
     'flip-horizontal',
@@ -167,6 +168,26 @@ const FlippableBentoCard = ({
 
 
 export function BentoGridDemo() {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted) {
+    return (
+        <div className="grid md:auto-rows-[18rem] grid-cols-1 md:grid-cols-3 gap-4 max-w-7xl mx-auto mt-16">
+            <Skeleton className="md:col-span-2 h-56" />
+            <Skeleton className="md:col-span-1 h-56" />
+            <Skeleton className="md:col-span-1 h-56" />
+            <Skeleton className="md:col-span-2 h-56" />
+            <Skeleton className="md:col-span-1 h-56" />
+            <Skeleton className="md:col-span-1 h-56" />
+            <Skeleton className="md:col-span-1 h-56" />
+        </div>
+    );
+  }
+
   return (
     <BentoGrid className="max-w-5xl mx-auto md:auto-rows-[14rem] mt-16">
       {items.map((item, i) => (
