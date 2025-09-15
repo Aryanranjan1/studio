@@ -64,31 +64,42 @@ export function PortfolioSection({ className, filterBy, projects, services }: Po
 }
 
 function PortfolioAccordion({ services, projects }: { services: Service[], projects: Project[] }) {
-  const [activeService, setActiveService] = useState<string | null>(services[0]?.title || null);
+  const [activeService, setActiveService] = useState<string | null>(null);
   
-  const containerRef = useRef<HTMLDivElement>(null);
+  const handleMouseEnter = (serviceTitle: string) => {
+    setActiveService(serviceTitle);
+  };
+
+  const handleMouseLeave = () => {
+    setActiveService(null);
+  };
 
   return (
-    <div className="mt-16 max-w-4xl mx-auto" ref={containerRef}>
+    <div className="mt-16 max-w-4xl mx-auto">
         <Accordion
-        type="single"
-        collapsible
-        className="w-full space-y-4"
-        value={activeService || ""}
-        onValueChange={setActiveService}
+          type="single"
+          collapsible
+          className="w-full space-y-4"
+          value={activeService || ""}
+          onValueChange={setActiveService}
         >
-        {services.map((service) => {
+          {services.map((service) => {
             const serviceProjects = projects.filter((p) =>
-            p.services.includes(service.title)
+              p.services.includes(service.title)
             );
             return (
-            <AccordionItemWithObserver
+              <div 
                 key={service.id}
-                service={service}
-                serviceProjects={serviceProjects}
-            />
+                onMouseEnter={() => handleMouseEnter(service.title)}
+                onMouseLeave={handleMouseLeave}
+              >
+                <AccordionItemWithObserver
+                    service={service}
+                    serviceProjects={serviceProjects}
+                />
+              </div>
             );
-        })}
+          })}
         </Accordion>
     </div>
   );
@@ -106,58 +117,56 @@ const AccordionItemWithObserver = ({
   const { showItem } = useItemDrawer();
   
   return (
-    <div>
-      <AccordionItem
-        value={service.title}
-        className="border rounded-2xl bg-card overflow-hidden"
+    <AccordionItem
+      value={service.title}
+      className="border rounded-2xl bg-card overflow-hidden"
+    >
+      <AccordionTrigger className="p-6 text-xl font-headline hover:no-underline [&[data-state=open]>svg.plus]:hidden [&[data-state=closed]>svg.minus]:hidden">
+        <div className="flex items-center gap-4">
+          <span>{`Smarter ${service.title}`}</span>
+        </div>
+        <Plus className="h-6 w-6 plus transition-transform duration-200" />
+        <Minus className="h-6 w-6 minus transition-transform duration-200" />
+      </AccordionTrigger>
+      <AccordionContent 
+        className="px-6 pb-6"
       >
-        <AccordionTrigger className="p-6 text-xl font-headline hover:no-underline [&[data-state=open]>svg.plus]:hidden [&[data-state=closed]>svg.minus]:hidden">
-          <div className="flex items-center gap-4">
-            <span>{`Smarter ${service.title}`}</span>
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <p className="text-muted-foreground mb-6">
+              {service.longDescription.substring(0, 150) + "..."}
+            </p>
+            <Button variant="outline" onClick={() => showItem(service)}>
+              Learn More <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
           </div>
-          <Plus className="h-6 w-6 plus transition-transform duration-200" />
-          <Minus className="h-6 w-6 minus transition-transform duration-200" />
-        </AccordionTrigger>
-        <AccordionContent 
-          className="px-6 pb-6"
-        >
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <p className="text-muted-foreground mb-6">
-                {service.longDescription.substring(0, 150) + "..."}
-              </p>
-              <Button variant="outline" onClick={() => showItem(service)}>
-                Learn More <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-            <div className="relative h-64 md:h-80 -rotate-6 group">
-              {serviceProjects.slice(0, 3).map((project, index) => (
-                <div
-                  key={project.id}
-                  className="absolute rounded-lg overflow-hidden shadow-2xl transition-transform duration-300 ease-in-out group-hover:scale-105 cursor-pointer"
-                  style={{
-                    width: '60%',
-                    height: '60%',
-                    top: `${10 + index * 15}%`,
-                    left: `${5 + index * 20}%`,
-                    transform: `rotate(${index * 5 - 5}deg) scale(1)`,
-                    zIndex: index,
-                  }}
-                  onClick={() => showItem(project)}
-                >
-                  <Image
-                    src={project.imageUrl}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
-                    data-ai-hint={project.imageHint}
-                  />
-                </div>
-              ))}
-            </div>
+          <div className="relative h-64 md:h-80 -rotate-6 group">
+            {serviceProjects.slice(0, 3).map((project, index) => (
+              <div
+                key={project.id}
+                className="absolute rounded-lg overflow-hidden shadow-2xl transition-transform duration-300 ease-in-out group-hover:scale-105 cursor-pointer"
+                style={{
+                  width: '60%',
+                  height: '60%',
+                  top: `${10 + index * 15}%`,
+                  left: `${5 + index * 20}%`,
+                  transform: `rotate(${index * 5 - 5}deg) scale(1)`,
+                  zIndex: index,
+                }}
+                onClick={() => showItem(project)}
+              >
+                <Image
+                  src={project.imageUrl}
+                  alt={project.title}
+                  fill
+                  className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+                  data-ai-hint={project.imageHint}
+                />
+              </div>
+            ))}
           </div>
-        </AccordionContent>
-      </AccordionItem>
-    </div>
+        </div>
+      </AccordionContent>
+    </AccordionItem>
   );
 };

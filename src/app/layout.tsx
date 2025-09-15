@@ -9,6 +9,7 @@ import type { SiteSettings } from '@/lib/data';
 import { Header } from '@/components/header';
 import { ItemDrawerProvider } from '@/hooks/use-item-drawer';
 import { ItemDrawer } from '@/components/item-drawer';
+import SmoothScroll from '@/components/smooth-scroll';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ampire.studio'), // Replace with your actual domain
@@ -62,30 +63,32 @@ export default async function RootLayout({
   const settings: SiteSettings = await getSettings();
   
   return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased" suppressHydrationWarning>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            forcedTheme="dark"
-            disableTransitionOnChange
-          >
-            <SuccessPopupProvider>
-              <ItemDrawerProvider>
-                <Header />
-                <div className='relative z-0'>
-                  {children}
-                </div>
-                <Toaster />
-                <ItemDrawer />
-              </ItemDrawerProvider>
-            </SuccessPopupProvider>
-          </ThemeProvider>
+          <SmoothScroll>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="dark"
+              forcedTheme="dark"
+              disableTransitionOnChange
+            >
+              <SuccessPopupProvider>
+                <ItemDrawerProvider>
+                  <Header />
+                  <div className='relative z-0'>
+                    {children}
+                  </div>
+                  <Toaster />
+                  <ItemDrawer />
+                </ItemDrawerProvider>
+              </SuccessPopupProvider>
+            </ThemeProvider>
+          </SmoothScroll>
       </body>
     </html>
   );
