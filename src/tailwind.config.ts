@@ -1,5 +1,9 @@
 import type {Config} from 'tailwindcss';
 
+const {
+    default: flattenColorPalette,
+  } = require("tailwindcss/lib/util/flattenColorPalette");
+
 export default {
   darkMode: ['class'],
   content: [
@@ -67,13 +71,6 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
-      rotate: {
-        '15': '15deg',
-        '50': '50deg',
-      },
-      backgroundImage: {
-        'noise': "url('https://www.reactbits.dev/assets/noise.png')",
-      },
       keyframes: {
         'accordion-down': {
           from: {
@@ -92,27 +89,30 @@ export default {
           },
         },
         "float": {
-          "0%": { transform: "translateY(0px) rotate(0deg)" },
-          "50%": { transform: "translateY(-10px) rotate(15deg)" },
-          "100%": { transform: "translateY(0px) rotate(0deg)" },
+          "0%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
+          "100%": { transform: "translateY(0px)" },
         },
-        "marquee": {
-            "from": { "transform": "translateX(0)" },
-            "to": { "transform": "translateX(calc(-100% - 2.5rem))" }
-        },
-        "marquee-reverse": {
-            "from": { "transform": "translateX(calc(-100% - 2.5rem))" },
-            "to": { "transform": "translateX(0)" }
-        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         "float": "float 4s ease-in-out infinite",
-        "marquee": "marquee 40s linear infinite",
-        "marquee-reverse": "marquee-reverse 40s linear infinite",
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), addVariablesForColors],
 } satisfies Config;
+
+
+function addVariablesForColors({ addBase, theme }: any) {
+    let allColors = flattenColorPalette(theme("colors"));
+    let newVars = Object.fromEntries(
+      Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+    );
+   
+    addBase({
+      ":root": newVars,
+    });
+  }
+  
