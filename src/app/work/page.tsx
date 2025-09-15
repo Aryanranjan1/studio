@@ -7,12 +7,10 @@ import { TestimonialSection } from '@/components/testimonial-section';
 import { TsaSection } from '@/components/tsa-section';
 import { ProcessSection } from '@/components/process-section';
 import { PageTitleHeader } from '@/components/page-title-header';
-import { ParallaxScrollSecond } from '@/components/ui/parallax-scroll';
 import { getProjects } from '@/lib/data';
 
 export default function WorkPage() {
   const projects = getProjects();
-  const images = projects.map(p => p.imageUrl);
 
   return (
     <div className="flex min-h-screen flex-col bg-transparent text-foreground">
@@ -21,7 +19,6 @@ export default function WorkPage() {
             title="Our Work"
             subtitle="A showcase of our finest projects and digital experiences."
         />
-        <ParallaxScrollSecond images={images} />
         <AdvantageSection className="bg-alt" />
         <ProcessSection />
         <TestimonialSection className="bg-alt" />
