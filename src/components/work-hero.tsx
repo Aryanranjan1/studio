@@ -35,7 +35,7 @@ export function WorkHero() {
           muted
           playsInline
           className="size-full object-cover"
-          src="https://assets.mixkit.co/videos/preview/mixkit-animation-of-a-camcorder-and-a-film-roll-52116-large.mp4"
+          src="https://videos.pexels.com/video-files/5453622/5453622-hd_1920_1080_25fps.mp4"
         ></video>
         <div className="absolute inset-0 bg-black/50" />
       </div>
