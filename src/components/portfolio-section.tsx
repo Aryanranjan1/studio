@@ -28,6 +28,7 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
   const allServices = getServices();
   const [activeService, setActiveService] = useState<string | null>(null);
   const [hoveredService, setHoveredService] = useState<string | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const servicesToShow = (filterBy
     ? allServices.filter((s) => s.title === filterBy)
@@ -71,6 +72,8 @@ export function PortfolioSection({ className, filterBy }: PortfolioSectionProps)
                   serviceProjects={serviceProjects}
                   setActiveService={setActiveService}
                   onHoverChange={(isHovering) => setHoveredService(isHovering ? service.title : null)}
+                  isAnimating={isAnimating}
+                  setIsAnimating={setIsAnimating}
                 />
               );
             })}
@@ -97,6 +100,8 @@ interface AccordionItemWithObserverProps {
   serviceProjects: Project[];
   setActiveService: (title: string | null) => void;
   onHoverChange: (isHovering: boolean) => void;
+  isAnimating: boolean;
+  setIsAnimating: (isAnimating: boolean) => void;
 }
 
 const AccordionItemWithObserver = ({
@@ -104,28 +109,38 @@ const AccordionItemWithObserver = ({
   serviceProjects,
   setActiveService,
   onHoverChange,
+  isAnimating,
+  setIsAnimating,
 }: AccordionItemWithObserverProps) => {
   const itemRef = useRef<HTMLDivElement | null>(null);
+  
   const { scrollYProgress } = useScroll({
     target: itemRef,
-    // When the top of the item hits the center of the screen (0.5), the animation starts.
-    // When the bottom of the item hits the center of the screen, the animation ends.
-    offset: ["start 0.5", "end 0.5"],
+    offset: ["start center", "end center"],
   });
 
-  // `isActive` will be 1 when the item is fully in the "active zone", and 0 otherwise.
-  const isActive = useTransform(scrollYProgress, (pos) => (pos > 0 && pos < 1 ? 1 : 0));
-
   useEffect(() => {
-    return isActive.onChange((latest) => {
-      if (latest === 1) {
+    return scrollYProgress.on("change", (latest) => {
+      const isCentered = latest > 0 && latest < 1;
+      if (isCentered && !isAnimating) {
         setActiveService(service.title);
-      } else {
-        // Only deactivate if it was the currently active service
-        setActiveService((prev) => (prev === service.title ? null : prev));
       }
     });
-  }, [isActive, service.title, setActiveService]);
+  }, [scrollYProgress, service.title, setActiveService, isAnimating]);
+  
+  const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
+    // This event fires for both 'accordion-down' and 'accordion-up'.
+    // We only care about when the opening animation finishes.
+    if (e.animationName === 'accordion-down') {
+      setIsAnimating(false);
+    }
+  };
+
+  const handleOpenChange = (isOpen: boolean) => {
+    if (isOpen) {
+      setIsAnimating(true);
+    }
+  };
 
   return (
     <div 
@@ -136,6 +151,7 @@ const AccordionItemWithObserver = ({
       <AccordionItem
         value={service.title}
         className="border rounded-2xl bg-card overflow-hidden"
+        onFocusCapture={() => handleOpenChange(true)}
       >
         <AccordionTrigger className="p-6 text-xl font-headline hover:no-underline [&[data-state=open]>svg.plus]:hidden [&[data-state=closed]>svg.minus]:hidden">
           <div className="flex items-center gap-4">
@@ -144,7 +160,10 @@ const AccordionItemWithObserver = ({
           <Plus className="h-6 w-6 plus transition-transform duration-200" />
           <Minus className="h-6 w-6 minus transition-transform duration-200" />
         </AccordionTrigger>
-        <AccordionContent className="px-6 pb-6">
+        <AccordionContent 
+          className="px-6 pb-6"
+          onAnimationEnd={handleAnimationEnd}
+        >
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
               <p className="text-muted-foreground mb-6">
