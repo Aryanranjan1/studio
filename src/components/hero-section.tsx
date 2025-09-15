@@ -37,7 +37,7 @@ export function HeroSection() {
                                 asChild
                                 size="lg"
                                 className="h-12 rounded-full pl-5 pr-3 text-base">
-                                <Link href="/contact">
+                                <Link href="/project-intake">
                                     <span className="text-nowrap">Start Building</span>
                                     <ChevronRight className="ml-1" />
                                 </Link>
@@ -45,8 +45,8 @@ export function HeroSection() {
                             <Button
                                 asChild
                                 size="lg"
-                                variant="ghost"
-                                className="h-12 rounded-full px-5 text-base hover:bg-zinc-950/5 dark:hover:bg-white/5">
+                                variant="outline"
+                                className="h-12 rounded-full px-5 text-base border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                                 <Link href="/contact">
                                     <span className="text-nowrap">Request a demo</span>
                                 </Link>
