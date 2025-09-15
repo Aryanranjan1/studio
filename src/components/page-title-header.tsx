@@ -2,7 +2,7 @@
 "use client"
 
 import { ScrollReveal } from "./scroll-reveal";
-import DarkVeil from "@/components/ui/dark-veil";
+import Plasma from "@/components/ui/Plasma";
 import { useTheme } from "next-themes";
 
 interface PageTitleHeaderProps {
@@ -16,7 +16,7 @@ export function PageTitleHeader({ title, subtitle }: PageTitleHeaderProps) {
     return (
         <section className="relative py-24 sm:py-32 text-primary-foreground overflow-hidden">
             <div className="absolute inset-0 z-0">
-                <DarkVeil hueShift={244} />
+                <Plasma color="#4F46E5" speed={0.5} />
             </div>
             <div className="container relative">
                 <ScrollReveal>
