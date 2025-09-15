@@ -1,8 +1,9 @@
 
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import type { Project, Service } from '@/lib/data';
+import { useLenis } from 'lenis/react';
 
 type DrawerItem = Project | Service;
 
@@ -18,6 +19,15 @@ const ItemDrawerContext = createContext<ItemDrawerContextType | undefined>(undef
 export const ItemDrawerProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [item, setItem] = useState<DrawerItem | null>(null);
+  const lenis = useLenis();
+
+  useEffect(() => {
+    if (isOpen) {
+      lenis?.stop();
+    } else {
+      lenis?.start();
+    }
+  }, [isOpen, lenis]);
 
   const showItem = (newItem: DrawerItem) => {
     setItem(newItem);
@@ -26,16 +36,9 @@ export const ItemDrawerProvider = ({ children }: { children: ReactNode }) => {
 
   const closeItem = () => {
     setIsOpen(false);
-    // Optional: Delay clearing item to allow for exit animation
-    // By checking the new state via the function's parameter, we avoid stale closures.
     setTimeout(() => {
-        setIsOpen((currentIsOpen) => {
-            if (!currentIsOpen) {
-                setItem(null);
-            }
-            return currentIsOpen;
-        });
-    }, 300);
+        setItem(null);
+    }, 300); // Delay clearing to allow for exit animation
   };
 
   return React.createElement(
