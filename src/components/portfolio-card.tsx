@@ -1,6 +1,5 @@
 
 import Image from "next/image";
-import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -10,6 +9,7 @@ import {
 import { Badge } from "./ui/badge";
 import type { Project } from "@/lib/data";
 import { ScrollReveal } from "./scroll-reveal";
+import { useItemDrawer } from "@/hooks/use-item-drawer";
 
 interface PortfolioCardProps {
   project: Project;
@@ -17,9 +17,16 @@ interface PortfolioCardProps {
 }
 
 export function PortfolioCard({ project, index }: PortfolioCardProps) {
+  const { showItem } = useItemDrawer();
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    showItem(project);
+  };
+
   return (
     <ScrollReveal delay={index * 100}>
-      <Link href={`/work/${project.slug}`}>
+      <div onClick={handleCardClick} className="cursor-pointer">
         <Card className="group h-full overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2">
           <CardHeader className="p-0">
             <div className="relative h-60 w-full overflow-hidden">
@@ -44,7 +51,7 @@ export function PortfolioCard({ project, index }: PortfolioCardProps) {
             <p className="text-sm text-muted-foreground">{project.summary}</p>
           </CardContent>
         </Card>
-      </Link>
+      </div>
     </ScrollReveal>
   );
 }

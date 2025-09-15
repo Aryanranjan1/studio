@@ -1,12 +1,13 @@
+
 "use client";
 
 import { ScrollReveal } from "./scroll-reveal";
 import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { Code, Brush, Smartphone, ShoppingCart, Megaphone, PenTool, Bot, Search } from 'lucide-react';
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { getServices, Service } from "@/lib/data";
+import { useItemDrawer } from "@/hooks/use-item-drawer";
 
 const iconMap: { [key: string]: React.ReactElement } = {
   'Branding': <Brush className="h-10 w-10 text-primary" />,
@@ -25,6 +26,12 @@ interface ServiceCategorySectionProps {
 
 export function ServiceCategorySection({ className }: ServiceCategorySectionProps) {
   const services: Service[] = getServices();
+  const { showItem } = useItemDrawer();
+
+  const handleCardClick = (e: React.MouseEvent, service: Service) => {
+    e.preventDefault();
+    showItem(service);
+  };
 
   return (
     <section id="services" className={cn("relative py-24 sm:py-32 text-white overflow-hidden", className)}>
@@ -53,7 +60,7 @@ export function ServiceCategorySection({ className }: ServiceCategorySectionProp
         <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {services.map((service, index) => (
             <ScrollReveal key={service.id} delay={index * 100}>
-            <Link href={`/services/${service.slug}`} className="h-full block">
+            <div onClick={(e) => handleCardClick(e, service)} className="h-full block cursor-pointer">
                 <Card className="h-full text-center transition-all duration-300 hover:shadow-primary/20 hover:shadow-2xl hover:-translate-y-2 bg-card/50 backdrop-blur-lg group">
                 <CardHeader>
                     <div className="flex justify-center mb-4">
@@ -71,7 +78,7 @@ export function ServiceCategorySection({ className }: ServiceCategorySectionProp
                     </div>
                 </CardContent>
                 </Card>
-            </Link>
+            </div>
             </ScrollReveal>
         ))}
         </div>

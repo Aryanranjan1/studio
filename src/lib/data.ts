@@ -24,6 +24,8 @@ export interface Service {
     description: string;
     longDescription: string;
     icon: ServiceIcon;
+    imageUrl: string; // Add imageUrl for the drawer
+    imageHint: string; // Add imageHint for the drawer
 }
 
 export interface Testimonial {
@@ -122,7 +124,7 @@ export const projects: Project[] = [
       summary: "Created a full brand identity, from name to packaging, for an organic skincare line, resulting in a distinct and luxurious market presence.",
       imageUrl: "https://picsum.photos/seed/project2/600/400",
       imageHint: "skincare product",
-      services: [],
+      services: ["Branding"],
       status: "Completed",
       createdAt: new Date(),
     },
@@ -172,6 +174,8 @@ export const services: Service[] = [
         description: 'We design intuitive and beautiful user interfaces that captivate and convert.',
         longDescription: 'User-Experience (UX) and User-Interface (UI) are at the heart of everything we build. Our design process is human-centered, starting with in-depth research to understand your users\' needs, behaviors, and pain points. We create detailed user personas and journey maps to guide the design. From there, we move to wireframing and prototyping, creating interactive models of the user flow. Finally, we craft a visually stunning UI that is not only beautiful but also accessible and easy to use. Our goal is to create seamless, engaging experiences that users love.',
         icon: 'UI/UX Design',
+        imageUrl: 'https://picsum.photos/seed/service-uiux/600/400',
+        imageHint: 'design wireframe',
     },
     {
         id: "3",
@@ -180,6 +184,8 @@ export const services: Service[] = [
         description: 'We build fast, responsive, and scalable websites using modern technologies like Next.js and WordPress.',
         longDescription: 'Our web development team specializes in building high-performance websites that are both visually stunning and technically sound. We use modern frameworks like Next.js for performance and trusted platforms like WordPress for flexibility. We follow best practices for coding, ensuring your website is maintainable and secure. Whether you need a simple marketing site, a complex web application, or a headless CMS integration, we have the expertise to deliver a solution that meets your specific needs and exceeds your expectations.',
         icon: 'Web Development',
+        imageUrl: 'https://picsum.photos/seed/service-webdev/600/400',
+        imageHint: 'code screen',
     },
     {
         id: "4",
@@ -188,6 +194,8 @@ export const services: Service[] = [
         description: 'We design and develop high-performance mobile applications that amplify your impact.',
         longDescription: 'We build native and cross-platform mobile apps that deliver a fantastic user experience. Our team handles the entire lifecycle, from ideation and design to development, testing, and App Store submission. We focus on performance, security, and scalability, ensuring your app can grow with your user base. Whether you need a simple utility app to streamline your workflow or a complex social network to build a community, we have the skills to bring your mobile vision to life.',
         icon: 'Mobile App',
+        imageUrl: 'https://picsum.photos/seed/service-mobile/600/400',
+        imageHint: 'mobile phone',
     },
     {
         id: "5",
@@ -196,6 +204,8 @@ export const services: Service[] = [
         description: 'We develop robust e-commerce solutions that drive sales and help you scale.',
         longDescription: 'We create powerful e-commerce experiences on platforms like Shopify, as well as custom-built solutions. Our focus is on creating a seamless shopping journey for your customers, from product discovery to checkout. We integrate secure payment gateways, manage complex product catalogs, and optimize for conversions. We can also build custom features like subscription models, customer accounts, and loyalty programs to help you build a thriving online business.',
         icon: 'E-commerce',
+        imageUrl: 'https://picsum.photos/seed/service-ecom/600/400',
+        imageHint: 'online shopping',
     },
     {
         id: "7",
@@ -204,6 +214,8 @@ export const services: Service[] = [
         description: 'We save you time and streamline your operations by building custom automations that handle your repetitive, time-consuming tasks.',
         longDescription: 'In today\'s fast-paced world, efficiency is key. We specialize in creating custom automation solutions that integrate with your existing workflows. Whether it\'s automating data entry, streamlining your social media posting, managing email campaigns, or connecting disparate software systems, we build robust solutions that save you time and reduce errors. Let us handle the repetitive work so you can focus on what you do best: growing your business.',
         icon: 'Automations',
+        imageUrl: 'https://picsum.photos/seed/service-auto/600/400',
+        imageHint: 'gears automation',
     },
     {
         id: "8",
@@ -212,6 +224,8 @@ export const services: Service[] = [
         description: 'We execute data-driven SEO strategies to make you visible online and climb search rankings.',
         longDescription: 'Our Search Engine Optimization (SEO) services are designed to increase your visibility on search engines like Google. We conduct thorough keyword research, on-page optimization, technical SEO audits, and quality link-building to improve your rankings for the terms that matter most to your business. We focus on sustainable, white-hat strategies that build long-term authority and drive organic traffic to your website, resulting in more leads and sales.',
         icon: 'SEO',
+        imageUrl: 'https://picsum.photos/seed/service-seo/600/400',
+        imageHint: 'search graph',
     }
 ];
 
@@ -303,10 +317,13 @@ export const siteSettings: SiteSettings = {
   };
 
 export const getProjects = () => projects;
-export const getProjectBySlug = (slug: string) => projects.find(p => p.slug === slug) || null;
-
+export const getProjectBySlug = (slug: string): Project | null => {
+    return projects.find(p => p.slug === slug) || null;
+}
 export const getServices = () => services;
-export const getServiceBySlug = (slug: string) => services.find(s => s.slug === slug) || null;
+export const getServiceBySlug = (slug: string): Service | null => {
+    return services.find(s => s.slug === slug) || null;
+}
 
 export const getTestimonials = () => testimonials;
 

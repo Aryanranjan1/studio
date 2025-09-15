@@ -17,6 +17,7 @@ import {
 import { ArrowRight, Plus, Minus } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
+import { useItemDrawer } from "@/hooks/use-item-drawer";
 
 interface PortfolioSectionProps {
   className?: string;
@@ -113,6 +114,7 @@ const AccordionItemWithObserver = ({
   setIsAnimating,
 }: AccordionItemWithObserverProps) => {
   const itemRef = useRef<HTMLDivElement | null>(null);
+  const { showItem } = useItemDrawer();
   
   const { scrollYProgress } = useScroll({
     target: itemRef,
@@ -129,8 +131,6 @@ const AccordionItemWithObserver = ({
   }, [scrollYProgress, service.title, setActiveService, isAnimating]);
   
   const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
-    // This event fires for both 'accordion-down' and 'accordion-up'.
-    // We only care about when the opening animation finishes.
     if (e.animationName === 'accordion-down') {
       setIsAnimating(false);
     }
@@ -169,15 +169,15 @@ const AccordionItemWithObserver = ({
               <p className="text-muted-foreground mb-6">
                 {service.longDescription.substring(0, 150) + "..."}
               </p>
-              <Button asChild variant="outline">
-                <Link href={`/services/${service.slug}`}>Learn More <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              <Button variant="outline" onClick={() => showItem(service)}>
+                Learn More <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
             <div className="relative h-64 md:h-80 -rotate-6 group">
               {serviceProjects.slice(0, 3).map((project, index) => (
                 <div
                   key={project.id}
-                  className="absolute rounded-lg overflow-hidden shadow-2xl transition-transform duration-300 ease-in-out group-hover:scale-105"
+                  className="absolute rounded-lg overflow-hidden shadow-2xl transition-transform duration-300 ease-in-out group-hover:scale-105 cursor-pointer"
                   style={{
                     width: '60%',
                     height: '60%',
@@ -186,6 +186,7 @@ const AccordionItemWithObserver = ({
                     transform: `rotate(${index * 5 - 5}deg) scale(1)`,
                     zIndex: index,
                   }}
+                  onClick={() => showItem(project)}
                 >
                   <Image
                     src={project.imageUrl}

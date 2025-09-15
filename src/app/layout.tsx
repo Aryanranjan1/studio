@@ -7,6 +7,8 @@ import { getSettings } from '@/lib/data';
 import type { SiteSettings } from '@/lib/data';
 import { Header } from '@/components/header';
 import { ReactLenis } from 'lenis/react';
+import { ItemDrawerProvider } from '@/hooks/use-item-drawer';
+import { ItemDrawer } from '@/components/item-drawer';
 
 export const metadata: Metadata = {
   title: 'AMpire Studio | Built For You. Crowned By Us.',
@@ -36,11 +38,14 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <SuccessPopupProvider>
-              <Header />
-              <div className='relative z-0'>
-                {children}
-              </div>
-              <Toaster />
+              <ItemDrawerProvider>
+                <Header />
+                <div className='relative z-0'>
+                  {children}
+                </div>
+                <Toaster />
+                <ItemDrawer />
+              </ItemDrawerProvider>
             </SuccessPopupProvider>
           </ThemeProvider>
         </ReactLenis>

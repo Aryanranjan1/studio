@@ -18,8 +18,9 @@ import {
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { getProjects } from "@/lib/data";
+import { getProjects, getProjectBySlug } from "@/lib/data";
 import type { Project } from "@/lib/data";
+import { useItemDrawer } from "@/hooks/use-item-drawer";
 
 const animationTypes = [
     'flip-horizontal',
@@ -38,6 +39,7 @@ const FlippableBentoCard = ({
     const [isFlipped, setIsFlipped] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
     const [animationType, setAnimationType] = useState('flip-horizontal');
+    const { showItem } = useItemDrawer();
   
     const handleFlip = () => setIsFlipped(!isFlipped);
     
@@ -57,6 +59,15 @@ const FlippableBentoCard = ({
     };
   
     const showBack = isFlipped || isHovering;
+
+    const project = getProjectBySlug(item.projectSlug);
+
+    const handleProjectClick = (e: React.MouseEvent) => {
+        e.stopPropagation(); // Prevent card from flipping back
+        if(project) {
+            showItem(project);
+        }
+    }
   
     const variants = {
       'flip-horizontal': {
@@ -133,7 +144,7 @@ const FlippableBentoCard = ({
                   </div>
                 </div>
                 <div className="w-full md:w-1/2 relative rounded-lg overflow-hidden h-32 md:h-auto">
-                   <Link href={`/work/${item.projectSlug}`} className="block w-full h-full group">
+                   <button onClick={handleProjectClick} className="block w-full h-full group cursor-pointer">
                       <Image
                           src={item.imageUrl}
                           alt={item.problem}
@@ -144,7 +155,7 @@ const FlippableBentoCard = ({
                       <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                           <span className="text-white text-xs font-bold bg-black/50 px-2 py-1 rounded-full">View Project</span>
                       </div>
-                  </Link>
+                  </button>
                 </div>
               </div>
             </motion.div>
