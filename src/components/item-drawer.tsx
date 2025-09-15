@@ -14,7 +14,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetDescription,
-  SheetClose
+  SheetClose,
+  SheetOverlay
 } from '@/components/ui/sheet';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
@@ -28,7 +29,7 @@ export function ItemDrawer() {
   const isProject = 'summary' in item;
 
   return (
-    <Sheet open={isOpen} onOpenChange={(open) => !open && closeItem()}>
+    <Sheet open={isOpen} onOpenChange={(open) => { if (!open) closeItem(); }}>
         <SheetContent className="w-full md:w-1/2 lg:w-1/2 xl:w-[40%] p-0 border-l-0" side="right">
             <ScrollArea className="h-full">
                 <div className="relative h-80 w-full">
