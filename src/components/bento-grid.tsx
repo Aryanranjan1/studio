@@ -189,12 +189,12 @@ export function BentoGridDemo() {
   }
 
   return (
-    <BentoGrid className="max-w-5xl mx-auto md:auto-rows-[14rem] mt-16">
+    <BentoGrid className="grid-cols-2 md:grid-cols-5 auto-rows-fr md:auto-rows-[14rem] mt-16 max-w-5xl mx-auto">
       {items.map((item, i) => (
         <FlippableBentoCard
           key={i}
           item={item}
-          className={item.className}
+          className={cn(item.mobileClassName, item.desktopClassName)}
         />
       ))}
     </BentoGrid>
@@ -207,7 +207,8 @@ const items = [
   {
     problem: "Facing tech confusion?",
     solution: "We provide clarity with modern, reliable solutions. We'll guide you through choosing and implementing the right technology, like Next.js for blazing-fast performance and a headless CMS for easy content management, ensuring your site is built on a solid, future-proof foundation. Our process involves a deep-dive discovery session, clear documentation, and transparent communication every step of the way. You'll never feel lost in jargon again. We empower you to understand your technology, not just use it.",
-    className: "md:col-span-2",
+    desktopClassName: "md:col-span-3",
+    mobileClassName: "col-span-2",
     icon: <Lightbulb className="h-4 w-4 text-neutral-500" />,
     imageUrl: "https://picsum.photos/seed/tech-clarity/800/400",
     imageHint: "code dashboard",
@@ -216,7 +217,8 @@ const items = [
   {
     problem: "Struggling with online invisibility?",
     solution: "We elevate your brand's presence with targeted SEO strategies. By optimizing your site's structure, content, and authority, we drive relevant organic traffic to your digital doorstep, turning searchers into valuable leads and customers.",
-    className: "md:col-span-1",
+    desktopClassName: "md:col-span-2",
+    mobileClassName: "col-span-1",
     icon: <BarChart3 className="h-4 w-4 text-neutral-500" />,
     imageUrl: "https://picsum.photos/seed/seo-growth/400/400",
     imageHint: "chart graph",
@@ -225,7 +227,8 @@ const items = [
   {
     problem: "Need a stunning brand identity?",
     solution: "We craft memorable brand identities that tell your unique story. From logos and color palettes to voice and messaging, we build a cohesive and compelling brand that resonates with your audience and sets you apart from the competition.",
-    className: "md:col-span-1",
+    desktopClassName: "md:col-span-2",
+    mobileClassName: "col-span-1",
     icon: <Rocket className="h-4 w-4 text-neutral-500" />,
     imageUrl: "https://picsum.photos/seed/branding-rocket/400/400",
     imageHint: "brand design",
@@ -235,7 +238,8 @@ const items = [
     problem: "Can't keep up with growth?",
     solution:
       "We build scalable solutions that grow with your business. From high-performance websites that handle traffic spikes to custom app integrations, we provide the robust infrastructure you need to expand without technical limitations. Our architecture is designed for scalability from day one, using cloud services and efficient code to ensure your platform remains fast and reliable as your user base grows.",
-    className: "md:col-span-2",
+    desktopClassName: "md:col-span-3",
+    mobileClassName: "col-span-2",
     icon: <Scaling className="h-4 w-4 text-neutral-500" />,
     imageUrl: "https://picsum.photos/seed/scaling-up/800/400",
     imageHint: "abstract architecture",
@@ -244,7 +248,8 @@ const items = [
   {
     problem: "Want to reach customers on mobile?",
     solution: "We design and develop intuitive mobile apps for iOS and Android. Our focus is on creating a seamless, engaging user experience that keeps your audience connected to your brand, wherever they are.",
-    className: "md:col-span-1",
+    desktopClassName: "md:col-span-1",
+    mobileClassName: "col-span-1",
     icon: <Smartphone className="h-4 w-4 text-neutral-500" />,
     imageUrl: "https://picsum.photos/seed/mobile-reach/400/400",
     imageHint: "mobile app",
@@ -253,7 +258,8 @@ const items = [
   {
     problem: "Looking to sell online effectively?",
     solution: "We create powerful e-commerce platforms using Shopify or custom solutions. We focus on a frictionless shopping experience, from beautiful product displays to secure, one-click checkouts, all designed to maximize conversions.",
-    className: "md:col-span-1",
+    desktopClassName: "md:col-span-2",
+    mobileClassName: "col-span-1",
     icon: <ShoppingCart className="h-4 w-4 text-neutral-500" />,
     imageUrl: "https://picsum.photos/seed/ecommerce-cart/400/400",
     imageHint: "shopping cart",
@@ -262,12 +268,11 @@ const items = [
   {
     problem: "Wasting time on repetitive tasks?",
     solution: "We build custom automations that streamline your operations. By integrating your systems and automating manual workflows, we free up your team to focus on high-value activities that drive growth.",
-    className: "md:col-span-1",
+    desktopClassName: "md:col-span-2",
+    mobileClassName: "col-span-2",
     icon: <Clock className="h-4 w-4 text-neutral-500" />,
     imageUrl: "https://picsum.photos/seed/automation-gears/400/400",
     imageHint: "gears clock",
     projectSlug: allProjects[4]?.slug ?? "workflow-automation-tool",
   },
 ];
-
-    
