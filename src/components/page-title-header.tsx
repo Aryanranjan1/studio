@@ -16,7 +16,7 @@ export function PageTitleHeader({ title, subtitle }: PageTitleHeaderProps) {
     return (
         <section className="relative py-24 sm:py-32 text-primary-foreground overflow-hidden">
             <div className="absolute inset-0 z-0">
-                <DarkVeil />
+                <DarkVeil hueShift={244} />
             </div>
             <div className="container relative">
                 <ScrollReveal>
