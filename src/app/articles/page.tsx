@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -9,7 +10,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { PageTitleHeader } from '@/components/page-title-header';
 import { Footer } from '@/components/footer';
-import Plasma from '@/components/ui/Plasma';
 
 import { ScrollReveal } from '@/components/scroll-reveal';
 import { Button } from '@/components/ui/button';
@@ -58,68 +58,63 @@ export default function ArticlesPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <main className="flex-1 relative">
-        <div className="absolute inset-0 z-0">
-          <Plasma color="#4F46E5" speed={0.5} />
-           <div className="absolute inset-0 bg-background/80 backdrop-blur-sm"></div>
-        </div>
-        <div className="relative z-10">
-            <PageTitleHeader 
-                title="Our Articles"
-                subtitle="Insights, trends, and stories from the digital frontier."
-            />
-            <div className="container py-24 sm:py-32 space-y-24">
-                <>
-                    {/* Featured Articles Section */}
-                    {featuredArticles.length > 0 && (
-                        <section>
-                            <ScrollReveal>
-                                <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl text-center mb-12">Featured Insights</h2>
-                            </ScrollReveal>
-                            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                                {featuredArticles.map((article, index) => (
-                                <ArticleCard key={article.id} article={article} delay={index * 100} priority={index < 2} />
-                                ))}
-                            </div>
-                        </section>
-                    )}
-
-                    {/* All Articles Section */}
+      <main className="flex-1">
+        <PageTitleHeader 
+            title="Our Articles"
+            subtitle="Insights, trends, and stories from the digital frontier."
+            imageUrl="https://picsum.photos/seed/newspaper/1920/1080"
+        />
+        <div className="container py-24 sm:py-32 space-y-24">
+            <>
+                {/* Featured Articles Section */}
+                {featuredArticles.length > 0 && (
                     <section>
                         <ScrollReveal>
-                            <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl text-center mb-6">All Articles</h2>
+                            <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl text-center mb-12">Featured Insights</h2>
                         </ScrollReveal>
-                        
-                        <ScrollReveal delay={200}>
-                            <div className="my-10 flex flex-wrap justify-center gap-3">
-                                <Button
-                                variant={activeFilter === "All" ? "default" : "outline"}
-                                onClick={() => setActiveFilter("All")}
-                                className="rounded-full"
-                                >
-                                All
-                                </Button>
-                                {allTags.map((tag) => (
-                                <Button
-                                    key={tag}
-                                    variant={activeFilter === tag ? "default" : "outline"}
-                                    onClick={() => setActiveFilter(tag)}
-                                    className="rounded-full"
-                                >
-                                    {tag}
-                                </Button>
-                                ))}
-                            </div>
-                        </ScrollReveal>
-                        
-                        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                            {filteredArticles.map((article, index) => (
-                            <ArticleCard key={article.id} article={article} delay={index * 100} />
+                        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                            {featuredArticles.map((article, index) => (
+                            <ArticleCard key={article.id} article={article} delay={index * 100} priority={index < 2} />
                             ))}
                         </div>
                     </section>
-                </>
-            </div>
+                )}
+
+                {/* All Articles Section */}
+                <section>
+                    <ScrollReveal>
+                        <h2 className="font-headline text-3xl font-bold tracking-tight text-primary sm:text-4xl text-center mb-6">All Articles</h2>
+                    </ScrollReveal>
+                    
+                    <ScrollReveal delay={200}>
+                        <div className="my-10 flex flex-wrap justify-center gap-3">
+                            <Button
+                            variant={activeFilter === "All" ? "default" : "outline"}
+                            onClick={() => setActiveFilter("All")}
+                            className="rounded-full"
+                            >
+                            All
+                            </Button>
+                            {allTags.map((tag) => (
+                            <Button
+                                key={tag}
+                                variant={activeFilter === tag ? "default" : "outline"}
+                                onClick={() => setActiveFilter(tag)}
+                                className="rounded-full"
+                            >
+                                {tag}
+                            </Button>
+                            ))}
+                        </div>
+                    </ScrollReveal>
+                    
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        {filteredArticles.map((article, index) => (
+                        <ArticleCard key={article.id} article={article} delay={index * 100} />
+                        ))}
+                    </div>
+                </section>
+            </>
         </div>
       </main>
       <Footer />

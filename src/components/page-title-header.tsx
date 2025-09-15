@@ -1,22 +1,35 @@
 
 "use client"
 
+import Image from "next/image";
 import { ScrollReveal } from "./scroll-reveal";
 import Plasma from "@/components/ui/Plasma";
-import { useTheme } from "next-themes";
 
 interface PageTitleHeaderProps {
     title: string;
     subtitle: string;
+    imageUrl?: string;
 }
 
-export function PageTitleHeader({ title, subtitle }: PageTitleHeaderProps) {
-    const { theme } = useTheme();
-
+export function PageTitleHeader({ title, subtitle, imageUrl }: PageTitleHeaderProps) {
     return (
         <section className="relative py-24 sm:py-32 text-primary-foreground overflow-hidden">
             <div className="absolute inset-0 z-0">
-                <Plasma color="#4F46E5" speed={0.5} />
+                {imageUrl ? (
+                    <>
+                        <Image
+                            src={imageUrl}
+                            alt={title}
+                            fill
+                            priority
+                            className="object-cover"
+                            data-ai-hint="newspaper article abstract"
+                        />
+                        <div className="absolute inset-0 bg-black/60" />
+                    </>
+                ) : (
+                    <Plasma color="#4F46E5" speed={0.5} />
+                )}
             </div>
             <div className="container relative">
                 <ScrollReveal>
