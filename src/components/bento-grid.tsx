@@ -44,7 +44,7 @@ const FlippableBentoCard = ({
   const handleHoverStart = () => setIsHovering(true);
   const handleHoverEnd = () => setIsHovering(false);
 
-  const showFront = !isFlipped && !isHovering;
+  // Show back if flipped (clicked) or hovering
   const showBack = isFlipped || isHovering;
 
   return (
@@ -56,12 +56,12 @@ const FlippableBentoCard = ({
       onClick={handleFlip}
     >
       <AnimatePresence initial={false}>
-        {showFront && (
+        {!showBack && (
           <motion.div
             key="front"
-            initial={{ ...flipAnimation }}
-            animate={{ rotateX: 0, rotateY: 0 }}
-            exit={{ ...flipAnimation }}
+            initial={{ ...backfaceAnimation, opacity: 0 }}
+            animate={{ rotateX: 0, rotateY: 0, opacity: 1 }}
+            exit={{ ...flipAnimation, opacity: 0 }}
             transition={{ duration: 0.6, ease: "easeInOut" }}
             className="absolute inset-0 w-full h-full flex flex-col justify-end p-6 bg-cover bg-center"
             style={{
@@ -71,8 +71,9 @@ const FlippableBentoCard = ({
             }}
           >
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-0" />
-            <div className="relative z-10 flex items-center gap-2">
-              <div className="text-lg font-headline font-bold text-white">
+            <div className="relative z-10 flex items-center gap-2 text-white">
+              {React.cloneElement(item.icon, { className: "h-5 w-5"})}
+              <div className="text-lg font-headline font-bold">
                 {item.problem}
               </div>
             </div>
@@ -82,14 +83,14 @@ const FlippableBentoCard = ({
         {showBack && (
           <motion.div
             key="back"
-            initial={backfaceAnimation}
+            initial={flipAnimation}
             animate={{ rotateX: 0, rotateY: 0 }}
             exit={backfaceAnimation}
             transition={{ duration: 0.6, ease: "easeInOut" }}
             className="absolute inset-0 w-full h-full bg-card p-6 flex flex-col"
             style={{ transformStyle: "preserve-3d", backfaceVisibility: "hidden" }}
           >
-            <div className="flex-grow flex flex-col md:flex-row gap-4">
+            <div className="flex-grow flex flex-col md:flex-row gap-4 overflow-hidden">
               <div className="w-full md:w-1/2 flex flex-col">
                 <div className="flex items-center gap-2 mb-2 text-muted-foreground">
                   {item.icon}
@@ -97,9 +98,9 @@ const FlippableBentoCard = ({
                     Our Solution
                   </h3>
                 </div>
-                <p className="text-xs text-muted-foreground flex-grow">
-                  {item.solution}
-                </p>
+                <div className="text-xs text-muted-foreground flex-grow overflow-y-auto pr-2">
+                  <p className="whitespace-pre-wrap">{item.solution}</p>
+                </div>
               </div>
               <div className="w-full md:w-1/2 relative rounded-lg overflow-hidden h-32 md:h-auto">
                  <Link href={`/work/${item.projectSlug}`} className="block w-full h-full group">
@@ -143,7 +144,7 @@ const allProjects = getProjects();
 const items = [
   {
     problem: "Facing tech confusion?",
-    solution: "We provide clarity with modern, reliable solutions. We'll guide you through choosing and implementing the right technology, like Next.js for blazing-fast performance and a headless CMS for easy content management, ensuring your site is built on a solid, future-proof foundation.",
+    solution: "We provide clarity with modern, reliable solutions. We'll guide you through choosing and implementing the right technology, like Next.js for blazing-fast performance and a headless CMS for easy content management, ensuring your site is built on a solid, future-proof foundation. Our process involves a deep-dive discovery session, clear documentation, and transparent communication every step of the way. You'll never feel lost in jargon again. We empower you to understand your technology, not just use it.",
     className: "md:col-span-2",
     icon: <Lightbulb className="h-4 w-4 text-neutral-500" />,
     imageUrl: "https://picsum.photos/seed/tech-clarity/800/400",
@@ -174,7 +175,7 @@ const items = [
   {
     problem: "Can't keep up with growth?",
     solution:
-      "We build scalable solutions that grow with your business. From high-performance websites that handle traffic spikes to custom app integrations, we provide the robust infrastructure you need to expand without technical limitations.",
+      "We build scalable solutions that grow with your business. From high-performance websites that handle traffic spikes to custom app integrations, we provide the robust infrastructure you need to expand without technical limitations. Our architecture is designed for scalability from day one, using cloud services and efficient code to ensure your platform remains fast and reliable as your user base grows.",
     className: "md:col-span-2",
     icon: <Scaling className="h-4 w-4 text-neutral-500" />,
     imageUrl: "https://picsum.photos/seed/scaling-up/800/400",
