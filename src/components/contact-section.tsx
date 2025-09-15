@@ -100,32 +100,10 @@ export function ContactSection({ className }: ContactSectionProps) {
   }
 
   return (
-    <section id="contact" className={cn("py-24 sm:py-32 relative text-primary-foreground", className)}>
-        <div className="absolute inset-0 overflow-hidden z-0">
-            <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="size-full object-cover"
-                src="https://assets.mixkit.co/videos/preview/mixkit-liquid-gradient-background-in-warm-tones-43093-large.mp4"></video>
-             <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
-        </div>
+    <section id="contact" className={cn("py-24 sm:py-32", className)}>
         <div className="container relative z-10">
-          <ScrollReveal>
-            <div className="text-center max-w-2xl mx-auto">
-                <p className="font-headline text-sm font-semibold uppercase tracking-wider text-accent">Get in touch</p>
-                <h2 className="font-headline mt-2 text-4xl font-bold tracking-tight sm:text-5xl">
-                    Ready to Start Your Project?
-                </h2>
-                <p className="mt-6 text-lg text-primary-foreground/80">
-                  Fill out the form below and we'll get back to you within 24 hours to discuss your project.
-                </p>
-            </div>
-          </ScrollReveal>
-
             <ScrollReveal delay={200}>
-              <Card className="mt-16 overflow-hidden bg-card/20 backdrop-blur-lg border-border/20 text-foreground">
+              <Card className="mt-[-12rem] overflow-hidden bg-card/80 backdrop-blur-lg border-border/20 text-foreground shadow-2xl">
                   <div className="grid lg:grid-cols-5">
                       <div className="lg:col-span-3 p-8">
                           <h3 className="text-2xl font-bold font-headline mb-6">Send Us a Message</h3>
