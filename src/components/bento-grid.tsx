@@ -13,7 +13,8 @@ import {
     Rocket,
     Code,
     Smartphone,
-    ShoppingCart
+    ShoppingCart,
+    X,
 } from "lucide-react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,13 +23,15 @@ import { getProjects, getProjectBySlug } from "@/lib/data";
 import type { Project } from "@/lib/data";
 import { useItemDrawer } from "@/hooks/use-item-drawer";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { Button } from "./ui/button";
 
 const animationTypes = [
     'flip-horizontal',
     'flip-vertical',
     'fade-slide',
     'zoom-out-in',
-  ];
+];
   
 const FlippableBentoCard = ({
     item,
@@ -39,35 +42,48 @@ const FlippableBentoCard = ({
   }) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
     const [animationType, setAnimationType] = useState('flip-horizontal');
     const { showItem } = useItemDrawer();
+    const isMobile = useMediaQuery("(max-width: 768px)");
   
-    const handleFlip = () => setIsFlipped(!isFlipped);
+    const handleFlip = () => {
+        if (isMobile) {
+            setIsExpanded(true);
+        } else {
+            setIsFlipped(!isFlipped);
+        }
+    }
     
     const handleHoverStart = () => {
-      // Choose a new random animation on every hover
+      if (isMobile) return;
       const randomType = animationTypes[Math.floor(Math.random() * animationTypes.length)];
       setAnimationType(randomType);
       setIsHovering(true);
     };
 
     const handleHoverEnd = () => {
+      if (isMobile) return;
       setIsHovering(false);
-      // If the card is not permanently flipped, revert it
       if (!isFlipped) {
         setIsHovering(false);
       }
     };
   
-    const showBack = isFlipped || isHovering;
+    const showBack = !isMobile && (isFlipped || isHovering);
 
     const project = getProjectBySlug(item.projectSlug);
 
     const handleProjectClick = (e: React.MouseEvent) => {
-        e.stopPropagation(); // Prevent card from flipping back
+        e.stopPropagation(); 
         if(project) {
             showItem(project);
         }
+    }
+
+    const handleCloseExpanded = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setIsExpanded(false);
     }
   
     const variants = {
@@ -90,6 +106,83 @@ const FlippableBentoCard = ({
     };
   
     const selectedVariant = variants[animationType as keyof typeof variants] || variants['flip-horizontal'];
+    
+    if (isMobile) {
+        return (
+            <>
+                <BentoGridItem
+                    className={cn("relative", className)}
+                    onClick={handleFlip}
+                >
+                    <motion.div
+                        className="absolute inset-0 w-full h-full flex flex-col justify-end p-6 bg-cover bg-center"
+                        style={{ backgroundImage: `url(${item.imageUrl})` }}
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-0" />
+                        <div className="relative z-10 flex items-center gap-2 text-white">
+                            {React.cloneElement(item.icon, { className: "h-5 w-5"})}
+                            <div className="text-lg font-headline font-bold">
+                            {item.problem}
+                            </div>
+                        </div>
+                    </motion.div>
+                </BentoGridItem>
+
+                <AnimatePresence>
+                    {isExpanded && (
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.2, ease: 'easeOut' }}
+                            className="fixed inset-0 bg-black/80 z-50 p-4 flex items-center justify-center"
+                            onClick={() => setIsExpanded(false)}
+                        >
+                            <div 
+                                className="relative w-full max-w-sm h-auto max-h-[80vh] bg-card rounded-2xl p-6 flex flex-col overflow-hidden"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="absolute top-2 right-2 z-10 text-muted-foreground"
+                                    onClick={handleCloseExpanded}
+                                >
+                                    <X className="h-5 w-5" />
+                                </Button>
+                                
+                                <div className="flex-grow flex flex-col gap-4 overflow-y-auto pr-2">
+                                    <div className="flex items-center gap-2 mb-2 text-muted-foreground">
+                                        {item.icon}
+                                        <h3 className="font-headline font-bold text-foreground text-lg">
+                                        Our Solution
+                                        </h3>
+                                    </div>
+                                    <div className="text-sm text-muted-foreground flex-grow overflow-y-auto pr-2">
+                                        <p className="whitespace-pre-wrap">{item.solution}</p>
+                                    </div>
+                                    <div className="w-full relative rounded-lg overflow-hidden h-48 mt-4">
+                                        <button onClick={handleProjectClick} className="block w-full h-full group cursor-pointer">
+                                            <Image
+                                                src={item.imageUrl}
+                                                alt={item.problem}
+                                                fill
+                                                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                                data-ai-hint={item.imageHint}
+                                            />
+                                            <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                                <span className="text-white text-xs font-bold bg-black/50 px-2 py-1 rounded-full">View Project</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </>
+        );
+    }
   
     return (
       <BentoGridItem
