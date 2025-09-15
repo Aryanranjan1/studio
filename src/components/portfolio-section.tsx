@@ -108,11 +108,13 @@ const AccordionItemWithObserver = ({
   const itemRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: itemRef,
-    offset: ["start end", "end start"],
+    // When the top of the item hits the center of the screen (0.5), the animation starts.
+    // When the bottom of the item hits the center of the screen, the animation ends.
+    offset: ["start 0.5", "end 0.5"],
   });
 
-  // When scrollYProgress is between 0.45 and 0.55, the item is "active"
-  const isActive = useTransform(scrollYProgress, (pos) => (pos > 0.45 && pos < 0.55 ? 1 : 0));
+  // `isActive` will be 1 when the item is fully in the "active zone", and 0 otherwise.
+  const isActive = useTransform(scrollYProgress, (pos) => (pos > 0 && pos < 1 ? 1 : 0));
 
   useEffect(() => {
     return isActive.onChange((latest) => {
