@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { ChevronRight } from 'lucide-react'
 import { LogoLoop } from '@/components/ui/logo-loop'
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiNodedotjs, SiWordpress, SiShopify } from 'react-icons/si';
+import DarkVeil from './ui/dark-veil'
 
 const techLogos = [
     { node: <SiReact size="28"/>, title: "React", href: "https://react.dev" },
@@ -21,13 +22,7 @@ export function HeroSection() {
         <main className="overflow-x-hidden">
             <section className="relative pt-32 lg:pt-48 pb-24 md:pb-32 lg:pb-36">
                 <div className="absolute inset-0 overflow-hidden">
-                    <video
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="size-full object-cover"
-                        src="https://videos.pexels.com/video-files/3254013/3254013-hd_1920_1080_30fps.mp4"></video>
+                    <DarkVeil hueShift={244} />
                      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
                 </div>
 
