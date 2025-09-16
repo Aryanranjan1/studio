@@ -3,7 +3,7 @@
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import type { Project, Service } from '@/lib/data';
-import { useLenis } from 'lenis/react';
+import { useLenis } from '@studio-freight/react-lenis';
 
 type DrawerItem = Project | Service;
 

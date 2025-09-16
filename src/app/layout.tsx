@@ -7,7 +7,7 @@ import { SuccessPopupProvider } from '@/hooks/use-success-popup';
 import { getSettings } from '@/lib/data';
 import type { SiteSettings } from '@/lib/data';
 import { Header } from '@/components/header';
-import { ReactLenis, useLenis } from 'lenis/react'
+import { ReactLenis } from '@studio-freight/react-lenis'
 import { ItemDrawerProvider } from '@/hooks/use-item-drawer';
 import { ItemDrawer } from '@/components/item-drawer';
 
