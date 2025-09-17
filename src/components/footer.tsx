@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Facebook, Instagram, Linkedin, MapPin, Mail, Phone, LucideIcon } from "lucide-react";
 import { AmpireLogo } from "./logo";
 import { Button } from "./ui/button";
-import { getSettings } from "@/lib/data";
 import type { SiteSettings, SocialLink } from "@/lib/data";
 
 const WhatsappIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -38,9 +37,7 @@ const quickLinks = [
   { name: "Contact", href: "/contact" },
 ];
 
-export async function Footer() {
-  const settings: SiteSettings = await getSettings();
-
+export function Footer({ settings }: { settings: SiteSettings }) {
   return (
     <footer className="bg-card border-t">
       <div className="container py-12 lg:py-16">

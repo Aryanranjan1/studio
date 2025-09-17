@@ -13,16 +13,23 @@ export default function ProjectIntakePage() {
             imageUrl="https://picsum.photos/seed/project-discovery/1920/1080"
         />
         <div className="relative">
-            <div className="absolute inset-0 -z-10">
-                <Plasma color="#4F46E5" speed={0.5} />
-                <div className="absolute inset-0 bg-background/90" />
-            </div>
+                  <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          src="/videos/abstract-bg.mp4"
+          className="h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-background/80" />
+      </div>
             <div className="container py-16 sm:py-24">
                 <IntakeForm />
             </div>
         </div>
       </main>
-      <Footer />
+      
     </div>
   );
 }

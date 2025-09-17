@@ -32,7 +32,7 @@ export function AboutHero() {
     <section className="relative flex h-[70vh] min-h-[500px] items-center justify-center text-white">
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://picsum.photos/seed/about-hero/1920/1080"
+          src="/images/about-hero.jpg"
           alt="Abstract background representing brand story"
           fill
           priority

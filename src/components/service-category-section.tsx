@@ -1,8 +1,9 @@
 "use client";
 
 import { ScrollReveal } from "./scroll-reveal";
-import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Code, Brush, Smartphone, ShoppingCart, Megaphone, PenTool, Bot, Search } from 'lucide-react';
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 import type { Service } from "@/lib/data";
@@ -34,15 +35,16 @@ export function ServiceCategorySection({ className, services }: ServiceCategoryS
 
   return (
     <section id="services" className={cn("relative py-24 sm:py-32 text-white overflow-hidden", className)}>
-       <div className="absolute inset-0 overflow-hidden z-0">
-            <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="size-full object-cover"
-                src="https://www.pexels.com/download/video/3163534/"></video>
-            <div className="absolute inset-0 bg-black/70"></div>
+       <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover opacity-20"
+            src="/videos/abstract-bg.mp4"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </div>
       <div className="container relative z-10">
         <ScrollReveal>

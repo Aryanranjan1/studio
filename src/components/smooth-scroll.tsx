@@ -1,5 +1,4 @@
-
-'use client';
+"use client";
 
 import { useEffect, useRef } from 'react';
 import Lenis from 'lenis';
@@ -13,10 +12,11 @@ const SmoothScroll: React.FC<SmoothScrollProps> = ({ children }) => {
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.5, // Increased duration for smoother feel
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       touchMultiplier: 2,
+      wheelMultiplier: 0.8, // Added to reduce scroll resistance
     });
 
     lenisRef.current = lenis;

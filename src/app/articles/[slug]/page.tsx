@@ -51,7 +51,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
                     subtitle="Sorry, we couldn't find the article you're looking for."
                 />
             </main>
-            <Footer />
+
         </div>
     );
   }
@@ -96,7 +96,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             </article>
         </div>
       </main>
-      <Footer />
+      
     </div>
   );
 }

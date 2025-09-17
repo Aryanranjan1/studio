@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { 
   Check, 
   X, 
@@ -16,29 +16,23 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface ComparisonPoint {
+type ComparisonPoint = {
   title: string;
   description: string;
   icon: React.ReactNode;
-}
+};
 
-interface ComparisonData {
+type ComparisonColumnData = {
   title: string;
   subtitle: string;
-  points: ComparisonPoint[];
   isPositive: boolean;
-}
+  points: ComparisonPoint[];
+};
 
-interface AgencyComparisonProps {
-  className?: string;
-}
+const AgencyComparison = ({ className }: { className?: string }) => {
+  const [activeSection, setActiveSection] = useState('us');
 
-const AgencyComparison: React.FC<AgencyComparisonProps> = ({ className }) => {
-  const [activeSection, setActiveSection] = useState<'us' | 'others'>('us');
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: false, amount: 0.2 });
-
-  const ourAgencyData: ComparisonData = {
+  const ourAgencyData = {
     title: "AMpire Studio",
     subtitle: "Custom & Collaborative",
     isPositive: true,
@@ -76,7 +70,7 @@ const AgencyComparison: React.FC<AgencyComparisonProps> = ({ className }) => {
     ]
   };
 
-  const othersData: ComparisonData = {
+  const othersData = {
     title: "Typical Agencies",
     subtitle: "Generic & Inflexible",
     isPositive: false,
@@ -114,29 +108,8 @@ const AgencyComparison: React.FC<AgencyComparisonProps> = ({ className }) => {
     ]
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  };
-
   return (
     <section
-      ref={sectionRef}
       className={cn(
         "w-full py-24 px-4 bg-gradient-to-br from-background via-background to-muted/20 relative overflow-hidden",
         className
@@ -169,34 +142,21 @@ const AgencyComparison: React.FC<AgencyComparisonProps> = ({ className }) => {
         />
       </div>
 
-      <motion.div
-        className="container mx-auto max-w-7xl relative z-10"
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
-        variants={containerVariants}
-      >
-        <motion.div className="text-center mb-16" variants={itemVariants}>
-          <motion.div
-            className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <Award className="w-4 h-4" />
-            The AMpire Difference
-          </motion.div>
+      <div className="container mx-auto max-w-7xl relative z-10">
+        <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4">
+              <Award className="w-4 h-4" />
+              The AMpire Difference
+            </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
             Why Partner With Us
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             See the difference between our custom, growth-focused approach and generic, template-based solutions.
           </p>
-        </motion.div>
+        </div>
 
-        <motion.div 
-          className="flex justify-center mb-8 md:hidden"
-          variants={itemVariants}
-        >
+        <div className="flex justify-center mb-8 md:hidden">
           <div className="bg-muted p-1 rounded-lg flex">
             <button
               onClick={() => setActiveSection('us')}
@@ -221,39 +181,22 @@ const AgencyComparison: React.FC<AgencyComparisonProps> = ({ className }) => {
               Others
             </button>
           </div>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-          <motion.div
-            className={cn(
-              "md:block",
-              activeSection === 'us' ? "block" : "hidden"
-            )}
-            variants={itemVariants}
-          >
+          <div className={cn("md:block", activeSection === 'us' ? "block" : "hidden")}>
             <ComparisonColumn data={ourAgencyData} />
-          </motion.div>
-
-          <motion.div
-            className={cn(
-              "md:block",
-              activeSection === 'others' ? "block" : "hidden"
-            )}
-            variants={itemVariants}
-          >
+          </div>
+          <div className={cn("md:block", activeSection === 'others' ? "block" : "hidden")}>
             <ComparisonColumn data={othersData} />
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };
 
-interface ComparisonColumnProps {
-  data: ComparisonData;
-}
-
-const ComparisonColumn: React.FC<ComparisonColumnProps> = ({ data }) => {
+const ComparisonColumn = ({ data }: { data: ComparisonColumnData }) => {
   return (
     <motion.div
       className={cn(
@@ -266,24 +209,10 @@ const ComparisonColumn: React.FC<ComparisonColumnProps> = ({ data }) => {
       transition={{ duration: 0.3 }}
     >
       <div className="text-center mb-8">
-        <motion.div
-          className={cn(
-            "inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-3",
-            data.isPositive
-              ? "bg-primary/10 text-primary"
-              : "bg-muted text-muted-foreground"
-          )}
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          {data.isPositive ? (
-            <Check className="w-4 h-4" />
-          ) : (
-            <X className="w-4 h-4" />
-          )}
+        <div className={cn("inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-3", data.isPositive ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground")}>
+          {data.isPositive ? <Check className="w-4 h-4" /> : <X className="w-4 h-4" />}
           {data.subtitle}
-        </motion.div>
+        </div>
         <h3 className={cn(
           "text-2xl md:text-3xl font-bold",
           data.isPositive ? "text-primary" : "text-muted-foreground"
@@ -294,12 +223,7 @@ const ComparisonColumn: React.FC<ComparisonColumnProps> = ({ data }) => {
 
       <div className="space-y-4">
         {data.points.map((point, index) => (
-          <ComparisonPointC
-            key={index}
-            point={point}
-            isPositive={data.isPositive}
-            index={index}
-          />
+          <ComparisonPointC key={index} point={point} isPositive={data.isPositive} />
         ))}
       </div>
 
@@ -336,23 +260,10 @@ const ComparisonColumn: React.FC<ComparisonColumnProps> = ({ data }) => {
   );
 };
 
-interface ComparisonPointCProps {
-  point: ComparisonPoint;
-  isPositive: boolean;
-  index: number;
-}
-
-const ComparisonPointC: React.FC<ComparisonPointCProps> = ({ point, isPositive, index }) => {
-  const pointRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(pointRef, { once: false, amount: 0.5 });
-
+const ComparisonPointC = ({ point, isPositive }: { point: ComparisonPoint, isPositive: boolean }) => {
   return (
     <motion.div
-      ref={pointRef}
       className="group"
-      initial={{ x: isPositive ? -20 : 20, opacity: 0 }}
-      animate={isInView ? { x: 0, opacity: 1 } : { x: isPositive ? -20 : 20, opacity: 0 }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
       whileHover={{ x: isPositive ? 5 : -5 }}
     >
       <div className="flex items-start gap-3 p-3 rounded-lg transition-all duration-300 group-hover:bg-background/50">

@@ -116,7 +116,7 @@ export default function ArticlesPageClient({ articles, allTags }: ArticlesPageCl
             </>
         </div>
       </main>
-      <Footer />
+      
     </div>
   );
 }

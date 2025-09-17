@@ -27,7 +27,7 @@ const StickyScrollGallery = forwardRef<HTMLElement, StickyScrollGalleryProps>(({
         <div className='relative flex h-screen items-center justify-center bg-background text-white'>
             <div className="absolute inset-0 z-0">
                 <Image
-                    src="https://picsum.photos/seed/universe/1920/1080"
+                    src="/images/universe-bg.jpg"
                     alt="Abstract universe background"
                     fill
                     priority
