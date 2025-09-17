@@ -1,56 +1,65 @@
 "use client";
 
+import { motion, useInView, Variants } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { useEffect, useRef, useState } from "react";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
   className?: string;
   delay?: number;
-  threshold?: number;
+  duration?: number;
+  once?: boolean;
+  amount?: number;
 }
+
+const animationVariants: Variants[] = [
+  {
+    hidden: { opacity: 0, y: 100 },
+    visible: { opacity: 1, y: 0 },
+  },
+  {
+    hidden: { opacity: 0, x: -100 },
+    visible: { opacity: 1, x: 0 },
+  },
+  {
+    hidden: { opacity: 0, x: 100 },
+    visible: { opacity: 1, x: 0 },
+  },
+  {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1 },
+  },
+];
 
 export function ScrollReveal({
   children,
   className,
   delay = 0,
-  threshold = 0.1,
+  duration = 0.8,
+  once = false,
+  amount = 0.2,
 }: ScrollRevealProps) {
-  const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once, amount });
+  const [variants, setVariants] = useState<Variants>({});
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Update state to true when element is intersecting, false otherwise
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold }
-    );
-
-    const currentRef = ref.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [threshold]);
+    // Randomly select a variant on component mount
+    const randomVariant = animationVariants[Math.floor(Math.random() * animationVariants.length)];
+    setVariants(randomVariant);
+  }, []);
 
   return (
-    <div
+    <motion.div
       ref={ref}
-      className={cn(
-        "reveal-element",
-        isVisible ? "is-visible" : "",
-        className
-      )}
-      style={{ transitionDelay: `${delay}ms` }}
+      className={cn(className)}
+      variants={variants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      transition={{ duration, delay }}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

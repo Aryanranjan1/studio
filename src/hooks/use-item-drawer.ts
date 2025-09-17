@@ -38,6 +38,9 @@ export const ItemDrawerProvider = ({ children }: { children: ReactNode }) => {
 
   const closeItem = () => {
     setIsOpen(false);
+    setTimeout(() => {
+      setItem(null);
+    }, 300); // Match this duration with your sheet's animation time
   };
 
   return React.createElement(

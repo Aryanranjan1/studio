@@ -2,7 +2,6 @@
 "use client";
 
 import type { Project, Service } from "@/lib/data";
-import { ScrollReveal } from "./scroll-reveal";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -34,17 +33,15 @@ export function PortfolioSection({ className, filterBy, projects, services }: Po
   return (
     <section id="portfolio" className={cn("py-24 sm:py-32", className)}>
       <div className="container">
-        <ScrollReveal>
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="font-headline text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-              Smarter Website Design, Smarter Branding, Stronger Results.
-            </h2>
-            <p className="mt-4 text-lg text-foreground/80">
-              A glimpse into the innovative solutions and beautiful designs
-              we've crafted for our clients.
-            </p>
-          </div>
-        </ScrollReveal>
+        <div className="text-center max-w-3xl mx-auto">
+          <h2 className="font-headline text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+            Smarter Website Design, Smarter Branding, Stronger Results.
+          </h2>
+          <p className="mt-4 text-lg text-foreground/80">
+            A glimpse into the innovative solutions and beautiful designs
+            we've crafted for our clients.
+          </p>
+        </div>
 
         <PortfolioAccordion services={servicesToShow} projects={projects} />
 
@@ -65,13 +62,27 @@ export function PortfolioSection({ className, filterBy, projects, services }: Po
 
 function PortfolioAccordion({ services, projects }: { services: Service[], projects: Project[] }) {
   const [activeService, setActiveService] = useState<string | null>(null);
-  
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const leaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   const handleMouseEnter = (serviceTitle: string) => {
-    setActiveService(serviceTitle);
+    if (leaveTimeoutRef.current) {
+      clearTimeout(leaveTimeoutRef.current);
+      leaveTimeoutRef.current = null;
+    }
+    hoverTimeoutRef.current = setTimeout(() => {
+      setActiveService(serviceTitle);
+    }, 150); // 150ms delay before opening
   };
 
   const handleMouseLeave = () => {
-    setActiveService(null);
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+    leaveTimeoutRef.current = setTimeout(() => {
+      setActiveService(null);
+    }, 300); // 300ms delay before closing
   };
 
   return (

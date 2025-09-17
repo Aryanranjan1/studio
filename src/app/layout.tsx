@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { SuccessPopupProvider } from '@/hooks/use-success-popup';
 import { getSettings } from '@/lib/data';
 import type { SiteSettings } from '@/lib/data';
+import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { ItemDrawerProvider } from '@/hooks/use-item-drawer';
 import { ItemDrawer } from '@/components/item-drawer';
@@ -69,26 +70,27 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased" suppressHydrationWarning>
-          <SmoothScroll>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="dark"
-              forcedTheme="dark"
-              disableTransitionOnChange
-            >
-              <SuccessPopupProvider>
-                <ItemDrawerProvider>
-                  <Header />
-                  <div className='relative z-0'>
-                    {children}
-                  </div>
-                  <Toaster />
-                  <ItemDrawer />
-                </ItemDrawerProvider>
-              </SuccessPopupProvider>
-            </ThemeProvider>
-          </SmoothScroll>
+      <body className="font-body antialiased bg-background" suppressHydrationWarning>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          forcedTheme="dark"
+          disableTransitionOnChange
+        >
+          <SuccessPopupProvider>
+            <ItemDrawerProvider>
+              <Header />
+              <SmoothScroll>
+                <div className='relative z-0'>
+                  {children}
+                </div>
+              </SmoothScroll>
+              <Footer settings={settings} />
+              <Toaster />
+              <ItemDrawer />
+            </ItemDrawerProvider>
+          </SuccessPopupProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
