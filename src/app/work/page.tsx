@@ -9,6 +9,7 @@ import { ProjectGallerySection } from '@/components/project-gallery-section';
 import { ScrollReveal } from '@/components/scroll-reveal';
 import { getProjects, getTestimonials } from '@/lib/data';
 import type { Project, Testimonial } from '@/lib/data';
+import { WorkFooterCta } from '@/components/work-footer-cta';
 
 export default async function WorkPage() {
   const projects: Project[] = await getProjects();
@@ -26,7 +27,6 @@ export default async function WorkPage() {
         <ScrollReveal>
           <ProjectGallerySection projects={projects} />
         </ScrollReveal>
-        
         <ScrollReveal>
           <ProcessSection />
         </ScrollReveal>

@@ -1,10 +1,9 @@
-
 "use client";
 
 import React from 'react';
 import Image from "next/image";
 import Link from 'next/link';
-import { ArrowRight, CheckCircle, Users, BarChart, FileText, HelpCircle, Star } from 'lucide-react';
+import { ArrowRight, CheckCircle, Users, BarChart, FileText, HelpCircle, Star, ExternalLink } from 'lucide-react';
 import { useItemDrawer } from '@/hooks/use-item-drawer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -44,14 +43,22 @@ export function ItemDrawer() {
   return (
     <Sheet open={isOpen} onOpenChange={(open) => { if (!open) closeItem(); }}>
         <SheetContent className="w-full md:w-[60%] lg:w-[50%] xl:w-[40%] p-0 border-l-0" side="right">
-            <ScrollArea className="h-full">
-                <div className="relative h-80 w-full">
+            <ScrollArea className="h-full max-h-screen overflow-y-auto">
+                <div className="relative h-80 w-full group">
                     <Image
                         src={item.imageUrl}
                         alt={item.title}
                         fill
                         className="object-cover"
                     />
+                    {isProject && item.website && (
+                      <a href={item.website} target="_blank" rel="noopener noreferrer" className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <Button variant="outline">
+                          <ExternalLink className="h-4 w-4 mr-2" />
+                          Visit Site
+                        </Button>
+                      </a>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
                     <SheetHeader className="absolute bottom-0 left-0 p-6 text-left">
                         <SheetTitle className="font-headline text-3xl text-white shadow-md">

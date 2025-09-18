@@ -31,13 +31,13 @@ export function AboutHero() {
   return (
     <section className="relative flex h-[70vh] min-h-[500px] items-center justify-center text-white">
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/images/about-hero.jpg"
-          alt="Abstract background representing brand story"
-          fill
-          priority
-          className="object-cover"
-          data-ai-hint="abstract texture"
+        <video
+          src="/videos/about-page.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/60" />
       </div>

@@ -26,13 +26,13 @@ const StickyScrollGallery = forwardRef<HTMLElement, StickyScrollGalleryProps>(({
       <main className='bg-background text-foreground' ref={ref}>
         <div className='relative flex h-screen items-center justify-center bg-background text-white'>
             <div className="absolute inset-0 z-0">
-                <Image
-                    src="/images/universe-bg.jpg"
-                    alt="Abstract universe background"
-                    fill
-                    priority
-                    className="object-cover"
-                    data-ai-hint="abstract universe"
+                <video
+                    src="/videos/workpage.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-black/60" />
             </div>

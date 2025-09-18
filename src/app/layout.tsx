@@ -70,7 +70,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="font-body antialiased bg-background" suppressHydrationWarning>
+      <body className="font-body antialiased bg-background overflow-x-hidden" suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

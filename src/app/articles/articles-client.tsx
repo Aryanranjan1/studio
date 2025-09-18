@@ -61,7 +61,7 @@ export default function ArticlesPageClient({ articles, allTags }: ArticlesPageCl
         <PageTitleHeader 
             title="Our Articles"
             subtitle="Insights, trends, and stories from the digital frontier."
-            imageUrl="https://picsum.photos/seed/newspaper/1920/1080"
+            imageUrl="/images/articles-page-bg.jpg"
         />
         <div className="container py-24 sm:py-32 space-y-24">
             <>

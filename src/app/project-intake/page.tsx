@@ -10,20 +10,20 @@ export default function ProjectIntakePage() {
         <PageTitleHeader
             title="Web Design Project Discovery"
             subtitle="This questionnaire is designed to give us a deep understanding of your business and what you need from your new website. Please be as detailed as possible."
-            imageUrl="https://picsum.photos/seed/project-discovery/1920/1080"
+            videoUrl="/videos/project-intake.mp4"
         />
         <div className="relative">
-                  <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          src="/videos/abstract-bg.mp4"
-          className="h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-background/80" />
-      </div>
+            <div className="absolute inset-0 -z-10 h-full w-full overflow-hidden">
+                <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                src="/videos/abstract-bg.mp4"
+                className="h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-background/80" />
+            </div>
             <div className="container py-16 sm:py-24">
                 <IntakeForm />
             </div>

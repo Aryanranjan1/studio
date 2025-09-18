@@ -8,13 +8,26 @@ interface PageTitleHeaderProps {
     title: string;
     subtitle: string;
     imageUrl?: string;
+    videoUrl?: string;
 }
 
-export function PageTitleHeader({ title, subtitle, imageUrl }: PageTitleHeaderProps) {
+export function PageTitleHeader({ title, subtitle, imageUrl, videoUrl }: PageTitleHeaderProps) {
     return (
         <section className="relative py-24 sm:py-32 text-primary-foreground overflow-hidden">
             <div className="absolute inset-0 z-0">
-                {imageUrl ? (
+                {videoUrl ? (
+                    <>
+                        <video
+                            src={videoUrl}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="absolute inset-0 w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/60" />
+                    </>
+                ) : imageUrl ? (
                     <>
                         <Image
                             src={imageUrl}

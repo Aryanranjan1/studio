@@ -1,7 +1,7 @@
 export const projectStatuses = ['Pending', 'In Progress', 'Completed', 'Billed'] as const;
 export type ProjectStatus = typeof projectStatuses[number];
 
-export const serviceIcons = ['UI/UX Design', 'Web Development', 'Mobile App', 'E-commerce', 'Automations', 'SEO'] as const;
+export const serviceIcons = ['UI/UX Design', 'Web Development', 'Mobile App', 'E-commerce', 'Automations', 'SEO', 'Branding', 'Marketing'] as const;
 export type ServiceIcon = typeof serviceIcons[number];
 
 export interface Project {
@@ -13,8 +13,10 @@ export interface Project {
   imageUrl: string;
   imageHint: string;
   services: string[];
+  website?: string;
   createdAt?: Date;
   status: ProjectStatus;
+  isFeatured?: boolean;
 }
 
 export interface Service {
@@ -108,60 +110,102 @@ export type NewIntake = Omit<Intake, 'id' | 'submittedAt'>;
 // --- Mock Data ---
 const sampleProjects: Project[] = [
     {
-        id: "1",
-        title: "Nova Financial Website",
-        slug: "nova-financial-website",
-        summary: "A sleek, professional website for a financial consulting firm, focusing on trust and clarity.",
-        longDescription: "Nova Financial approached us to build a website that could establish their authority in the competitive financial consulting market. We designed a clean, modern interface with a focus on user-friendly navigation and clear communication of their services. The site is built on Next.js for high performance and includes a content management system for easy updates.",
-        imageUrl: "https://picsum.photos/seed/nova-financial/800/600",
-        imageHint: "finance dashboard",
-        services: ["Web Development", "UI/UX Design"],
-        status: "Completed"
-    },
-    {
-        id: "2",
-        title: "Helia Skincare Branding",
-        slug: "helia-skincare-branding",
-        summary: "Complete brand identity for a new organic skincare line, designed to evoke nature and luxury.",
-        longDescription: "For Helia Skincare, we crafted a complete brand identity from the ground up. This included logo design, color palette selection, typography, and packaging concepts. The goal was to create a brand that felt both natural and premium, appealing to environmentally conscious consumers who value quality. The result is a soft, elegant brand that stands out on the shelf.",
-        imageUrl: "https://picsum.photos/seed/helia-skincare/800/600",
-        imageHint: "skincare product",
-        services: ["Branding"],
-        status: "Completed"
-    },
-    {
-        id: "3",
-        title: "Traverse Travel App",
-        slug: "traverse-travel-app",
-        summary: "A mobile app for discovering and booking unique travel experiences, with a focus on adventure.",
-        longDescription: "Traverse is a mobile application designed for modern adventurers. We handled the entire UI/UX design process, from wireframing and user flows to high-fidelity mockups and interactive prototypes. The app features a clean, intuitive interface that makes it easy for users to find and book unique travel experiences around the world.",
-        imageUrl: "https://picsum.photos/seed/traverse-app/800/600",
-        imageHint: "travel map",
-        services: ["Mobile App", "UI/UX Design"],
-        status: "In Progress"
-    },
-    {
-        id: "4",
-        title: "Artisan Coffee E-commerce",
-        slug: "artisan-coffee-ecommerce",
-        summary: "An e-commerce platform for a specialty coffee roaster, designed to tell a story and sell products.",
-        longDescription: "We built a custom Shopify theme for Artisan Coffee Roasters to create an online store that is as rich and flavorful as their coffee. The site features beautiful product photography, detailed tasting notes, and a subscription service. The checkout process is streamlined for a frictionless customer experience, increasing conversion rates.",
-        imageUrl: "https://picsum.photos/seed/artisan-coffee/800/600",
-        imageHint: "coffee beans",
-        services: ["E-commerce", "Web Development"],
-        status: "Completed"
-    },
-    {
-        id: "5",
-        title: "Workflow Automation Tool",
-        slug: "workflow-automation-tool",
-        summary: "A SaaS tool for marketing teams to automate their social media content workflows.",
-        longDescription: "This project involved designing and building a complex SaaS application from scratch. We worked closely with the client to define the features, design the user interface, and build the backend. The tool integrates with major social media platforms and uses AI to help schedule and optimize content, saving marketing teams hours of manual work.",
-        imageUrl: "https://picsum.photos/seed/workflow-tool/800/600",
-        imageHint: "automation workflow",
-        services: ["Web Development", "UI/UX Design", "Automations"],
-        status: "Pending"
-    }
+    id: "6",
+    title: "Kedai Basikal Sukmar",
+    slug: "kedai-basikal-sukmar",
+    summary: "An e-commerce site for a Malaysian bicycle store with smooth navigation and product showcasing.",
+    longDescription: "We designed and developed a modern e-commerce platform for Kedai Basikal Sukmar, a local bicycle shop aiming to expand their reach online. The site was built with Next.js for fast performance, features intuitive product filtering, and integrates with a secure checkout system. The branding emphasizes a clean and sporty aesthetic to resonate with cycling enthusiasts.",
+    imageUrl: "/images/kedai-basikal-sukmar.png",
+    imageHint: "bicycle e-commerce website",
+    services: ["E-commerce", "Web Development", "UI/UX Design"],
+    website: "https://kedai-basikal-sukmar.vercel.app/",
+    status: "Completed",
+    createdAt: new Date("2025-01-15T10:00:00Z")
+  },
+  {
+    id: "7",
+    title: "Sleeping Bear Jewelry",
+    slug: "sleeping-bear-jewelry",
+    summary: "A visually stunning jewelry store website that blends elegance with usability.",
+    longDescription: "For Sleeping Bear Jewelry, we created a website that reflects the brand’s premium handcrafted jewelry line. The site highlights their product collections with high-resolution photography, minimalistic design, and a frictionless checkout process. Built on Next.js, the site also includes SEO optimization to ensure strong visibility in search engines.",
+    imageUrl: "/images/jewellery.png",
+    imageHint: "jewelry showcase",
+    services: ["E-commerce", "UI/UX Design", "SEO"],
+    website: "https://sleepingbearjewelry.vercel.app/",
+    status: "Completed",
+    createdAt: new Date("2025-01-22T14:00:00Z")
+  },
+  {
+    id: "8",
+    title: "A Prema & Co",
+    slug: "a-prema-and-co",
+    summary: "A professional brand and service website designed for a growing consultancy business.",
+    longDescription: "A Prema & Co needed a polished and trustworthy online presence to represent their consultancy services. We designed a clean, corporate-style website with a structured layout, highlighting services, testimonials, and a contact flow that encourages inquiries. Built with a CMS for easy content updates, it gives them flexibility as they scale.",
+    imageUrl: "/images/Apremaandco.png",
+    imageHint: "consultancy services website",
+    services: ["Web Development", "UI/UX Design", "SEO"],
+    website: "https://a-prema-and-co.vercel.app/",
+    status: "Completed",
+    createdAt: new Date("2025-01-29T11:30:00Z")
+  },
+  {
+    id: "9",
+    title: "Fahmie Farhan Music",
+    slug: "fahmie-farhan-music",
+    summary: "A sleek artist portfolio showcasing music, blogs, and a content dashboard.",
+    longDescription: "We developed a personalized portfolio website for Fahmie Farhan, a music producer. The site includes sections for music, blog posts, and a content dashboard, enabling easy management of projects. Built with Next.js, it is optimized for performance and SEO, helping Fahmie reach a wider audience with his creative work.",
+    imageUrl: "/images/fahmiefarhanmusic.png",
+    imageHint: "music portfolio",
+    services: ["Web Development", "UI/UX Design"],
+    website: "https://fahmie-farhan-music.vercel.app/",
+    status: "Completed",
+    createdAt: new Date("2025-02-10T09:45:00Z")
+  },
+  {
+    id: "10",
+    title: "CardioSim",
+    slug: "cardiosim",
+    summary: "An interactive medical simulation game for cardiology education and training.",
+    longDescription: "CardioSim is a browser-based simulation game designed for medical students and professionals to practice cardiology scenarios. We built it using Next.js and integrated AI APIs for realistic patient case generation. The app features dynamic simulations, patient state management, and even AI-generated medical imagery to enhance realism.",
+    imageUrl: "/images/cardiosim.png",
+    imageHint: "medical simulation game",
+    services: ["Web Development", "UI/UX Design", "Automations"],
+    website: "https://cardiosim.netlify.app/",
+    status: "In Progress",
+    createdAt: new Date("2025-02-18T13:15:00Z")
+  },
+  {
+    id: "11",
+    title: "Email Automation Suite",
+    slug: "email-automation-suite",
+    summary: "A SaaS solution that streamlines email campaigns with scheduling and personalization.",
+    longDescription: "We designed and developed an email automation platform for a marketing agency, enabling them to automate client campaigns with advanced scheduling, segmentation, and personalized templates. The tool integrates with popular CRMs and includes performance analytics dashboards, helping businesses run campaigns more effectively.",
+    imageUrl: "/images/email.png",
+    imageHint: "email automation dashboard",
+    services: ["Automations", "Web Development", "UI/UX Design"],
+    status: "Completed",
+    createdAt: new Date("2025-02-25T12:00:00Z")
+  },
+  {
+    id: "12",
+    title: "Marketing Workflow Automation",
+    slug: "marketing-workflow-automation",
+    summary: "A custom automation system for managing and optimizing marketing workflows.",
+    longDescription: "We built a powerful automation solution for a digital marketing firm, designed to streamline repetitive workflows like social post scheduling, client reporting, and A/B testing. The system integrates multiple APIs including Meta, Google Ads, and LinkedIn, automating tasks that previously took hours of manual work.",
+    imageUrl: "/images/marketing.png",
+    imageHint: "marketing workflow automation",
+    services: ["Automations", "Web Development"],
+    status: "Pending",
+    createdAt: new Date("2025-03-05T15:45:00Z")
+  }
+];
+
+const sampleTestimonials: Testimonial[] = [
+    { id: "1", name: "Aisha Khan", title: "CEO", company: "Helia Skincare", quote: "Working with Ampire Studios was a dream. They took our vision and translated it into a brand that is both beautiful and authentic. Their attention to detail is unmatched.", avatarUrl: "https://picsum.photos/seed/aisha-khan/100/100" },
+    { id: "2", name: "Ben Carter", title: "Founder", company: "Artisan Coffee", quote: "Our online sales have doubled since launching the new website. The team was professional, creative, and delivered a product that exceeded our expectations.", avatarUrl: "https://picsum.photos/seed/ben-carter/100/100" },
+    { id: "3", name: "Chen Wei", title: "CFO", company: "Nova Financial", quote: "The website they built for us is not only fast and secure but also perfectly communicates our firm's values. We've received numerous compliments from clients.", avatarUrl: "https://picsum.photos/seed/chen-wei/100/100" },
+    { id: "4", name: "David Miller", title: "Marketing Director", company: "Innovate Inc.", quote: "The new automation tools have saved my team at least 10 hours a week. It's a game-changer for our productivity. Highly recommend their services.", avatarUrl: "https://picsum.photos/seed/david-miller/100/100" },
+    { id: "5", name: "Emily Rodriguez", title: "Product Manager", company: "Traverse", quote: "Their UI/UX design process was incredibly thorough. They understood our users' needs and created an app that is a joy to use.", avatarUrl: "https://picsum.photos/seed/emily-rodriguez/100/100" },
 ];
 
 const sampleServices: Service[] = [
@@ -173,14 +217,6 @@ const sampleServices: Service[] = [
     { id: "6", title: "Marketing", slug: "marketing", description: "Driving growth through targeted digital marketing strategies.", longDescription: "Our marketing services help you reach your target audience and grow your business. We offer SEO, content marketing, and social media management to increase your online visibility and drive qualified leads.", imageUrl: "https://picsum.photos/seed/marketing-service/800/600", imageHint: "marketing chart", icon: "Marketing" },
     { id: "7", title: "Automations", slug: "automations", description: "Streamlining business processes with custom automations.", longDescription: "We build custom automation workflows to save you time and reduce manual effort. By integrating your existing tools and systems, we help you streamline operations, improve efficiency, and focus on what matters most.", imageUrl: "https://picsum.photos/seed/automation-service/800/600", imageHint: "gears machine", icon: "Automations" },
     { id: "8", title: "SEO", slug: "seo", description: "Improving your search engine ranking to attract organic traffic.", longDescription: "Our SEO services are designed to improve your website's visibility on search engines like Google. We perform keyword research, on-page optimization, and link building to drive more organic traffic to your site.", imageUrl: "https://picsum.photos/seed/seo-service/800/600", imageHint: "search results", icon: "SEO" },
-];
-
-const sampleTestimonials: Testimonial[] = [
-    { id: "1", name: "Aisha Khan", title: "CEO", company: "Helia Skincare", quote: "Working with Ampire Studios was a dream. They took our vision and translated it into a brand that is both beautiful and authentic. Their attention to detail is unmatched.", avatarUrl: "https://picsum.photos/seed/aisha-khan/100/100" },
-    { id: "2", name: "Ben Carter", title: "Founder", company: "Artisan Coffee", quote: "Our online sales have doubled since launching the new website. The team was professional, creative, and delivered a product that exceeded our expectations.", avatarUrl: "https://picsum.photos/seed/ben-carter/100/100" },
-    { id: "3", name: "Chen Wei", title: "CFO", company: "Nova Financial", quote: "The website they built for us is not only fast and secure but also perfectly communicates our firm's values. We've received numerous compliments from clients.", avatarUrl: "https://picsum.photos/seed/chen-wei/100/100" },
-    { id: "4", name: "David Miller", title: "Marketing Director", company: "Innovate Inc.", quote: "The new automation tools have saved my team at least 10 hours a week. It's a game-changer for our productivity. Highly recommend their services.", avatarUrl: "https://picsum.photos/seed/david-miller/100/100" },
-    { id: "5", name: "Emily Rodriguez", title: "Product Manager", company: "Traverse", quote: "Their UI/UX design process was incredibly thorough. They understood our users' needs and created an app that is a joy to use.", avatarUrl: "https://picsum.photos/seed/emily-rodriguez/100/100" },
 ];
 
 const sampleArticles: Article[] = [
@@ -247,6 +283,7 @@ const sampleSettings: SiteSettings = {
 };
 
 export const getProjects = (): Project[] => sampleProjects;
+export const getFeaturedProjects = (): Project[] => sampleProjects.filter(p => p.isFeatured);
 export const getProjectBySlug = (slug: string): Project | null => sampleProjects.find(p => p.slug === slug) || null;
 export const getServices = (): Service[] => sampleServices.filter(s => s.title !== "Marketing" && s.title !== "Branding");
 export const getServiceBySlug = (slug: string): Service | null => sampleServices.find(s => s.slug === slug) || null;
