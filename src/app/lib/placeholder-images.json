@@ -1,0 +1,16 @@
+{
+  "hero": {
+    "clawMachine": {
+      "src": "https://picsum.photos/seed/claw1/800/1200",
+      "alt": "A claw machine grabbing a futuristic-looking SSD."
+    },
+    "ssdExploded": {
+        "src": "https://picsum.photos/seed/ssd1/300/300",
+        "alt": "An exploded view of the SSD showing its internal components."
+    },
+    "ssdAngled": {
+        "src": "https://picsum.photos/seed/ssd2/150/100",
+        "alt": "An angled view of the SSD."
+    }
+  }
+}
