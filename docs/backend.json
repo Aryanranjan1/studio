@@ -1,0 +1,260 @@
+{
+  "entities": {
+    "Service": {
+      "title": "Service",
+      "description": "Represents a service offered by the agency.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the service."
+        },
+        "description": {
+          "type": "string",
+          "description": "A short description of the service."
+        },
+        "longDescription": {
+          "type": "string",
+          "description": "A more detailed description of the service."
+        },
+        "image": {
+          "type": "string",
+          "description": "URL of an image representing the service."
+        },
+        "imageAlt": {
+          "type": "string",
+          "description": "Alt text for the service image."
+        }
+      },
+      "required": ["title", "description"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "Represents a project in the portfolio.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "longDescription": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "imageAlt": {
+          "type": "string"
+        },
+        "client": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "technologies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["title", "category", "description"]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "A testimonial from a client.",
+      "type": "object",
+      "properties": {
+        "quote": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string"
+        },
+        "company": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": ["quote", "name", "role"]
+    },
+    "FaqItem": {
+      "title": "FAQ Item",
+      "description": "A single frequently asked question and its answer.",
+      "type": "object",
+      "properties": {
+        "question": {
+          "type": "string"
+        },
+        "answer": {
+          "type": "string"
+        }
+      },
+      "required": ["question", "answer"]
+    },
+    "Article": {
+      "title": "Article",
+      "description": "A blog post or article.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "author": {
+          "type": "string"
+        },
+        "excerpt": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string",
+          "format": "uri"
+        },
+        "imageAlt": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["title", "date", "author", "content"]
+    },
+    "Template": {
+      "title": "Template",
+      "description": "A digital product or template for sale.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "image": {
+          "type": "string",
+          "format": "uri"
+        },
+        "imageAlt": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": ["title", "price", "url"]
+    },
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Represents a user's profile in the system.",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "The user's display name."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The user's email address."
+        },
+        "photoURL": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the user's profile picture."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the user account was created."
+        }
+      },
+      "required": ["displayName", "email"]
+    }
+  },
+  "auth": {
+    "providers": ["anonymous"]
+  },
+  "firestore": {
+    "/services": {
+      "schema": {
+        "$ref": "#/entities/Service"
+      },
+      "description": "Collection of services offered."
+    },
+    "/projects": {
+      "schema": {
+        "$ref": "#/entities/Project"
+      },
+      "description": "Collection of portfolio projects."
+    },
+    "/testimonials": {
+      "schema": {
+        "$ref": "#/entities/Testimonial"
+      },
+      "description": "Collection of client testimonials."
+    },
+    "/faq": {
+      "schema": {
+        "$ref": "#/entities/FaqItem"
+      },
+      "description": "Collection of FAQ items."
+    },
+    "/articles": {
+      "schema": {
+        "$ref": "#/entities/Article"
+      },
+      "description": "Collection of blog articles."
+    },
+    "/templates": {
+      "schema": {
+        "$ref": "#/entities/Template"
+      },
+      "description": "Collection of digital products/templates."
+    },
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/UserProfile"
+      },
+      "description": "Stores public information about a user."
+    }
+  }
+}
