@@ -17,7 +17,6 @@ import {
   ShoppingBag,
   BookOpen,
   HelpCircle,
-  Mail,
   PanelLeft,
   Crown,
 } from 'lucide-react';
@@ -44,8 +43,8 @@ export function Header() {
   const sidebarContent = (
     <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
       <Link
-        href="#"
-        className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+        href="/"
+        className="group mb-4 flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
       >
         <Crown className="h-4 w-4 transition-all group-hover:scale-110" />
         <span className="sr-only">My Website</span>
@@ -59,7 +58,7 @@ export function Header() {
                 className={cn(
                   'flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8',
                   pathname === href &&
-                    'rounded-full bg-primary text-primary-foreground'
+                    'text-foreground'
                 )}
               >
                 <Icon className="h-5 w-5" />
@@ -115,9 +114,6 @@ export function Header() {
                 My Website
             </Link>
         </div>
-        <Button asChild>
-            <Link href="/contact">Contact Us</Link>
-        </Button>
       </header>
     </>
   );
