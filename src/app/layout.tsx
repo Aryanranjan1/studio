@@ -1,5 +1,18 @@
-import type {Metadata} from 'next';
+import type { Metadata } from 'next';
+import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
+import { cn } from '@/lib/utils';
+import { Header } from '@/components/header';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-body',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-headline',
+});
 
 export const metadata: Metadata = {
   title: 'New Project',
@@ -13,7 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>{children}</body>
+      <body className={cn('antialiased', inter.variable, spaceGrotesk.variable)}>
+        <Header />
+        {children}
+      </body>
     </html>
   );
 }
