@@ -110,9 +110,6 @@ export function Header() {
           </SheetContent>
         </Sheet>
         <div className="flex-1">
-            <Link href="/" className="font-bold font-headline text-lg">
-                My Website
-            </Link>
         </div>
       </header>
     </>
