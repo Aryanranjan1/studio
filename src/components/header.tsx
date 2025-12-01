@@ -19,6 +19,7 @@ import {
   HelpCircle,
   Mail,
   PanelLeft,
+  Crown,
 } from 'lucide-react';
 import { Button } from './ui/button';
 import {
@@ -35,7 +36,6 @@ const navLinks = [
   { href: '/store', label: 'Store', icon: ShoppingBag },
   { href: '/blog', label: 'Blog', icon: BookOpen },
   { href: '/faq', label: 'FAQ', icon: HelpCircle },
-  { href: '/contact', label: 'Contact', icon: Mail },
 ];
 
 export function Header() {
@@ -47,7 +47,7 @@ export function Header() {
         href="#"
         className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
       >
-        <LayoutGrid className="h-4 w-4 transition-all group-hover:scale-110" />
+        <Crown className="h-4 w-4 transition-all group-hover:scale-110" />
         <span className="sr-only">My Website</span>
       </Link>
       <TooltipProvider>
@@ -92,7 +92,7 @@ export function Header() {
                 href="#"
                 className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
               >
-                <LayoutGrid className="h-5 w-5 transition-all group-hover:scale-110" />
+                <Crown className="h-5 w-5 transition-all group-hover:scale-110" />
                 <span className="sr-only">My Website</span>
               </Link>
               {navLinks.map(({ href, label }) => (
@@ -115,6 +115,9 @@ export function Header() {
                 My Website
             </Link>
         </div>
+        <Button asChild>
+            <Link href="/contact">Contact Us</Link>
+        </Button>
       </header>
     </>
   );
