@@ -12,6 +12,8 @@ export function useUser() {
 
   useEffect(() => {
     if (!auth) {
+      // Auth might not be initialized on the server.
+      // We will let it re-run on the client.
       setLoading(false);
       return;
     }

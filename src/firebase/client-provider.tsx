@@ -21,15 +21,12 @@ export function FirebaseClientProvider({ children }: FirebaseClientProviderProps
     return null;
   }, []);
 
-  // If we're on the server, we don't render the provider.
-  if (!firebaseServices) {
-    return <>{children}</>;
-  }
+  const providerProps = firebaseServices || { app: null, auth: null, firestore: null };
 
   return (
-    <FirebaseProvider {...firebaseServices}>
+    <FirebaseProvider {...providerProps}>
       {children}
-      <FirebaseErrorListener />
+      {firebaseServices && <FirebaseErrorListener />}
     </FirebaseProvider>
   );
 }

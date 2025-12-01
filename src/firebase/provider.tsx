@@ -25,9 +25,9 @@ const FirebaseContext = createContext<FirebaseContextValue>({
 
 type FirebaseProviderProps = {
   children: ReactNode;
-  app: FirebaseApp;
-  auth: Auth;
-  firestore: Firestore;
+  app: FirebaseApp | null;
+  auth: Auth | null;
+  firestore: Firestore | null;
 };
 
 export function FirebaseProvider({ children, app, auth, firestore }: FirebaseProviderProps) {
@@ -53,9 +53,6 @@ export const useFirebaseApp = () => {
 
 export const useAuth = () => {
   const { auth } = useFirebase();
-  if (!auth) {
-    throw new Error('useAuth must be used within a FirebaseProvider');
-  }
   return auth;
 };
 

@@ -19,6 +19,9 @@ import {
   HelpCircle,
   PanelLeft,
   Crown,
+  LogIn,
+  LogOut,
+  UserCog,
 } from 'lucide-react';
 import { Button } from './ui/button';
 import {
@@ -26,6 +29,11 @@ import {
   SheetContent,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import { useUser } from '@/firebase/auth/use-user';
+import { useAuth } from '@/firebase';
+import { signOut } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
+
 
 const navLinks = [
   { href: '/', label: 'Home', icon: Home },
@@ -39,14 +47,25 @@ const navLinks = [
 
 export function Header() {
   const pathname = usePathname();
+  const { user, loading } = useUser();
+  const auth = useAuth();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    if (auth) {
+      await signOut(auth);
+      router.push('/');
+    }
+  };
+
 
   const sidebarContent = (
-    <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
+    <nav className="flex h-full flex-col items-center gap-4 px-2 sm:py-5">
       <Link
         href="/"
         className="group mb-4 flex h-9 w-9 shrink-0 items-center justify-center gap-2 text-lg font-semibold text-primary md:h-8 md:w-8 md:text-base"
       >
-        <Crown className="h-6 w-6 transition-all group-hover:scale-110" />
+        <Crown className="h-6 w-6 text-primary transition-all group-hover:scale-110" />
         <span className="sr-only">My Website</span>
       </Link>
       <TooltipProvider>
@@ -69,8 +88,119 @@ export function Header() {
           </Tooltip>
         ))}
       </TooltipProvider>
+
+      <div className="mt-auto flex flex-col items-center gap-4">
+        <TooltipProvider>
+          {loading ? (
+             <div className="h-9 w-9" />
+          ) : user ? (
+            <>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href="/admin"
+                    className={cn(
+                      'flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8',
+                      pathname === '/admin' && 'text-foreground'
+                    )}
+                  >
+                    <UserCog className="h-5 w-5" />
+                    <span className="sr-only">Account</span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">Account</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={handleSignOut}
+                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  >
+                    <LogOut className="h-5 w-5" />
+                    <span className="sr-only">Log Out</span>
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="right">Log Out</TooltipContent>
+              </Tooltip>
+            </>
+          ) : (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  href="/login"
+                  className={cn(
+                    'flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8',
+                     pathname === '/login' && 'text-foreground'
+                  )}
+                >
+                  <LogIn className="h-5 w-5" />
+                  <span className="sr-only">Log In</span>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="right">Log In</TooltipContent>
+            </Tooltip>
+          )}
+        </TooltipProvider>
+      </div>
     </nav>
   );
+
+  const mobileNavContent = (
+    <nav className="grid gap-6 text-lg font-medium">
+    <Link
+      href="#"
+      className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+    >
+      <Crown className="h-5 w-5 transition-all group-hover:scale-110" />
+      <span className="sr-only">My Website</span>
+    </Link>
+    {navLinks.map(({ href, label }) => (
+      <Link
+        key={href}
+        href={href}
+        className={cn(
+          'flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground',
+          pathname === href && 'text-foreground'
+        )}
+      >
+        {label}
+      </Link>
+    ))}
+     <div className="border-t pt-6">
+      {loading ? (
+        <div />
+      ) : user ? (
+        <>
+          <Link
+            href="/admin"
+            className={cn(
+              'flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground',
+              pathname === '/admin' && 'text-foreground'
+            )}
+          >
+            Account
+          </Link>
+          <button
+            onClick={handleSignOut}
+            className="flex w-full items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+          >
+            Log Out
+          </button>
+        </>
+      ) : (
+        <Link
+          href="/login"
+          className={cn(
+            'flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground',
+            pathname === '/login' && 'text-foreground'
+          )}
+        >
+          Log In
+        </Link>
+      )}
+    </div>
+  </nav>
+  )
 
   return (
     <>
@@ -86,27 +216,7 @@ export function Header() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="sm:max-w-xs">
-            <nav className="grid gap-6 text-lg font-medium">
-              <Link
-                href="#"
-                className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
-              >
-                <Crown className="h-5 w-5 transition-all group-hover:scale-110" />
-                <span className="sr-only">My Website</span>
-              </Link>
-              {navLinks.map(({ href, label }) => (
-                <Link
-                  key={href}
-                  href={href}
-                  className={cn(
-                    'flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground',
-                    pathname === href && 'text-foreground'
-                  )}
-                >
-                  {label}
-                </Link>
-              ))}
-            </nav>
+            {mobileNavContent}
           </SheetContent>
         </Sheet>
         <div className="flex-1">
