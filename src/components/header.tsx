@@ -35,6 +35,7 @@ const navLinks = [
   { href: '/store', label: 'Store', icon: ShoppingBag },
   { href: '/blog', label: 'Blog', icon: BookOpen },
   { href: '/faq', label: 'FAQ', icon: HelpCircle },
+  { href: '/contact', label: 'Contact', icon: Mail },
 ];
 
 export function Header() {
@@ -57,7 +58,8 @@ export function Header() {
                 href={href}
                 className={cn(
                   'flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8',
-                  pathname === href && 'bg-accent text-accent-foreground'
+                  pathname === href &&
+                    'rounded-full bg-primary text-primary-foreground'
                 )}
               >
                 <Icon className="h-5 w-5" />
@@ -68,22 +70,6 @@ export function Header() {
           </Tooltip>
         ))}
       </TooltipProvider>
-      <div className="mt-auto flex flex-col items-center gap-4">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="/contact"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-              >
-                <Mail className="h-5 w-5" />
-                <span className="sr-only">Contact Us</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">Contact Us</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
     </nav>
   );
 
@@ -101,7 +87,27 @@ export function Header() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="sm:max-w-xs">
-            {sidebarContent}
+            <nav className="grid gap-6 text-lg font-medium">
+              <Link
+                href="#"
+                className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+              >
+                <LayoutGrid className="h-5 w-5 transition-all group-hover:scale-110" />
+                <span className="sr-only">My Website</span>
+              </Link>
+              {navLinks.map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className={cn(
+                    'flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground',
+                    pathname === href && 'text-foreground'
+                  )}
+                >
+                  {label}
+                </Link>
+              ))}
+            </nav>
           </SheetContent>
         </Sheet>
         <div className="flex-1">
@@ -109,9 +115,6 @@ export function Header() {
                 My Website
             </Link>
         </div>
-        <Button asChild>
-          <Link href="/contact">Contact Us</Link>
-        </Button>
       </header>
     </>
   );
