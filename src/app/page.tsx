@@ -1,65 +1,10 @@
 
-import { HeroSvg } from '@/components/hero-svg';
-import Image from 'next/image';
-import placeholderImages from '@/app/lib/placeholder-images.json';
-
 export default function Home() {
   return (
-    // Base: Mobile and Tablet layout (flex-col)
-    // Large screens (lg) and up: Horizontal layout (flex-row)
-    <main className="flex flex-col bg-background p-0 lg:h-screen lg:flex-row lg:pb-[35px]">
-      
-      {/* --- Left Column (Contains SVG group and Mid group) --- */}
-      {/* Base: Full width. Desktop: 75% width */}
-      <div className="flex w-full flex-col lg:w-[75%]">
-        
-        {/* --- SVG Container (SVG Group)--- */}
-        {/* Mobile/Tablet: Pushed up by 75px. Margin bottom 16px */}
-        {/* Desktop: Pushed up by 120px. Margin bottom 8px */}
-        <div className="mb-4 lg:mb-2">
-          <div className="lg:-mt-[100px]">
-            <HeroSvg />
-          </div>
-        </div>
-
-        {/* --- Mid Section --- */}
-        {/* Base (Mobile/Tablet): Has a 15px left margin. */}
-        <div
-          id="mid-section"
-          className="flex items-stretch pb-2 ml-[15px] mr-2 gap-2"
-        >
-          <div className="relative h-32 w-[30%] rounded-lg bg-[#f8f9f9] overflow-hidden">
-            <Image
-                src={placeholderImages.hero.ssdAngled.src}
-                alt={placeholderImages.hero.ssdAngled.alt}
-                fill
-                style={{ objectFit: 'cover' }}
-                data-ai-hint="futuristic ssd"
-            />
-          </div>
-          <div className="relative h-32 flex-1 rounded-lg bg-[#f8f9f9] overflow-hidden">
-            <Image
-                src={placeholderImages.hero.ssdExploded.src}
-                alt={placeholderImages.hero.ssdExploded.alt}
-                fill
-                style={{ objectFit: 'cover' }}
-                data-ai-hint="futuristic ssd exploded"
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* --- Right Column (Right div) --- */}
-      {/* Base: Full width, specific height. */}
-      {/* Desktop: 25% width, will stretch to match left column. */}
-      <div className="relative w-full h-48 lg:h-auto lg:w-[25%]">
-        
-        {/* --- Purple Box --- */}
-        {/* Base (Mobile/Tablet): Inset with vertical margin and rounded corners. */}
-        {/* Desktop: Fills the entire parent div. */}
-        <div className="absolute inset-0 my-4 mx-4 rounded-lg bg-purple-500 lg:my-0 lg:mx-0 lg:rounded-l-xl lg:rounded-r-none">
-          {/* Content for the right side div goes here */}
-        </div>
+    <main className="container mx-auto flex min-h-[calc(100vh-10rem)] items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold font-headline">Hero Section</h1>
+        <p className="mt-4 text-lg text-muted-foreground">Ready to build something new!</p>
       </div>
     </main>
   );
