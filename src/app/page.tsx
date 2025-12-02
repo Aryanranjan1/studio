@@ -1,5 +1,7 @@
 
 import { HeroSvg } from '@/components/hero-svg';
+import Image from 'next/image';
+import placeholderImages from '@/app/lib/placeholder-images.json';
 
 export default function Home() {
   return (
@@ -26,8 +28,14 @@ export default function Home() {
           id="mid-section"
           className="flex items-stretch pb-2 ml-[15px]"
         >
-          <div className="h-32 w-[30%] rounded-lg bg-[#f8f9f9]">
-            {/* Content for the first element */}
+          <div className="relative h-32 w-[30%] rounded-lg bg-[#f8f9f9] overflow-hidden">
+            <Image
+                src={placeholderImages.hero.ssdAngled.src}
+                alt={placeholderImages.hero.ssdAngled.alt}
+                fill
+                style={{ objectFit: 'cover' }}
+                data-ai-hint="futuristic ssd"
+            />
           </div>
           <div className="ml-2 mr-2 h-32 flex-1 rounded-lg bg-[#f8f9f9]">
             {/* Content for the second element */}
