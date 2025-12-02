@@ -1,4 +1,3 @@
-
 'use client';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -35,9 +34,9 @@ const BentoCard = ({ children, className }: { children: React.ReactNode; classNa
 export default function Home() {
   return (
     <main className="container mx-auto py-8 px-4">
-      <div className="grid grid-cols-4 grid-rows-8 gap-4 md:grid-cols-6 md:grid-rows-7 lg:grid-cols-8 lg:grid-rows-6">
+      <div className="grid grid-cols-4 grid-rows-8 gap-2 md:grid-cols-6 md:grid-rows-7 lg:grid-cols-8 lg:grid-rows-6">
         {/* Item 1: Our Services */}
-        <BentoCard className="row-[1_/_4] col-[1_/_5] md:row-[1_/_5] md:col-[1_/_4] lg:row-[1_/_4] lg:col-[1_/_5] flex flex-col">
+        <BentoCard className="row-[1_/_4] col-[1_/_5] md:row-[1_/_5] md:col-[1_/_4] lg:row-[1_/_4] lg:col-[1_/_5] flex flex-col bg-[#9a16a1]">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Briefcase className="w-6 h-6 text-primary" />
@@ -69,7 +68,7 @@ export default function Home() {
         </BentoCard>
 
         {/* Item 2: Profile Card */}
-        <BentoCard className="row-[8_/_9] col-[2_/_5] md:row-[1_/_7] md:col-[6_/_7] lg:row-[1_/_6] lg:col-[8_/_9] flex items-center justify-center">
+        <BentoCard className="row-[8_/_9] col-[2_/_5] md:row-[1_/_7] md:col-[6_/_7] lg:row-[1_/_6] lg:col-[8_/_9] flex items-center justify-center bg-[#cb0fe2]">
             <CardContent className="p-6 flex items-center gap-4">
                 <Avatar className="w-16 h-16">
                 <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
@@ -83,7 +82,7 @@ export default function Home() {
         </BentoCard>
 
         {/* Item 3: Let's Talk */}
-        <BentoCard className="row-[8_/_9] col-[1_/_2] md:row-[7_/_8] md:col-[6_/_7] lg:row-[6_/_7] lg:col-[8_/_9] flex flex-col justify-center items-center text-center">
+        <BentoCard className="row-[8_/_9] col-[1_/_2] md:row-[7_/_8] md:col-[6_/_7] lg:row-[6_/_7] lg:col-[8_/_9] flex flex-col justify-center items-center text-center bg-[#1d46f8]">
           <CardContent className="p-6">
             <h3 className="font-bold text-lg mb-2">Let's Talk</h3>
             <div className="flex gap-4 justify-center">
@@ -98,7 +97,7 @@ export default function Home() {
         </BentoCard>
 
         {/* Item 4: Get a Quote */}
-        <BentoCard className="row-[6_/_7] col-[1_/_5] md:row-[1_/_4] md:col-[4_/_6] lg:row-[1_/_3] lg:col-[5_/_8]">
+        <BentoCard className="row-[6_/_7] col-[1_/_5] md:row-[1_/_4] md:col-[4_/_6] lg:row-[1_/_3] lg:col-[5_/_8] bg-[#7ba2ee]">
           <CardHeader>
             <CardTitle>Get a Quote</CardTitle>
             <CardDescription>
@@ -113,7 +112,7 @@ export default function Home() {
         </BentoCard>
 
         {/* Item 5: Image Card */}
-        <BentoCard className="row-[7_/_8] col-[1_/_5] md:row-[4_/_8] md:col-[4_/_6] lg:row-[3_/_7] lg:col-[5_/_8] overflow-hidden">
+        <BentoCard className="row-[7_/_8] col-[1_/_5] md:row-[4_/_8] md:col-[4_/_6] lg:row-[3_/_7] lg:col-[5_/_8] overflow-hidden bg-[#2ef68c]">
           <Image
             src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop"
             alt="Team working"
@@ -124,7 +123,7 @@ export default function Home() {
         </BentoCard>
         
         {/* Item 6: Metrics Card Part 1 */}
-        <BentoCard className="row-[4_/_5] col-[1_/_5] md:row-[5_/_8] md:col-[1_/_4] lg:row-[4_/_7] lg:col-[1_/_5]">
+        <BentoCard className="row-[4_/_5] col-[1_/_5] md:row-[5_/_8] md:col-[1_/_4] lg:row-[4_/_7] lg:col-[1_/_5] bg-[#b134f5]">
           <CardContent className="p-4 flex flex-col justify-around h-full">
             <div className="flex items-center gap-4 py-2">
               <Rocket className="w-6 h-6 text-primary" />
@@ -144,7 +143,7 @@ export default function Home() {
         </BentoCard>
 
         {/* Item 7: Metrics Card Part 2 */}
-        <BentoCard className="row-[5_/_6] col-[1_/_5] md:row-[5_/_8] md:col-[1_/_4] lg:row-[4_/_7] lg:col-[1_/_5]">
+        <BentoCard className="row-[5_/_6] col-[1_/_5] md:row-[5_/_8] md:col-[1_/_4] lg:row-[4_/_7] lg:col-[1_/_5] bg-[#b134f5]">
           <CardContent className="p-4 flex flex-col justify-around h-full">
              <div className="flex items-center gap-4 py-2">
               <HeartHandshake className="w-6 h-6 text-primary" />
