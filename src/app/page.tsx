@@ -11,11 +11,10 @@ export default function Home() {
         
         {/* 
           SVG Container
-          - Base (Mobile): Pushed up by 100px.
-          - Medium screens (md): Pushed up by 100px for tablets.
+          - Base (Mobile): Pushed up by 75px.
           - Large screens (lg): Margin is reset to 0 for desktop.
         */}
-        <div className="flex-1 mb-2 -mt-[100px] lg:mt-0">
+        <div className="flex-1 -mt-[75px] lg:mt-0">
           <HeroSvg />
         </div>
 
