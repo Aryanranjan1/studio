@@ -5,7 +5,7 @@ export default function Home() {
   return (
     // Base: Mobile and Tablet layout (flex-col)
     // Large screens (lg) and up: Horizontal layout (flex-row)
-    <main className="flex flex-col bg-background p-0 lg:h-screen lg:flex-row lg:items-end">
+    <main className="flex flex-col bg-background p-0 lg:h-screen lg:flex-row">
       
       {/* --- Left Column (Contains SVG group and Mid group) --- */}
       {/* Base: Full width. Desktop: 75% width */}
@@ -37,12 +37,12 @@ export default function Home() {
 
       {/* --- Right Column (Right div) --- */}
       {/* Base: Full width, specific height. */}
-      {/* Desktop: 25% width, same height as mid-section. */}
-      <div className="relative w-full h-32 lg:w-[25%]">
+      {/* Desktop: 25% width, will stretch to match left column. */}
+      <div className="relative w-full lg:w-[25%]">
         
         {/* --- Purple Box --- */}
         {/* Base (Mobile/Tablet): Inset with vertical margin and rounded corners. */}
-        {/* Desktop: Margin removed, specific corner rounding applied. */}
+        {/* Desktop: Fills the entire parent div. */}
         <div className="absolute inset-0 my-4 rounded-lg bg-purple-500 lg:my-0 lg:mx-0 lg:rounded-l-xl lg:rounded-r-none">
           {/* Content for the right side div goes here */}
         </div>
