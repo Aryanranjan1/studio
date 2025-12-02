@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main className="relative flex h-[calc(100vh-3.5rem)] w-full flex-row items-start justify-start bg-background p-0 overflow-hidden">
       <div className="h-full w-[75%] flex flex-col">
-        <div className="flex-1" style={{ transform: 'translateY(-16%)' }}>
+        <div style={{ transform: 'translateY(-16%)' }}>
           <HeroSvg />
         </div>
 
