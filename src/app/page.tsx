@@ -123,8 +123,8 @@ export default function Home() {
           />
         </BentoCard>
         
-        {/* Item 6: Metrics Card */}
-        <BentoCard className="row-[4_/_6] col-[1_/_5] md:row-[5_/_8] md:col-[1_/_4] lg:row-[4_/_7] lg:col-[1_/_5]">
+        {/* Item 6: Metrics Card Part 1 */}
+        <BentoCard className="row-[4_/_5] col-[1_/_5] md:row-[5_/_8] md:col-[1_/_4] lg:row-[4_/_7] lg:col-[1_/_5]">
           <CardContent className="p-4 flex flex-col justify-around h-full">
             <div className="flex items-center gap-4 py-2">
               <Rocket className="w-6 h-6 text-primary" />
@@ -140,6 +140,12 @@ export default function Home() {
                 <p className="text-sm text-muted-foreground">Years Experience</p>
               </div>
             </div>
+          </CardContent>
+        </BentoCard>
+
+        {/* Item 7: Metrics Card Part 2 */}
+        <BentoCard className="row-[5_/_6] col-[1_/_5] md:row-[5_/_8] md:col-[1_/_4] lg:row-[4_/_7] lg:col-[1_/_5]">
+          <CardContent className="p-4 flex flex-col justify-around h-full">
              <div className="flex items-center gap-4 py-2">
               <HeartHandshake className="w-6 h-6 text-primary" />
               <div>
