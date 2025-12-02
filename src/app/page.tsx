@@ -41,7 +41,7 @@ export default function Home() {
         {/* Base (Mobile): Inset with margin and rounded corners. */}
         {/* Tablet: Same inset and rounding. */}
         {/* Desktop: Margin removed, specific corner rounding applied. */}
-        <div className="absolute inset-0 m-2 mt-4 rounded-lg bg-purple-500 md:m-2 lg:m-0 lg:mt-0 lg:rounded-l-xl lg:rounded-r-none">
+        <div className="absolute inset-0 m-2 mt-4 rounded-lg bg-purple-500 md:my-2 md:mx-0 lg:m-0 lg:mt-0 lg:rounded-l-xl lg:rounded-r-none">
           {/* Content for the right side div goes here */}
         </div>
       </div>
