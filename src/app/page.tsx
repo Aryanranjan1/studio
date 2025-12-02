@@ -2,12 +2,12 @@ import { HeroSvg } from '@/components/hero-svg';
 
 export default function Home() {
   return (
-    // Base: Mobile layout (flex-col)
-    // Medium screens (md) and up: Horizontal layout (flex-row)
-    <main className="flex flex-col bg-background p-0 md:h-screen lg:flex-row">
+    // Base: Mobile and Tablet layout (flex-col)
+    // Large screens (lg) and up: Horizontal layout (flex-row)
+    <main className="flex flex-col bg-background p-0 lg:h-screen lg:flex-row">
       
       {/* --- Left Column --- */}
-      {/* Base: Full width. Tablet/Desktop: 75% width */}
+      {/* Base: Full width. Desktop: 75% width */}
       <div className="flex w-full flex-col lg:w-[75%]">
         
         {/* --- SVG Container --- */}
@@ -34,14 +34,13 @@ export default function Home() {
 
       {/* --- Right Column --- */}
       {/* Base: Full width, specific height. */}
-      {/* Tablet/Desktop: 25% width, fills height. */}
-      <div className="relative w-full h-48 md:h-auto lg:w-[25%]">
+      {/* Desktop: 25% width, fills height. */}
+      <div className="relative w-full h-48 lg:h-auto lg:w-[25%]">
         
         {/* --- Purple Box --- */}
-        {/* Base (Mobile): Inset with margin and rounded corners. */}
-        {/* Tablet: Same inset and rounding. */}
+        {/* Base (Mobile/Tablet): Inset with vertical margin and rounded corners. */}
         {/* Desktop: Margin removed, specific corner rounding applied. */}
-        <div className="absolute inset-0 m-2 mt-4 rounded-lg bg-purple-500 md:my-2 md:mx-0 lg:m-0 lg:mt-0 lg:rounded-l-xl lg:rounded-r-none">
+        <div className="absolute inset-0 mx-2 my-4 rounded-lg bg-purple-500 lg:my-0 lg:mx-0 lg:rounded-l-xl lg:rounded-r-none">
           {/* Content for the right side div goes here */}
         </div>
       </div>
