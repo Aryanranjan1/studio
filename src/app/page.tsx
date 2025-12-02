@@ -3,8 +3,9 @@ import { HeroSvg } from '@/components/hero-svg';
 export default function Home() {
   return (
     <main className="flex h-screen w-full flex-row items-stretch justify-start bg-background p-0 overflow-hidden">
-      <div className="flex h-full w-[75%] flex-col">
-        <div className="flex-1 overflow-hidden">
+      <div className="w-[75%] flex flex-col">
+        {/* SVG Container (grows to fill space) */}
+        <div className="flex-1 overflow-hidden -mt-[67px]">
           <HeroSvg />
         </div>
 
