@@ -22,6 +22,7 @@ import {
   LogIn,
   LogOut,
   UserCog,
+  Search,
 } from 'lucide-react';
 import { Button } from './ui/button';
 import {
@@ -43,6 +44,7 @@ const navLinks = [
   { href: '/store', label: 'Store', icon: ShoppingBag },
   { href: '/blog', label: 'Blog', icon: BookOpen },
   { href: '/faq', label: 'FAQ', icon: HelpCircle },
+  { href: '/search', label: 'Search', icon: Search },
 ];
 
 export function Header() {
@@ -211,13 +213,7 @@ export function Header() {
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
         {sidebarContent}
       </aside>
-      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
-        <div className="sm:hidden">
-          {logo}
-        </div>
-        <div className="flex-1 sm:hidden">
-          {/* This div is to push the sheet to the right */}
-        </div>
+      <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:justify-start sm:border-0 sm:bg-transparent sm:px-6">
         <Sheet>
           <SheetTrigger asChild>
             <Button size="icon" variant="outline" className="sm:hidden">
@@ -229,8 +225,8 @@ export function Header() {
             {mobileNavContent}
           </SheetContent>
         </Sheet>
-        <div className="hidden flex-1 sm:block">
-            {/* This div is a placeholder on desktop */}
+        <div className="sm:hidden">
+          {logo}
         </div>
       </header>
     </>
