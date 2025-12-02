@@ -58,16 +58,20 @@ export function Header() {
     }
   };
 
+  const logo = (
+    <Link
+      href="/"
+      className="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 text-lg font-semibold text-primary md:h-8 md:w-8 md:text-base"
+    >
+      <Crown className="h-6 w-6 text-primary transition-all group-hover:scale-110" />
+      <span className="sr-only">My Website</span>
+    </Link>
+  );
+
 
   const sidebarContent = (
     <nav className="flex h-full flex-col items-center gap-4 px-2 sm:py-5">
-      <Link
-        href="/"
-        className="group mb-4 flex h-9 w-9 shrink-0 items-center justify-center gap-2 text-lg font-semibold text-primary md:h-8 md:w-8 md:text-base"
-      >
-        <Crown className="h-6 w-6 text-primary transition-all group-hover:scale-110" />
-        <span className="sr-only">My Website</span>
-      </Link>
+      {logo}
       <TooltipProvider>
         {navLinks.map(({ href, label, icon: Icon }) => (
           <Tooltip key={href}>
@@ -207,7 +211,13 @@ export function Header() {
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
         {sidebarContent}
       </aside>
-      <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+      <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+        <div className="sm:hidden">
+          {logo}
+        </div>
+        <div className="flex-1 sm:hidden">
+          {/* This div is to push the sheet to the right */}
+        </div>
         <Sheet>
           <SheetTrigger asChild>
             <Button size="icon" variant="outline" className="sm:hidden">
@@ -219,7 +229,8 @@ export function Header() {
             {mobileNavContent}
           </SheetContent>
         </Sheet>
-        <div className="flex-1">
+        <div className="hidden flex-1 sm:block">
+            {/* This div is a placeholder on desktop */}
         </div>
       </header>
     </>
