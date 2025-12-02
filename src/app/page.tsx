@@ -2,8 +2,8 @@ import { HeroSvg } from '@/components/hero-svg';
 
 export default function Home() {
   return (
-    <main className="flex w-full flex-col lg:flex-row items-stretch justify-start bg-background p-0 overflow-hidden lg:h-screen">
-      <div className="w-full lg:w-[75%] flex flex-col">
+    <main className="flex w-full flex-col items-stretch justify-start bg-background p-0 lg:flex-row lg:h-screen">
+      <div className="flex w-full flex-col lg:w-[75%]">
         {/* SVG Container (grows to fill space) */}
         <div className="flex-1 overflow-hidden -mt-[75px] lg:mt-0">
           <HeroSvg />
@@ -12,7 +12,7 @@ export default function Home() {
         {/* Mid Section */}
         <div
           id="mid-section"
-          className="flex items-stretch pl-4 pr-4 lg:pl-7 lg:pr-2 pb-2 mt-2"
+          className="mr-2 flex items-stretch pl-7 pr-2 pb-2"
         >
           <div className="h-32 w-[30%] rounded-lg bg-card">
             {/* Content for the first element */}
@@ -22,7 +22,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full lg:w-[25%] rounded-lg lg:rounded-l-xl lg:rounded-r-none bg-purple-500 h-64 lg:h-auto mt-2 lg:mt-0">
+      <div className="mt-2 h-64 w-full rounded-lg bg-purple-500 lg:mt-0 lg:h-auto lg:w-[25%] lg:rounded-l-xl lg:rounded-r-none">
         {/* Content for the right side div goes here */}
       </div>
     </main>
