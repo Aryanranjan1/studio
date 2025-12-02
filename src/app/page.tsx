@@ -5,7 +5,7 @@ export default function Home() {
   return (
     // Base: Mobile and Tablet layout (flex-col)
     // Large screens (lg) and up: Horizontal layout (flex-row)
-    <main className="flex flex-col bg-background p-0 lg:h-screen lg:flex-row lg:pb-[55px]">
+    <main className="flex flex-col bg-background p-0 lg:h-screen lg:flex-row lg:pb-[35px]">
       
       {/* --- Left Column (Contains SVG group and Mid group) --- */}
       {/* Base: Full width. Desktop: 75% width */}
