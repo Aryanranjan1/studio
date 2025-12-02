@@ -4,16 +4,16 @@ export default function Home() {
   return (
     // Base: Mobile layout (flex-col)
     // Medium screens (md) and up: Horizontal layout (flex-row)
-    <main className="flex flex-col bg-background p-0 md:h-screen md:flex-row">
+    <main className="flex flex-col bg-background p-0 md:h-screen lg:flex-row">
       
       {/* --- Left Column --- */}
       {/* Base: Full width. Tablet/Desktop: 75% width */}
-      <div className="flex w-full flex-col md:w-[75%]">
+      <div className="flex w-full flex-col lg:w-[75%]">
         
         {/* --- SVG Container --- */}
-        {/* Mobile/Tablet: Pushed up by 75px. */}
-        {/* Desktop: Pushed up by 100px. */}
-        <div className="flex-1 -mt-[75px] lg:-mt-[100px]">
+        {/* Mobile/Tablet: Pushed up by 75px. Margin bottom 16px */}
+        {/* Desktop: Pushed up by 100px. Margin bottom 8px */}
+        <div className="flex-1 -mt-[75px] mb-4 lg:-mt-[100px] lg:mb-2">
           <HeroSvg />
         </div>
 
@@ -35,7 +35,7 @@ export default function Home() {
       {/* --- Right Column --- */}
       {/* Base: Full width, specific height. */}
       {/* Tablet/Desktop: 25% width, fills height. */}
-      <div className="relative w-full h-48 md:h-auto md:w-[25%]">
+      <div className="relative w-full h-48 md:h-auto lg:w-[25%]">
         
         {/* --- Purple Box --- */}
         {/* Base (Mobile): Inset with margin and rounded corners. */}
