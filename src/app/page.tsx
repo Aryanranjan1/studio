@@ -26,7 +26,7 @@ export default function Home() {
         {/* Base (Mobile/Tablet): Has a 15px left margin. */}
         <div
           id="mid-section"
-          className="flex items-stretch pb-2 ml-[15px]"
+          className="flex items-stretch pb-2 ml-[15px] mr-2 gap-2"
         >
           <div className="relative h-32 w-[30%] rounded-lg bg-[#f8f9f9] overflow-hidden">
             <Image
@@ -37,7 +37,7 @@ export default function Home() {
                 data-ai-hint="futuristic ssd"
             />
           </div>
-          <div className="relative h-32 flex-1 rounded-lg bg-[#f8f9f9] overflow-hidden mr-2">
+          <div className="relative h-32 flex-1 rounded-lg bg-[#f8f9f9] overflow-hidden">
             <Image
                 src={placeholderImages.hero.ssdExploded.src}
                 alt={placeholderImages.hero.ssdExploded.alt}
