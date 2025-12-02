@@ -37,8 +37,14 @@ export default function Home() {
                 data-ai-hint="futuristic ssd"
             />
           </div>
-          <div className="ml-2 mr-2 h-32 flex-1 rounded-lg bg-[#f8f9f9]">
-            {/* Content for the second element */}
+          <div className="relative h-32 flex-1 rounded-lg bg-[#f8f9f9] overflow-hidden mr-2">
+            <Image
+                src={placeholderImages.hero.ssdExploded.src}
+                alt={placeholderImages.hero.ssdExploded.alt}
+                fill
+                style={{ objectFit: 'cover' }}
+                data-ai-hint="futuristic ssd exploded"
+            />
           </div>
         </div>
       </div>
@@ -46,12 +52,12 @@ export default function Home() {
       {/* --- Right Column (Right div) --- */}
       {/* Base: Full width, specific height. */}
       {/* Desktop: 25% width, will stretch to match left column. */}
-      <div className="relative w-full lg:w-[25%]">
+      <div className="relative w-full h-48 lg:h-auto lg:w-[25%]">
         
         {/* --- Purple Box --- */}
         {/* Base (Mobile/Tablet): Inset with vertical margin and rounded corners. */}
         {/* Desktop: Fills the entire parent div. */}
-        <div className="absolute inset-0 my-4 rounded-lg bg-purple-500 lg:my-0 lg:mx-0 lg:rounded-l-xl lg:rounded-r-none">
+        <div className="absolute inset-0 my-4 mx-4 rounded-lg bg-purple-500 lg:my-0 lg:mx-0 lg:rounded-l-xl lg:rounded-r-none">
           {/* Content for the right side div goes here */}
         </div>
       </div>
