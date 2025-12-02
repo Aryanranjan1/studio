@@ -5,7 +5,7 @@ export function HeroSvg() {
       width="100%"
       height="100%"
       viewBox="0 0 496 416"
-      preserveAspectRatio="xMinYMid meet"
+      preserveAspectRatio="xMaxYMid slice"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g id="svg-group">
