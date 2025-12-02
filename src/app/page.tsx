@@ -2,14 +2,14 @@ import { HeroSvg } from "@/components/hero-svg";
 
 export default function Home() {
   return (
-    <main className="relative flex h-[calc(100vh-3.5rem)] w-full flex-row items-stretch justify-start bg-background p-0 overflow-hidden">
-      <div className="w-[75%] flex flex-col justify-between">
-        <div style={{ transform: 'translateY(-16%)' }}>
+    <main className="relative flex h-screen w-full flex-row items-stretch justify-start bg-background p-0 overflow-hidden">
+      <div className="relative w-[75%]">
+        <div style={{ transform: 'translateY(-16%)' }} className="h-full">
           <HeroSvg />
         </div>
 
         {/* Mid Section */}
-        <div id="mid-section" className="flex items-stretch mt-2 mr-2 h-32">
+        <div id="mid-section" className="absolute bottom-0 left-0 right-0 flex items-stretch mr-2 h-32 mb-2">
             <div className="w-[30%] bg-card rounded-lg">
                 {/* Content for the first element */}
             </div>
