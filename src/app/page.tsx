@@ -9,10 +9,10 @@ export default function Home() {
 
         {/* Mid Section */}
         <div id="mid-section" className="flex-grow flex items-center p-4">
-            <div className="w-[20%] aspect-square bg-card rounded-lg">
+            <div className="w-[25%] aspect-square bg-card rounded-lg">
                 {/* Content for the first element */}
             </div>
-            <div className="flex-1 h-full ml-2 bg-card rounded-lg" style={{ maxHeight: 'calc(20vw)' }}>
+            <div className="flex-1 h-full ml-2 bg-card rounded-lg" style={{ maxHeight: 'calc(25vw)' }}>
                 {/* Content for the second element */}
             </div>
         </div>
