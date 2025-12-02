@@ -22,7 +22,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full lg:w-[25%] lg:rounded-l-xl bg-purple-500 h-64 lg:h-auto mt-4 lg:mt-0">
+      <div className="w-full lg:w-[25%] rounded-xl lg:rounded-l-xl lg:rounded-r-none bg-purple-500 h-64 lg:h-auto mt-2 lg:mt-0">
         {/* Content for the right side div goes here */}
       </div>
     </main>
