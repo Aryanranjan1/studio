@@ -6,22 +6,19 @@ export default function Home() {
     // Medium screens (md) and up: Horizontal layout (flex-row)
     <main className="flex flex-col bg-background p-0 md:h-screen md:flex-row">
       
-      {/* --- Left Column (Full width on mobile, 75% on desktop) --- */}
+      {/* --- Left Column --- */}
+      {/* Base: Full width. Tablet/Desktop: 75% width */}
       <div className="flex w-full flex-col md:w-[75%]">
         
-        {/* 
-          SVG Container
-          - Base (Mobile): Pushed up by 75px.
-          - Large screens (lg): Margin is reset to 0 for desktop.
-        */}
+        {/* --- SVG Container --- */}
+        {/* Mobile/Tablet: Pushed up by 75px. */}
+        {/* Desktop: Margin is reset to 0. */}
         <div className="flex-1 -mt-[75px] lg:mt-0">
           <HeroSvg />
         </div>
 
-        {/* 
-          Mid Section
-          - Base (Mobile/Tablet): Has a 15px left margin.
-        */}
+        {/* --- Mid Section --- */}
+        {/* Base (Mobile/Tablet): Has a 15px left margin. */}
         <div
           id="mid-section"
           className="flex items-stretch pb-2 ml-[15px]"
@@ -35,18 +32,15 @@ export default function Home() {
         </div>
       </div>
 
-      {/* --- Right Column (Full width on mobile, 25% on desktop) --- */}
-      {/* 
-        - Base (Mobile): Full width, margin on top.
-        - Medium screens (md) and up: Takes 25% width, fills height.
-      */}
+      {/* --- Right Column --- */}
+      {/* Base: Full width, specific height. */}
+      {/* Tablet/Desktop: 25% width, fills height. */}
       <div className="relative w-full h-48 md:h-auto md:w-[25%]">
-        {/* 
-          Purple Box
-          - Base (Mobile): Inset with margin.
-          - Medium screens (md): Inset with margin.
-          - Large screens (lg): Margin removed, specific corner rounding applied.
-        */}
+        
+        {/* --- Purple Box --- */}
+        {/* Base (Mobile): Inset with margin and rounded corners. */}
+        {/* Tablet: Same inset and rounding. */}
+        {/* Desktop: Margin removed, specific corner rounding applied. */}
         <div className="absolute inset-0 m-2 mt-4 rounded-lg bg-purple-500 md:m-2 lg:m-0 lg:mt-0 lg:rounded-l-xl lg:rounded-r-none">
           {/* Content for the right side div goes here */}
         </div>
