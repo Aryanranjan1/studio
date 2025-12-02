@@ -4,12 +4,12 @@ export default function Home() {
   return (
     <main className="relative flex h-[calc(100vh-3.5rem)] w-full flex-row items-start justify-start bg-background p-0 overflow-hidden">
       <div className="h-full w-[75%] flex flex-col">
-        <div style={{ transform: 'translateY(-16%)' }}>
+        <div className="flex-1" style={{ transform: 'translateY(-16%)' }}>
           <HeroSvg />
         </div>
 
         {/* Mid Section */}
-        <div id="mid-section" className="flex flex-1 items-stretch mt-2 mr-2">
+        <div id="mid-section" className="flex items-stretch h-32 mt-2 mr-2">
             <div className="w-[30%] bg-card rounded-lg">
                 {/* Content for the first element */}
             </div>
