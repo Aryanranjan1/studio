@@ -23,6 +23,7 @@ import {
   LogOut,
   UserCog,
   Search,
+  Mail,
 } from 'lucide-react';
 import { Button } from './ui/button';
 import {
@@ -40,11 +41,12 @@ const navLinks = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/services', label: 'Services', icon: LayoutGrid },
   { href: '/portfolio', label: 'Portfolio', icon: Briefcase },
+  { href: '/search', label: 'Search', icon: Search },
   { href: '/about', label: 'About', icon: User },
+  { href: '/contact', label: 'Contact', icon: Mail },
   { href: '/store', label: 'Store', icon: ShoppingBag },
   { href: '/blog', label: 'Blog', icon: BookOpen },
   { href: '/faq', label: 'FAQ', icon: HelpCircle },
-  { href: '/search', label: 'Search', icon: Search },
 ];
 
 export function Header() {
