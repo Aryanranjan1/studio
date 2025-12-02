@@ -1,3 +1,4 @@
+
 import { HeroSvg } from '@/components/hero-svg';
 
 export default function Home() {
@@ -28,7 +29,7 @@ export default function Home() {
           <div className="h-32 w-[30%] rounded-lg bg-[#f8f9f9]">
             {/* Content for the first element */}
           </div>
-          <div className="ml-2 h-32 flex-1 rounded-lg bg-[#f8f9f9]">
+          <div className="ml-2 mr-2 h-32 flex-1 rounded-lg bg-[#f8f9f9]">
             {/* Content for the second element */}
           </div>
         </div>
