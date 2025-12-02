@@ -9,7 +9,7 @@ export default function Home() {
         </div>
 
         {/* Mid Section */}
-        <div id="mid-section" className="flex items-stretch p-4 h-64">
+        <div id="mid-section" className="flex items-stretch h-64">
             <div className="w-[30%] bg-card rounded-lg">
                 {/* Content for the first element */}
             </div>
