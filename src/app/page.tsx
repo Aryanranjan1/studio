@@ -6,11 +6,11 @@ export default function Home() {
     // Large screens (lg) and up: Horizontal layout (flex-row)
     <main className="flex flex-col bg-background p-0 lg:h-screen lg:flex-row">
       
-      {/* --- Left Column --- */}
+      {/* --- Left Column (Contains SVG group and Mid group) --- */}
       {/* Base: Full width. Desktop: 75% width */}
       <div className="flex w-full flex-col lg:w-[75%]">
         
-        {/* --- SVG Container --- */}
+        {/* --- SVG Container (SVG Group)--- */}
         {/* Mobile/Tablet: Pushed up by 75px. Margin bottom 16px */}
         {/* Desktop: Pushed up by 100px. Margin bottom 8px */}
         <div className="flex-1 -mt-[75px] mb-4 lg:-mt-[100px] lg:mb-2">
@@ -32,7 +32,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* --- Right Column --- */}
+      {/* --- Right Column (Right div) --- */}
       {/* Base: Full width, specific height. */}
       {/* Desktop: 25% width, fills height. */}
       <div className="relative w-full h-48 lg:h-auto lg:w-[25%]">
@@ -40,7 +40,7 @@ export default function Home() {
         {/* --- Purple Box --- */}
         {/* Base (Mobile/Tablet): Inset with vertical margin and rounded corners. */}
         {/* Desktop: Margin removed, specific corner rounding applied. */}
-        <div className="absolute inset-0 mx-2 my-4 rounded-lg bg-purple-500 lg:my-0 lg:mx-0 lg:rounded-l-xl lg:rounded-r-none">
+        <div className="absolute inset-0 my-4 rounded-lg bg-purple-500 lg:my-0 lg:mx-0 lg:rounded-l-xl lg:rounded-r-none">
           {/* Content for the right side div goes here */}
         </div>
       </div>
