@@ -5,7 +5,7 @@ export default function Home() {
   return (
     // Base: Mobile and Tablet layout (flex-col)
     // Large screens (lg) and up: Horizontal layout (flex-row)
-    <main className="flex flex-col bg-background p-0 lg:h-screen lg:flex-row">
+    <main className="flex flex-col bg-background p-0 lg:h-screen lg:flex-row lg:items-end">
       
       {/* --- Left Column (Contains SVG group and Mid group) --- */}
       {/* Base: Full width. Desktop: 75% width */}
@@ -37,8 +37,8 @@ export default function Home() {
 
       {/* --- Right Column (Right div) --- */}
       {/* Base: Full width, specific height. */}
-      {/* Desktop: 25% width, fills height. */}
-      <div className="relative w-full h-48 lg:h-auto lg:w-[25%]">
+      {/* Desktop: 25% width, same height as mid-section. */}
+      <div className="relative w-full h-32 lg:w-[25%]">
         
         {/* --- Purple Box --- */}
         {/* Base (Mobile/Tablet): Inset with vertical margin and rounded corners. */}
