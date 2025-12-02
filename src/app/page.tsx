@@ -5,7 +5,7 @@ export default function Home() {
     <main className="flex w-full flex-col lg:flex-row items-stretch justify-start bg-background p-0 overflow-hidden lg:h-screen">
       <div className="w-full lg:w-[75%] flex flex-col">
         {/* SVG Container (grows to fill space) */}
-        <div className="flex-1 overflow-hidden -mt-[100px] lg:mt-0">
+        <div className="flex-1 overflow-hidden -mt-[75px] lg:mt-0">
           <HeroSvg />
         </div>
 
@@ -22,7 +22,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="w-full lg:w-[25%] rounded-xl lg:rounded-l-xl lg:rounded-r-none bg-purple-500 h-64 lg:h-auto mt-2 lg:mt-0">
+      <div className="w-full lg:w-[25%] rounded-lg lg:rounded-l-xl lg:rounded-r-none bg-purple-500 h-64 lg:h-auto mt-2 lg:mt-0">
         {/* Content for the right side div goes here */}
       </div>
     </main>
