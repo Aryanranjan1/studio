@@ -12,8 +12,8 @@ export default function Home() {
         
         {/* --- SVG Container (SVG Group)--- */}
         {/* Mobile/Tablet: Pushed up by 75px. Margin bottom 16px */}
-        {/* Desktop: Pushed up by 195px. Margin bottom 8px */}
-        <div className="flex-1 -mt-[75px] mb-4 lg:-mt-[195px] lg:mb-2">
+        {/* Desktop: Pushed up by 120px. Margin bottom 8px */}
+        <div className="flex-1 -mt-[75px] mb-4 lg:-mt-[120px] lg:mb-2">
           <HeroSvg />
         </div>
 
