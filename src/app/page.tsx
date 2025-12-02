@@ -9,7 +9,7 @@ export default function Home() {
         </div>
 
         {/* Mid Section */}
-        <div id="mid-section" className="flex items-stretch h-32 mt-2 mr-2">
+        <div id="mid-section" className="flex items-stretch mt-2 mr-2 h-32">
             <div className="w-[30%] bg-card rounded-lg">
                 {/* Content for the first element */}
             </div>
@@ -19,7 +19,7 @@ export default function Home() {
         </div>
 
       </div>
-      <div className="h-full w-[25%] bg-purple-500 rounded-l-xl">
+      <div className="w-[25%] bg-purple-500 rounded-l-xl">
         {/* Content for the right side div goes here */}
       </div>
     </main>
