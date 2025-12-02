@@ -12,12 +12,12 @@ export default function Home() {
         {/* Mid Section */}
         <div
           id="mid-section"
-          className="flex items-stretch pr-2 pb-2 mt-2"
+          className="flex items-stretch pl-10 pb-2 mt-2"
         >
           <div className="h-32 w-[30%] rounded-lg bg-card">
             {/* Content for the first element */}
           </div>
-          <div className="ml-2 h-32 flex-1 rounded-lg bg-card">
+          <div className="ml-2 h-32 flex-1 rounded-lg bg-card mr-8">
             {/* Content for the second element */}
           </div>
         </div>
