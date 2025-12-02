@@ -32,11 +32,11 @@ export default function Home() {
           div5
         </Card>
         {/* div6 */}
-        <Card className="col-start-1 col-span-1 row-start-23 row-span-4 md:col-start-1 md:col-span-2 md:row-start-9 md:row-span-2 lg:col-start-7 lg:col-span-3 lg:row-start-4 lg:row-span-2 bg-pink-500/20">
+        <Card className="col-span-1 row-start-23 row-span-4 md:col-start-1 md:col-span-2 md:row-start-9 md:row-span-2 lg:col-start-7 lg:col-span-3 lg:row-start-4 lg:row-span-2 bg-pink-500/20">
           div6
         </Card>
         {/* div7 */}
-        <Card className="col-start-2 col-span-3 row-start-23 row-span-4 md:col-start-3 md:col-span-6 md:row-start-9 md:row-span-2 lg:col-start-3 lg:col-span-4 lg:row-start-6 lg:row-span-1 bg-indigo-500/20">
+        <Card className="col-span-3 row-start-23 row-span-4 md:col-start-3 md:col-span-6 md:row-start-9 md:row-span-2 lg:col-start-1 lg:col-span-6 lg:row-start-7 lg:row-span-1 bg-indigo-500/20">
           div7
         </Card>
       </div>
