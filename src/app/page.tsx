@@ -13,8 +13,10 @@ export default function Home() {
         {/* --- SVG Container (SVG Group)--- */}
         {/* Mobile/Tablet: Pushed up by 75px. Margin bottom 16px */}
         {/* Desktop: Pushed up by 120px. Margin bottom 8px */}
-        <div className="flex-1 -mt-[75px] mb-4 lg:-mt-[100px] lg:mb-2">
-          <HeroSvg />
+        <div className="mb-4 lg:mb-2">
+          <div className="lg:-mt-[100px]">
+            <HeroSvg />
+          </div>
         </div>
 
         {/* --- Mid Section --- */}
@@ -23,10 +25,10 @@ export default function Home() {
           id="mid-section"
           className="flex items-stretch pb-2 ml-[15px]"
         >
-          <div className="h-32 w-[30%] rounded-lg bg-card">
+          <div className="h-32 w-[30%] rounded-lg bg-[#f8f9f9]">
             {/* Content for the first element */}
           </div>
-          <div className="ml-2 h-32 flex-1 rounded-lg bg-card">
+          <div className="ml-2 h-32 flex-1 rounded-lg bg-[#f8f9f9]">
             {/* Content for the second element */}
           </div>
         </div>
