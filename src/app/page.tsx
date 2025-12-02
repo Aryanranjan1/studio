@@ -9,19 +9,23 @@ export default function Home() {
       {/* --- Left Column (75% on Desktop) --- */}
       <div className="flex w-full flex-col lg:w-[75%]">
         
-        {/* SVG Container */}
-        {/* Base (Mobile): No negative margin. */}
-        {/* Large screens (lg): Pushed up by 100px. */}
-        <div className="flex-1 mb-2 lg:-mt-[100px]">
+        {/* 
+          SVG Container
+          - Base (Mobile): No negative margin.
+          - Medium screens (md): Pushed up by 150px for tablets.
+          - Large screens (lg): Pushed up by 100px for desktop.
+        */}
+        <div className="flex-1 mb-2 md:-mt-[150px] lg:-mt-[100px]">
           <HeroSvg />
         </div>
 
-        {/* Mid Section */}
-        {/* Base (Mobile/Tablet): Has a 15px left margin and 8px right padding. */}
-        {/* Large screens (lg): Right padding is removed. */}
+        {/* 
+          Mid Section
+          - Base (Mobile/Tablet): Has a 15px left margin.
+        */}
         <div
           id="mid-section"
-          className="flex items-stretch pb-2 ml-[15px] pr-2 lg:pr-0"
+          className="flex items-stretch pb-2 ml-[15px]"
         >
           <div className="h-32 w-[30%] rounded-lg bg-card">
             {/* Content for the first element */}
@@ -33,12 +37,16 @@ export default function Home() {
       </div>
 
       {/* --- Right Column (25% on Desktop) --- */}
-      {/* Base (Mobile/Tablet): Full width, margin on top. */}
-      {/* Large screens (lg): Takes 25% width, no top margin, fills height. */}
+      {/* 
+        - Base (Mobile/Tablet): Full width, margin on top.
+        - Large screens (lg): Takes 25% width, no top margin, fills height.
+      */}
       <div className="relative w-full lg:w-[25%]">
-        {/* Purple Box */}
-        {/* Base (Mobile/Tablet): Inset with margin. */}
-        {/* Large screens (lg): Margin removed, specific corner rounding applied. */}
+        {/* 
+          Purple Box
+          - Base (Mobile/Tablet): Inset with margin.
+          - Large screens (lg): Margin removed, specific corner rounding applied.
+        */}
         <div className="absolute inset-0 m-2 mt-4 rounded-lg bg-purple-500 lg:m-0 lg:mt-0 lg:rounded-l-xl lg:rounded-r-none">
           {/* Content for the right side div goes here */}
         </div>
