@@ -1,3 +1,4 @@
+
 export type Service = {
   id: string;
   title: string;
@@ -77,6 +78,7 @@ export type Article = {
   image: string;
   imageAlt: string;
   tags: string[];
+  popular?: boolean;
 };
 
 export type Template = {
@@ -304,7 +306,8 @@ export const getArticles = (): Article[] => [
         content: "In the digital age, a website is often the first point of contact between a business and its potential customers. For Small and Medium-sized Enterprises (SMEs), a premium website is not just a digital brochure; it's a powerful tool for growth, credibility, and customer engagement. A well-crafted site enhances brand perception, improves user experience, and drives conversions. It signals to your audience that you are a serious, professional organization that values quality. This initial investment pays dividends in customer trust, lead generation, and long-term brand equity.",
         image: "https://picsum.photos/seed/blog1/1200/800",
         imageAlt: "A graph showing upward growth",
-        tags: ["Business", "Web Design", "ROI"]
+        tags: ["Business", "Web Design", "ROI"],
+        popular: true,
     },
     {
         id: 'article-2',
@@ -315,7 +318,8 @@ export const getArticles = (): Article[] => [
         content: "Choosing the right Content Management System (CMS) is a critical decision. Traditional CMSs like WordPress offer an all-in-one solution, which can be great for simplicity. However, a Headless CMS provides unparalleled flexibility, performance, and security by decoupling the content backend from the presentation layer (the 'head'). This allows you to use your content across multiple platforms (web, mobile apps, etc.) and employ modern frontend frameworks for a faster, more engaging user experience. For SMEs looking to future-proof their digital strategy, a headless approach is often the superior choice.",
         image: "https://picsum.photos/seed/blog2/1200/800",
         imageAlt: "Abstract representation of connected data",
-        tags: ["CMS", "Development", "Strategy"]
+        tags: ["CMS", "Development", "Strategy"],
+        popular: true,
     },
     {
         id: 'article-3',
@@ -326,7 +330,8 @@ export const getArticles = (): Article[] => [
         content: "Manual, repetitive tasks can be a significant drain on resources for any SME. Automating your sales funnel—from lead capture and nurturing to CRM updates and reporting—can free up your team to focus on high-value activities. Using modern tools, you can create seamless workflows that ensure no lead falls through the cracks and that your customer data is always up-to-date. This not only improves efficiency but also provides a more consistent and professional experience for your customers.",
         image: "https://picsum.photos/seed/blog3/1200/800",
         imageAlt: "A series of connected gears and cogs",
-        tags: ["Automation", "Sales", "CRM"]
+        tags: ["Automation", "Sales", "CRM"],
+        popular: false,
     }
 ];
 

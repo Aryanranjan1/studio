@@ -53,8 +53,10 @@ export function HeroGrid() {
     'Webflow',
     'Framer',
   ];
-  const articles = getArticles();
-  const featuredArticle = articles[Math.floor(Math.random() * articles.length)];
+  const allArticles = getArticles();
+  const popularArticles = allArticles.filter(a => a.popular);
+  const featuredArticle = popularArticles[Math.floor(Math.random() * popularArticles.length)];
+
 
   return (
     <div
