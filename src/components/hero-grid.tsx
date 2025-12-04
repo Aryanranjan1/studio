@@ -1,8 +1,9 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { ArrowRight, MoveUpRight, Zap, Code, Bot, TrendingUp } from 'lucide-react';
+import { ArrowRight, MoveUpRight, Zap, Code, Bot, TrendingUp, Users, Clock, ShieldCheck, ZapIcon } from 'lucide-react';
 import { HeroSvg } from './hero-svg';
 import Link from 'next/link';
+import { Badge } from './ui/badge';
 
 const BentoCard = ({
   className,
@@ -107,21 +108,37 @@ export function HeroGrid() {
       </BentoCard>
       {/* div2 */}
       <BentoCard
-        className="bg-[#cb0fe2]
+        className="text-black bg-gradient-to-br from-cyan-200 to-cyan-400
       col-span-2 row-span-3 row-start-8
       md:col-span-3 md:row-start-6 md:row-span-3
-      lg:col-span-3 lg:row-span-2 lg:col-start-1 lg:row-start-5"
+      lg:col-span-3 lg:row-span-2 lg:col-start-1 lg:row-start-5 p-6 flex flex-col justify-between"
       >
-        div2
+        <Link href="/about" className='group'>
+            <div className='flex justify-between items-start'>
+                <Badge variant="outline" className='bg-white/80 backdrop-blur-sm border-0'>About us</Badge>
+                <MoveUpRight className='h-6 w-6 text-black transition-transform group-hover:rotate-45' />
+            </div>
+            <h2 className='text-lg font-semibold mt-auto'>
+                Explore our fascinating journey and the services we offer you
+            </h2>
+        </Link>
       </BentoCard>
       {/* div3 */}
       <BentoCard
-        className="bg-[#1d46f8]
+        className="text-black bg-violet-300
       col-start-3 col-span-2 row-span-3 row-start-8
       md:col-span-2 md:row-start-6 md:row-span-3
-      lg:col-span-3 lg:row-span-2 lg:col-start-4 lg:row-start-5"
+      lg:col-span-3 lg:row-span-2 lg:col-start-4 lg:row-start-5 p-6 flex flex-col justify-between"
       >
-        div3
+        <Link href="/services" className='group'>
+             <div className='flex justify-between items-start'>
+                <Badge variant="outline" className='bg-white/80 backdrop-blur-sm border-0'>New release</Badge>
+                <MoveUpRight className='h-6 w-6 text-black transition-transform group-hover:rotate-45' />
+            </div>
+            <h2 className='text-lg font-semibold mt-auto'>
+                Get ready to take on a new workload
+            </h2>
+        </Link>
       </BentoCard>
       {/* div4 */}
       <BentoCard
@@ -157,9 +174,9 @@ export function HeroGrid() {
       {/* div7 */}
       <BentoCard
         className="bg-gradient-to-br from-amber-200 to-amber-400 p-6 text-black
-      col-span-2 row-span-4 row-start-[23]
-      md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-1 
-      lg:col-span-2 lg:row-span-2 lg:col-start-11 lg:row-start-5"
+        col-span-2 row-span-4 row-start-[23]
+        md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-1 
+        lg:col-span-2 lg:row-span-2 lg:col-start-11 lg:row-start-5"
       >
         <div className='flex flex-col items-start justify-center text-left'>
             <h3 className='text-2xl font-bold font-headline'>Have a project?</h3>
