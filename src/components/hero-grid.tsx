@@ -40,6 +40,16 @@ const StatCard = ({
 );
 
 export function HeroGrid() {
+  const services = [
+    'Web Design',
+    'Development',
+    'Mobile App',
+    'Automation',
+    'SEO',
+    'UI/UX',
+    'Webflow',
+    'Framer',
+  ];
   return (
     <div
       className="grid grid-flow-row-dense grid-cols-4 gap-2
@@ -158,6 +168,13 @@ export function HeroGrid() {
               Our services
             </Badge>
             <span className="text-sm font-semibold">2025-26</span>
+          </div>
+          <div className="flex flex-wrap gap-2 mt-4">
+            {services.map((service) => (
+              <Badge key={service} variant="outline" className="bg-white/80 backdrop-blur-sm border-0 text-black">
+                {service}
+              </Badge>
+            ))}
           </div>
         </Link>
       </BentoCard>
