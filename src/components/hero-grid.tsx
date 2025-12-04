@@ -143,9 +143,9 @@ export function HeroGrid() {
       </BentoCard>
       {/* div6 */}
       <BentoCard
-        className="col-span-3 row-start-23 row-span-4
-      md:col-start-3 md:col-span-6 md:row-start-9 md:row-span-2
-      lg:col-span-2 lg:row-span-4 lg:col-start-11 lg:row-start-1"
+        className="col-span-3 row-span-4 row-start-[23]
+        md:col-start-3 md:col-span-6 md:row-span-2 md:row-start-9 
+        lg:col-span-2 lg:row-span-4 lg:col-start-11 lg:row-start-1"
       >
         <div className="grid h-full w-full grid-cols-2 grid-rows-2 gap-4 md:grid-cols-4 md:grid-rows-1 lg:grid-cols-1 lg:grid-rows-4">
           <StatCard icon={<Zap size={24} />} value="10k+" label="Hours Saved" />
@@ -156,13 +156,13 @@ export function HeroGrid() {
       </BentoCard>
       {/* div7 */}
       <BentoCard
-        className="bg-gradient-to-br from-amber-200 to-amber-400 !items-start !justify-start p-6 text-black
-      col-span-1 row-start-23 row-span-4
-      md:col-start-1 md:col-span-2 md:row-start-9 md:row-span-2
+        className="bg-gradient-to-br from-amber-200 to-amber-400 p-6 text-black
+      col-span-1 row-span-4 row-start-[23]
+      md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-1 
       lg:col-span-2 lg:row-span-2 lg:col-start-11 lg:row-start-5"
       >
-        <div className='flex flex-col'>
-            <h3 className='text-2xl font-bold font-headline'>Have a projects?</h3>
+        <div className='flex flex-col items-center justify-center text-center'>
+            <h3 className='text-2xl font-bold font-headline'>Have a project?</h3>
             <Link href="/contact" className="mt-2 flex items-center gap-1 text-lg underline">
                 Contact us
                 <MoveUpRight className='h-4 w-4' />
