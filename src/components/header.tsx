@@ -42,7 +42,7 @@ const navLinks = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/services', label: 'Services', icon: LayoutGrid },
   { href: '/portfolio', label: 'Portfolio', icon: Briefcase },
-  { href: '/process', label: 'Process', icon: Workflow },
+  { href: '/search', label: 'Search', icon: Search },
   { href: '/about', label: 'About', icon: User },
   { href: '/contact', label: 'Contact', icon: Mail },
   { href: '/store', label: 'Store', icon: ShoppingBag },
