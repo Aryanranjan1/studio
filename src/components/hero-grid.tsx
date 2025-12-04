@@ -203,7 +203,7 @@ export function HeroGrid() {
               This will provide you with an in-depth investigation
             </p>
             <Link href="/about" className="group absolute bottom-2 right-2">
-                <MoveUpRight className="h-3 w-3 text-black/70 transition-transform group-hover:rotate-45" />
+                <MoveUpRight className="h-4 w-4 text-black/70 transition-transform group-hover:rotate-45" />
             </Link>
           </div>
         </div>
