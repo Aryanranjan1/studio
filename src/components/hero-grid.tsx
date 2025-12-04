@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { ArrowRight, MoveUpRight, Zap, Code, Bot, TrendingUp } from 'lucide-react';
 import { HeroSvg } from './hero-svg';
+import Link from 'next/link';
 
 const BentoCard = ({
   className,
@@ -117,7 +118,7 @@ export function HeroGrid() {
       <BentoCard
         className="bg-[#1d46f8]
       col-start-3 col-span-2 row-span-3 row-start-8
-      md:col-start-4 md:col-span-2 md:row-start-6 md:row-span-3
+      md:col-span-2 md:row-start-6 md:row-span-3
       lg:col-span-3 lg:row-span-2 lg:col-start-4 lg:row-start-5"
       >
         div3
@@ -142,8 +143,7 @@ export function HeroGrid() {
       </BentoCard>
       {/* div6 */}
       <BentoCard
-        className="bg-[#b134f5] p-6
-      col-span-3 row-start-23 row-span-4
+        className="col-span-3 row-start-23 row-span-4
       md:col-start-3 md:col-span-6 md:row-start-9 md:row-span-2
       lg:col-span-2 lg:row-span-5 lg:col-start-11 lg:row-start-1"
       >
@@ -156,12 +156,18 @@ export function HeroGrid() {
       </BentoCard>
       {/* div7 */}
       <BentoCard
-        className="bg-[#f5b134]
+        className="bg-gradient-to-br from-amber-200 to-amber-400 !items-start !justify-start p-6 text-black
       col-span-1 row-start-23 row-span-4
       md:col-start-1 md:col-span-2 md:row-start-9 md:row-span-2
       lg:col-span-2 lg:col-start-11 lg:row-start-6"
       >
-        div7
+        <div className='flex flex-col'>
+            <h3 className='text-2xl font-bold font-headline'>Have a projects?</h3>
+            <Link href="/contact" className="mt-2 flex items-center gap-1 text-lg underline">
+                Contact us
+                <MoveUpRight className='h-4 w-4' />
+            </Link>
+        </div>
       </BentoCard>
     </div>
   );
