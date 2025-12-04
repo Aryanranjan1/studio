@@ -109,7 +109,7 @@ export function HeroGrid() {
       {/* div2 */}
       <BentoCard
         className="text-black bg-gradient-to-br from-cyan-200 to-cyan-400
-      col-span-2 row-span-3 row-start-8
+      col-span-2 row-span-5 row-start-8
       md:col-span-3 md:row-start-6 md:row-span-3
       lg:col-span-3 lg:row-span-2 lg:col-start-1 lg:row-start-5 p-6 flex flex-col justify-between"
       >
@@ -128,7 +128,7 @@ export function HeroGrid() {
       {/* div3 */}
       <BentoCard
         className="text-black bg-violet-300
-      col-start-3 col-span-2 row-span-3 row-start-8
+      col-start-3 col-span-2 row-span-5 row-start-8
       md:col-span-2 md:row-start-6 md:row-span-3
       lg:col-span-3 lg:row-span-2 lg:col-start-4 lg:row-start-5 p-6 flex flex-col justify-between"
       >
@@ -147,7 +147,7 @@ export function HeroGrid() {
       {/* div4 */}
       <BentoCard
         className="bg-[#7ba2ee]
-      col-span-4 row-span-5 row-start-11
+      col-span-4 row-span-5 row-start-13
       md:col-start-6 md:col-span-3 md:row-start-1 md:row-span-3
       lg:col-span-4 lg:row-span-3 lg:col-start-7 lg:row-start-1 items-center justify-center"
       >
@@ -156,7 +156,7 @@ export function HeroGrid() {
       {/* div5 */}
       <BentoCard
         className="bg-[#2ef68c]
-      col-span-4 row-span-7 row-start-16
+      col-span-4 row-span-7 row-start-18
       md:col-start-6 md:col-span-3 md:row-start-4 md:row-span-5
       lg:col-span-4 lg:row-span-3 lg:col-start-7 lg:row-start-4 items-center justify-center"
       >
@@ -164,7 +164,7 @@ export function HeroGrid() {
       </BentoCard>
       {/* div6 */}
       <BentoCard
-        className="col-span-2 row-span-4 row-start-[23]
+        className="col-span-4 row-span-3 row-start-[25]
         md:col-start-1 md:col-span-6 md:row-span-2 md:row-start-9 
         lg:col-span-2 lg:row-span-3 lg:col-start-11 lg:row-start-1"
       >
@@ -178,11 +178,11 @@ export function HeroGrid() {
       {/* div7 */}
       <BentoCard
         className="bg-gradient-to-br from-amber-200 to-amber-400 p-6 text-black
-        col-span-2 row-span-4 row-start-[23]
+        col-span-4 row-span-3 row-start-[28]
         md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-7 
-        lg:col-span-2 lg:row-span-3 lg:col-start-11 lg:row-start-4 items-center"
+        lg:col-span-2 lg:row-span-3 lg:col-start-11 lg:row-start-4 items-center justify-center text-left"
       >
-        <div className="flex flex-col items-start justify-center text-left">
+        <div className="flex flex-col items-start justify-center">
           <h3 className="text-2xl font-bold font-headline">Have a project?</h3>
           <Link
             href="/contact"
