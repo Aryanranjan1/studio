@@ -3,14 +3,14 @@ import React, { useEffect, useRef, useState } from "react";
 
 /* ----- Config / Data ----- */
 const SKILLS = [
-    { id: "web-design", label: "Web Design", color: "#E9D5FF" },
-    { id: "development", label: "Development", color: "#D8B4FE" },
-    { id: "mobile-app", label: "Mobile App", color: "#C084FC" },
-    { id: "automation", label: "Automation", color: "#A855F7" },
-    { id: "seo", label: "SEO", color: "#9333EA" },
-    { id: "ui-ux", label: "UI/UX", color: "#7E22CE" },
-    { id: "webflow", label: "Webflow", color: "#6B21A8" },
-    { id: "framer", label: "Framer", color: "#581C87" }
+    { id: "web-design", label: "Web Design", color: "#7ba2ee" },
+    { id: "development", label: "Development", color: "#E9D5FF" },
+    { id: "mobile-app", label: "Mobile App", color: "#f5d0a9" },
+    { id: "automation", label: "Automation", color: "#D8B4FE" },
+    { id: "seo", label: "SEO", color: "#C084FC" },
+    { id: "ui-ux", label: "UI/UX", color: "#A855F7" },
+    { id: "webflow", label: "Webflow", color: "#9333EA" },
+    { id: "framer", label: "Framer", color: "#7E22CE" }
 ] as const;
 
 type Skill = typeof SKILLS[number];
@@ -72,8 +72,8 @@ export function DraggableServices({
   /* Responsive sizing parameters based on container */
   const computeSizes = (w: number, h: number) => {
     const S = Math.min(w, h);
-    const r = clamp(S * 0.08, 18, 55); // radius
-    const fontSize = Math.max(10, Math.round(r * 0.42));
+    const r = clamp(S * 0.16, 36, 110); // radius - made twice as big
+    const fontSize = Math.max(10, Math.round(r * 0.21)); // adjusted font scaling
     return { r, fontSize };
   };
 
