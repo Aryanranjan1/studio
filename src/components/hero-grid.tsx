@@ -113,14 +113,16 @@ export function HeroGrid() {
       md:col-span-3 md:row-start-6 md:row-span-3
       lg:col-span-3 lg:row-span-2 lg:col-start-1 lg:row-start-5 p-6 flex flex-col justify-between"
       >
-        <Link href="/about" className='group'>
-            <div className='flex justify-between items-start'>
-                <Badge variant="outline" className='bg-white/80 backdrop-blur-sm border-0'>About us</Badge>
-                <MoveUpRight className='h-6 w-6 text-black transition-transform group-hover:rotate-45' />
-            </div>
-            <h2 className='text-lg font-semibold mt-auto'>
-                Explore our fascinating journey and the services we offer you
-            </h2>
+        <Link href="/about" className="group flex flex-col justify-between h-full">
+          <div className="flex justify-between items-start">
+            <Badge variant="outline" className="bg-white/80 backdrop-blur-sm border-0 text-black">
+              About us
+            </Badge>
+            <MoveUpRight className="h-6 w-6 text-black transition-transform group-hover:rotate-45" />
+          </div>
+          <h2 className="text-lg font-semibold mt-auto">
+            Explore our fascinating journey and the services we offer you
+          </h2>
         </Link>
       </BentoCard>
       {/* div3 */}
@@ -130,14 +132,16 @@ export function HeroGrid() {
       md:col-span-2 md:row-start-6 md:row-span-3
       lg:col-span-3 lg:row-span-2 lg:col-start-4 lg:row-start-5 p-6 flex flex-col justify-between"
       >
-        <Link href="/services" className='group'>
-             <div className='flex justify-between items-start'>
-                <Badge variant="outline" className='bg-white/80 backdrop-blur-sm border-0'>New release</Badge>
-                <MoveUpRight className='h-6 w-6 text-black transition-transform group-hover:rotate-45' />
-            </div>
-            <h2 className='text-lg font-semibold mt-auto'>
-                Get ready to take on a new workload
-            </h2>
+        <Link href="/services" className="group flex flex-col justify-between h-full">
+          <div className="flex justify-between items-start">
+            <Badge variant="outline" className="bg-white/80 backdrop-blur-sm border-0 text-black">
+              New release
+            </Badge>
+            <MoveUpRight className="h-6 w-6 text-black transition-transform group-hover:rotate-45" />
+          </div>
+          <h2 className="text-lg font-semibold mt-auto">
+            Get ready to take on a new workload
+          </h2>
         </Link>
       </BentoCard>
       {/* div4 */}
@@ -161,8 +165,8 @@ export function HeroGrid() {
       {/* div6 */}
       <BentoCard
         className="col-span-2 row-span-4 row-start-[23]
-        md:col-start-3 md:col-span-6 md:row-span-2 md:row-start-9 
-        lg:col-span-2 lg:row-span-4 lg:col-start-11 lg:row-start-1"
+        md:col-start-1 md:col-span-6 md:row-span-2 md:row-start-9 
+        lg:col-span-2 lg:row-span-3 lg:col-start-11 lg:row-start-1"
       >
         <div className="grid h-full w-full grid-cols-2 grid-rows-2 gap-4 md:grid-cols-4 md:grid-rows-1 lg:grid-cols-1 lg:grid-rows-4">
           <StatCard icon={<Zap size={24} />} value="10k+" label="Hours Saved" />
@@ -175,15 +179,18 @@ export function HeroGrid() {
       <BentoCard
         className="bg-gradient-to-br from-amber-200 to-amber-400 p-6 text-black
         col-span-2 row-span-4 row-start-[23]
-        md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-1 
-        lg:col-span-2 lg:row-span-2 lg:col-start-11 lg:row-start-5"
+        md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-7 
+        lg:col-span-2 lg:row-span-3 lg:col-start-11 lg:row-start-4"
       >
-        <div className='flex flex-col items-start justify-center text-left'>
-            <h3 className='text-2xl font-bold font-headline'>Have a project?</h3>
-            <Link href="/contact" className="mt-2 flex items-center gap-1 text-lg underline">
-                Contact us
-                <MoveUpRight className='h-4 w-4' />
-            </Link>
+        <div className="flex flex-col items-start justify-center text-left">
+          <h3 className="text-2xl font-bold font-headline">Have a project?</h3>
+          <Link
+            href="/contact"
+            className="mt-2 flex items-center gap-1 text-lg underline"
+          >
+            Contact us
+            <MoveUpRight className="h-4 w-4" />
+          </Link>
         </div>
       </BentoCard>
     </div>
