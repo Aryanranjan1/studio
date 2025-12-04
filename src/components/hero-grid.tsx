@@ -113,7 +113,6 @@ export function HeroGrid() {
                 </div>
               </div>
             </div>
-            <div className="text-4xl font-bold font-headline">CI</div>
           </div>
         </div>
       </BentoCard>
