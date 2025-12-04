@@ -200,14 +200,16 @@ export function HeroGrid() {
           </Badge>
           <Link href={`/blog/${featuredArticle.id}`} className="group relative mt-auto">
              <div className="absolute -bottom-4 -left-4 w-[calc(100%+2rem)] p-4 rounded-2xl bg-black/20 backdrop-blur-md border border-white/10">
-                <div className="flex justify-between items-start">
-                    <Image src="https://picsum.photos/seed/avatar3/40/40" width={32} height={32} alt="author" className="rounded-full" />
-                    <MoveUpRight className="w-5 h-5 text-white/70 group-hover:rotate-45 transition-transform" />
+                <Image src="https://picsum.photos/seed/avatar3/40/40" width={32} height={32} alt="author" className="rounded-full" />
+                <div className="flex justify-between items-end mt-2">
+                    <div>
+                        <h3 className="text-lg font-bold font-headline group-hover:text-primary transition-colors">
+                            We help our client's to shine in a digital way
+                        </h3>
+                        <p className="text-sm text-white/60 mt-1">This will provide you with an in-depth investigation</p>
+                    </div>
+                    <MoveUpRight className="w-5 h-5 text-white/70 group-hover:rotate-45 transition-transform flex-shrink-0" />
                 </div>
-                <h3 className="text-lg font-bold font-headline mt-2 group-hover:text-primary transition-colors">
-                  We help our client's to shine in a digital way
-                </h3>
-                 <p className="text-sm text-white/60 mt-1">This will provide you with an in-depth investigation</p>
             </div>
           </Link>
         </div>
