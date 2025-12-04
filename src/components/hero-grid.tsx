@@ -180,9 +180,9 @@ export function HeroGrid() {
         className="bg-gradient-to-br from-amber-200 to-amber-400 p-6 text-black
         col-span-4 row-span-3 row-start-[28]
         md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-7 
-        lg:col-span-2 lg:row-span-3 lg:col-start-11 lg:row-start-4 items-center justify-center text-left"
+        lg:col-span-2 lg:row-span-3 lg:col-start-11 lg:row-start-4"
       >
-        <div className="flex flex-col items-start justify-center">
+        <div className="flex flex-col items-start justify-center h-full w-full">
           <h3 className="text-2xl font-bold font-headline">Have a project?</h3>
           <Link
             href="/contact"
