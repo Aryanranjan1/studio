@@ -1,4 +1,5 @@
 export function HeroSvg() {
+  const circumference = 2 * Math.PI * 37; // The radius is 37
   return (
     <svg
       className="h-full w-full animate-spin [animation-duration:10s]"
@@ -15,8 +16,8 @@ export function HeroSvg() {
         />
       </defs>
       <text fill="white" fontSize="8" className="uppercase tracking-wider">
-        <textPath xlinkHref="#circle">
-          explore more about us by clicking here explore more about us by clicking here
+        <textPath xlinkHref="#circle" textLength={circumference} lengthAdjust="spacingAndGlyphs">
+          explore more about us by clicking here
         </textPath>
       </text>
     </svg>
