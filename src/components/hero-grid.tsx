@@ -161,7 +161,7 @@ export function HeroGrid() {
       md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-1 
       lg:col-span-2 lg:row-span-2 lg:col-start-11 lg:row-start-5"
       >
-        <div className='flex flex-col items-center justify-center text-center'>
+        <div className='flex flex-col items-start justify-center text-left'>
             <h3 className='text-2xl font-bold font-headline'>Have a project?</h3>
             <Link href="/contact" className="mt-2 flex items-center gap-1 text-lg underline">
                 Contact us
