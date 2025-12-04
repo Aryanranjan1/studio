@@ -196,17 +196,18 @@ export function HeroGrid() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
         <div className="relative z-10 flex h-full w-full flex-col justify-between p-6 text-white">
           <Badge variant="outline" className="bg-white/20 backdrop-blur-sm border-white/30 text-white w-fit">
-            From the Blog
+            Work process
           </Badge>
-          <Link href={`/blog/${featuredArticle.id}`} className="group">
-            <h3 className="text-xl font-bold font-headline group-hover:text-primary transition-colors">
-              {featuredArticle.title}
-            </h3>
-            <p className="text-sm mt-2 text-white/80">
-              {featuredArticle.excerpt}
-            </p>
-            <div className="absolute bottom-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-background/50 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
-                <MoveUpRight className="h-4 w-4" />
+          <Link href={`/blog/${featuredArticle.id}`} className="group relative mt-auto">
+             <div className="absolute -bottom-4 -left-4 w-[calc(100%+2rem)] p-4 rounded-2xl bg-black/20 backdrop-blur-md border border-white/10">
+                <div className="flex justify-between items-start">
+                    <Image src="https://picsum.photos/seed/avatar3/40/40" width={32} height={32} alt="author" className="rounded-full" />
+                    <MoveUpRight className="w-5 h-5 text-white/70 group-hover:rotate-45 transition-transform" />
+                </div>
+                <h3 className="text-lg font-bold font-headline mt-2 group-hover:text-primary transition-colors">
+                  We help our client's to shine in a digital way
+                </h3>
+                 <p className="text-sm text-white/60 mt-1">This will provide you with an in-depth investigation</p>
             </div>
           </Link>
         </div>
@@ -245,3 +246,5 @@ export function HeroGrid() {
     </div>
   );
 }
+
+    
