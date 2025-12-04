@@ -122,16 +122,16 @@ export function HeroGrid() {
       </BentoCard>
       {/* div6 */}
       <BentoCard
-        className="col-span-1 row-start-23 row-span-4 bg-[#b134f5]
-      md:col-start-1 md:col-span-2 md:row-start-9 md:row-span-2
+        className="col-span-3 row-start-23 row-span-4 bg-[#b134f5]
+      md:col-start-3 md:col-span-6 md:row-start-9 md:row-span-2
       lg:col-start-11 lg:col-span-2 lg:row-start-1 lg:row-span-5"
       >
         div6
       </BentoCard>
       {/* div7 */}
       <BentoCard
-        className="col-span-3 row-start-23 row-span-4 bg-[#f5b134]
-      md:col-start-3 md:col-span-6 md:row-start-9 md:row-span-2 
+        className="col-span-1 row-start-23 row-span-4 bg-[#f5b134]
+      md:col-start-1 md:col-span-2 md:row-start-9 md:row-span-2
       lg:col-start-11 lg:col-span-2 lg:row-start-6 lg:row-span-1"
       >
         div7
