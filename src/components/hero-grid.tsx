@@ -143,7 +143,7 @@ export function HeroGrid() {
       </BentoCard>
       {/* div6 */}
       <BentoCard
-        className="col-span-3 row-span-4 row-start-[23]
+        className="col-span-2 row-span-4 row-start-[23]
         md:col-start-3 md:col-span-6 md:row-span-2 md:row-start-9 
         lg:col-span-2 lg:row-span-4 lg:col-start-11 lg:row-start-1"
       >
@@ -157,7 +157,7 @@ export function HeroGrid() {
       {/* div7 */}
       <BentoCard
         className="bg-gradient-to-br from-amber-200 to-amber-400 p-6 text-black
-      col-span-1 row-span-4 row-start-[23]
+      col-span-2 row-span-4 row-start-[23]
       md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-1 
       lg:col-span-2 lg:row-span-2 lg:col-start-11 lg:row-start-5"
       >
