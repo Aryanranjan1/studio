@@ -4,13 +4,13 @@ import React, { useEffect, useRef, useState } from "react";
 /* ----- Config / Data ----- */
 const SKILLS = [
     { id: "web-design", label: "Web Design", color: "#e5ecfc" },
-    { id: "development", label: "Development", color: "#e5ecfc" },
-    { id: "mobile-app", label: "Mobile App", color: "#e5ecfc" },
-    { id: "automation", label: "Automation", color: "#e5ecfc" },
-    { id: "seo", label: "SEO", color: "#e5ecfc" },
-    { id: "ui-ux", label: "UI/UX", color: "#e5ecfc" },
-    { id: "webflow", label: "Webflow", color: "#e5ecfc" },
-    { id: "framer", label: "Framer", color: "#e5ecfc" }
+    { id: "development", label: "Development", color: "#e2f9e5" },
+    { id: "mobile-app", label: "Mobile App", color: "#fff0e2" },
+    { id: "automation", label: "Automation", color: "#fce2e2" },
+    { id: "seo", label: "SEO", color: "#f5e2fc" },
+    { id: "ui-ux", label: "UI/UX", color: "#e2fcfc" },
+    { id: "webflow", label: "Webflow", color: "#fcfce2" },
+    { id: "framer", label: "Framer", color: "#e2eafc" }
 ] as const;
 
 type Skill = typeof SKILLS[number];
@@ -477,7 +477,7 @@ export function DraggableServices({
 
 function getTextColorForBg(hex: string) {
   const c = hexToRgb(hex);
-  if (!c) return "#fff";
+  if (!c) return "#000";
   const lum = (0.2126 * srgb(c.r) + 0.7152 * srgb(c.g) + 0.0722 * srgb(c.b));
   return lum > 0.6 ? "#000000" : "#fff";
 }
