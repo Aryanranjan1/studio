@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { ArrowRight, MoveUpRight, Zap, Code, Bot, TrendingUp, Users, Clock, ShieldCheck, ZapIcon } from 'lucide-react';
+import { ArrowRight, MoveUpRight, Zap, Code, Bot, TrendingUp } from 'lucide-react';
 import { HeroSvg } from './hero-svg';
 import Link from 'next/link';
 import { Badge } from './ui/badge';
@@ -14,7 +14,7 @@ const BentoCard = ({
 }) => (
   <div
     className={cn(
-      'rounded-2xl border border-border/20 bg-card p-4 shadow-inner flex items-center justify-center relative overflow-hidden',
+      'rounded-2xl border border-border/20 bg-card p-4 shadow-inner flex relative overflow-hidden',
       className
     )}
   >
@@ -41,15 +41,15 @@ const StatCard = ({
 export function HeroGrid() {
   return (
     <div
-      className="grid h-auto grid-cols-4 grid-rows-[repeat(26,_minmax(0,_1fr))] gap-2
-    md:h-[900px] md:grid-cols-8 md:grid-rows-10 
-    lg:h-[600px] lg:grid-cols-12 lg:grid-rows-6"
+      className="grid h-screen min-h-screen grid-cols-4 grid-rows-[repeat(26,_minmax(0,_1fr))] gap-2
+    md:grid-cols-8 md:grid-rows-10 
+    lg:grid-cols-12 lg:grid-rows-6"
     >
       {/* div1 */}
       <BentoCard
         className="col-span-4 row-span-7 p-0
       md:col-span-5 md:row-span-5 
-      lg:col-span-6 lg:row-span-4"
+      lg:col-span-6 lg:row-span-4 items-center justify-center"
       >
         <Image
           src="https://picsum.photos/seed/hero-bg/1200/800"
@@ -149,7 +149,7 @@ export function HeroGrid() {
         className="bg-[#7ba2ee]
       col-span-4 row-span-5 row-start-11
       md:col-start-6 md:col-span-3 md:row-start-1 md:row-span-3
-      lg:col-span-4 lg:row-span-3 lg:col-start-7 lg:row-start-1"
+      lg:col-span-4 lg:row-span-3 lg:col-start-7 lg:row-start-1 items-center justify-center"
       >
         div4
       </BentoCard>
@@ -158,7 +158,7 @@ export function HeroGrid() {
         className="bg-[#2ef68c]
       col-span-4 row-span-7 row-start-16
       md:col-start-6 md:col-span-3 md:row-start-4 md:row-span-5
-      lg:col-span-4 lg:row-span-3 lg:col-start-7 lg:row-start-4"
+      lg:col-span-4 lg:row-span-3 lg:col-start-7 lg:row-start-4 items-center justify-center"
       >
         div5
       </BentoCard>
@@ -180,7 +180,7 @@ export function HeroGrid() {
         className="bg-gradient-to-br from-amber-200 to-amber-400 p-6 text-black
         col-span-2 row-span-4 row-start-[23]
         md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-7 
-        lg:col-span-2 lg:row-span-3 lg:col-start-11 lg:row-start-4"
+        lg:col-span-2 lg:row-span-3 lg:col-start-11 lg:row-start-4 items-center"
       >
         <div className="flex flex-col items-start justify-center text-left">
           <h3 className="text-2xl font-bold font-headline">Have a project?</h3>
