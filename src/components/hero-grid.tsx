@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { ArrowRight, MoveUpRight } from 'lucide-react';
+import { ArrowRight, MoveUpRight, Zap, Code, Bot, TrendingUp } from 'lucide-react';
 import { HeroSvg } from './hero-svg';
 
 const BentoCard = ({
@@ -17,6 +17,22 @@ const BentoCard = ({
     )}
   >
     {children}
+  </div>
+);
+
+const StatCard = ({
+  icon,
+  value,
+  label,
+}: {
+  icon: React.ReactNode;
+  value: string;
+  label: string;
+}) => (
+  <div className="flex flex-col items-center text-center text-white">
+    <div className="mb-2">{icon}</div>
+    <div className="text-2xl font-bold font-headline">{value}</div>
+    <div className="text-xs text-neutral-300">{label}</div>
   </div>
 );
 
@@ -90,49 +106,60 @@ export function HeroGrid() {
       </BentoCard>
       {/* div2 */}
       <BentoCard
-        className="col-span-2 row-span-3 row-start-8 bg-[#cb0fe2] 
-      md:col-start-1 md:col-span-3 md:row-start-6 md:row-span-3
-      lg:col-start-1 lg:col-span-3 lg:row-start-5 lg:row-span-2"
+        className="bg-[#cb0fe2]
+      col-span-2 row-span-3 row-start-8
+      md:col-span-3 md:row-start-6 md:row-span-3
+      lg:col-span-3 lg:row-span-2 lg:col-start-1 lg:row-start-5"
       >
         div2
       </BentoCard>
       {/* div3 */}
       <BentoCard
-        className="col-start-3 col-span-2 row-span-3 row-start-8 bg-[#1d46f8]
-      md:col-start-4 md:col-span-2 md:row-start-6 md:row-span-3 
-      lg:col-start-4 lg:col-span-3 lg:row-start-5 lg:row-span-2"
+        className="bg-[#1d46f8]
+      col-start-3 col-span-2 row-span-3 row-start-8
+      md:col-start-4 md:col-span-2 md:row-start-6 md:row-span-3
+      lg:col-span-3 lg:row-span-2 lg:col-start-4 lg:row-start-5"
       >
         div3
       </BentoCard>
       {/* div4 */}
       <BentoCard
-        className="col-span-4 row-span-5 row-start-11 bg-[#7ba2ee]
-      md:col-start-6 md:col-span-3 md:row-start-1 md:row-span-3 
-      lg:col-start-7 lg:col-span-4 lg:row-start-1 lg:row-span-3"
+        className="bg-[#7ba2ee]
+      col-span-4 row-span-5 row-start-11
+      md:col-start-6 md:col-span-3 md:row-start-1 md:row-span-3
+      lg:col-span-4 lg:row-span-3 lg:col-start-7 lg:row-start-1"
       >
         div4
       </BentoCard>
       {/* div5 */}
       <BentoCard
-        className="col-span-4 row-span-7 row-start-16 bg-[#2ef68c]
+        className="bg-[#2ef68c]
+      col-span-4 row-span-7 row-start-16
       md:col-start-6 md:col-span-3 md:row-start-4 md:row-span-5
-      lg:col-start-7 lg:col-span-4 lg:row-start-4 lg:row-span-3"
+      lg:col-span-4 lg:row-span-3 lg:col-start-7 lg:row-start-4"
       >
         div5
       </BentoCard>
       {/* div6 */}
       <BentoCard
-        className="col-span-3 row-start-23 row-span-4 bg-[#b134f5]
+        className="bg-[#b134f5] p-6
+      col-span-3 row-start-23 row-span-4
       md:col-start-3 md:col-span-6 md:row-start-9 md:row-span-2
-      lg:col-start-11 lg:col-span-2 lg:row-start-1 lg:row-span-5"
+      lg:col-span-2 lg:row-span-5 lg:col-start-11 lg:row-start-1"
       >
-        div6
+        <div className="grid h-full w-full grid-cols-2 grid-rows-2 gap-4">
+          <StatCard icon={<Zap size={24} />} value="10k+" label="Hours Saved" />
+          <StatCard icon={<Bot size={24} />} value="200+" label="Automations" />
+          <StatCard icon={<Code size={24} />} value="500+" label="Websites Built" />
+          <StatCard icon={<TrendingUp size={24} />} value="150%" label="Client ROI" />
+        </div>
       </BentoCard>
       {/* div7 */}
       <BentoCard
-        className="col-span-1 row-start-23 row-span-4 bg-[#f5b134]
+        className="bg-[#f5b134]
+      col-span-1 row-start-23 row-span-4
       md:col-start-1 md:col-span-2 md:row-start-9 md:row-span-2
-      lg:col-start-11 lg:col-span-2 lg:row-start-6 lg:row-span-1"
+      lg:col-span-2 lg:col-start-11 lg:row-start-6"
       >
         div7
       </BentoCard>
