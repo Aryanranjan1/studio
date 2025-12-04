@@ -23,8 +23,7 @@ type Particle = {
   y: number;
   vx: number;
   vy: number;
-  w: number; // width
-  h: number; // height
+  r: number; // radius
   mass: number;
   el?: HTMLDivElement | null;
   picking?: boolean;
@@ -55,7 +54,7 @@ export function DraggableServices({
   wallBounce = DEFAULTS.wallBounce,
   maxVelocity = DEFAULTS.maxVelocity
 }: {
-  services: string[]; // This prop is not used in the new logic but kept for interface consistency
+  services: string[]; // This prop is not used but kept for interface consistency
   className?: string;
   style?: React.CSSProperties;
   gravity?: number;
@@ -71,10 +70,11 @@ export function DraggableServices({
   const [, setTick] = useState(0); // force initial render to attach refs
 
   /* Responsive sizing parameters based on container */
-  const computeSizes = (w: number) => {
-    const baseWidth = clamp(w * 0.2, 100, 180);
-    const h = baseWidth * 0.45;
-    return { w: baseWidth, h };
+  const computeSizes = (w: number, h: number) => {
+    const S = Math.min(w, h);
+    const r = clamp(S * 0.08, 18, 55); // radius
+    const fontSize = Math.max(10, Math.round(r * 0.42));
+    return { r, fontSize };
   };
 
   /* Initialize particles & positions */
@@ -82,7 +82,7 @@ export function DraggableServices({
     const container = containerRef.current!;
     if (!container) return;
     const rect = container.getBoundingClientRect();
-    const { w: pillWidth, h: pillHeight } = computeSizes(rect.width);
+    const { r } = computeSizes(rect.width, rect.height);
 
     const centerX = rect.width / 2;
     const centerY = rect.height / 3;
@@ -91,8 +91,8 @@ export function DraggableServices({
       // spawn with slight offset so they don't perfectly overlap
       const angle = (i / SKILLS.length) * Math.PI * 2;
       const spread = Math.min(rect.width, rect.height) * 0.12;
-      const x = clamp(centerX + Math.cos(angle) * spread, pillWidth / 2, rect.width - pillWidth / 2);
-      const y = clamp(centerY + Math.sin(angle) * spread, pillHeight / 2, rect.height - pillHeight / 2);
+      const x = clamp(centerX + Math.cos(angle) * spread, r, rect.width - r);
+      const y = clamp(centerY + Math.sin(angle) * spread, r, rect.height - r);
 
       return {
         id: s.id,
@@ -102,9 +102,8 @@ export function DraggableServices({
         y,
         vx: (Math.random() - 0.5) * 120,
         vy: (Math.random() - 0.5) * 40,
-        w: pillWidth,
-        h: pillHeight,
-        mass: (pillWidth * pillHeight) * 0.001,
+        r,
+        mass: r * r * 0.01,
         el: null,
         picking: false,
         ariaGrabbed: false
@@ -122,20 +121,19 @@ export function DraggableServices({
       const container = containerRef.current;
       if (!container) return;
       const rect = container.getBoundingClientRect();
-      const { w: pillWidth, h: pillHeight } = computeSizes(rect.width);
+      const { r, fontSize } = computeSizes(rect.width, rect.height);
       for (const p of particlesRef.current) {
-        p.w = pillWidth;
-        p.h = pillHeight;
-        p.mass = (p.w * p.h) * 0.001;
-        p.x = clamp(p.x, p.w / 2, rect.width - p.w / 2);
-        p.y = clamp(p.y, p.h / 2, rect.height - p.h / 2);
+        p.r = r;
+        p.mass = r * r * 0.01;
+        p.x = clamp(p.x, p.r, rect.width - p.r);
+        p.y = clamp(p.y, p.r, rect.height - p.r);
         if (p.el) {
-          p.el.style.width = `${p.w}px`;
-          p.el.style.height = `${p.h}px`;
-          p.el.style.borderRadius = `${p.h}px`;
+          p.el.style.width = `${p.r * 2}px`;
+          p.el.style.height = `${p.r * 2}px`;
+          p.el.style.borderRadius = `${p.r * 2}px`;
            const span = p.el.querySelector("span") as HTMLElement | null;
             if (span) {
-              span.style.fontSize = `${Math.max(10, Math.round(p.h * 0.4))}px`;
+              span.style.fontSize = `${fontSize}px`;
             }
         }
       }
@@ -189,7 +187,7 @@ export function DraggableServices({
         p.y += p.vy * dt;
       }
 
-      // collisions (Circle-based approximation for simplicity)
+      // collisions (Circle-based)
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const a = particles[i];
@@ -197,7 +195,7 @@ export function DraggableServices({
           const dx = b.x - a.x;
           const dy = b.y - a.y;
           const dist = Math.hypot(dx, dy) || 0.0001;
-          const minDist = (a.h + b.h) / 2; // Approximate with average height as radius
+          const minDist = a.r + b.r;
           if (dist < minDist) {
             // separation
             const overlap = (minDist - dist) / 2;
@@ -234,18 +232,18 @@ export function DraggableServices({
 
       // wall collisions
       for (const p of particles) {
-        if (p.x - p.w / 2 < 0) {
-          p.x = p.w / 2;
+        if (p.x - p.r < 0) {
+          p.x = p.r;
           p.vx = -p.vx * wallBounce;
-        } else if (p.x + p.w / 2 > w) {
-          p.x = w - p.w / 2;
+        } else if (p.x + p.r > w) {
+          p.x = w - p.r;
           p.vx = -p.vx * wallBounce;
         }
-        if (p.y - p.h / 2 < 0) {
-          p.y = p.h / 2;
+        if (p.y - p.r < 0) {
+          p.y = p.r;
           p.vy = -p.vy * wallBounce;
-        } else if (p.y + p.h / 2 > h) {
-          p.y = h - p.h / 2;
+        } else if (p.y + p.r > h) {
+          p.y = h - p.r;
           p.vy = -p.vy * wallBounce;
         }
       }
@@ -253,8 +251,8 @@ export function DraggableServices({
       // write to DOM
       for (const p of particles) {
         if (p.el) {
-          const tx = Math.round(p.x - p.w / 2);
-          const ty = Math.round(p.y - p.h / 2);
+          const tx = Math.round(p.x - p.r);
+          const ty = Math.round(p.y - p.r);
           p.el.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
         }
       }
@@ -296,8 +294,8 @@ export function DraggableServices({
       p.lastPointerX = localX;
       p.lastPointerY = localY;
 
-      p.x = clamp(localX, p.w / 2, rect.width - p.w / 2);
-      p.y = clamp(localY, p.h / 2, rect.height - p.h / 2);
+      p.x = clamp(localX, p.r, rect.width - p.r);
+      p.y = clamp(localY, p.r, rect.height - p.r);
     };
 
     const onPointerUpGlobal = (_e: PointerEvent) => {
@@ -326,15 +324,17 @@ export function DraggableServices({
   const attachRef = (p: Particle) => (el: HTMLDivElement | null) => {
     p.el = el;
     if (!el) return;
-    el.style.width = `${p.w}px`;
-    el.style.height = `${p.h}px`;
-    el.style.borderRadius = `${p.h}px`;
+    const { fontSize } = computeSizes(containerRef.current?.clientWidth ?? 0, containerRef.current?.clientHeight ?? 0);
+
+    el.style.width = `${p.r * 2}px`;
+    el.style.height = `${p.r * 2}px`;
+    el.style.borderRadius = `${p.r * 2}px`;
     const span = el.querySelector("span") as HTMLElement | null;
     if (span) {
-      span.style.fontSize = `${Math.max(10, Math.round(p.h * 0.4))}px`;
+      span.style.fontSize = `${fontSize}px`;
     }
 
-    el.style.transform = `translate3d(${Math.round(p.x - p.w/2)}px, ${Math.round(p.y - p.h/2)}px, 0)`;
+    el.style.transform = `translate3d(${Math.round(p.x - p.r)}px, ${Math.round(p.y - p.r)}px, 0)`;
 
     const onPointerDown = (ev: PointerEvent) => {
       ev.preventDefault();
@@ -362,8 +362,8 @@ export function DraggableServices({
         }
         p.lastPointerX = localX;
         p.lastPointerY = localY;
-        p.x = clamp(localX, p.w / 2, rect.width - p.w / 2);
-        p.y = clamp(localY, p.h / 2, rect.height - p.h / 2);
+        p.x = clamp(localX, p.r, rect.width - p.r);
+        p.y = clamp(localY, p.r, rect.height - p.r);
       };
 
       const onPointerUpGlobal = (e: PointerEvent) => {
@@ -444,10 +444,10 @@ export function DraggableServices({
             position: "absolute",
             left: 0,
             top: 0,
-            transform: `translate3d(${Math.round(p.x - p.w/2)}px, ${Math.round(p.y - p.h/2)}px, 0)`,
-            width: `${p.w}px`,
-            height: `${p.h}px`,
-            borderRadius: `${p.h}px`,
+            transform: `translate3d(${Math.round(p.x - p.r)}px, ${Math.round(p.y - p.r)}px, 0)`,
+            width: `${p.r * 2}px`,
+            height: `${p.r * 2}px`,
+            borderRadius: `${p.r * 2}px`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -460,6 +460,9 @@ export function DraggableServices({
             cursor: p.picking ? "grabbing" : "grab",
             background: `linear-gradient(135deg, ${p.color}, ${shade(p.color, -18)})`,
             color: getTextColorForBg(p.color),
+            boxShadow: p.picking
+              ? "0 14px 36px rgba(0,0,0,0.45)"
+              : "0 8px 20px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.03)",
             transition: "box-shadow 0.12s ease"
           }}
         >
