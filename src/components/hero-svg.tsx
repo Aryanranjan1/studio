@@ -15,7 +15,7 @@ export function HeroSvg() {
             a 37,37 0 1,1 -74,0"
         />
       </defs>
-      <text fill="white" fontSize="8" className="uppercase tracking-wider">
+      <text fill="white" fontSize="8" className="uppercase tracking-wider" xmlSpace="preserve">
         <textPath xlinkHref="#circle" textLength={circumference} lengthAdjust="spacingAndGlyphs">
           explore more about us by clicking here 
         </textPath>
