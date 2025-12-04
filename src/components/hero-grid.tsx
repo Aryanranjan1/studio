@@ -43,13 +43,13 @@ export function HeroGrid() {
     <div
       className="grid h-screen min-h-screen grid-cols-4 grid-rows-[repeat(26,_minmax(0,_1fr))] gap-2
     md:grid-cols-8 md:grid-rows-10 
-    lg:grid-cols-12 lg:grid-rows-6"
+    lg:grid-cols-12 lg:grid-rows-8"
     >
       {/* div1 */}
       <BentoCard
         className="col-span-4 row-span-7 p-0
       md:col-span-5 md:row-span-5 
-      lg:col-span-6 lg:row-span-4 items-center justify-center"
+      lg:col-span-6 lg:row-span-5 items-center justify-center"
       >
         <Image
           src="https://picsum.photos/seed/hero-bg/1200/800"
@@ -111,7 +111,7 @@ export function HeroGrid() {
         className="text-black bg-gradient-to-br from-cyan-200 to-cyan-400
       col-span-2 row-span-5 row-start-8
       md:col-span-3 md:row-start-6 md:row-span-3
-      lg:col-span-3 lg:row-span-2 lg:col-start-1 lg:row-start-5 p-6 flex flex-col justify-between"
+      lg:col-span-3 lg:row-span-3 lg:col-start-1 lg:row-start-6 p-6 flex flex-col justify-between"
       >
         <Link href="/about" className="group flex flex-col justify-between h-full">
           <div className="flex justify-between items-start">
@@ -130,7 +130,7 @@ export function HeroGrid() {
         className="text-black bg-violet-300
       col-start-3 col-span-2 row-span-5 row-start-8
       md:col-span-2 md:row-start-6 md:row-span-3
-      lg:col-span-3 lg:row-span-2 lg:col-start-4 lg:row-start-5 p-6 flex flex-col justify-between"
+      lg:col-span-3 lg:row-span-3 lg:col-start-4 lg:row-start-6 p-6 flex flex-col justify-between"
       >
         <Link href="/services" className="group flex flex-col justify-between h-full">
           <div className="flex justify-between items-start">
@@ -149,7 +149,7 @@ export function HeroGrid() {
         className="bg-[#7ba2ee]
       col-span-4 row-span-5 row-start-13
       md:col-start-6 md:col-span-3 md:row-start-1 md:row-span-3
-      lg:col-span-4 lg:row-span-3 lg:col-start-7 lg:row-start-1 items-center justify-center"
+      lg:col-span-4 lg:row-span-4 lg:col-start-7 lg:row-start-1 items-center justify-center"
       >
         div4
       </BentoCard>
@@ -158,15 +158,15 @@ export function HeroGrid() {
         className="bg-[#2ef68c]
       col-span-4 row-span-7 row-start-18
       md:col-start-6 md:col-span-3 md:row-start-4 md:row-span-5
-      lg:col-span-4 lg:row-span-3 lg:col-start-7 lg:row-start-4 items-center justify-center"
+      lg:col-span-4 lg:row-span-4 lg:col-start-7 lg:row-start-5 items-center justify-center"
       >
         div5
       </BentoCard>
       {/* div6 */}
       <BentoCard
-        className="col-span-4 row-span-3 row-start-[25]
+        className="col-span-2 row-span-3 row-start-[25]
         md:col-start-1 md:col-span-6 md:row-span-2 md:row-start-9 
-        lg:col-span-2 lg:row-span-3 lg:col-start-11 lg:row-start-1"
+        lg:col-span-2 lg:row-span-6 lg:col-start-11 lg:row-start-1"
       >
         <div className="grid h-full w-full grid-cols-2 grid-rows-2 gap-4 md:grid-cols-4 md:grid-rows-1 lg:grid-cols-1 lg:grid-rows-4">
           <StatCard icon={<Zap size={24} />} value="10k+" label="Hours Saved" />
@@ -178,9 +178,9 @@ export function HeroGrid() {
       {/* div7 */}
       <BentoCard
         className="bg-gradient-to-br from-amber-200 to-amber-400 p-6 text-black
-        col-span-4 row-span-3 row-start-[28]
+        col-span-2 row-span-3 row-start-[28]
         md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-7 
-        lg:col-span-2 lg:row-span-3 lg:col-start-11 lg:row-start-4"
+        lg:col-span-2 lg:row-span-2 lg:col-start-11 lg:row-start-7"
       >
         <div className="flex flex-col items-start justify-center h-full w-full">
           <h3 className="text-2xl font-bold font-headline">Have a project?</h3>
