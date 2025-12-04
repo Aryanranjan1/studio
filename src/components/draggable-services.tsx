@@ -27,11 +27,12 @@ export function DraggableServices({ services }: { services: string[] }) {
             y: Math.random() * (height - 40),
           }}
           animate={{
-            y: [0, -5, 0],
+            y: [height / 2, height / 2 - 15, height / 2],
           }}
           transition={{
-            duration: 2 + index * 0.2,
+            duration: 2.5 + index * 0.3,
             repeat: Infinity,
+            repeatType: 'reverse',
             ease: 'easeInOut',
           }}
         >
