@@ -60,7 +60,7 @@ export function HeroGrid() {
 
   return (
     <div
-      className="grid auto-rows-[100px] grid-cols-4 gap-2
+      className="grid auto-rows-[100px] grid-cols-4 gap-2 min-h-screen w-screen max-w-full
       md:grid-cols-8 md:grid-rows-10 
       lg:grid-cols-12 lg:grid-rows-8"
     >
