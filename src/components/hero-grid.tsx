@@ -74,7 +74,7 @@ export function HeroGrid() {
         <div className="relative z-10 flex h-full w-full flex-col justify-between p-6 text-white">
           <a
             href="#"
-            className="group absolute right-4 top-4 flex h-24 w-24 items-center justify-center"
+            className="group absolute right-4 bottom-4 flex h-24 w-24 items-center justify-center"
           >
             <HeroSvg />
             <MoveUpRight className="absolute h-6 w-6 text-white transition-transform group-hover:rotate-45" />
