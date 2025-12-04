@@ -1,9 +1,81 @@
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import { getTemplates } from '@/lib/data';
+import { ArrowRight, ShoppingCart } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+
 export default function StorePage() {
-    return (
-      <main className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold font-headline">Templates Store</h1>
-        <p className="mt-4 text-lg">Digital products and templates for sale will be listed here.</p>
+  const templates = getTemplates();
+
+  return (
+    <div className="w-full bg-background text-foreground">
+      <main className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+        {/* Hero Section */}
+        <section className="text-center">
+          <Badge
+            variant="outline"
+            className="border-primary/50 text-primary"
+          >
+            Digital Products
+          </Badge>
+          <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+            Premium Templates & Resources
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
+            Accelerate your projects with our professionally designed and
+            developed digital assets.
+          </p>
+        </section>
+
+        {/* Templates Grid */}
+        <section className="mt-16">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {templates.map((template) => (
+              <a
+                href={template.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                key={template.id}
+                className="group"
+              >
+                <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-lg group-hover:shadow-primary/10">
+                  <div className="relative h-64 w-full">
+                    <Image
+                      src={template.image}
+                      alt={template.imageAlt}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-black/40" />
+                    <div className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-background/50 text-white opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
+                      <ShoppingCart className="h-5 w-5" />
+                    </div>
+                  </div>
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between">
+                      <h2 className="font-headline text-xl font-bold group-hover:text-primary">
+                        {template.title}
+                      </h2>
+                      <p className="text-lg font-bold text-primary">
+                        ${template.price}
+                      </p>
+                    </div>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      {template.description}
+                    </p>
+                     <div className="mt-4 flex flex-wrap gap-2">
+                        {template.tags.map(tag => (
+                            <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
+                        ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </a>
+            ))}
+          </div>
+        </section>
       </main>
-    );
-  }
-  
+    </div>
+  );
+}

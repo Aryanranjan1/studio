@@ -1,18 +1,16 @@
-// This file will be used to store mock data for the application.
-// In a real-world scenario, you would fetch this data from a database.
+
+import type { ReactNode } from 'react';
 
 export type Service = {
   id: string;
   title: string;
   description: string;
   longDescription: string;
+  icon: string; // Changed from ReactNode to string
   kpis: {
     value: string;
     label: string;
   }[];
-  image: string;
-  imageAlt: string;
-  projects: Project[];
 };
 
 export type Project = {
@@ -32,6 +30,16 @@ export type Project = {
   duration: string;
   url: string;
   technologies: string[];
+  kpis: {
+    value: string;
+    label: string;
+  }[];
+  testimonial?: {
+    quote: string;
+    name: string;
+    role: string;
+    company: string;
+  };
 };
 
 export type Testimonial = {
@@ -95,120 +103,166 @@ export const getSiteSettings = (): SiteSettings => ({
 
 export const getServices = (): Service[] => [
   {
-    id: 'branding',
-    title: 'Branding',
-    description: 'Crafting unique brand identities that resonate with audiences.',
-    longDescription:
-      'Our branding service helps you create a strong, cohesive brand identity that stands out. We work with you to develop everything from your logo and color palette to your brand voice and messaging. A strong brand is the foundation of a successful business, and we are here to help you build it.',
-    kpis: [
-      { value: '150%', label: 'Increase in Brand Recognition' },
-      { value: '200%', label: 'Growth in Social Media Engagement' },
-    ],
-    image: '/images/services/branding.jpg',
-    imageAlt: 'Branding materials',
-    projects: getProjects().filter(p => p.category === 'Branding'),
-  },
-  {
-    id: 'ui-ux',
-    title: 'UI/UX Design',
-    description: 'Designing intuitive and beautiful user experiences.',
-    longDescription:
-      'We specialize in creating user-centered designs that are both beautiful and easy to use. Our process involves in-depth research, user testing, and iterative design to ensure the final product meets the needs of your users and the goals of your business. From wireframes to high-fidelity prototypes, we have you covered.',
-    kpis: [
-      { value: '50%', label: 'Reduction in Bounce Rate' },
-      { value: '30%', label: 'Increase in User Retention' },
-    ],
-    image: '/images/services/ui-ux.jpg',
-    imageAlt: 'UI/UX design process',
-    projects: getProjects().filter(p => p.category === 'UI/UX Design'),
-  },
-  {
     id: 'web-development',
-    title: 'Web Development',
+    title: 'Websites & Platforms',
     description: 'Building fast, scalable, and secure web applications.',
     longDescription:
-      'Our web development team builds high-performance websites and applications using the latest technologies. We focus on creating secure, scalable, and maintainable solutions that grow with your business. Whether you need a simple marketing site or a complex e-commerce platform, we can build it.',
+      'We build high-performance websites and applications using modern technologies. Our focus is on creating secure, scalable, and maintainable solutions that grow with your business, from marketing sites to complex e-commerce platforms with full CMS integration.',
+    icon: 'Code',
     kpis: [
-      { value: '99.9%', label: 'Uptime Guarantee' },
-      { value: '40%', label: 'Faster Page Load Times' },
+      { value: 'Under 50ms', label: 'Page Loads' },
+      { value: '99.9%', label: 'Uptime' },
     ],
-    image: '/images/services/web-dev.jpg',
-    imageAlt: 'Code on a screen',
-    projects: getProjects().filter(p => p.category === 'Web Development'),
+  },
+  {
+    id: 'branding',
+    title: 'Branding & UI/UX',
+    description:
+      'Crafting unique brand identities and intuitive user experiences.',
+    longDescription:
+      'A strong brand is the foundation of a successful business. We help you create a cohesive identity that stands out, and then translate that into a user-centered design that is both beautiful and easy to use, from wireframes to high-fidelity prototypes.',
+    icon: 'Palette',
+    kpis: [
+      { value: '+150%', label: 'Brand Recognition' },
+      { value: '-50%', label: 'Bounce Rate' },
+    ],
+  },
+   {
+    id: 'automation',
+    title: 'Automation & CRM',
+    description: 'Streamlining business processes with custom automations.',
+    longDescription:
+      'We analyze your workflows and build custom automation systems to save you time and reduce errors. From CRM setups to integrating third-party services, we help you work smarter, not harder, so you can focus on growing your business.',
+    icon: 'Bot',
+    kpis: [
+      { value: '10+ Hours', label: 'Saved Weekly' },
+      { value: '95%', label: 'Process Efficiency' },
+    ],
+  },
+  {
+    id: 'marketing',
+    title: 'Digital Marketing',
+    description: 'Data-driven strategies to grow your online presence.',
+    longDescription:
+      'Our digital marketing services are designed to increase your visibility and drive qualified leads. We specialize in technical SEO, content strategy, and performance marketing to ensure your message reaches the right audience at the right time.',
+    icon: 'Megaphone',
+    kpis: [
+      { value: '+300%', label: 'Organic Traffic' },
+      { value: '+50%', label: 'Conversion Rate' },
+    ],
   },
 ];
 
 export const getProjects = (): Project[] => [
   {
     id: 'project-a',
-    title: 'E-commerce Platform',
+    title: 'Fintech E-commerce Platform',
     category: 'Web Development',
     description: 'A full-featured e-commerce platform for a fashion brand.',
-    longDescription: 'A detailed description of the e-commerce project...',
-    image: '/images/projects/project-a-cover.jpg',
+    longDescription: 'We built a custom, headless e-commerce solution for a fast-growing fintech startup. The platform required complex product logic, integration with multiple payment gateways, and a high-performance frontend to ensure a seamless user experience during checkout. The backend was built for scale, anticipating future international expansion.',
+    image: 'https://picsum.photos/seed/project-a/1200/800',
     imageAlt: 'E-commerce platform screenshot',
-    client: 'Fashion Co.',
-    role: 'Lead Developer',
+    images: [
+        { src: 'https://picsum.photos/seed/project-a1/1200/800', alt: 'Product page' },
+        { src: 'https://picsum.photos/seed/project-a2/1200/800', alt: 'Checkout flow' },
+        { src: 'https://picsum.photos/seed/project-a3/1200/800', alt: 'Admin dashboard' },
+        { src: 'https://picsum.photos/seed/project-a4/1200/800', alt: 'Mobile view' },
+    ],
+    client: 'Fintech Co.',
+    role: 'Lead Developer & Architect',
     duration: '6 Months',
     url: '#',
-    technologies: ['Next.js', 'Firebase', 'Stripe'],
+    technologies: ['Next.js', 'Firebase', 'Stripe', 'GraphQL'],
+     kpis: [
+      { value: '42%+', label: 'Conversion Rate' },
+      { value: '$1.2M', label: 'First Quarter Sales' },
+    ],
+    testimonial: {
+        quote: "The platform they built is not only beautiful but also incredibly robust. Our sales have skyrocketed since launch.",
+        name: "Jane Doe",
+        role: "CEO",
+        company: "Fintech Co."
+    }
   },
   {
     id: 'project-b',
-    title: 'Corporate Rebranding',
+    title: 'SaaS Corporate Rebranding',
     category: 'Branding',
     description: 'A complete rebranding for a major tech company.',
-    longDescription: 'A detailed description of the rebranding project...',
-    image: '/images/projects/project-b-cover.jpg',
+    longDescription: 'A major B2B SaaS company approached us to modernize their brand identity, which had not been updated in over a decade. We conducted extensive market research to develop a new brand strategy, logo, and visual system that reflected their position as an industry leader, culminating in a comprehensive brand guidelines document.',
+    image: 'https://picsum.photos/seed/project-b/1200/800',
     imageAlt: 'New brand logo and assets',
-    client: 'Tech Corp.',
-    role: 'Brand Strategist',
+     images: [
+        { src: 'https://picsum.photos/seed/project-b1/1200/800', alt: 'New logo design' },
+        { src: 'https://picsum.photos/seed/project-b2/1200/800', alt: 'Website before & after' },
+        { src: 'https://picsum.photos/seed/project-b3/1200/800', alt: 'Brand guidelines' },
+        { src: 'https://picsum.photos/seed/project-b4/1200/800', alt: 'Marketing materials' },
+    ],
+    client: 'SaaS Corp.',
+    role: 'Brand Strategist & Designer',
     duration: '3 Months',
     url: '#',
-    technologies: ['Figma', 'Illustrator'],
+    technologies: ['Figma', 'Illustrator', 'Webflow'],
+     kpis: [
+      { value: '200%+', label: 'Increase in Demo Requests' },
+      { value: '75%', label: 'Positive Brand Sentiment' },
+    ],
   },
   {
     id: 'project-c',
-    title: 'Mobile Banking App',
-    category: 'UI/UX Design',
+    title: 'AI Automation System',
+    category: 'Automation',
     description: 'A user-friendly mobile banking application.',
-    longDescription: 'A detailed description of the mobile app project...',
-    image: '/images/projects/project-c-cover.jpg',
-    imageAlt: 'Mobile banking app screens',
-    client: 'MyBank',
-    role: 'Lead UI/UX Designer',
-    duration: '8 Months',
+    longDescription: 'For a busy marketing agency, we developed a suite of internal tools to automate their client reporting and content distribution processes. This involved integrating with multiple APIs like Google Analytics, social media platforms, and their CRM, saving the team countless hours of manual work each week.',
+    image: 'https://picsum.photos/seed/project-c/1200/800',
+    imageAlt: 'Automation dashboard',
+     images: [
+        { src: 'https://picsum.photos/seed/project-c1/1200/800', alt: 'Workflow diagram' },
+        { src: 'https://picsum.photos/seed/project-c2/1200/800', alt: 'Integration setup screen' },
+    ],
+    client: 'Marketing Agency',
+    role: 'Automation Specialist',
+    duration: '4 Months',
     url: '#',
-    technologies: ['Figma', 'React Native'],
+    technologies: ['Zapier', 'Make.com', 'Airtable', 'Node.js'],
+     kpis: [
+      { value: '20 Hours', label: 'Saved per Week' },
+      { value: '100%', label: 'Reporting Accuracy' },
+    ],
+     testimonial: {
+        quote: "This automation system has been a complete game-changer for our agency's efficiency.",
+        name: "John Smith",
+        role: "COO",
+        company: "Marketing Agency"
+    }
   },
-  // Add more projects as needed
 ];
 
 export const getFounder = (): Founder => ({
   name: 'Alex Doe',
-  role: 'Founder & Lead Designer',
+  role: 'Founder & Lead Digital Architect',
   bio: 'A passionate designer with over 10 years of experience in creating beautiful and functional digital products.',
   longBio:
-    'Alex started his journey in design over a decade ago with a deep passion for art and technology. After working with several leading agencies and honing his skills, he founded Dezine to create a space where creativity and innovation could thrive. His philosophy is that great design is not just about aesthetics, but about solving problems and creating meaningful experiences for people. When not designing, Alex enjoys hiking and photography.',
-  image: '/images/founder.jpg',
+    'Alex started his journey in design and development over a decade ago with a deep passion for art and technology. After working with several leading agencies and honing his skills on enterprise-level projects, he founded this agency to bring that same level of quality and strategic thinking to small and medium-sized enterprises. His philosophy is that great digital architecture is not just about aesthetics, but about solving core business problems and creating meaningful, high-performance experiences. When not coding or designing, Alex enjoys hiking and photography.',
+  image: 'https://picsum.photos/seed/founder/800/800',
 });
 
 export const getTestimonials = (): Testimonial[] => [
   {
     quote:
-      'Working with Dezine was a game-changer for our business. Their attention to detail and creative vision is unparalleled.',
+      'Working with them was a game-changer for our business. Their attention to detail and creative vision is unparalleled.',
     name: 'Jane Smith',
     role: 'CEO',
-    company: 'Tech Corp.',
-    image: 'https://randomuser.me/api/portraits/women/68.jpg',
+    company: 'SaaS Corp.',
+    image: 'https://picsum.photos/seed/ts1/100/100',
   },
   {
     quote:
-      'The team at Dezine is incredibly talented and professional. They delivered a product that exceeded all our expectations.',
+      'The team is incredibly talented and professional. They delivered a product that exceeded all our expectations and our revenue proves it.',
     name: 'John Johnson',
     role: 'Marketing Director',
-    company: 'Fashion Co.',
-    image: 'https://randomuser.me/api/portraits/men/75.jpg',
+    company: 'Fintech Co.',
+    image: 'https://picsum.photos/seed/ts2/100/100',
   },
   // Add more testimonials
 ];
@@ -216,31 +270,92 @@ export const getTestimonials = (): Testimonial[] => [
 export const getFaqs = (): FaqItem[] => [
     {
         question: "What services do you offer?",
-        answer: "We offer a range of services including branding, UI/UX design, and web development. Our goal is to be your one-stop-shop for digital design and development needs."
+        answer: "We offer a range of services including premium website/platform development, UI/UX design, CMS/CRM integration, and business process automation. Our goal is to be your one-stop-shop for digital architecture and growth."
     },
     {
-        question: "What is your design process?",
-        answer: "Our design process is collaborative and iterative. We start with discovery and research, move into wireframing and prototyping, and then finalize the design based on your feedback. We believe in keeping you involved every step of the way."
+        question: "What is your design and development process?",
+        answer: "Our process is collaborative and structured. We start with discovery and strategy, move into UI/UX design and branding, then into development, and finally testing and launch. We believe in keeping you involved every step of the way."
     },
     {
         question: "How long does a project typically take?",
-        answer: "Project timelines can vary greatly depending on the scope and complexity. A simple branding project might take a few weeks, while a full web application could take several months. We'll provide a detailed timeline after our initial discovery call."
+        answer: "Project timelines vary depending on scope. A premium website might take 4-8 weeks, while a custom platform could take 3-6 months. We provide a detailed timeline after our initial discovery call."
     },
     {
         question: "How much do your services cost?",
-        answer: "Our pricing is project-based. After discussing your needs, we'll provide a detailed proposal with a fixed price. We believe in transparent pricing with no hidden fees."
+        answer: "Our pricing is project-based and reflects the premium, custom nature of our work. After discussing your needs, we provide a detailed, fixed-price proposal. We focus on delivering value and a high return on your investment."
     },
     {
         question: "Do you offer support after the project is complete?",
-        answer: "Yes, we offer ongoing support and maintenance packages to ensure your website or application continues to run smoothly. We're here to be your long-term partner."
+        answer: "Yes, we offer ongoing retainer packages for support, maintenance, and optimization to ensure your digital asset continues to perform and evolve. We aim to be your long-term digital partner."
     }
 ];
 
 
 export const getArticles = (): Article[] => [
-    // Mock data for articles
+    {
+        id: 'article-1',
+        title: "The ROI of a Premium Website for SMEs",
+        date: "October 26, 2023",
+        author: "Alex Doe",
+        excerpt: "Discover why investing in a high-quality website is not a cost, but a crucial investment for small and medium-sized enterprises.",
+        content: "In the digital age, a website is often the first point of contact between a business and its potential customers. For Small and Medium-sized Enterprises (SMEs), a premium website is not just a digital brochure; it's a powerful tool for growth, credibility, and customer engagement. A well-crafted site enhances brand perception, improves user experience, and drives conversions. It signals to your audience that you are a serious, professional organization that values quality. This initial investment pays dividends in customer trust, lead generation, and long-term brand equity.",
+        image: "https://picsum.photos/seed/blog1/1200/800",
+        imageAlt: "A graph showing upward growth",
+        tags: ["Business", "Web Design", "ROI"]
+    },
+    {
+        id: 'article-2',
+        title: "Headless CMS vs. Traditional: What's Right for Your Business?",
+        date: "October 15, 2023",
+        author: "Alex Doe",
+        excerpt: "A breakdown of the pros and cons of headless and traditional content management systems for modern businesses.",
+        content: "Choosing the right Content Management System (CMS) is a critical decision. Traditional CMSs like WordPress offer an all-in-one solution, which can be great for simplicity. However, a Headless CMS provides unparalleled flexibility, performance, and security by decoupling the content backend from the presentation layer (the 'head'). This allows you to use your content across multiple platforms (web, mobile apps, etc.) and employ modern frontend frameworks for a faster, more engaging user experience. For SMEs looking to future-proof their digital strategy, a headless approach is often the superior choice.",
+        image: "https://picsum.photos/seed/blog2/1200/800",
+        imageAlt: "Abstract representation of connected data",
+        tags: ["CMS", "Development", "Strategy"]
+    },
+    {
+        id: 'article-3',
+        title: "Automating Your Sales Funnel: A Guide for SMEs",
+        date: "September 28, 2023",
+        author: "Alex Doe",
+        excerpt: "Learn how to save time and increase efficiency by automating key parts of your sales and marketing process.",
+        content: "Manual, repetitive tasks can be a significant drain on resources for any SME. Automating your sales funnel—from lead capture and nurturing to CRM updates and reporting—can free up your team to focus on high-value activities. Using modern tools, you can create seamless workflows that ensure no lead falls through the cracks and that your customer data is always up-to-date. This not only improves efficiency but also provides a more consistent and professional experience for your customers.",
+        image: "https://picsum.photos/seed/blog3/1200/800",
+        imageAlt: "A series of connected gears and cogs",
+        tags: ["Automation", "Sales", "CRM"]
+    }
 ];
 
 export const getTemplates = (): Template[] => [
-    // Mock data for templates
+    {
+        id: "template-1",
+        title: "Agency X - Webflow Template",
+        description: "A premium, dark-themed template for modern digital agencies.",
+        price: 79,
+        image: "https://picsum.photos/seed/template1/1200/800",
+        imageAlt: "Preview of a dark agency website template",
+        url: "#",
+        tags: ["Webflow", "Agency", "Dark Mode"]
+    },
+    {
+        id: "template-2",
+        title: "SaaS Landing Page - Next.js",
+        description: "A high-conversion landing page template built with Next.js and Tailwind CSS.",
+        price: 99,
+        image: "https://picsum.photos/seed/template2/1200/800",
+        imageAlt: "Preview of a SaaS landing page",
+        url: "#",
+        tags: ["Next.js", "SaaS", "Landing Page"]
+    },
+     {
+        id: "template-3",
+        title: "Portfolio Pro - Framer Template",
+        description: "A stunning personal portfolio template for creatives, built in Framer.",
+        price: 59,
+        image: "https://picsum.photos/seed/template3/1200/800",
+        imageAlt: "Preview of a creative portfolio template",
+        url: "#",
+        tags: ["Framer", "Portfolio", "Creative"]
+    }
 ];
