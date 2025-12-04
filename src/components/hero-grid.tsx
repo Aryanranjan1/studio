@@ -157,7 +157,7 @@ export function HeroGrid() {
             <Badge variant="outline" className="bg-white/80 backdrop-blur-sm border-0 text-black">
               Our services
             </Badge>
-            <MoveUpRight className="h-6 w-6 text-black transition-transform group-hover:rotate-45" />
+            <span className="text-sm font-semibold">2025-26</span>
           </div>
         </Link>
       </BentoCard>
