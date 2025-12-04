@@ -197,17 +197,21 @@ export function DraggableServices({
           const dist = Math.hypot(dx, dy) || 0.0001;
           const minDist = a.r + b.r;
           if (dist < minDist) {
-            // separation
-            const overlap = (minDist - dist) / 2;
+            // --- Smoother Collision Resolution ---
+            const overlap = minDist - dist;
             const nx = dx / dist;
             const ny = dy / dist;
+            const totalMass = a.mass + b.mass;
+            const aMove = overlap * (b.mass / totalMass);
+            const bMove = overlap * (a.mass / totalMass);
+
             if (!a.picking) {
-              a.x -= nx * overlap;
-              a.y -= ny * overlap;
+              a.x -= nx * aMove;
+              a.y -= ny * aMove;
             }
             if (!b.picking) {
-              b.x += nx * overlap;
-              b.y += ny * overlap;
+              b.x += nx * bMove;
+              b.y += ny * bMove;
             }
 
             // velocity along normal
@@ -361,8 +365,6 @@ export function DraggableServices({
           p.lastPointerTS = e.timeStamp;
         }
         p.lastPointerX = localX;
-        p.lastPointerY = localY;
-        p.x = clamp(localX, p.r, rect.width - p.r);
         p.y = clamp(localY, p.r, rect.height - p.r);
       };
 
