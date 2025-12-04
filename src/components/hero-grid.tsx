@@ -147,7 +147,7 @@ export function HeroGrid() {
       md:col-start-3 md:col-span-6 md:row-start-9 md:row-span-2
       lg:col-span-2 lg:row-span-5 lg:col-start-11 lg:row-start-1"
       >
-        <div className="grid h-full w-full grid-cols-2 grid-rows-2 gap-4">
+        <div className="grid h-full w-full grid-cols-2 grid-rows-2 gap-4 md:grid-cols-4 md:grid-rows-1 lg:grid-cols-1 lg:grid-rows-4">
           <StatCard icon={<Zap size={24} />} value="10k+" label="Hours Saved" />
           <StatCard icon={<Bot size={24} />} value="200+" label="Automations" />
           <StatCard icon={<Code size={24} />} value="500+" label="Websites Built" />
