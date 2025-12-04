@@ -456,7 +456,7 @@ export function DraggableServices({
             padding: "6px 12px",
             boxSizing: "border-box",
             fontSize: "14px",
-            fontWeight: 600,
+            fontWeight: 700,
             whiteSpace: "nowrap",
             pointerEvents: "auto",
             cursor: p.picking ? "grabbing" : "grab",
