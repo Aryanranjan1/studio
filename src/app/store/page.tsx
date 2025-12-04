@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { getTemplates } from '@/lib/data';
-import { ArrowRight, ShoppingCart } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -32,10 +32,8 @@ export default function StorePage() {
         <section className="mt-16">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
             {templates.map((template) => (
-              <a
-                href={template.url}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href={`/store/${template.id}`}
                 key={template.id}
                 className="group"
               >
@@ -71,7 +69,7 @@ export default function StorePage() {
                     </div>
                   </CardContent>
                 </Card>
-              </a>
+              </Link>
             ))}
           </div>
         </section>

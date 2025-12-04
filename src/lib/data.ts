@@ -1,12 +1,9 @@
-
-import type { ReactNode } from 'react';
-
 export type Service = {
   id: string;
   title: string;
   description: string;
   longDescription: string;
-  icon: string; // Changed from ReactNode to string
+  icon: string;
   kpis: {
     value: string;
     label: string;
@@ -86,11 +83,17 @@ export type Template = {
   id: string;
   title: string;
   description: string;
+  longDescription: string;
   price: number;
   image: string;
   imageAlt: string;
   url: string;
   tags: string[];
+  images: {
+    src: string;
+    alt: string;
+  }[];
+  features: string[];
 };
 
 export const getSiteSettings = (): SiteSettings => ({
@@ -332,30 +335,54 @@ export const getTemplates = (): Template[] => [
         id: "template-1",
         title: "Agency X - Webflow Template",
         description: "A premium, dark-themed template for modern digital agencies.",
+        longDescription: "Agency X is the ultimate Webflow template for creative agencies, studios, and freelancers. It features a sleek, dark-mode design with smooth animations and a fully responsive layout. Built with clean, reusable components, it's easy to customize and comes with a comprehensive style guide. Includes CMS collections for portfolio, blog, and team members.",
         price: 79,
         image: "https://picsum.photos/seed/template1/1200/800",
         imageAlt: "Preview of a dark agency website template",
         url: "#",
-        tags: ["Webflow", "Agency", "Dark Mode"]
+        tags: ["Webflow", "Agency", "Dark Mode"],
+        images: [
+            { src: "https://picsum.photos/seed/template1-img1/1200/800", alt: "Homepage preview" },
+            { src: "https://picsum.photos/seed/template1-img2/1200/800", alt: "Portfolio grid" },
+            { src: "https://picsum.photos/seed/template1-img3/1200/800", alt: "Blog page" },
+            { src: "https://picsum.photos/seed/template1-img4/1200/800", alt: "Contact form" },
+        ],
+        features: ["Fully Responsive Design", "CMS for Portfolio & Blog", "Advanced Animations", "Global Style Guide", "Contact & Subscribe Forms"]
     },
     {
         id: "template-2",
         title: "SaaS Landing Page - Next.js",
         description: "A high-conversion landing page template built with Next.js and Tailwind CSS.",
+        longDescription: "Launch your SaaS product with a landing page designed for conversion. Built with Next.js for peak performance and SEO, and styled with Tailwind CSS for easy customization. This template includes sections for features, pricing, testimonials, and a strong call-to-action. The code is clean, well-documented, and easy to deploy.",
         price: 99,
         image: "https://picsum.photos/seed/template2/1200/800",
         imageAlt: "Preview of a SaaS landing page",
         url: "#",
-        tags: ["Next.js", "SaaS", "Landing Page"]
+        tags: ["Next.js", "SaaS", "Landing Page"],
+        images: [
+            { src: "https://picsum.photos/seed/template2-img1/1200/800", alt: "Hero section" },
+            { src: "https://picsum.photos/seed/template2-img2/1200/800", alt: "Features section" },
+            { src: "https://picsum.photos/seed/template2-img3/1200/800", alt: "Pricing table" },
+            { src: "https://picsum.photos/seed/template2-img4/1200/800", alt: "Testimonial slider" },
+        ],
+        features: ["Optimized for SEO", "High Performance (Next.js)", "Easy to Customize (Tailwind CSS)", "Conversion-focused Design", "Testimonial & FAQ sections"]
     },
      {
         id: "template-3",
         title: "Portfolio Pro - Framer Template",
         description: "A stunning personal portfolio template for creatives, built in Framer.",
+        longDescription: "Portfolio Pro is a visually stunning template for designers, photographers, and other creatives. Built entirely in Framer, it features breathtaking animations, seamless page transitions, and a unique grid system. It's perfect for anyone looking to make a bold statement with their online portfolio. Comes with multiple layout options and is easy to update with your own content.",
         price: 59,
         image: "https://picsum.photos/seed/template3/1200/800",
         imageAlt: "Preview of a creative portfolio template",
         url: "#",
-        tags: ["Framer", "Portfolio", "Creative"]
+        tags: ["Framer", "Portfolio", "Creative"],
+        images: [
+            { src: "https://picsum.photos/seed/template3-img1/1200/800", alt: "Animated homepage" },
+            { src: "https://picsum.photos/seed/template3-img2/1200/800", alt: "Project detail page" },
+            { src: "https://picsum.photos/seed/template3-img3/1200/800", alt: "Interactive about page" },
+            { src: "https://picsum.photos/seed/template3-img4/1200/800", alt: "Mobile interaction" },
+        ],
+        features: ["Built in Framer", "Advanced Animations & Transitions", "CMS for Projects", "Fully Responsive", "Unique & Modern Design"]
     }
 ];
