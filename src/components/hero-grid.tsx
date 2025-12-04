@@ -1,3 +1,4 @@
+
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { MoveUpRight, Zap, Code, Bot, TrendingUp } from 'lucide-react';
@@ -6,6 +7,7 @@ import Link from 'next/link';
 import { Badge } from './ui/badge';
 import placeholderImages from '@/app/lib/placeholder-images.json';
 import { DraggableServices } from './draggable-services';
+import { getArticles } from '@/lib/data';
 
 const BentoCard = ({
   className,
@@ -51,6 +53,9 @@ export function HeroGrid() {
     'Webflow',
     'Framer',
   ];
+  const articles = getArticles();
+  const featuredArticle = articles[Math.floor(Math.random() * articles.length)];
+
   return (
     <div
       className="grid auto-rows-[100px] grid-cols-4 gap-2
@@ -173,7 +178,7 @@ export function HeroGrid() {
           </div>
         </Link>
       </BentoCard>
-      {/* div5 */}
+      {/* div5 - Blog */}
       <BentoCard
         className="p-0
       col-span-4 row-span-3
@@ -181,30 +186,27 @@ export function HeroGrid() {
       lg:col-span-4 lg:row-span-4 lg:col-start-7 lg:row-start-5 flex-col justify-between"
       >
         <Image
-          src={placeholderImages.workProcess.background.src}
-          alt={placeholderImages.workProcess.background.alt}
+          src={featuredArticle.image}
+          alt={featuredArticle.imageAlt}
           fill
           className="object-cover"
-          data-ai-hint="abstract lightblue"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
         <div className="relative z-10 flex h-full w-full flex-col justify-between p-6 text-white">
-          <Badge variant="outline" className="bg-white/80 backdrop-blur-sm border-0 text-black w-fit">
-            Work process
+          <Badge variant="outline" className="bg-white/20 backdrop-blur-sm border-white/30 text-white w-fit">
+            From the Blog
           </Badge>
-          <div className="relative rounded-2xl border border-white/10 bg-white/20 p-4 text-black shadow-lg backdrop-blur-lg">
-            <div className="flex items-start justify-between">
-              <Image src="https://picsum.photos/seed/icon1/40/40" width={40} height={40} alt="abstract icon" data-ai-hint="abstract colorful" className="rounded-lg"/>
-            </div>
-            <h3 className="text-xl font-bold mt-4">
-              We help our client's to shine in a digital way
+          <Link href={`/blog/${featuredArticle.id}`} className="group">
+            <h3 className="text-xl font-bold font-headline group-hover:text-primary transition-colors">
+              {featuredArticle.title}
             </h3>
-            <p className="text-sm mt-2 text-black/70">
-              This will provide you with an in-depth investigation
+            <p className="text-sm mt-2 text-white/80">
+              {featuredArticle.excerpt}
             </p>
-            <Link href="/about" className="group absolute bottom-2 right-2">
-                <MoveUpRight className="h-4 w-4 text-black/70 transition-transform group-hover:rotate-45" />
-            </Link>
-          </div>
+            <div className="absolute bottom-4 right-4 flex h-8 w-8 items-center justify-center rounded-full bg-background/50 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100">
+                <MoveUpRight className="h-4 w-4" />
+            </div>
+          </Link>
         </div>
       </BentoCard>
       {/* div6 */}
