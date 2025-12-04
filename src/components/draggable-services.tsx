@@ -3,14 +3,14 @@ import React, { useEffect, useRef, useState } from "react";
 
 /* ----- Config / Data ----- */
 const SKILLS = [
-    { id: "web-design", label: "Web Design", color: "#7ba2ee" },
-    { id: "development", label: "Development", color: "#E9D5FF" },
-    { id: "mobile-app", label: "Mobile App", color: "#f5d0a9" },
-    { id: "automation", label: "Automation", color: "#D8B4FE" },
-    { id: "seo", label: "SEO", color: "#C084FC" },
-    { id: "ui-ux", label: "UI/UX", color: "#A855F7" },
-    { id: "webflow", label: "Webflow", color: "#9333EA" },
-    { id: "framer", label: "Framer", color: "#7E22CE" }
+    { id: "web-design", label: "Web Design", color: "#e5ecfc" },
+    { id: "development", label: "Development", color: "#e5ecfc" },
+    { id: "mobile-app", label: "Mobile App", color: "#e5ecfc" },
+    { id: "automation", label: "Automation", color: "#e5ecfc" },
+    { id: "seo", label: "SEO", color: "#e5ecfc" },
+    { id: "ui-ux", label: "UI/UX", color: "#e5ecfc" },
+    { id: "webflow", label: "Webflow", color: "#e5ecfc" },
+    { id: "framer", label: "Framer", color: "#e5ecfc" }
 ] as const;
 
 type Skill = typeof SKILLS[number];
@@ -479,7 +479,7 @@ function getTextColorForBg(hex: string) {
   const c = hexToRgb(hex);
   if (!c) return "#fff";
   const lum = (0.2126 * srgb(c.r) + 0.7152 * srgb(c.g) + 0.0722 * srgb(c.b));
-  return lum > 0.6 ? "#1f0533" : "#fff";
+  return lum > 0.6 ? "#000000" : "#fff";
 }
 function srgb(v: number) {
   v /= 255;
