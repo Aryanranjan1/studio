@@ -4,6 +4,7 @@ import { ArrowRight, MoveUpRight, Zap, Code, Bot, TrendingUp } from 'lucide-reac
 import { HeroSvg } from './hero-svg';
 import Link from 'next/link';
 import { Badge } from './ui/badge';
+import placeholderImages from '@/app/lib/placeholder-images.json';
 
 const BentoCard = ({
   className,
@@ -155,12 +156,37 @@ export function HeroGrid() {
       </BentoCard>
       {/* div5 */}
       <BentoCard
-        className="bg-[#2ef68c]
+        className="p-0
       col-span-4 min-h-[300px]
       md:col-start-6 md:col-span-3 md:row-start-4 md:row-span-5
-      lg:col-span-4 lg:row-span-4 lg:col-start-7 lg:row-start-5 items-center justify-center"
+      lg:col-span-4 lg:row-span-4 lg:col-start-7 lg:row-start-5 flex-col justify-between"
       >
-        div5
+        <Image
+          src={placeholderImages.workProcess.background.src}
+          alt={placeholderImages.workProcess.background.alt}
+          fill
+          className="object-cover"
+          data-ai-hint="abstract lightblue"
+        />
+        <div className="relative z-10 flex h-full w-full flex-col justify-between p-6 text-white">
+          <Badge variant="outline" className="bg-white/80 backdrop-blur-sm border-0 text-black w-fit">
+            Work process
+          </Badge>
+          <div className="rounded-2xl border border-white/10 bg-white/20 p-4 text-black shadow-lg backdrop-blur-lg">
+            <div className="flex items-start justify-between">
+              <Image src="https://picsum.photos/seed/icon1/40/40" width={40} height={40} alt="abstract icon" data-ai-hint="abstract colorful" className="rounded-lg"/>
+              <Link href="/about" className="group">
+                <MoveUpRight className="h-6 w-6 text-black/70 transition-transform group-hover:rotate-45" />
+              </Link>
+            </div>
+            <h3 className="text-xl font-bold mt-4">
+              We help our client's to shine in a digital way
+            </h3>
+            <p className="text-sm mt-2 text-black/70">
+              This will provide you with an in-depth investigation
+            </p>
+          </div>
+        </div>
       </BentoCard>
       {/* div6 */}
       <BentoCard

@@ -12,5 +12,11 @@
         "src": "https://picsum.photos/seed/ssd2/150/100",
         "alt": "An angled view of the SSD."
     }
+  },
+  "workProcess": {
+    "background": {
+      "src": "https://picsum.photos/seed/workprocess/600/400",
+      "alt": "Abstract light blue background"
+    }
   }
 }
