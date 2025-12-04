@@ -192,12 +192,9 @@ export function HeroGrid() {
           <Badge variant="outline" className="bg-white/80 backdrop-blur-sm border-0 text-black w-fit">
             Work process
           </Badge>
-          <div className="rounded-2xl border border-white/10 bg-white/20 p-4 text-black shadow-lg backdrop-blur-lg">
+          <div className="relative rounded-2xl border border-white/10 bg-white/20 p-4 text-black shadow-lg backdrop-blur-lg">
             <div className="flex items-start justify-between">
               <Image src="https://picsum.photos/seed/icon1/40/40" width={40} height={40} alt="abstract icon" data-ai-hint="abstract colorful" className="rounded-lg"/>
-              <Link href="/about" className="group">
-                <MoveUpRight className="h-6 w-6 text-black/70 transition-transform group-hover:rotate-45" />
-              </Link>
             </div>
             <h3 className="text-xl font-bold mt-4">
               We help our client's to shine in a digital way
@@ -205,6 +202,9 @@ export function HeroGrid() {
             <p className="text-sm mt-2 text-black/70">
               This will provide you with an in-depth investigation
             </p>
+            <Link href="/about" className="group absolute bottom-2 right-2">
+                <MoveUpRight className="h-3 w-3 text-black/70 transition-transform group-hover:rotate-45" />
+            </Link>
           </div>
         </div>
       </BentoCard>
