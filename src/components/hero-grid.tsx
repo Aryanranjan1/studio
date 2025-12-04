@@ -195,18 +195,18 @@ export function HeroGrid() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
         <div className="relative z-10 flex h-full w-full flex-col justify-between p-6 text-white">
-          <Badge variant="outline" className="bg-white/20 backdrop-blur-sm border-white/30 text-white w-fit">
-            Work process
+          <Badge variant="outline" className="bg-white text-black border-white w-fit">
+            From the Blog
           </Badge>
           <Link href={`/blog/${featuredArticle.id}`} className="group relative mt-auto">
              <div className="absolute -bottom-4 -left-4 w-[calc(100%+2rem)] p-4 rounded-2xl bg-black/20 backdrop-blur-md border border-white/10">
-                <Image src="https://picsum.photos/seed/avatar3/40/40" width={32} height={32} alt="author" className="rounded-full" />
+                <Image src={featuredArticle.authorImage} width={32} height={32} alt={featuredArticle.author} className="rounded-full" />
                 <div className="flex justify-between items-end mt-2">
                     <div>
-                        <h3 className="text-lg font-bold font-headline group-hover:text-primary transition-colors">
-                            We help our client's to shine in a digital way
+                        <h3 className="text-lg font-bold font-headline transition-colors">
+                            {featuredArticle.title}
                         </h3>
-                        <p className="text-sm text-white/60 mt-1">This will provide you with an in-depth investigation</p>
+                        <p className="text-sm text-white/60 mt-1">{featuredArticle.excerpt}</p>
                     </div>
                     <MoveUpRight className="w-5 h-5 text-white/70 group-hover:rotate-45 transition-transform flex-shrink-0" />
                 </div>
@@ -248,5 +248,3 @@ export function HeroGrid() {
     </div>
   );
 }
-
-    
