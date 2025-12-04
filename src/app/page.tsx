@@ -2,7 +2,7 @@ import { HeroGrid } from '@/components/hero-grid';
 
 export default function Home() {
   return (
-    <main className="min-h-screen p-2">
+    <main className="flex flex-1 flex-col p-2">
       <HeroGrid />
     </main>
   );
