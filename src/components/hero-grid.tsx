@@ -148,11 +148,18 @@ export function HeroGrid() {
       {/* div4 */}
       <BentoCard
         className="bg-[#7ba2ee]
-      col-span-4 min-h-[300px]
+      col-span-4 min-h-[300px] p-6 text-black
       md:col-start-6 md:col-span-3 md:row-start-1 md:row-span-3
-      lg:col-span-4 lg:row-span-4 lg:col-start-7 lg:row-start-1 items-center justify-center"
+      lg:col-span-4 lg:row-span-4 lg:col-start-7 lg:row-start-1"
       >
-        div4
+        <Link href="/services" className="group flex flex-col justify-between h-full w-full">
+          <div className="flex justify-between items-start">
+            <Badge variant="outline" className="bg-white/80 backdrop-blur-sm border-0 text-black">
+              Our services
+            </Badge>
+            <MoveUpRight className="h-6 w-6 text-black transition-transform group-hover:rotate-45" />
+          </div>
+        </Link>
       </BentoCard>
       {/* div5 */}
       <BentoCard
