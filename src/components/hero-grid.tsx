@@ -1,10 +1,11 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import { ArrowRight, MoveUpRight, Zap, Code, Bot, TrendingUp } from 'lucide-react';
+import { MoveUpRight, Zap, Code, Bot, TrendingUp } from 'lucide-react';
 import { HeroSvg } from './hero-svg';
 import Link from 'next/link';
 import { Badge } from './ui/badge';
 import placeholderImages from '@/app/lib/placeholder-images.json';
+import { DraggableServices } from './draggable-services';
 
 const BentoCard = ({
   className,
@@ -52,13 +53,13 @@ export function HeroGrid() {
   ];
   return (
     <div
-      className="grid grid-flow-row-dense grid-cols-4 gap-2
-    md:grid-cols-8 md:grid-rows-10 
-    lg:grid-cols-12 lg:grid-rows-8"
+      className="grid auto-rows-[100px] grid-cols-4 gap-2
+      md:grid-cols-8 md:grid-rows-10 
+      lg:grid-cols-12 lg:grid-rows-8"
     >
       {/* div1 */}
       <BentoCard
-        className="col-span-4 min-h-[500px] p-0
+        className="col-span-4 row-span-5 p-0
       md:col-span-5 md:row-span-5 
       lg:col-span-6 lg:row-span-5 items-center justify-center"
       >
@@ -82,7 +83,6 @@ export function HeroGrid() {
           <div className="flex flex-col">
             <h1 className="mb-2 max-w-sm text-3xl font-bold font-headline md:text-4xl">
               WE ARE CREATING A BEAUTIFUL DESIGN FOR YOU{' '}
-              <ArrowRight className="inline h-8 w-8" />
             </h1>
           </div>
 
@@ -120,7 +120,7 @@ export function HeroGrid() {
       {/* div2 */}
       <BentoCard
         className="text-black bg-gradient-to-br from-cyan-200 to-cyan-400
-      col-span-2 min-h-[200px]
+      col-span-2 row-span-2
       md:col-span-3 md:row-start-6 md:row-span-3
       lg:col-span-3 lg:row-span-3 lg:col-start-1 lg:row-start-6 p-6 flex flex-col justify-between"
       >
@@ -139,7 +139,7 @@ export function HeroGrid() {
       {/* div3 */}
       <BentoCard
         className="text-black bg-violet-300
-      col-span-2 min-h-[200px]
+      col-span-2 row-span-2
       md:col-span-2 md:row-start-6 md:row-span-3
       lg:col-span-3 lg:row-span-3 lg:col-start-4 lg:row-start-6 p-6 flex flex-col justify-between"
       >
@@ -158,7 +158,7 @@ export function HeroGrid() {
       {/* div4 */}
       <BentoCard
         className="bg-[#7ba2ee]
-      col-span-4 min-h-[300px] p-6 text-black
+      col-span-4 row-span-3 flex-col justify-between
       md:col-start-6 md:col-span-3 md:row-start-1 md:row-span-3
       lg:col-span-4 lg:row-span-4 lg:col-start-7 lg:row-start-1"
       >
@@ -169,19 +169,15 @@ export function HeroGrid() {
             </Badge>
             <span className="text-sm font-semibold">2025-26</span>
           </div>
-          <div className="flex flex-wrap gap-2 mt-4">
-            {services.map((service) => (
-              <Badge key={service} variant="outline" className="bg-white/80 backdrop-blur-sm border-0 text-black">
-                {service}
-              </Badge>
-            ))}
+          <div className='relative flex-grow w-full'>
+            <DraggableServices services={services} />
           </div>
         </Link>
       </BentoCard>
       {/* div5 */}
       <BentoCard
         className="p-0
-      col-span-4 min-h-[300px]
+      col-span-4 row-span-3
       md:col-start-6 md:col-span-3 md:row-start-4 md:row-span-5
       lg:col-span-4 lg:row-span-4 lg:col-start-7 lg:row-start-5 flex-col justify-between"
       >
@@ -214,7 +210,7 @@ export function HeroGrid() {
       </BentoCard>
       {/* div6 */}
       <BentoCard
-        className="col-span-4 min-h-[200px]
+        className="col-span-4 row-span-2
         md:col-start-1 md:col-span-6 md:row-span-2 md:row-start-9 
         lg:col-span-2 lg:row-span-6 lg:col-start-11 lg:row-start-1"
       >
@@ -228,7 +224,7 @@ export function HeroGrid() {
       {/* div7 */}
       <BentoCard
         className="bg-gradient-to-br from-amber-200 to-amber-400 p-6 text-black
-        col-span-4 min-h-[150px]
+        col-span-4 row-span-1
         md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-7 
         lg:col-span-2 lg:row-span-2 lg:col-start-11 lg:row-start-7"
       >
