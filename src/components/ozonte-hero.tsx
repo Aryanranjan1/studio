@@ -7,11 +7,9 @@ import Link from 'next/link';
 export function OzonteHero() {
   return (
     <div className="relative flex h-screen w-full flex-col bg-black text-white">
-      <div className="absolute top-1/4 left-8 z-10">
+      <div className="absolute top-0 left-0 z-10">
         <h1 className="font-headline text-8xl font-bold uppercase md:text-9xl">
-          <span className="text-primary">Ampire</span>
-          <br />
-          studio
+          <span className="text-primary">Ampire</span> studio
         </h1>
       </div>
       <div className="absolute inset-0">
