@@ -41,31 +41,36 @@ export function Footer() {
                 Alask, United States
               </p>
             </div>
-            <div>
-              <h3 className="font-semibold text-muted-foreground">Contact</h3>
-              <ul className="mt-2 space-y-1 text-sm">
-                <li><a href="tel:+6612058698720" className="hover:text-primary">+661 2058 6987 20</a></li>
-                <li><a href="mailto:Hello@Studio.com" className="hover:text-primary">Hello@Studio.com</a></li>
-              </ul>
-            </div>
-             <div>
-              <h3 className="font-semibold text-muted-foreground">Helpful Links</h3>
-              <ul className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
-                <li><Link href="#" className="hover:text-primary">Privacy Policy</Link></li>
-                <li><Link href="/about" className="hover:text-primary">About</Link></li>
-                <li><Link href="/services" className="hover:text-primary">Services</Link></li>
-                <li><Link href="/blog" className="hover:text-primary">Blog</Link></li>
-                <li><Link href="/portfolio" className="hover:text-primary">Work</Link></li>
-              </ul>
-            </div>
-             <div className="col-span-2 md:col-span-3">
-              <h3 className="font-semibold text-muted-foreground">Social</h3>
-              <div className="mt-2 flex flex-wrap gap-x-6 gap-y-2 text-sm">
-                {socialLinks.map(link => (
-                    <a href={link.href} key={link.name} className="flex items-center gap-2 hover:text-primary">
-                       <span className='text-red-500'>•</span> {link.name}
-                    </a>
-                ))}
+            
+            <div className="md:col-span-2 grid grid-cols-2 gap-8">
+              <div className="col-span-2 md:col-span-1">
+                 <h3 className="font-semibold text-muted-foreground">Social</h3>
+                  <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+                    {socialLinks.map(link => (
+                        <a href={link.href} key={link.name} className="flex items-center gap-2 hover:text-primary">
+                          <span className='text-red-500'>•</span> {link.name}
+                        </a>
+                    ))}
+                  </div>
+              </div>
+              <div className="col-span-2 md:col-span-1 space-y-8">
+                 <div>
+                    <h3 className="font-semibold text-muted-foreground">Contact</h3>
+                    <ul className="mt-2 space-y-1 text-sm">
+                      <li><a href="tel:+6612058698720" className="hover:text-primary">+661 2058 6987 20</a></li>
+                      <li><a href="mailto:Hello@Studio.com" className="hover:text-primary">Hello@Studio.com</a></li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-muted-foreground">Helpful Links</h3>
+                    <ul className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+                      <li><Link href="#" className="hover:text-primary">Privacy Policy</Link></li>
+                      <li><Link href="/about" className="hover:text-primary">About</Link></li>
+                      <li><Link href="/services" className="hover:text-primary">Services</Link></li>
+                      <li><Link href="/blog" className="hover:text-primary">Blog</Link></li>
+                      <li><Link href="/portfolio" className="hover:text-primary">Work</Link></li>
+                    </ul>
+                  </div>
               </div>
             </div>
           </div>
