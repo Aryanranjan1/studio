@@ -23,7 +23,7 @@ type Particle = {
   y: number;
   vx: number;
   vy: number;
-  r: number; // radius
+  r: number; // radius for sizing, not collision
   width: number;
   height: number;
   mass: number;
@@ -41,7 +41,7 @@ const DEFAULTS = {
   friction: 0.995,
   wallBounce: 0.85,
   maxVelocity: 1600,
-  restitution: 0.82 // collision elasticity
+  restitution: 0.5 // collision elasticity
 };
 
 /* Utility */
@@ -94,9 +94,9 @@ export function DraggableServices({
     const particles: Particle[] = SKILLS.map((s, i) => {
       // spawn with slight offset so they don't perfectly overlap
       const angle = (i / SKILLS.length) * Math.PI * 2;
-      const spread = Math.min(rect.width, rect.height) * 0.12;
-      const x = clamp(centerX + Math.cos(angle) * spread, r, rect.width - r);
-      const y = clamp(centerY + Math.sin(angle) * spread, r, rect.height - r);
+      const spread = Math.min(rect.width, rect.height) * 0.15;
+      const x = clamp(centerX + Math.cos(angle) * spread, width/2, rect.width - width/2);
+      const y = clamp(centerY + Math.sin(angle) * spread, height/2, rect.height - height/2);
 
       return {
         id: s.id,
@@ -195,49 +195,43 @@ export function DraggableServices({
         p.y += p.vy * dt;
       }
 
-      // collisions (Circle-based)
+      // collisions (AABB - Axis-Aligned Bounding Box)
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const a = particles[i];
           const b = particles[j];
+
           const dx = b.x - a.x;
           const dy = b.y - a.y;
-          const dist = Math.hypot(dx, dy) || 0.0001;
-          const minDist = a.r + b.r; 
-          if (dist < minDist) {
-            // --- Smoother Collision Resolution ---
-            const overlap = minDist - dist;
-            const nx = dx / dist;
-            const ny = dy / dist;
-            const totalMass = a.mass + b.mass;
-            const aMove = overlap * (b.mass / totalMass);
-            const bMove = overlap * (a.mass / totalMass);
+          const halfWidths = (a.width + b.width) / 2;
+          const halfHeights = (a.height + b.height) / 2;
+          
+          if (Math.abs(dx) < halfWidths && Math.abs(dy) < halfHeights) {
+              const overlapX = halfWidths - Math.abs(dx);
+              const overlapY = halfHeights - Math.abs(dy);
 
-            if (!a.picking) {
-              a.x -= nx * aMove;
-              a.y -= ny * aMove;
-            }
-            if (!b.picking) {
-              b.x += nx * bMove;
-              b.y += ny * bMove;
-            }
+              // Separate them along the axis of least penetration
+              if (overlapX < overlapY) {
+                  const sign = Math.sign(dx);
+                  if (!a.picking) a.x -= (overlapX / 2) * sign;
+                  if (!b.picking) b.x += (overlapX / 2) * sign;
 
-            // velocity along normal
-            const relVel = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
-            if (relVel < 0) {
-              const e = DEFAULTS.restitution;
-              const j_impulse = (-(1 + e) * relVel) / (1 / a.mass + 1 / b.mass);
-              const jx = j_impulse * nx;
-              const jy = j_impulse * ny;
-              if (!a.picking) {
-                a.vx -= jx / a.mass;
-                a.vy -= jy / a.mass;
+                  // Collision response
+                  const vRel = b.vx - a.vx;
+                  const impulse = (-(1 + DEFAULTS.restitution) * vRel) / (1/a.mass + 1/b.mass);
+                  if (!a.picking) a.vx -= impulse / a.mass;
+                  if (!b.picking) b.vx += impulse / b.mass;
+              } else {
+                  const sign = Math.sign(dy);
+                  if (!a.picking) a.y -= (overlapY / 2) * sign;
+                  if (!b.picking) b.y += (overlapY / 2) * sign;
+
+                  // Collision response
+                  const vRel = b.vy - a.vy;
+                  const impulse = (-(1 + DEFAULTS.restitution) * vRel) / (1/a.mass + 1/b.mass);
+                  if (!a.picking) a.vy -= impulse / a.mass;
+                  if (!b.picking) b.vy += impulse / b.mass;
               }
-              if (!b.picking) {
-                b.vx += jx / b.mass;
-                b.vy += jy / b.mass;
-              }
-            }
           }
         }
       }
@@ -522,3 +516,5 @@ function shade(hex: string, percent: number) {
   const b = clamp(rgb.b + amt, 0, 255);
   return `rgb(${r}, ${g}, ${b})`;
 }
+
+    
