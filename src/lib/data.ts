@@ -1,3 +1,4 @@
+
 export type Service = {
   id: string;
   title: string;
@@ -166,125 +167,48 @@ export const getServices = (): Service[] => [
   },
 ];
 
-export const getProjects = (): Project[] => [
-  {
-    id: 'project-a',
-    title: 'Fintech E-commerce Platform',
-    category: 'Web Development',
-    description: 'A full-featured e-commerce platform for a fashion brand.',
-    longDescription:
-      'We built a custom, headless e-commerce solution for a fast-growing fintech startup. The platform required complex product logic, integration with multiple payment gateways, and a high-performance frontend to ensure a seamless user experience during checkout. The backend was built for scale, anticipating future international expansion.',
-    image: 'https://picsum.photos/seed/project-a/1200/800',
-    imageAlt: 'E-commerce platform screenshot',
+export const getProjects = (): Project[] => Array.from({ length: 20 }, (_, i) => ({
+    id: `project-${i + 1}`,
+    title: `Project Title ${i + 1}`,
+    category: ['Web Development', 'Branding', 'Automation', 'Mobile App'][i % 4],
+    description: `A brief description of project ${i + 1}, highlighting its main goal and achievement.`,
+    longDescription: `This is a more detailed description of Project ${i + 1}. It involved a complex set of requirements and our team delivered a robust solution that exceeded client expectations. We focused on user experience and performance to ensure the final product was not only beautiful but also highly effective.`,
+    image: `https://picsum.photos/seed/project-cover-${i + 1}/1200/800`,
+    imageAlt: `Cover image for Project ${i + 1}`,
     images: [
       {
-        src: 'https://picsum.photos/seed/project-a1/1200/800',
-        alt: 'Product page',
+        src: `https://picsum.photos/seed/project-${i + 1}-img1/1200/800`,
+        alt: `Gallery image 1 for Project ${i + 1}`,
       },
       {
-        src: 'https://picsum.photos/seed/project-a2/1200/800',
-        alt: 'Checkout flow',
+        src: `https://picsum.photos/seed/project-${i + 1}-img2/1200/800`,
+        alt: `Gallery image 2 for Project ${i + 1}`,
       },
       {
-        src: 'https://picsum.photos/seed/project-a3/1200/800',
-        alt: 'Admin dashboard',
+        src: `https://picsum.photos/seed/project-${i + 1}-img3/1200/800`,
+        alt: `Gallery image 3 for Project ${i + 1}`,
       },
       {
-        src: 'https://picsum.photos/seed/project-a4/1200/800',
-        alt: 'Mobile view',
+        src: `https://picsum.photos/seed/project-${i + 1}-img4/1200/800`,
+        alt: `Gallery image 4 for Project ${i + 1}`,
       },
     ],
-    client: 'Fintech Co.',
-    role: 'Lead Developer & Architect',
-    duration: '6 Months',
+    client: `Client ${String.fromCharCode(65 + (i % 26))}`,
+    role: ['Lead Developer', 'UI/UX Designer', 'Project Manager', 'QA Engineer'][i % 4],
+    duration: `${i % 6 + 2} Months`,
     url: '#',
-    technologies: ['Next.js', 'Firebase', 'Stripe', 'GraphQL'],
+    technologies: [['Next.js', 'Firebase', 'Stripe'], ['Figma', 'Webflow'], ['Zapier', 'Airtable'], ['React Native', 'Firebase']][i % 4],
     kpis: [
-      { value: '42%+', label: 'Conversion Rate' },
-      { value: '$1.2M', label: 'First Quarter Sales' },
+      { value: `${i*5 + 10}%+`, label: 'Metric Increase' },
+      { value: `$${(i+1) * 100}k`, label: 'Revenue Generated' },
     ],
     testimonial: {
-      quote:
-        'The platform they built is not only beautiful but also incredibly robust. Our sales have skyrocketed since launch.',
-      name: 'Jane Doe',
+      quote: `This was an amazing project. The team for project ${i + 1} was professional and delivered outstanding results.`,
+      name: `Client ${String.fromCharCode(65 + (i % 26))}`,
       role: 'CEO',
-      company: 'Fintech Co.',
+      company: `Company ${i + 1}`,
     },
-  },
-  {
-    id: 'project-b',
-    title: 'SaaS Corporate Rebranding',
-    category: 'Branding',
-    description: 'A complete rebranding for a major tech company.',
-    longDescription:
-      'A major B2B SaaS company approached us to modernize their brand identity, which had not been updated in over a decade. We conducted extensive market research to develop a new brand strategy, logo, and visual system that reflected their position as an industry leader, culminating in a comprehensive brand guidelines document.',
-    image: 'https://picsum.photos/seed/project-b/1200/800',
-    imageAlt: 'New brand logo and assets',
-    images: [
-      {
-        src: 'https://picsum.photos/seed/project-b1/1200/800',
-        alt: 'New logo design',
-      },
-      {
-        src: 'https://picsum.photos/seed/project-b2/1200/800',
-        alt: 'Website before & after',
-      },
-      {
-        src: 'https://picsum.photos/seed/project-b3/1200/800',
-        alt: 'Brand guidelines',
-      },
-      {
-        src: 'https://picsum.photos/seed/project-b4/1200/800',
-        alt: 'Marketing materials',
-      },
-    ],
-    client: 'SaaS Corp.',
-    role: 'Brand Strategist & Designer',
-    duration: '3 Months',
-    url: '#',
-    technologies: ['Figma', 'Illustrator', 'Webflow'],
-    kpis: [
-      { value: '200%+', label: 'Increase in Demo Requests' },
-      { value: '75%', label: 'Positive Brand Sentiment' },
-    ],
-  },
-  {
-    id: 'project-c',
-    title: 'AI Automation System',
-    category: 'Automation',
-    description: 'A user-friendly mobile banking application.',
-    longDescription:
-      'For a busy marketing agency, we developed a suite of internal tools to automate their client reporting and content distribution processes. This involved integrating with multiple APIs like Google Analytics, social media platforms, and their CRM, saving the team countless hours of manual work each week.',
-    image: 'https://picsum.photos/seed/project-c/1200/800',
-    imageAlt: 'Automation dashboard',
-    images: [
-      {
-        src: 'https://picsum.photos/seed/project-c1/1200/800',
-        alt: 'Workflow diagram',
-      },
-      {
-        src: 'https://picsum.photos/seed/project-c2/1200/800',
-        alt: 'Integration setup screen',
-      },
-    ],
-    client: 'Marketing Agency',
-    role: 'Automation Specialist',
-    duration: '4 Months',
-    url: '#',
-    technologies: ['Zapier', 'Make.com', 'Airtable', 'Node.js'],
-    kpis: [
-      { value: '20 Hours', label: 'Saved per Week' },
-      { value: '100%', label: 'Reporting Accuracy' },
-    ],
-    testimonial: {
-      quote:
-        "This automation system has been a complete game-changer for our agency's efficiency.",
-      name: 'John Smith',
-      role: 'COO',
-      company: 'Marketing Agency',
-    },
-  },
-];
+}));
 
 export const getFounder = (): Founder => ({
   name: 'Alex Doe',
@@ -343,166 +267,55 @@ export const getFaqs = (): FaqItem[] => [
   },
 ];
 
-export const getArticles = (): Article[] => [
-  {
-    id: 'article-1',
-    title: 'The ROI of a Premium Website for SMEs',
-    date: 'October 26, 2023',
-    author: 'Alex Doe',
-    authorImage: 'https://picsum.photos/seed/author1/40/40',
-    excerpt:
-      'Discover why investing in a high-quality website is not a cost, but a crucial investment for small and medium-sized enterprises.',
-    content:
-      "In the digital age, a website is often the first point of contact between a business and its potential customers. For Small and Medium-sized Enterprises (SMEs), a premium website is not just a digital brochure; it's a powerful tool for growth, credibility, and customer engagement. A well-crafted site enhances brand perception, improves user experience, and drives conversions. It signals to your audience that you are a serious, professional organization that values quality. This initial investment pays dividends in customer trust, lead generation, and long-term brand equity.",
-    image: 'https://picsum.photos/seed/blog1/1200/800',
-    imageAlt: 'A graph showing upward growth',
-    tags: ['Business', 'Web Design', 'ROI'],
-    popular: true,
-  },
-  {
-    id: 'article-2',
-    title: "Headless CMS vs. Traditional: What's Right for Your Business?",
-    date: 'October 15, 2023',
-    author: 'Alex Doe',
-    authorImage: 'https://picsum.photos/seed/author1/40/40',
-    excerpt:
-      'A breakdown of the pros and cons of headless and traditional content management systems for modern businesses.',
-    content:
-      "Choosing the right Content Management System (CMS) is a critical decision. Traditional CMSs like WordPress offer an all-in-one solution, which can be great for simplicity. However, a Headless CMS provides unparalleled flexibility, performance, and security by decoupling the content backend from the presentation layer (the 'head'). This allows you to use your content across multiple platforms (web, mobile apps, etc.) and employ modern frontend frameworks for a faster, more engaging user experience. For SMEs looking to future-proof their digital strategy, a headless approach is often the superior choice.",
-    image: 'https://picsum.photos/seed/blog2/1200/800',
-    imageAlt: 'Abstract representation of connected data',
-    tags: ['CMS', 'Development', 'Strategy'],
-    popular: true,
-  },
-  {
-    id: 'article-3',
-    title: 'Automating Your Sales Funnel: A Guide for SMEs',
-    date: 'September 28, 2023',
-    author: 'Alex Doe',
-    authorImage: 'https://picsum.photos/seed/author1/40/40',
-    excerpt:
-      'Learn how to save time and increase efficiency by automating key parts of your sales and marketing process.',
-    content:
-      'Manual, repetitive tasks can be a significant drain on resources for any SME. Automating your sales funnel—from lead capture and nurturing to CRM updates and reporting—can free up your team to focus on high-value activities. Using modern tools, you can create seamless workflows that ensure no lead falls through the cracks and that your customer data is always up-to-date. This not only improves efficiency but also provides a more consistent and professional experience for your customers.',
-    image: 'https://picsum.photos/seed/blog3/1200/800',
-    imageAlt: 'A series of connected gears and cogs',
-    tags: ['Automation', 'Sales', 'CRM'],
-    popular: false,
-  },
-];
+export const getArticles = (): Article[] => Array.from({ length: 20 }, (_, i) => ({
+    id: `article-${i + 1}`,
+    title: `The Future of Web Development in ${2024 + i}`,
+    date: new Date(2024, i % 12, (i % 28) + 1).toISOString().split('T')[0],
+    author: ['Alex Doe', 'Jane Smith', 'Sam Wilson'][i % 3],
+    authorImage: `https://picsum.photos/seed/author${i % 3}/40/40`,
+    excerpt: `A look into the upcoming trends for web development in ${2024 + i}, from AI integration to new JavaScript frameworks.`,
+    content: `This is the full content for the article about web development trends in ${2024 + i}. It delves deep into topics like the rise of server-side rendering, the impact of AI on coding practices, and how to stay ahead of the curve. It's a must-read for any developer looking to future-proof their skills.`,
+    image: `https://picsum.photos/seed/blog-cover-${i + 1}/1200/800`,
+    imageAlt: `Abstract image representing future tech for ${2024 + i}`,
+    tags: [['Web Dev', 'Future Tech', 'AI'], ['JavaScript', 'React', 'Vue'], ['Performance', 'UX', 'Design']][i % 3],
+    popular: i % 3 === 0,
+}));
 
-export const getTemplates = (): Template[] => [
-  {
-    id: 'template-1',
-    title: 'Agency X - Webflow Template',
-    description: 'A premium, dark-themed template for modern digital agencies.',
-    longDescription:
-      "Agency X is the ultimate Webflow template for creative agencies, studios, and freelancers. It features a sleek, dark-mode design with smooth animations and a fully responsive layout. Built with clean, reusable components, it's easy to customize and comes with a comprehensive style guide. Includes CMS collections for portfolio, blog, and team members.",
-    price: 79,
-    image: 'https://picsum.photos/seed/template1/1200/800',
-    imageAlt: 'Preview of a dark agency website template',
+
+export const getTemplates = (): Template[] => Array.from({ length: 20 }, (_, i) => ({
+    id: `template-${i + 1}`,
+    title: `Pro Template ${i + 1}`,
+    description: `A high-quality, professional template for ${['agencies', 'SaaS companies', 'portfolios'][i % 3]}.`,
+    longDescription: `This is a comprehensive description for Pro Template ${i + 1}. It is designed to be fully responsive, highly customizable, and optimized for performance. It comes with a variety of pre-built pages and components to help you launch your website quickly and efficiently.`,
+    price: 49 + (i * 5),
+    image: `https://picsum.photos/seed/template-cover-${i + 1}/1200/800`,
+    imageAlt: `Cover image for Pro Template ${i + 1}`,
     url: '#',
-    tags: ['Webflow', 'Agency', 'Dark Mode'],
+    tags: [['Webflow', 'Agency'], ['Next.js', 'SaaS'], ['Framer', 'Portfolio']][i % 3],
     images: [
       {
-        src: 'https://picsum.photos/seed/template1-img1/1200/800',
-        alt: 'Homepage preview',
+        src: `https://picsum.photos/seed/template-${i + 1}-img1/1200/800`,
+        alt: `Gallery image 1 for Template ${i + 1}`,
       },
       {
-        src: 'https://picsum.photos/seed/template1-img2/1200/800',
-        alt: 'Portfolio grid',
+        src: `https://picsum.photos/seed/template-${i + 1}-img2/1200/800`,
+        alt: `Gallery image 2 for Template ${i + 1}`,
       },
       {
-        src: 'https://picsum.photos/seed/template1-img3/1200/800',
-        alt: 'Blog page',
+        src: `https://picsum.photos/seed/template-${i + 1}-img3/1200/800`,
+        alt: `Gallery image 3 for Template ${i + 1}`,
       },
       {
-        src: 'https://picsum.photos/seed/template1-img4/1200/800',
-        alt: 'Contact form',
+        src: `https://picsum.photos/seed/template-${i + 1}-img4/1200/800`,
+        alt: `Gallery image 4 for Template ${i + 1}`,
       },
     ],
     features: [
       'Fully Responsive Design',
-      'CMS for Portfolio & Blog',
+      `CMS for ${['Projects', 'Features', 'Showcase'][i % 3]}`,
       'Advanced Animations',
       'Global Style Guide',
       'Contact & Subscribe Forms',
+      'Lifetime Updates',
     ],
-  },
-  {
-    id: 'template-2',
-    title: 'SaaS Landing Page - Next.js',
-    description:
-      'A high-conversion landing page template built with Next.js and Tailwind CSS.',
-    longDescription:
-      'Launch your SaaS product with a landing page designed for conversion. Built with Next.js for peak performance and SEO, and styled with Tailwind CSS for easy customization. This template includes sections for features, pricing, testimonials, and a strong call-to-action. The code is clean, well-documented, and easy to deploy.',
-    price: 99,
-    image: 'https://picsum.photos/seed/template2/1200/800',
-    imageAlt: 'Preview of a SaaS landing page',
-    url: '#',
-    tags: ['Next.js', 'SaaS', 'Landing Page'],
-    images: [
-      {
-        src: 'https://picsum.photos/seed/template2-img1/1200/800',
-        alt: 'Hero section',
-      },
-      {
-        src: 'https://picsum.photos/seed/template2-img2/1200/800',
-        alt: 'Features section',
-      },
-      {
-        src: 'https://picsum.photos/seed/template2-img3/1200/800',
-        alt: 'Pricing table',
-      },
-      {
-        src: 'https://picsum.photos/seed/template2-img4/1200/800',
-        alt: 'Testimonial slider',
-      },
-    ],
-    features: [
-      'Optimized for SEO',
-      'High Performance (Next.js)',
-      'Easy to Customize (Tailwind CSS)',
-      'Conversion-focused Design',
-      'Testimonial & FAQ sections',
-    ],
-  },
-  {
-    id: 'template-3',
-    title: 'Portfolio Pro - Framer Template',
-    description:
-      'A stunning personal portfolio template for creatives, built in Framer.',
-    longDescription:
-      "Portfolio Pro is a visually stunning template for designers, photographers, and other creatives. Built entirely in Framer, it's perfect for anyone looking to make a bold statement with their online portfolio. Comes with multiple layout options and is easy to update with your own content.",
-    price: 59,
-    image: 'https://picsum.photos/seed/template3/1200/800',
-    imageAlt: 'Preview of a creative portfolio template',
-    url: '#',
-    tags: ['Framer', 'Portfolio', 'Creative'],
-    images: [
-      {
-        src: 'https://picsum.photos/seed/template3-img1/1200/800',
-        alt: 'Animated homepage',
-      },
-      {
-        src: 'https://picsum.photos/seed/template3-img2/1200/800',
-        alt: 'Project detail page',
-      },
-      {
-        src: 'https://picsum.photos/seed/template3-img3/1200/800',
-        alt: 'Interactive about page',
-      },
-      {
-        src: 'https://picsum.photos/seed/template3-img4/1200/800',
-        alt: 'Mobile interaction',
-      },
-    ],
-    features: [
-      'Built in Framer',
-      'Advanced Animations & Transitions',
-      'CMS for Projects',
-      'Fully Responsive',
-      'Unique & Modern Design',
-    ],
-  },
-];
+}));
