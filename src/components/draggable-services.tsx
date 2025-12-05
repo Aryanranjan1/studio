@@ -444,7 +444,7 @@ export function DraggableServices({
             pointerEvents: "auto",
             cursor: p.picking ? "grabbing" : "grab",
             background: p.color,
-            border: "1px solid #cbd5e1", // slate-300
+            border: "2px solid #334155", // slate-700
             boxShadow: p.picking
               ? "0 14px 36px rgba(0,0,0,0.45)"
               : "0 8px 20px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.03)",
@@ -476,5 +476,3 @@ function hexToRgb(hex: string) {
   }
   return null;
 }
-
-    
