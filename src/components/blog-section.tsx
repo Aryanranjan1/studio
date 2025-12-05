@@ -2,67 +2,82 @@ import { getArticles } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-import { Card, CardContent } from './ui/card';
+import { Badge } from './ui/badge';
+import { format } from 'date-fns';
 
 export function BlogSection() {
-  const articles = getArticles().slice(0, 2); // Show first 2 articles
+  const articles = getArticles();
+  const latestArticle = articles[0];
+  const otherArticles = articles.slice(1, 4);
 
   return (
-    <section className="bg-muted/30 py-24 sm:py-32">
+    <section className="bg-background py-24 sm:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <Badge
-            variant="outline"
-            className="mb-4 border-primary/50 text-primary"
-          >
-            Insights
-          </Badge>
-          <h2 className="font-headline text-3xl font-bold sm:text-4xl">
-            From Our Blog
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-            The latest news, articles, and resources from our team.
-          </p>
-        </div>
-        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
-          {articles.map(article => (
-            <Link
-              href={`/blog/${article.id}`}
-              key={article.id}
-              className="group"
-            >
-              <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10">
-                <div className="relative h-64 w-full">
-                  <Image
-                    src={article.image}
-                    alt={article.imageAlt}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <CardContent className="p-6">
-                  <p className="text-sm text-muted-foreground">
-                    {article.date}
-                  </p>
-                  <h3 className="mt-2 font-headline text-xl font-bold group-hover:text-primary">
-                    {article.title}
-                  </h3>
-                  <p className="mt-2 text-muted-foreground">
-                    {article.excerpt}
-                  </p>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
-        </div>
-        <div className="mt-16 text-center">
-          <Button asChild size="lg" variant="outline">
+        <div className="flex items-center justify-between">
+          <div className="relative">
+            <h2 className="font-headline text-3xl font-bold sm:text-4xl">
+              Latest Stories
+            </h2>
+            <div className="absolute -bottom-2 left-0 h-1 w-2/3 bg-primary" />
+          </div>
+          <Button asChild variant="outline">
             <Link href="/blog">
-              Visit Our Blog <ArrowRight className="ml-2" />
+              Read all articles
             </Link>
           </Button>
+        </div>
+
+        <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-8">
+          {/* Featured Article */}
+          <Link href={`/blog/${latestArticle.id}`} className="group">
+            <div className="overflow-hidden rounded-2xl">
+              <Image
+                src={latestArticle.image}
+                alt={latestArticle.imageAlt}
+                width={800}
+                height={600}
+                className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+            </div>
+            <div className="mt-6">
+              <p className="font-semibold text-primary">{latestArticle.category}</p>
+              <h3 className="mt-2 font-headline text-2xl font-bold group-hover:text-primary">
+                {latestArticle.title}
+              </h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {format(new Date(latestArticle.date), 'MMMM do, yyyy')} • by {latestArticle.author}
+              </p>
+              <p className="mt-4 text-muted-foreground">
+                {latestArticle.excerpt}
+              </p>
+            </div>
+          </Link>
+
+          {/* Article List */}
+          <div className="flex flex-col gap-8">
+            {otherArticles.map(article => (
+              <Link href={`/blog/${article.id}`} key={article.id} className="group flex items-center gap-6">
+                 <div className="relative h-28 w-28 flex-shrink-0 overflow-hidden rounded-2xl">
+                    <Image
+                      src={article.image}
+                      alt={article.imageAlt}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                 </div>
+                 <div>
+                    <p className="font-semibold text-primary">{article.category}</p>
+                    <h4 className="mt-1 font-headline text-lg font-bold group-hover:text-primary">
+                      {article.title}
+                    </h4>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                        {format(new Date(article.date), 'MMMM do, yyyy')}
+                    </p>
+                 </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>

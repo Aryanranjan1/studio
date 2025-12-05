@@ -81,6 +81,7 @@ export type Article = {
   imageAlt: string;
   tags: string[];
   popular?: boolean;
+  category: string;
 };
 
 export type Template = {
@@ -279,6 +280,7 @@ export const getArticles = (): Article[] => Array.from({ length: 20 }, (_, i) =>
     imageAlt: `Abstract image representing future tech for ${2024 + i}`,
     tags: [['Web Dev', 'Future Tech', 'AI'], ['JavaScript', 'React', 'Vue'], ['Performance', 'UX', 'Design']][i % 3],
     popular: i % 3 === 0,
+    category: ['News', 'Community', 'How-To', 'Case Study'][i % 4]
 }));
 
 
@@ -319,3 +321,4 @@ export const getTemplates = (): Template[] => Array.from({ length: 20 }, (_, i) 
       'Lifetime Updates',
     ],
 }));
+
