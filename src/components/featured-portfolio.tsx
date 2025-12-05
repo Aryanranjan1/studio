@@ -29,9 +29,6 @@ const FeaturedProjectColumn = ({
         </span>
       </div>
       <div className="relative z-20">
-        <p className="max-w-xs text-sm text-white/70 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-            {project.description}
-        </p>
         <Badge
           variant="outline"
           className="mt-4 rounded-full border-foreground/50 bg-transparent px-4 py-2 text-sm uppercase text-foreground transition-colors duration-500 group-hover:border-white/50 group-hover:bg-white/10 group-hover:text-white"
@@ -41,6 +38,9 @@ const FeaturedProjectColumn = ({
         <h3 className="mt-4 font-headline text-2xl font-bold text-foreground transition-colors duration-500 group-hover:text-white">
           {project.title}
         </h3>
+        <p className="max-w-xs text-sm text-white/70 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+            {project.description}
+        </p>
         <MoveRight className="mt-4 h-6 w-6 text-foreground transition-all duration-500 group-hover:translate-x-2 group-hover:text-white" />
       </div>
     </Link>
