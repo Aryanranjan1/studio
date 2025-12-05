@@ -130,7 +130,7 @@ export function DraggableServices({
         if (p.el) {
           p.el.style.width = `${p.r * 2}px`;
           p.el.style.height = `${p.r * 2}px`;
-          p.el.style.borderRadius = `${p.r * 2}px`;
+          p.el.style.borderRadius = `1rem`;
            const span = p.el.querySelector("span") as HTMLElement | null;
             if (span) {
               span.style.fontSize = `${fontSize}px`;
@@ -332,7 +332,7 @@ export function DraggableServices({
 
     el.style.width = `${p.r * 2}px`;
     el.style.height = `${p.r * 2}px`;
-    el.style.borderRadius = `${p.r * 2}px`;
+    el.style.borderRadius = `1rem`;
     const span = el.querySelector("span") as HTMLElement | null;
     if (span) {
       span.style.fontSize = `${fontSize}px`;
@@ -449,7 +449,7 @@ export function DraggableServices({
             transform: `translate3d(${Math.round(p.x - p.r)}px, ${Math.round(p.y - p.r)}px, 0)`,
             width: `${p.r * 2}px`,
             height: `${p.r * 2}px`,
-            borderRadius: `${p.r * 2}px`,
+            borderRadius: `1rem`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -514,3 +514,5 @@ function shade(hex: string, percent: number) {
   const b = clamp(rgb.b + amt, 0, 255);
   return `rgb(${r}, ${g}, ${b})`;
 }
+
+    
