@@ -112,13 +112,23 @@ export const getSiteSettings = (): SiteSettings => ({
 
 export const getServices = (): Service[] => [
   {
-    id: 'web-design',
-    title: 'Custom Web Design',
-    description:
-      'Tailored, visually appealing designs crafted to represent your brand identity.',
-    longDescription:
-      'We build high-performance websites and applications using modern technologies. Our focus is on creating secure, scalable, and maintainable solutions that grow with your business, from marketing sites to complex e-commerce platforms with full CMS integration.',
-    icon: 'Globe',
+    id: 'ideation-evaluation',
+    title: 'Ideation & Evaluation',
+    description: 'At Designify we specialize in designing, building, shipping and scaling beautiful, usable products with blazing-fast efficiency.',
+    longDescription: 'We help you flesh out your ideas and validate them against market needs. Our process involves deep market research, competitive analysis, and user interviews to ensure your product has a solid foundation for success.',
+    icon: 'Bot',
+    category: 'Strategy',
+    kpis: [
+      { value: '98%', label: 'Idea Validation Rate' },
+      { value: '50+', label: 'Concepts Developed' },
+    ],
+  },
+  {
+    id: 'design-development',
+    title: 'Design, Development',
+    description: 'At Designify we specialize in designing, building, shipping and scaling beautiful, usable products with blazing-fast efficiency.',
+    longDescription: 'We build high-performance websites and applications using modern technologies. Our focus is on creating secure, scalable, and maintainable solutions that grow with your business, from marketing sites to complex e-commerce platforms with full CMS integration.',
+    icon: 'Code',
     category: 'Web Design',
     kpis: [
       { value: 'Under 50ms', label: 'Page Loads' },
@@ -126,45 +136,27 @@ export const getServices = (): Service[] => [
     ],
   },
   {
-    id: 'seo-optimization',
-    title: 'SEO Optimization',
-    description:
-      "Implementing practices to enhance your website's visibility on search engines.",
-    longDescription:
-      'Our digital marketing services are designed to increase your visibility and drive qualified leads. We specialize in technical SEO, content strategy, and performance marketing to ensure your message reaches the right audience at the right time.',
-    icon: 'Seo',
-    category: 'Search Engine Optimization',
+    id: 'online-marketing',
+    title: 'Online Marketing',
+    description: 'At Designify we specialize in designing, building, shipping and scaling beautiful, usable products with blazing-fast efficiency.',
+    longDescription: 'Our digital marketing services are designed to increase your visibility and drive qualified leads. We specialize in technical SEO, content strategy, and performance marketing to ensure your message reaches the right audience at the right time.',
+    icon: 'Megaphone',
+    category: 'Marketing',
     kpis: [
       { value: '+300%', label: 'Organic Traffic' },
       { value: '+50%', label: 'Conversion Rate' },
     ],
   },
   {
-    id: 'brand-identity',
-    title: 'Brand Identity',
-    description:
-      'Crafting unique brand identities through logos, color schemes, and typography.',
-    longDescription:
-      'A strong brand is the foundation of a successful business. We help you create a cohesive identity that stands out, and then translate that into a user-centered design that is both beautiful and easy to use, from wireframes to high-fidelity prototypes.',
-    icon: 'Brand',
-    category: 'Brand',
+    id: 'product-management',
+    title: 'Product Management',
+    description: 'At Collax we specialize in designing, building, shipping and scaling beautiful, usable products with blazing-fast efficiency.',
+    longDescription: 'We provide end-to-end product management, from creating a product roadmap to overseeing the development lifecycle and post-launch optimization, ensuring your product meets business goals and user needs.',
+    icon: 'UserCog',
+    category: 'Management',
     kpis: [
-      { value: '+150%', label: 'Brand Recognition' },
-      { value: '-50%', label: 'Bounce Rate' },
-    ],
-  },
-  {
-    id: 'maintenance',
-    title: 'Maintenance',
-    description:
-      'Ongoing support to keep your website up-to-date. Regular updates to ensure optimal performance.',
-    longDescription:
-      'We analyze your workflows and build custom automation systems to save you time and reduce errors. From CRM setups to integrating third-party services, we help you work smarter, not harder, so you can focus on growing your business.',
-    icon: 'Maintenance',
-    category: 'Support',
-    kpis: [
-      { value: '10+ Hours', label: 'Saved Weekly' },
-      { value: '95%', label: 'Process Efficiency' },
+      { value: '25%', label: 'Faster Time-to-Market' },
+      { value: '40%', label: 'Increase in User Retention' },
     ],
   },
 ];
@@ -323,3 +315,4 @@ export const getTemplates = (): Template[] => Array.from({ length: 20 }, (_, i) 
       'Lifetime Updates',
     ],
 }));
+
