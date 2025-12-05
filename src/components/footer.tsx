@@ -89,10 +89,10 @@ export function Footer() {
             data-ai-hint="abstract dark texture"
         />
         <div className="absolute inset-0 flex flex-col items-stretch justify-end bg-black/30 p-4">
-            <h2 className="text-white font-extrabold text-5xl md:text-7xl lg:text-[8rem] tracking-widest uppercase leading-none text-left">
+            <h2 className="text-black font-extrabold text-5xl md:text-7xl lg:text-[8rem] tracking-widest uppercase leading-none text-left">
                 Ampire
             </h2>
-            <h2 className="text-white font-extrabold text-5xl md:text-7xl lg:text-[8rem] tracking-widest uppercase leading-none text-right">
+            <h2 className="text-black font-extrabold text-5xl md:text-7xl lg:text-[8rem] tracking-widest uppercase leading-none text-right">
                 Studio
             </h2>
         </div>
