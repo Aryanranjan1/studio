@@ -314,6 +314,9 @@ export function DraggableServices({
       if (!p) return;
       p.picking = false;
       p.ariaGrabbed = false;
+      if (p.el) {
+        p.el.style.zIndex = '0';
+      }
       
       draggingRef.current.id = null;
       
@@ -330,6 +333,7 @@ export function DraggableServices({
         
         p.picking = true;
         p.ariaGrabbed = true;
+        el.style.zIndex = '10'; // Bring to top on click
         p.vx = 0; // Zero out velocity on pickup
         p.vy = 0;
         p.lastPointerX = undefined; // Reset for new velocity calculation
@@ -350,7 +354,10 @@ export function DraggableServices({
           p.picking = !p.picking;
           p.ariaGrabbed = p.picking;
           if (p.picking) {
+            if (el) el.style.zIndex = '10';
             p.vx = p.vy = 0;
+          } else {
+             if (el) el.style.zIndex = '0';
           }
         } else if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(ev.key)) {
           if (p.picking) {
