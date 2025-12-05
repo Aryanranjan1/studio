@@ -40,7 +40,7 @@ type Particle = {
 const DEFAULTS = {
   gravity: 900, // px/s^2
   friction: 0.995,
-  wallBounce: 0.85,
+  wallBounce: 0,
   maxVelocity: 1600,
   restitution: 0.5 // collision elasticity
 };
@@ -476,3 +476,5 @@ function hexToRgb(hex: string) {
   }
   return null;
 }
+
+    
