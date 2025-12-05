@@ -1,3 +1,4 @@
+
 import { getArticles } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,7 +18,7 @@ export function BlogSection() {
         <div className="flex items-center justify-between">
           <div className="relative">
             <h2 className="font-headline text-3xl font-bold sm:text-4xl">
-              Latest Stories
+              latest story blog
             </h2>
             <div className="absolute -bottom-2 left-0 h-1 w-2/3 bg-primary" />
           </div>
