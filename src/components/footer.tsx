@@ -1,6 +1,8 @@
+
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { ArrowRight, Instagram, Twitter, Youtube, Gitlab } from 'lucide-react';
+import Image from 'next/image';
 
 const socialLinks = [
   { href: '#', name: 'Instagram', icon: <Instagram className="h-4 w-4" /> },
@@ -77,6 +79,15 @@ export function Footer() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="relative h-48 w-full">
+        <Image 
+            src="https://picsum.photos/seed/footer-bg/1600/400" 
+            alt="Abstract decorative image"
+            fill
+            className="object-cover"
+            data-ai-hint="abstract dark texture"
+        />
       </div>
     </footer>
   );
