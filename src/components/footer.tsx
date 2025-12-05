@@ -88,8 +88,8 @@ export function Footer() {
             className="object-cover"
             data-ai-hint="abstract dark texture"
         />
-        <div className="absolute inset-0 flex flex-col items-stretch bg-primary/90 p-4">
-            <h2 className="text-black font-extrabold text-7xl md:text-9xl lg:text-[12rem] tracking-widest uppercase leading-none text-center mt-auto mb-4">
+        <div className="absolute inset-0 flex flex-col items-stretch justify-end bg-primary/90">
+            <h2 className="text-black font-extrabold text-7xl md:text-9xl lg:text-[12rem] tracking-widest uppercase leading-none text-center">
                 Ampire
             </h2>
         </div>
