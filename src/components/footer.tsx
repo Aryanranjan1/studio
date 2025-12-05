@@ -70,14 +70,6 @@ export function Footer() {
             </div>
           </div>
         </div>
-        
-        <div className="mt-16 border-t border-border/20 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-                <p>&copy;Studiogram {currentYear}</p>
-                <p>Made with Love on Framer</p>
-                <p>Created by <span className='font-semibold text-foreground'>Slad</span></p>
-            </div>
-        </div>
       </div>
     </footer>
   );
