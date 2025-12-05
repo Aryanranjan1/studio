@@ -17,7 +17,7 @@ const FeaturedProjectColumn = ({
   return (
     <Link
       href={`/portfolio/${project.id}`}
-      className="group relative flex h-[80vh] flex-col justify-between overflow-hidden border-r border-border p-6 transition-all duration-500 hover:bg-black"
+      className="group relative flex h-[90vh] flex-col justify-between overflow-hidden border-r border-border p-6 transition-all duration-500 hover:bg-black"
       style={{'--bg-image': `url(${project.image})`} as React.CSSProperties}
     >
       <div className="absolute inset-0 z-0 bg-[image:var(--bg-image)] bg-cover bg-center opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -38,7 +38,7 @@ const FeaturedProjectColumn = ({
         <h3 className="mt-4 font-headline text-2xl font-bold text-foreground transition-colors duration-500 group-hover:text-white">
           {project.title}
         </h3>
-        <p className="max-w-xs text-sm text-white/70 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+        <p className="max-w-xs text-xs text-muted-foreground transition-colors duration-500 group-hover:text-white/70">
             {project.description}
         </p>
         <MoveRight className="mt-4 h-6 w-6 text-foreground transition-all duration-500 group-hover:translate-x-2 group-hover:text-white" />
