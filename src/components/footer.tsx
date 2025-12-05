@@ -44,7 +44,7 @@ export function Footer() {
                   Alask, United States
                 </p>
               </div>
-              <div>
+               <div>
                  <h3 className="font-semibold text-muted-foreground">Social</h3>
                   <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
                     {socialLinks.map(link => (
@@ -88,10 +88,13 @@ export function Footer() {
             className="object-cover"
             data-ai-hint="abstract dark texture"
         />
-        <div className="absolute inset-0 flex items-end justify-center bg-black/30">
-          <h2 className="text-white font-extrabold text-5xl md:text-7xl lg:text-[12rem] tracking-widest uppercase leading-none">
-            Ampire
-          </h2>
+        <div className="absolute inset-0 flex flex-col items-stretch justify-end bg-black/30 p-4">
+            <h2 className="text-white font-extrabold text-5xl md:text-7xl lg:text-[8rem] tracking-widest uppercase leading-none text-left">
+                Ampire
+            </h2>
+            <h2 className="text-white font-extrabold text-5xl md:text-7xl lg:text-[8rem] tracking-widest uppercase leading-none text-right">
+                Studio
+            </h2>
         </div>
       </div>
     </footer>
