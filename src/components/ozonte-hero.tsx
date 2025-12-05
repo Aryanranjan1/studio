@@ -6,22 +6,6 @@ import { ArrowRight } from 'lucide-react';
 export function OzonteHero() {
   return (
     <div className="relative flex h-screen w-full flex-col bg-black text-white">
-      <header className="absolute top-0 left-0 right-0 z-20 p-8">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <div className="text-sm">
-            <span>©2024 all rights reserved</span>
-          </div>
-          <div className="hidden items-center gap-8 text-sm md:flex">
-            <button className="hover:text-primary">
-              dark / <span className="text-muted-foreground">light</span>
-            </button>
-            <a href="/portfolio" className="hover:text-primary">
-              view cases
-            </a>
-            <button className="hover:text-primary">menu</button>
-          </div>
-        </div>
-      </header>
       <div className="absolute top-1/4 left-8 z-10">
         <h1 className="font-headline text-8xl font-bold uppercase md:text-9xl">
           <span className="text-primary">Ozonte</span>
