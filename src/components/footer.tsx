@@ -89,7 +89,7 @@ export function Footer() {
             data-ai-hint="abstract dark texture"
         />
         <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-          <h2 className="text-white font-extrabold text-5xl md:text-7xl lg:text-9xl tracking-widest uppercase">
+          <h2 className="text-white font-extrabold text-5xl md:text-7xl lg:text-[12rem] tracking-widest uppercase">
             Empire
           </h2>
         </div>
