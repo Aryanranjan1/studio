@@ -287,18 +287,16 @@ export function DraggableServices({
       const localX = e.clientX - rect.left;
       const localY = e.clientY - rect.top;
 
-      if (p.lastPointerX != null) {
+      if (p.lastPointerX != null && p.lastPointerY != null) {
         const dt = Math.max(1 / 60, ((e.timeStamp - (p.lastPointerTS || e.timeStamp)) / 1000) || 1 / 60);
         const vx = (localX - p.lastPointerX) / dt;
         const vy = (localY - p.lastPointerY) / dt;
-        p.vx = vx * 0.9;
-        p.vy = vy * 0.9;
-        p.lastPointerTS = e.timeStamp;
-      } else {
-        p.lastPointerTS = e.timeStamp;
+        p.vx = vx;
+        p.vy = vy;
       }
       p.lastPointerX = localX;
       p.lastPointerY = localY;
+      p.lastPointerTS = e.timeStamp;
 
       p.x = clamp(localX, p.width / 2, rect.width - p.width / 2);
       p.y = clamp(localY, p.height / 2, rect.height - p.height / 2);
@@ -315,19 +313,81 @@ export function DraggableServices({
       p.lastPointerY = undefined;
       p.lastPointerTS = undefined;
       draggingRef.current.id = null;
-      p.vx *= 1.02;
-      p.vy *= 1.02;
+      
       window.removeEventListener("pointermove", onPointerMoveGlobal);
       window.removeEventListener("pointerup", onPointerUpGlobal);
     };
+
+    const attachDragHandlers = (p: Particle) => {
+      const el = p.el;
+      if (!el) return;
+
+      const onPointerDown = (ev: PointerEvent) => {
+        ev.preventDefault();
+        const container = containerRef.current!;
+        const rect = container.getBoundingClientRect();
+        
+        p.picking = true;
+        p.ariaGrabbed = true;
+        p.lastPointerX = ev.clientX - rect.left;
+        p.lastPointerY = ev.clientY - rect.top;
+        p.lastPointerTS = ev.timeStamp;
+        draggingRef.current.id = p.id;
+        
+        try {
+          el.setPointerCapture(ev.pointerId);
+        } catch (err) {}
+        window.addEventListener("pointermove", onPointerMoveGlobal);
+        window.addEventListener("pointerup", onPointerUpGlobal);
+      };
+
+       const onKeyDown = (ev: KeyboardEvent) => {
+        if (ev.key === " " || ev.key === "Enter") {
+          ev.preventDefault();
+          p.picking = !p.picking;
+          p.ariaGrabbed = p.picking;
+        } else if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(ev.key)) {
+          const nudge = 8;
+          if (ev.key === "ArrowUp") p.y -= nudge;
+          if (ev.key === "ArrowDown") p.y += nudge;
+          if (ev.key === "ArrowLeft") p.x -= nudge;
+          if (ev.key === "ArrowRight") p.x += nudge;
+        }
+      };
+
+      el.addEventListener("pointerdown", onPointerDown);
+      el.addEventListener("keydown", onKeyDown);
+
+      // Store cleanup function
+      (el as any)._cleanup = () => {
+        el.removeEventListener("pointerdown", onPointerDown);
+        el.removeEventListener("keydown", onKeyDown);
+      };
+    }
+    
+    for (const p of particlesRef.current) {
+        if ((p.el as any)?._cleanup) {
+            (p.el as any)._cleanup();
+        }
+        attachDragHandlers(p);
+    }
 
     return () => {
       window.removeEventListener("pointermove", onPointerMoveGlobal);
       window.removeEventListener("pointerup", onPointerUpGlobal);
+       for (const p of particlesRef.current) {
+        if ((p.el as any)?._cleanup) {
+            (p.el as any)._cleanup();
+        }
+      }
     };
-  }, []);
+  }, [particlesRef.current]);
 
   const attachRef = (p: Particle) => (el: HTMLDivElement | null) => {
+    if ((p.el as any)?._cleanup) {
+      (p.el as any)._cleanup();
+    }
+
     p.el = el;
     if (!el) return;
     const { fontSize } = computeSizes(containerRef.current?.clientWidth ?? 0, containerRef.current?.clientHeight ?? 0);
@@ -346,39 +406,42 @@ export function DraggableServices({
       ev.preventDefault();
       const container = containerRef.current!;
       const rect = container.getBoundingClientRect();
-      const lx = ev.clientX - rect.left;
-      const ly = ev.clientY - rect.top;
+      
       p.picking = true;
       p.ariaGrabbed = true;
-      p.lastPointerX = lx;
-      p.lastPointerY = ly;
+      p.lastPointerX = ev.clientX - rect.left;
+      p.lastPointerY = ev.clientY - rect.top;
       p.lastPointerTS = ev.timeStamp;
       draggingRef.current.id = p.id;
-
+      
       const onPointerMoveGlobal = (e: PointerEvent) => {
-        const localX = e.clientX - rect.left;
-        const localY = e.clientY - rect.top;
-        if (p.lastPointerX != null) {
-          const dt = Math.max(1 / 60, ((e.timeStamp - (p.lastPointerTS || e.timeStamp)) / 1000) || 1 / 60);
-          const vx = (localX - p.lastPointerX) / dt;
-          const vy = (localY - p.lastPointerY) / dt;
-          p.vx = vx * 0.9;
-          p.vy = vy * 0.9;
+          if (draggingRef.current.id !== p.id) return;
+          const localX = e.clientX - rect.left;
+          const localY = e.clientY - rect.top;
+
+          if (p.lastPointerX != null && p.lastPointerY != null) {
+              const dt = Math.max(1 / 60, ((e.timeStamp - (p.lastPointerTS || e.timeStamp)) / 1000) || 1 / 60);
+              const vx = (localX - p.lastPointerX) / dt;
+              const vy = (localY - p.lastPointerY) / dt;
+              p.vx = vx;
+              p.vy = vy;
+          }
+          p.lastPointerX = localX;
+          p.lastPointerY = localY;
           p.lastPointerTS = e.timeStamp;
-        }
-        p.lastPointerX = localX;
-        p.y = clamp(localY, p.height / 2, rect.height - p.height / 2);
+
+          p.x = clamp(localX, p.width / 2, rect.width - p.width / 2);
+          p.y = clamp(localY, p.height / 2, rect.height - p.height / 2);
       };
 
       const onPointerUpGlobal = (e: PointerEvent) => {
+        if (draggingRef.current.id !== p.id) return;
         p.picking = false;
         p.ariaGrabbed = false;
         p.lastPointerX = undefined;
         p.lastPointerY = undefined;
         p.lastPointerTS = undefined;
         draggingRef.current.id = null;
-        p.vx *= 1.02;
-        p.vy *= 1.02;
         try {
           el.releasePointerCapture(ev.pointerId);
         } catch (err) {}
@@ -395,26 +458,27 @@ export function DraggableServices({
 
     el.addEventListener("pointerdown", onPointerDown);
     el.tabIndex = 0;
-    el.addEventListener("keydown", (ev: KeyboardEvent) => {
+    const onKeyDown = (ev: KeyboardEvent) => {
       if (ev.key === " " || ev.key === "Enter") {
         ev.preventDefault();
         p.picking = !p.picking;
         p.ariaGrabbed = p.picking;
-        if (!p.picking) {
-          p.vx *= 1.02;
-          p.vy *= 1.02;
-        }
       } else if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(ev.key)) {
+        ev.preventDefault()
         const nudge = 8;
-        if (ev.key === "ArrowUp") p.y -= nudge;
-        if (ev.key === "ArrowDown") p.y += nudge;
-        if (ev.key === "ArrowLeft") p.x -= nudge;
-        if (ev.key === "ArrowRight") p.x += nudge;
+        if(p.picking) {
+            if (ev.key === "ArrowUp") p.y -= nudge;
+            if (ev.key === "ArrowDown") p.y += nudge;
+            if (ev.key === "ArrowLeft") p.x -= nudge;
+            if (ev.key === "ArrowRight") p.x += nudge;
+        }
       }
-    });
+    };
+    el.addEventListener("keydown", onKeyDown);
 
     (el as any)._cleanup = () => {
       el.removeEventListener("pointerdown", onPointerDown);
+      el.removeEventListener("keydown", onKeyDown);
     };
   };
 
@@ -516,5 +580,3 @@ function shade(hex: string, percent: number) {
   const b = clamp(rgb.b + amt, 0, 255);
   return `rgb(${r}, ${g}, ${b})`;
 }
-
-    
