@@ -80,7 +80,7 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="relative h-72 w-full">
+      <div className="relative h-72 w-full overflow-hidden">
         <Image 
             src="https://picsum.photos/seed/footer-bg/1600/400" 
             alt="Abstract decorative image"
@@ -88,8 +88,8 @@ export function Footer() {
             className="object-cover"
             data-ai-hint="abstract dark texture"
         />
-        <div className="absolute inset-0 flex flex-col items-stretch justify-end bg-primary/90">
-            <h2 className="text-black font-extrabold text-7xl md:text-9xl lg:text-[12rem] tracking-widest uppercase leading-none text-center">
+        <div className="absolute inset-0 flex flex-col items-center justify-end bg-primary/90">
+            <h2 className="relative text-black font-extrabold text-7xl md:text-9xl lg:text-[12rem] tracking-widest uppercase leading-none text-center" style={{ transform: 'translateY(50px)' }}>
                 Ampire
             </h2>
         </div>
