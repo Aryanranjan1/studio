@@ -76,7 +76,7 @@ export function DraggableServices({
     const S = Math.min(w, h);
     const r = clamp(S * 0.1, 40, 90);
     const width = r * 2.2;
-    const height = r * 1.2;
+    const height = r * 0.9;
     const fontSize = Math.max(10, Math.round(r * 0.21));
     return { r, width, height, fontSize };
   };
@@ -138,7 +138,7 @@ export function DraggableServices({
         if (p.el) {
           p.el.style.width = `${p.width}px`;
           p.el.style.height = `${p.height}px`;
-          p.el.style.borderRadius = `1rem`;
+          p.el.style.borderRadius = `999px`;
            const span = p.el.querySelector("span") as HTMLElement | null;
             if (span) {
               span.style.fontSize = `${fontSize}px`;
@@ -203,7 +203,7 @@ export function DraggableServices({
           const dx = b.x - a.x;
           const dy = b.y - a.y;
           const dist = Math.hypot(dx, dy) || 0.0001;
-          const minDist = a.r + b.r + 2; // Add a small buffer to prevent visual overlap
+          const minDist = a.r + b.r; 
           if (dist < minDist) {
             // --- Smoother Collision Resolution ---
             const overlap = minDist - dist;
@@ -340,7 +340,7 @@ export function DraggableServices({
 
     el.style.width = `${p.width}px`;
     el.style.height = `${p.height}px`;
-    el.style.borderRadius = `1rem`;
+    el.style.borderRadius = `999px`;
     const span = el.querySelector("span") as HTMLElement | null;
     if (span) {
       span.style.fontSize = `${fontSize}px`;
@@ -457,7 +457,7 @@ export function DraggableServices({
             transform: `translate3d(${Math.round(p.x - p.width / 2)}px, ${Math.round(p.y - p.height / 2)}px, 0)`,
             width: `${p.width}px`,
             height: `${p.height}px`,
-            borderRadius: `1rem`,
+            borderRadius: `999px`,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
