@@ -82,7 +82,7 @@ export function Footer() {
       </div>
       <div className="relative h-72 w-full overflow-hidden">
         <Image 
-            src="https://picsum.photos/seed/footer-bg/1600/400" 
+            src="https://picsum.photos/seed/footer-texture/1600/400" 
             alt="Abstract decorative image"
             fill
             className="object-cover"

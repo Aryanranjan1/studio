@@ -173,23 +173,23 @@ export const getProjects = (): Project[] => Array.from({ length: 20 }, (_, i) =>
     category: ['Web Development', 'Branding', 'Automation', 'Mobile App'][i % 4],
     description: `A brief description of project ${i + 1}, highlighting its main goal and achievement.`,
     longDescription: `This is a more detailed description of Project ${i + 1}. It involved a complex set of requirements and our team delivered a robust solution that exceeded client expectations. We focused on user experience and performance to ensure the final product was not only beautiful but also highly effective.`,
-    image: `https://picsum.photos/seed/project-cover-${i + 1}/1200/800`,
+    image: `https://picsum.photos/seed/p-cover-${i + 1}/1200/800`,
     imageAlt: `Cover image for Project ${i + 1}`,
     images: [
       {
-        src: `https://picsum.photos/seed/project-${i + 1}-img1/1200/800`,
+        src: `https://picsum.photos/seed/p-img1-${i + 1}/1200/800`,
         alt: `Gallery image 1 for Project ${i + 1}`,
       },
       {
-        src: `https://picsum.photos/seed/project-${i + 1}-img2/1200/800`,
+        src: `https://picsum.photos/seed/p-img2-${i + 1}/1200/800`,
         alt: `Gallery image 2 for Project ${i + 1}`,
       },
       {
-        src: `https://picsum.photos/seed/project-${i + 1}-img3/1200/800`,
+        src: `https://picsum.photos/seed/p-img3-${i + 1}/1200/800`,
         alt: `Gallery image 3 for Project ${i + 1}`,
       },
       {
-        src: `https://picsum.photos/seed/project-${i + 1}-img4/1200/800`,
+        src: `https://picsum.photos/seed/p-img4-${i + 1}/1200/800`,
         alt: `Gallery image 4 for Project ${i + 1}`,
       },
     ],
@@ -216,7 +216,7 @@ export const getFounder = (): Founder => ({
   bio: 'A passionate designer with over 10 years of experience in creating beautiful and functional digital products.',
   longBio:
     'Alex started his journey in design and development over a decade ago with a deep passion for art and technology. After working with several leading agencies and honing his skills on enterprise-level projects, he founded this agency to bring that same level of quality and strategic thinking to small and medium-sized enterprises. His philosophy is that great digital architecture is not just about aesthetics, but about solving core business problems and creating meaningful, high-performance experiences. When not coding or designing, Alex enjoys hiking and photography.',
-  image: 'https://picsum.photos/seed/founder/800/800',
+  image: 'https://picsum.photos/seed/founder-img/800/800',
 });
 
 export const getTestimonials = (): Testimonial[] => [
@@ -226,7 +226,7 @@ export const getTestimonials = (): Testimonial[] => [
     name: 'Jane Smith',
     role: 'CEO',
     company: 'SaaS Corp.',
-    image: 'https://picsum.photos/seed/ts1/100/100',
+    image: 'https://picsum.photos/seed/testimonial1/100/100',
   },
   {
     quote:
@@ -234,7 +234,7 @@ export const getTestimonials = (): Testimonial[] => [
     name: 'John Johnson',
     role: 'Marketing Director',
     company: 'Fintech Co.',
-    image: 'https://picsum.photos/seed/ts2/100/100',
+    image: 'https://picsum.photos/seed/testimonial2/100/100',
   },
   // Add more testimonials
 ];
@@ -272,10 +272,10 @@ export const getArticles = (): Article[] => Array.from({ length: 20 }, (_, i) =>
     title: `The Future of Web Development in ${2024 + i}`,
     date: new Date(2024, i % 12, (i % 28) + 1).toISOString().split('T')[0],
     author: ['Alex Doe', 'Jane Smith', 'Sam Wilson'][i % 3],
-    authorImage: `https://picsum.photos/seed/author${i % 3}/40/40`,
+    authorImage: `https://picsum.photos/seed/author-img${i % 3}/40/40`,
     excerpt: `A look into the upcoming trends for web development in ${2024 + i}, from AI integration to new JavaScript frameworks.`,
     content: `This is the full content for the article about web development trends in ${2024 + i}. It delves deep into topics like the rise of server-side rendering, the impact of AI on coding practices, and how to stay ahead of the curve. It's a must-read for any developer looking to future-proof their skills.`,
-    image: `https://picsum.photos/seed/blog-cover-${i + 1}/1200/800`,
+    image: `https://picsum.photos/seed/ablog-cover-${i + 1}/1200/800`,
     imageAlt: `Abstract image representing future tech for ${2024 + i}`,
     tags: [['Web Dev', 'Future Tech', 'AI'], ['JavaScript', 'React', 'Vue'], ['Performance', 'UX', 'Design']][i % 3],
     popular: i % 3 === 0,
@@ -288,25 +288,25 @@ export const getTemplates = (): Template[] => Array.from({ length: 20 }, (_, i) 
     description: `A high-quality, professional template for ${['agencies', 'SaaS companies', 'portfolios'][i % 3]}.`,
     longDescription: `This is a comprehensive description for Pro Template ${i + 1}. It is designed to be fully responsive, highly customizable, and optimized for performance. It comes with a variety of pre-built pages and components to help you launch your website quickly and efficiently.`,
     price: 49 + (i * 5),
-    image: `https://picsum.photos/seed/template-cover-${i + 1}/1200/800`,
+    image: `https://picsum.photos/seed/t-cover-${i + 1}/1200/800`,
     imageAlt: `Cover image for Pro Template ${i + 1}`,
     url: '#',
     tags: [['Webflow', 'Agency'], ['Next.js', 'SaaS'], ['Framer', 'Portfolio']][i % 3],
     images: [
       {
-        src: `https://picsum.photos/seed/template-${i + 1}-img1/1200/800`,
+        src: `https://picsum.photos/seed/t-img1-${i + 1}/1200/800`,
         alt: `Gallery image 1 for Template ${i + 1}`,
       },
       {
-        src: `https://picsum.photos/seed/template-${i + 1}-img2/1200/800`,
+        src: `https://picsum.photos/seed/t-img2-${i + 1}/1200/800`,
         alt: `Gallery image 2 for Template ${i + 1}`,
       },
       {
-        src: `https://picsum.photos/seed/template-${i + 1}-img3/1200/800`,
+        src: `https://picsum.photos/seed/t-img3-${i + 1}/1200/800`,
         alt: `Gallery image 3 for Template ${i + 1}`,
       },
       {
-        src: `https://picsum.photos/seed/template-${i + 1}-img4/1200/800`,
+        src: `https://picsum.photos/seed/t-img4-${i + 1}/1200/800`,
         alt: `Gallery image 4 for Template ${i + 1}`,
       },
     ],

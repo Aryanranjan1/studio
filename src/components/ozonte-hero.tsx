@@ -14,7 +14,7 @@ export function OzonteHero() {
       </div>
       <div className="absolute inset-0">
         <Image
-          src="https://picsum.photos/seed/ozonte/1920/1080"
+          src="https://picsum.photos/seed/hero-bg-main/1920/1080"
           alt="Abstract purple waves"
           fill
           className="object-cover"

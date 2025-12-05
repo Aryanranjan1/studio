@@ -71,7 +71,7 @@ export function HeroGrid() {
       lg:col-span-6 lg:row-span-5 items-center justify-center"
       >
         <Image
-          src="https://picsum.photos/seed/hero-bg/1200/800"
+          src="https://picsum.photos/seed/hero-main-bg/1200/800"
           alt="Abstract background"
           fill
           className="object-cover"
@@ -100,7 +100,7 @@ export function HeroGrid() {
                 <div className="flex -space-x-2 overflow-hidden">
                   <Image
                     className="inline-block h-8 w-8 rounded-full ring-2 ring-background"
-                    src="https://picsum.photos/seed/avatar1/40/40"
+                    src="https://picsum.photos/seed/creator-avatar1/40/40"
                     width={40}
                     height={40}
                     alt="Creator 1"
@@ -108,11 +108,11 @@ export function HeroGrid() {
                   />
                   <Image
                     className="inline-block h-8 w-8 rounded-full ring-2 ring-background"
-                    src="https://picsum.photos/seed/avatar2/40/40"
+                    src="https://picsum.photos/seed/creator-avatar2/40/40"
                     width={40}
                     height={40}
                     alt="Creator 2"
-                    data-ai-hint="woman portrait"
+                    data-ai-hint="man portrait"
                   />
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground ring-2 ring-background">
                     2k+
@@ -200,7 +200,7 @@ export function HeroGrid() {
           </Badge>
           <Link href={`/blog/${featuredArticle.id}`} className="group relative mt-auto">
              <div className="absolute -bottom-4 -left-4 w-[calc(100%+2rem)] p-4 rounded-2xl bg-black/20 backdrop-blur-md border border-white/10">
-                <Image src={featuredArticle.authorImage} width={32} height={32} alt={featuredArticle.author} className="rounded-full" />
+                <Image src={featuredArticle.authorImage} width={32} height={32} alt={featuredArticle.author} className="rounded-full" data-ai-hint="person portrait"/>
                 <div className="flex justify-between items-end mt-2">
                     <div>
                         <h3 className="text-lg font-bold font-headline transition-colors">
