@@ -23,7 +23,7 @@ export function Footer() {
             </h2>
             <Button asChild variant="outline" className="mt-6 rounded-full border-primary/50 text-primary hover:bg-primary/10 hover:text-primary">
               <Link href="/contact">
-                Get In Touch <span className='ml-2 text-red-500'>+</span>
+                Get In Touch <span className='ml-2 text-primary'>+</span>
               </Link>
             </Button>
           </div>
@@ -32,29 +32,31 @@ export function Footer() {
           <div className="hidden lg:block lg:col-span-1"></div>
 
           {/* Links Section */}
-          <div className="md:col-span-7 lg:col-span-7 grid grid-cols-2 md:grid-cols-3 gap-8">
-            <div>
-              <h3 className="font-semibold text-muted-foreground">Location</h3>
-              <p className="mt-2 text-sm">
-                1330 Huffman Rd, Anchorage,
-                <br />
-                Alask, United States
-              </p>
-            </div>
-            
-            <div className="md:col-span-2 grid grid-cols-2 gap-8">
-              <div className="col-span-2 md:col-span-1">
+          <div className="md:col-span-7 lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-8">
+            <div className="space-y-8">
+              <div>
+                <h3 className="font-semibold text-muted-foreground">Location</h3>
+                <p className="mt-2 text-sm">
+                  1330 Huffman Rd, Anchorage,
+                  <br />
+                  Alask, United States
+                </p>
+              </div>
+              <div>
                  <h3 className="font-semibold text-muted-foreground">Social</h3>
                   <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
                     {socialLinks.map(link => (
                         <a href={link.href} key={link.name} className="flex items-center gap-2 hover:text-primary">
-                          <span className='text-red-500'>•</span> {link.name}
+                          <span className='text-primary'>•</span> {link.name}
                         </a>
                     ))}
                   </div>
               </div>
-              <div className="col-span-2 md:col-span-1 space-y-8">
-                 <div>
+            </div>
+            
+            <div className="sm:col-span-2 flex justify-end">
+               <div className="grid grid-cols-1 gap-8 text-left sm:text-right">
+                  <div>
                     <h3 className="font-semibold text-muted-foreground">Contact</h3>
                     <ul className="mt-2 space-y-1 text-sm">
                       <li><a href="tel:+6612058698720" className="hover:text-primary">+661 2058 6987 20</a></li>
@@ -63,7 +65,7 @@ export function Footer() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-muted-foreground">Helpful Links</h3>
-                    <ul className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+                    <ul className="mt-2 space-y-1 text-sm">
                       <li><Link href="#" className="hover:text-primary">Privacy Policy</Link></li>
                       <li><Link href="/about" className="hover:text-primary">About</Link></li>
                       <li><Link href="/services" className="hover:text-primary">Services</Link></li>
