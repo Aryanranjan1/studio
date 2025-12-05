@@ -12,7 +12,9 @@ export default function Home() {
   return (
     <main className="w-full overflow-x-hidden">
       <OzonteHero />
-      <HeroGrid />
+      <div className="my-16">
+        <HeroGrid />
+      </div>
       <ServicesSection />
       <PricingSection />
       <FeaturedPortfolio />
