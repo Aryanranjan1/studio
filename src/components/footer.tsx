@@ -89,7 +89,7 @@ export function Footer() {
             data-ai-hint="abstract dark texture"
         />
         <div className="absolute inset-0 flex flex-col items-center justify-end bg-primary/90">
-            <h2 className="relative text-black font-extrabold text-7xl md:text-9xl lg:text-[12rem] tracking-widest uppercase leading-none text-center" style={{ transform: 'translateY(10px)' }}>
+            <h2 className="relative text-black font-extrabold text-7xl md:text-9xl lg:text-[12rem] tracking-widest uppercase leading-none text-center" style={{ transform: 'translateY(15px)' }}>
                 Ampire
             </h2>
         </div>
