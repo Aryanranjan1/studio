@@ -1,27 +1,32 @@
-import Link from 'next/link';
-import { Button } from './ui/button';
-import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
+import { InputWithButton } from './input-with-button';
 
 export function CtaSection() {
   return (
-    <section className="py-24 sm:py-32">
+    <section className="bg-background py-24 sm:py-32">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-2xl bg-primary/10 px-8 py-16">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-transparent" />
-          <div className="relative text-center">
-            <h2 className="font-headline text-3xl font-bold text-primary sm:text-4xl">
-              Ready to Start a Project?
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-lg text-primary/80">
-              Let's turn your idea into a digital reality. Contact us today to
-              get started.
-            </p>
-            <div className="mt-8">
-              <Button asChild size="lg">
-                <Link href="/contact">
-                  Get in Touch <ArrowRight className="ml-2" />
-                </Link>
-              </Button>
+        <div className="overflow-hidden rounded-2xl bg-card shadow-lg">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
+            <div className="p-8 text-foreground lg:p-12">
+              <h2 className="font-headline text-3xl font-bold sm:text-4xl">
+                Subscribe to our newsletter to receive our daily news
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                Lorem ipsum dolor sit amet consectetur lobortis tristique
+                sociis, tortor neque ultrices dictumst justo adipiscing amet sit
+                nec proin.
+              </p>
+              <div className="mt-8 max-w-md">
+                <InputWithButton />
+              </div>
+            </div>
+            <div className="relative h-64 w-full lg:h-full lg:min-h-[400px]">
+              <Image
+                src="https://aceternity.com/images/products/thumbnails/new/laptop.png"
+                alt="Laptop showing a website"
+                fill
+                className="object-contain object-right-bottom lg:object-cover lg:object-center"
+              />
             </div>
           </div>
         </div>
