@@ -23,15 +23,18 @@ const FeaturedProjectColumn = ({
       <div className="absolute inset-0 z-0 bg-[image:var(--bg-image)] bg-cover bg-center opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
-      <div className="relative z-20 flex justify-between">
-        <span className="font-headline text-8xl font-thin text-foreground transition-colors duration-500 group-hover:text-white">
+      <div className="relative z-20 flex flex-grow items-center justify-center">
+        <span className="font-headline text-8xl font-thin text-foreground transition-opacity duration-500 group-hover:opacity-0">
           0{index + 1}
         </span>
       </div>
       <div className="relative z-20">
+        <p className="max-w-xs text-sm text-white/70 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+            {project.description}
+        </p>
         <Badge
           variant="outline"
-          className="rounded-full border-foreground/50 bg-transparent px-4 py-2 text-sm uppercase text-foreground transition-colors duration-500 group-hover:border-white/50 group-hover:bg-white/10 group-hover:text-white"
+          className="mt-4 rounded-full border-foreground/50 bg-transparent px-4 py-2 text-sm uppercase text-foreground transition-colors duration-500 group-hover:border-white/50 group-hover:bg-white/10 group-hover:text-white"
         >
           {project.technologies[0]}
         </Badge>
