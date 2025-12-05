@@ -95,7 +95,7 @@ export function DraggableServices({
     const particles: Particle[] = SKILLS.map((s, i) => {
       // spawn with slight offset so they don't perfectly overlap
       const angle = (i / SKILLS.length) * Math.PI * 2;
-      const spread = Math.min(rect.width, rect.height) * 0.3; // Increased spread
+      const spread = Math.min(rect.width, rect.height) * 0.4; // Increased spread
       const x = clamp(centerX + Math.cos(angle) * spread, width/2, rect.width - width/2);
       const y = clamp(centerY + Math.sin(angle) * spread, height/2, rect.height - height/2);
 
@@ -247,7 +247,7 @@ export function DraggableServices({
         }
         if (p.y - p.height / 2 < 0) {
           p.y = p.height / 2;
-          p.vy = -p.vy * wallBounce;
+          pvy = -p.vy * wallBounce;
         } else if (p.y + p.height / 2 > h) {
           p.y = h - p.height / 2;
           p.vy = -p.vy * wallBounce;
@@ -256,7 +256,7 @@ export function DraggableServices({
 
       // write to DOM
       for (const p of particles) {
-        if (p.el) {
+        if (p.el && !p.picking) { // **DO NOT UPDATE DOM IF PICKING**
           const tx = Math.round(p.x - p.width / 2);
           const ty = Math.round(p.y - p.height / 2);
           p.el.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
@@ -281,7 +281,7 @@ export function DraggableServices({
       const id = draggingRef.current.id;
       if (id == null) return;
       const p = particlesRef.current.find(x => x.id === id);
-      if (!p) return;
+      if (!p || !p.el) return;
       const container = containerRef.current!;
       const rect = container.getBoundingClientRect();
       const localX = e.clientX - rect.left;
@@ -300,6 +300,11 @@ export function DraggableServices({
       // Directly set position while dragging
       p.x = clamp(localX, p.width / 2, rect.width - p.width / 2);
       p.y = clamp(localY, p.height / 2, rect.height - p.height / 2);
+      
+      // **Directly update the transform to avoid jerky motion**
+      const tx = Math.round(p.x - p.width / 2);
+      const ty = Math.round(p.y - p.height / 2);
+      p.el.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
     };
 
     const onPointerUpGlobal = (_e: PointerEvent) => {
@@ -309,8 +314,6 @@ export function DraggableServices({
       if (!p) return;
       p.picking = false;
       p.ariaGrabbed = false;
-      
-      // Keep last calculated velocity for the throw
       
       draggingRef.current.id = null;
       
@@ -472,3 +475,5 @@ function hexToRgb(hex: string) {
   }
   return null;
 }
+
+    
