@@ -92,9 +92,6 @@ export function Footer() {
             <h2 className="text-black font-extrabold text-5xl md:text-7xl lg:text-[8rem] tracking-widest uppercase leading-none text-left">
                 Ampire
             </h2>
-            <h2 className="text-black font-extrabold text-5xl md:text-7xl lg:text-[8rem] tracking-widest uppercase leading-none text-right">
-                Studio
-            </h2>
         </div>
       </div>
     </footer>
