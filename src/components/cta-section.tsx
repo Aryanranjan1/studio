@@ -1,35 +1,39 @@
 import Image from 'next/image';
-import { InputWithButton } from './input-with-button';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 export function CtaSection() {
   return (
-    <section className="bg-background py-24 sm:py-32">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="overflow-hidden rounded-2xl bg-card shadow-lg">
-          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2">
-            <div className="p-8 text-foreground lg:p-12">
-              <h2 className="font-headline text-3xl font-bold sm:text-4xl">
-                Subscribe to our newsletter to receive our daily news
-              </h2>
-              <p className="mt-4 text-lg text-muted-foreground">
-                Lorem ipsum dolor sit amet consectetur lobortis tristique
-                sociis, tortor neque ultrices dictumst justo adipiscing amet sit
-                nec proin.
-              </p>
-              <div className="mt-8 max-w-md">
-                <InputWithButton />
-              </div>
-            </div>
-            <div className="relative h-64 w-full lg:h-full lg:min-h-[400px]">
-              <Image
-                src="https://aceternity.com/images/products/thumbnails/new/laptop.png"
-                alt="Laptop showing a website"
-                fill
-                className="object-contain object-right-bottom lg:object-cover lg:object-center"
-              />
-            </div>
-          </div>
-        </div>
+    <section className="relative w-full py-24 sm:py-32">
+      <div className="absolute inset-0">
+        <Image
+          src="https://picsum.photos/seed/cta-bg/1920/1080"
+          alt="Abstract background"
+          fill
+          className="object-cover"
+          data-ai-hint="abstract dark texture"
+        />
+        <div className="absolute inset-0 bg-black/60" />
+      </div>
+      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
+        <h2 className="font-headline text-3xl font-bold sm:text-4xl">
+          Join Our Newsletter
+        </h2>
+        <p className="mt-4 max-w-2xl mx-auto text-lg text-neutral-300">
+          Stay up to date with the latest news, articles, and resources, sent
+          straight to your inbox weekly.
+        </p>
+        <form className="mt-8 mx-auto max-w-md flex items-center gap-2">
+          <Input
+            type="email"
+            placeholder="Enter your email"
+            className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-neutral-400 focus-visible:ring-primary"
+            aria-label="Email for newsletter"
+          />
+          <Button type="submit" variant="default" size="lg">
+            Subscribe
+          </Button>
+        </form>
       </div>
     </section>
   );
