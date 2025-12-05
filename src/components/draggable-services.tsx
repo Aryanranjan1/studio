@@ -247,7 +247,7 @@ export function DraggableServices({
         }
         if (p.y - p.height / 2 < 0) {
           p.y = p.height / 2;
-          pvy = -p.vy * wallBounce;
+          p.vy = -p.vy * wallBounce;
         } else if (p.y + p.height / 2 > h) {
           p.y = h - p.height / 2;
           p.vy = -p.vy * wallBounce;
@@ -390,7 +390,7 @@ export function DraggableServices({
         }
       }
     };
-  }, [particlesRef.current, computeSizes]); // Re-run if particles or sizes change
+  }, [particlesRef.current]); // Re-run if particles or sizes change
 
   const attachRef = (p: Particle) => (el: HTMLDivElement | null) => {
     p.el = el;
@@ -444,6 +444,7 @@ export function DraggableServices({
             pointerEvents: "auto",
             cursor: p.picking ? "grabbing" : "grab",
             background: p.color,
+            border: "1px solid #cbd5e1", // slate-300
             boxShadow: p.picking
               ? "0 14px 36px rgba(0,0,0,0.45)"
               : "0 8px 20px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.03)",
@@ -475,5 +476,3 @@ function hexToRgb(hex: string) {
   }
   return null;
 }
-
-    

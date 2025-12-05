@@ -1,4 +1,5 @@
 
+
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { MoveUpRight, Zap, Code, Bot, TrendingUp } from 'lucide-react';
@@ -168,7 +169,7 @@ export function HeroGrid() {
       md:col-start-6 md:col-span-3 md:row-start-1 md:row-span-3
       lg:col-span-4 lg:row-span-4 lg:col-start-7 lg:row-start-1"
       >
-        <Link href="/services" className="group flex flex-col justify-between h-full w-full">
+        <div className="flex flex-col justify-between h-full w-full">
           <div className="flex justify-between items-start">
             <Badge variant="outline" className="bg-white/80 backdrop-blur-sm border-0 text-black">
               Our services
@@ -178,7 +179,7 @@ export function HeroGrid() {
           <div className='relative flex-grow w-full'>
             <DraggableServices services={services} />
           </div>
-        </Link>
+        </div>
       </BentoCard>
       {/* div5 - Blog */}
       <BentoCard
