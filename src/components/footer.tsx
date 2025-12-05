@@ -80,7 +80,7 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="relative h-48 w-full">
+      <div className="relative h-72 w-full">
         <Image 
             src="https://picsum.photos/seed/footer-bg/1600/400" 
             alt="Abstract decorative image"
