@@ -24,6 +24,8 @@ type Particle = {
   vx: number;
   vy: number;
   r: number; // radius
+  width: number;
+  height: number;
   mass: number;
   el?: HTMLDivElement | null;
   picking?: boolean;
@@ -72,9 +74,11 @@ export function DraggableServices({
   /* Responsive sizing parameters based on container */
   const computeSizes = (w: number, h: number) => {
     const S = Math.min(w, h);
-    const r = clamp(S * 0.16, 36, 110); // radius - made twice as big
-    const fontSize = Math.max(10, Math.round(r * 0.21)); // adjusted font scaling
-    return { r, fontSize };
+    const r = clamp(S * 0.1, 40, 90);
+    const width = r * 2.2;
+    const height = r * 1.2;
+    const fontSize = Math.max(10, Math.round(r * 0.21));
+    return { r, width, height, fontSize };
   };
 
   /* Initialize particles & positions */
@@ -82,7 +86,7 @@ export function DraggableServices({
     const container = containerRef.current!;
     if (!container) return;
     const rect = container.getBoundingClientRect();
-    const { r } = computeSizes(rect.width, rect.height);
+    const { r, width, height } = computeSizes(rect.width, rect.height);
 
     const centerX = rect.width / 2;
     const centerY = rect.height / 3;
@@ -103,7 +107,9 @@ export function DraggableServices({
         vx: (Math.random() - 0.5) * 120,
         vy: (Math.random() - 0.5) * 40,
         r,
-        mass: r * r * 0.01,
+        width,
+        height,
+        mass: width * height * 0.001,
         el: null,
         picking: false,
         ariaGrabbed: false
@@ -121,15 +127,17 @@ export function DraggableServices({
       const container = containerRef.current;
       if (!container) return;
       const rect = container.getBoundingClientRect();
-      const { r, fontSize } = computeSizes(rect.width, rect.height);
+      const { r, width, height, fontSize } = computeSizes(rect.width, rect.height);
       for (const p of particlesRef.current) {
         p.r = r;
-        p.mass = r * r * 0.01;
-        p.x = clamp(p.x, p.r, rect.width - p.r);
-        p.y = clamp(p.y, p.r, rect.height - p.r);
+        p.width = width;
+        p.height = height;
+        p.mass = width * height * 0.001;
+        p.x = clamp(p.x, p.width / 2, rect.width - p.width / 2);
+        p.y = clamp(p.y, p.height / 2, rect.height - p.height / 2);
         if (p.el) {
-          p.el.style.width = `${p.r * 2}px`;
-          p.el.style.height = `${p.r * 2}px`;
+          p.el.style.width = `${p.width}px`;
+          p.el.style.height = `${p.height}px`;
           p.el.style.borderRadius = `1rem`;
            const span = p.el.querySelector("span") as HTMLElement | null;
             if (span) {
@@ -195,7 +203,7 @@ export function DraggableServices({
           const dx = b.x - a.x;
           const dy = b.y - a.y;
           const dist = Math.hypot(dx, dy) || 0.0001;
-          const minDist = a.r + b.r;
+          const minDist = a.r + b.r + 2; // Add a small buffer to prevent visual overlap
           if (dist < minDist) {
             // --- Smoother Collision Resolution ---
             const overlap = minDist - dist;
@@ -236,18 +244,18 @@ export function DraggableServices({
 
       // wall collisions
       for (const p of particles) {
-        if (p.x - p.r < 0) {
-          p.x = p.r;
+        if (p.x - p.width / 2 < 0) {
+          p.x = p.width / 2;
           p.vx = -p.vx * wallBounce;
-        } else if (p.x + p.r > w) {
-          p.x = w - p.r;
+        } else if (p.x + p.width / 2 > w) {
+          p.x = w - p.width / 2;
           p.vx = -p.vx * wallBounce;
         }
-        if (p.y - p.r < 0) {
-          p.y = p.r;
+        if (p.y - p.height / 2 < 0) {
+          p.y = p.height / 2;
           p.vy = -p.vy * wallBounce;
-        } else if (p.y + p.r > h) {
-          p.y = h - p.r;
+        } else if (p.y + p.height / 2 > h) {
+          p.y = h - p.height / 2;
           p.vy = -p.vy * wallBounce;
         }
       }
@@ -255,8 +263,8 @@ export function DraggableServices({
       // write to DOM
       for (const p of particles) {
         if (p.el) {
-          const tx = Math.round(p.x - p.r);
-          const ty = Math.round(p.y - p.r);
+          const tx = Math.round(p.x - p.width / 2);
+          const ty = Math.round(p.y - p.height / 2);
           p.el.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
         }
       }
@@ -298,8 +306,8 @@ export function DraggableServices({
       p.lastPointerX = localX;
       p.lastPointerY = localY;
 
-      p.x = clamp(localX, p.r, rect.width - p.r);
-      p.y = clamp(localY, p.r, rect.height - p.r);
+      p.x = clamp(localX, p.width / 2, rect.width - p.width / 2);
+      p.y = clamp(localY, p.height / 2, rect.height - p.height / 2);
     };
 
     const onPointerUpGlobal = (_e: PointerEvent) => {
@@ -330,15 +338,15 @@ export function DraggableServices({
     if (!el) return;
     const { fontSize } = computeSizes(containerRef.current?.clientWidth ?? 0, containerRef.current?.clientHeight ?? 0);
 
-    el.style.width = `${p.r * 2}px`;
-    el.style.height = `${p.r * 2}px`;
+    el.style.width = `${p.width}px`;
+    el.style.height = `${p.height}px`;
     el.style.borderRadius = `1rem`;
     const span = el.querySelector("span") as HTMLElement | null;
     if (span) {
       span.style.fontSize = `${fontSize}px`;
     }
 
-    el.style.transform = `translate3d(${Math.round(p.x - p.r)}px, ${Math.round(p.y - p.r)}px, 0)`;
+    el.style.transform = `translate3d(${Math.round(p.x - p.width / 2)}px, ${Math.round(p.y - p.height / 2)}px, 0)`;
 
     const onPointerDown = (ev: PointerEvent) => {
       ev.preventDefault();
@@ -365,7 +373,7 @@ export function DraggableServices({
           p.lastPointerTS = e.timeStamp;
         }
         p.lastPointerX = localX;
-        p.y = clamp(localY, p.r, rect.height - p.r);
+        p.y = clamp(localY, p.height / 2, rect.height - p.height / 2);
       };
 
       const onPointerUpGlobal = (e: PointerEvent) => {
@@ -446,9 +454,9 @@ export function DraggableServices({
             position: "absolute",
             left: 0,
             top: 0,
-            transform: `translate3d(${Math.round(p.x - p.r)}px, ${Math.round(p.y - p.r)}px, 0)`,
-            width: `${p.r * 2}px`,
-            height: `${p.r * 2}px`,
+            transform: `translate3d(${Math.round(p.x - p.width / 2)}px, ${Math.round(p.y - p.height / 2)}px, 0)`,
+            width: `${p.width}px`,
+            height: `${p.height}px`,
             borderRadius: `1rem`,
             display: "flex",
             alignItems: "center",
@@ -514,5 +522,3 @@ function shade(hex: string, percent: number) {
   const b = clamp(rgb.b + amt, 0, 255);
   return `rgb(${r}, ${g}, ${b})`;
 }
-
-    
