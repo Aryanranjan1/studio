@@ -16,8 +16,8 @@ export default function Home() {
         <HeroGrid />
       </div>
       <ServicesSection />
-      <PricingSection />
       <FeaturedPortfolio />
+      <PricingSection />
       <TestimonialsSection />
       <CtaSection />
       <BlogSection />
