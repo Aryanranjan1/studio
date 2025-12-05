@@ -3,15 +3,16 @@ import React, { useEffect, useRef, useState } from "react";
 
 /* ----- Config / Data ----- */
 const SKILLS = [
-    { id: "web-design", label: "Web Design", color: "#e5ecfc" },
-    { id: "development", label: "Development", color: "#e2f9e5" },
-    { id: "mobile-app", label: "Mobile App", color: "#fff0e2" },
-    { id: "automation", label: "Automation", color: "#fce2e2" },
-    { id: "seo", label: "SEO", color: "#f5e2fc" },
-    { id: "ui-ux", label: "UI/UX", color: "#e2fcfc" },
-    { id: "webflow", label: "Webflow", color: "#fcfce2" },
-    { id: "framer", label: "Framer", color: "#e2eafc" }
+    { id: "web-design", label: "Web Design", color: "#f1f5f9" },
+    { id: "development", label: "Development", color: "#f8fafc" },
+    { id: "mobile-app", label: "Mobile App", color: "#e2e8f0" },
+    { id: "automation", label: "Automation", color: "#f1f5f9" },
+    { id: "seo", label: "SEO", color: "#e2e8f0" },
+    { id: "ui-ux", label: "UI/UX", color: "#f8fafc" },
+    { id: "webflow", label: "Webflow", color: "#f1f5f9" },
+    { id: "framer", label: "Framer", color: "#e2e8f0" }
 ] as const;
+
 
 type Skill = typeof SKILLS[number];
 
@@ -94,7 +95,7 @@ export function DraggableServices({
     const particles: Particle[] = SKILLS.map((s, i) => {
       // spawn with slight offset so they don't perfectly overlap
       const angle = (i / SKILLS.length) * Math.PI * 2;
-      const spread = Math.min(rect.width, rect.height) * 0.15;
+      const spread = Math.min(rect.width, rect.height) * 0.3; // Increased spread
       const x = clamp(centerX + Math.cos(angle) * spread, width/2, rect.width - width/2);
       const y = clamp(centerY + Math.sin(angle) * spread, height/2, rect.height - height/2);
 
@@ -104,8 +105,8 @@ export function DraggableServices({
         color: s.color,
         x,
         y,
-        vx: (Math.random() - 0.5) * 120,
-        vy: (Math.random() - 0.5) * 40,
+        vx: (Math.random() - 0.5) * 80, // Reduced initial velocity
+        vy: (Math.random() - 0.5) * 80,
         r,
         width,
         height,
@@ -176,8 +177,7 @@ export function DraggableServices({
       // integrate
       for (const p of particles) {
         if (p.picking) {
-          p.vx *= 0.9;
-          p.vy *= 0.9;
+          // If picking, position is set by pointer events, not physics
           continue;
         }
         p.vy += gravity * dt;
@@ -287,17 +287,17 @@ export function DraggableServices({
       const localX = e.clientX - rect.left;
       const localY = e.clientY - rect.top;
 
+      // Calculate velocity on drag for a "throw" effect on release
       if (p.lastPointerX != null && p.lastPointerY != null) {
         const dt = Math.max(1 / 60, ((e.timeStamp - (p.lastPointerTS || e.timeStamp)) / 1000) || 1 / 60);
-        const vx = (localX - p.lastPointerX) / dt;
-        const vy = (localY - p.lastPointerY) / dt;
-        p.vx = vx;
-        p.vy = vy;
+        p.vx = (localX - p.lastPointerX) / dt;
+        p.vy = (localY - p.lastPointerY) / dt;
       }
       p.lastPointerX = localX;
       p.lastPointerY = localY;
       p.lastPointerTS = e.timeStamp;
-
+      
+      // Directly set position while dragging
       p.x = clamp(localX, p.width / 2, rect.width - p.width / 2);
       p.y = clamp(localY, p.height / 2, rect.height - p.height / 2);
     };
@@ -309,9 +309,9 @@ export function DraggableServices({
       if (!p) return;
       p.picking = false;
       p.ariaGrabbed = false;
-      p.lastPointerX = undefined;
-      p.lastPointerY = undefined;
-      p.lastPointerTS = undefined;
+      
+      // Keep last calculated velocity for the throw
+      
       draggingRef.current.id = null;
       
       window.removeEventListener("pointermove", onPointerMoveGlobal);
@@ -324,14 +324,14 @@ export function DraggableServices({
 
       const onPointerDown = (ev: PointerEvent) => {
         ev.preventDefault();
-        const container = containerRef.current!;
-        const rect = container.getBoundingClientRect();
         
         p.picking = true;
         p.ariaGrabbed = true;
-        p.lastPointerX = ev.clientX - rect.left;
-        p.lastPointerY = ev.clientY - rect.top;
-        p.lastPointerTS = ev.timeStamp;
+        p.vx = 0; // Zero out velocity on pickup
+        p.vy = 0;
+        p.lastPointerX = undefined; // Reset for new velocity calculation
+        p.lastPointerY = undefined;
+        p.lastPointerTS = undefined;
         draggingRef.current.id = p.id;
         
         try {
@@ -346,12 +346,18 @@ export function DraggableServices({
           ev.preventDefault();
           p.picking = !p.picking;
           p.ariaGrabbed = p.picking;
+          if (p.picking) {
+            p.vx = p.vy = 0;
+          }
         } else if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(ev.key)) {
-          const nudge = 8;
-          if (ev.key === "ArrowUp") p.y -= nudge;
-          if (ev.key === "ArrowDown") p.y += nudge;
-          if (ev.key === "ArrowLeft") p.x -= nudge;
-          if (ev.key === "ArrowRight") p.x += nudge;
+          if (p.picking) {
+            ev.preventDefault();
+            const nudge = 10;
+            if (ev.key === "ArrowUp") p.y -= nudge;
+            if (ev.key === "ArrowDown") p.y += nudge;
+            if (ev.key === "ArrowLeft") p.x -= nudge;
+            if (ev.key === "ArrowRight") p.x += nudge;
+          }
         }
       };
 
@@ -369,7 +375,7 @@ export function DraggableServices({
         if ((p.el as any)?._cleanup) {
             (p.el as any)._cleanup();
         }
-        attachDragHandlers(p);
+        if(p.el) attachDragHandlers(p);
     }
 
     return () => {
@@ -381,105 +387,11 @@ export function DraggableServices({
         }
       }
     };
-  }, [particlesRef.current]);
+  }, [particlesRef.current, computeSizes]); // Re-run if particles or sizes change
 
   const attachRef = (p: Particle) => (el: HTMLDivElement | null) => {
-    if ((p.el as any)?._cleanup) {
-      (p.el as any)._cleanup();
-    }
-
     p.el = el;
-    if (!el) return;
-    const { fontSize } = computeSizes(containerRef.current?.clientWidth ?? 0, containerRef.current?.clientHeight ?? 0);
-
-    el.style.width = `${p.width}px`;
-    el.style.height = `${p.height}px`;
-    el.style.borderRadius = `999px`;
-    const span = el.querySelector("span") as HTMLElement | null;
-    if (span) {
-      span.style.fontSize = `${fontSize}px`;
-    }
-
-    el.style.transform = `translate3d(${Math.round(p.x - p.width / 2)}px, ${Math.round(p.y - p.height / 2)}px, 0)`;
-
-    const onPointerDown = (ev: PointerEvent) => {
-      ev.preventDefault();
-      const container = containerRef.current!;
-      const rect = container.getBoundingClientRect();
-      
-      p.picking = true;
-      p.ariaGrabbed = true;
-      p.lastPointerX = ev.clientX - rect.left;
-      p.lastPointerY = ev.clientY - rect.top;
-      p.lastPointerTS = ev.timeStamp;
-      draggingRef.current.id = p.id;
-      
-      const onPointerMoveGlobal = (e: PointerEvent) => {
-          if (draggingRef.current.id !== p.id) return;
-          const localX = e.clientX - rect.left;
-          const localY = e.clientY - rect.top;
-
-          if (p.lastPointerX != null && p.lastPointerY != null) {
-              const dt = Math.max(1 / 60, ((e.timeStamp - (p.lastPointerTS || e.timeStamp)) / 1000) || 1 / 60);
-              const vx = (localX - p.lastPointerX) / dt;
-              const vy = (localY - p.lastPointerY) / dt;
-              p.vx = vx;
-              p.vy = vy;
-          }
-          p.lastPointerX = localX;
-          p.lastPointerY = localY;
-          p.lastPointerTS = e.timeStamp;
-
-          p.x = clamp(localX, p.width / 2, rect.width - p.width / 2);
-          p.y = clamp(localY, p.height / 2, rect.height - p.height / 2);
-      };
-
-      const onPointerUpGlobal = (e: PointerEvent) => {
-        if (draggingRef.current.id !== p.id) return;
-        p.picking = false;
-        p.ariaGrabbed = false;
-        p.lastPointerX = undefined;
-        p.lastPointerY = undefined;
-        p.lastPointerTS = undefined;
-        draggingRef.current.id = null;
-        try {
-          el.releasePointerCapture(ev.pointerId);
-        } catch (err) {}
-        window.removeEventListener("pointermove", onPointerMoveGlobal);
-        window.removeEventListener("pointerup", onPointerUpGlobal);
-      };
-
-      try {
-        el.setPointerCapture(ev.pointerId);
-      } catch (err) {}
-      window.addEventListener("pointermove", onPointerMoveGlobal);
-      window.addEventListener("pointerup", onPointerUpGlobal);
-    };
-
-    el.addEventListener("pointerdown", onPointerDown);
-    el.tabIndex = 0;
-    const onKeyDown = (ev: KeyboardEvent) => {
-      if (ev.key === " " || ev.key === "Enter") {
-        ev.preventDefault();
-        p.picking = !p.picking;
-        p.ariaGrabbed = p.picking;
-      } else if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(ev.key)) {
-        ev.preventDefault()
-        const nudge = 8;
-        if(p.picking) {
-            if (ev.key === "ArrowUp") p.y -= nudge;
-            if (ev.key === "ArrowDown") p.y += nudge;
-            if (ev.key === "ArrowLeft") p.x -= nudge;
-            if (ev.key === "ArrowRight") p.x += nudge;
-        }
-      }
-    };
-    el.addEventListener("keydown", onKeyDown);
-
-    (el as any)._cleanup = () => {
-      el.removeEventListener("pointerdown", onPointerDown);
-      el.removeEventListener("keydown", onKeyDown);
-    };
+    // Handlers are attached in the useEffect above now
   };
 
   /* Render */
@@ -506,6 +418,7 @@ export function DraggableServices({
           key={p.id}
           ref={attachRef(p)}
           role="button"
+          tabIndex={0}
           aria-label={`${p.label} skill`}
           aria-grabbed={p.ariaGrabbed ? "true" : "false"}
           style={{
@@ -523,11 +436,11 @@ export function DraggableServices({
             boxSizing: "border-box",
             fontSize: "14px",
             fontWeight: 700,
+            color: "#334155", // slate-700
             whiteSpace: "nowrap",
             pointerEvents: "auto",
             cursor: p.picking ? "grabbing" : "grab",
-            background: `linear-gradient(135deg, ${p.color}, ${shade(p.color, -18)})`,
-            color: getTextColorForBg(p.color),
+            background: p.color,
             boxShadow: p.picking
               ? "0 14px 36px rgba(0,0,0,0.45)"
               : "0 8px 20px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.03)",
@@ -542,17 +455,6 @@ export function DraggableServices({
 }
 
 /* ----- Helpers for colors ----- */
-
-function getTextColorForBg(hex: string) {
-  const c = hexToRgb(hex);
-  if (!c) return "#000";
-  const lum = (0.2126 * srgb(c.r) + 0.7152 * srgb(c.g) + 0.0722 * srgb(c.b));
-  return lum > 0.6 ? "#000000" : "#fff";
-}
-function srgb(v: number) {
-  v /= 255;
-  return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-}
 function hexToRgb(hex: string) {
   const h = hex.replace("#", "");
   if (h.length === 3) {
@@ -569,14 +471,4 @@ function hexToRgb(hex: string) {
     };
   }
   return null;
-}
-
-function shade(hex: string, percent: number) {
-  const rgb = hexToRgb(hex);
-  if (!rgb) return hex;
-  const amt = Math.round((percent / 100) * 255);
-  const r = clamp(rgb.r + amt, 0, 255);
-  const g = clamp(rgb.g + amt, 0, 255);
-  const b = clamp(rgb.b + amt, 0, 255);
-  return `rgb(${r}, ${g}, ${b})`;
 }
