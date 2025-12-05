@@ -4,7 +4,6 @@ import { FeaturedPortfolio } from '@/components/featured-portfolio';
 import { Footer } from '@/components/footer';
 import { HeroGrid } from '@/components/hero-grid';
 import { OzonteHero } from '@/components/ozonte-hero';
-import { ProcessSection } from '@/components/process-section';
 import { ServicesSection } from '@/components/services-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
 import { WhyChooseUsSection } from '@/components/why-choose-us-section';
@@ -17,7 +16,6 @@ export default function Home() {
       <ServicesSection />
       <WhyChooseUsSection />
       <FeaturedPortfolio />
-      <ProcessSection />
       <TestimonialsSection />
       <CtaSection />
       <BlogSection />
