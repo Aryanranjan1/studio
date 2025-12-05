@@ -1,68 +1,74 @@
+'use client';
+
 import { getProjects } from '@/lib/data';
-import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MoveRight } from 'lucide-react';
 import { Badge } from './ui/badge';
-import { Button } from './ui/button';
-import { Card } from './ui/card';
+import { useEffect, useState } from 'react';
+import type { Project } from '@/lib/data';
+
+const FeaturedProjectColumn = ({
+  project,
+  index,
+}: {
+  project: Project;
+  index: number;
+}) => {
+  return (
+    <Link
+      href={`/portfolio/${project.id}`}
+      className="group relative flex h-[80vh] flex-col justify-between overflow-hidden border-r border-border p-6 transition-all duration-500 hover:bg-black"
+      style={{'--bg-image': `url(${project.image})`} as React.CSSProperties}
+    >
+      <div className="absolute inset-0 z-0 bg-[image:var(--bg-image)] bg-cover bg-center opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+       <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+      <div className="relative z-20 flex justify-between">
+        <span className="font-headline text-8xl font-thin text-foreground transition-colors duration-500 group-hover:text-white">
+          0{index + 1}
+        </span>
+      </div>
+      <div className="relative z-20">
+        <Badge
+          variant="outline"
+          className="rounded-full border-foreground/50 bg-transparent px-4 py-2 text-sm uppercase text-foreground transition-colors duration-500 group-hover:border-white/50 group-hover:bg-white/10 group-hover:text-white"
+        >
+          {project.technologies[0]}
+        </Badge>
+        <h3 className="mt-4 font-headline text-2xl font-bold text-foreground transition-colors duration-500 group-hover:text-white">
+          {project.title}
+        </h3>
+        <MoveRight className="mt-4 h-6 w-6 text-foreground transition-all duration-500 group-hover:translate-x-2 group-hover:text-white" />
+      </div>
+    </Link>
+  );
+};
 
 export function FeaturedPortfolio() {
-  const featuredProjects = getProjects().slice(0, 2);
+  const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    const allProjects = getProjects();
+    const projectsWithFeatured = allProjects.filter(p => p.featured);
+    // Get 4 random featured projects
+    const randomProjects = projectsWithFeatured.sort(() => 0.5 - Math.random()).slice(0, 4);
+    setFeaturedProjects(randomProjects);
+  }, []);
+
+  if (featuredProjects.length < 4) {
+    return null;
+  }
 
   return (
-    <section className="py-24 sm:py-32">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <Badge
-            variant="outline"
-            className="mb-4 border-primary/50 text-primary"
-          >
-            Our Work
-          </Badge>
-          <h2 className="font-headline text-3xl font-bold sm:text-4xl">
-            Featured Projects
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-            A glimpse into the digital experiences we’ve crafted.
-          </p>
-        </div>
-        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2">
-          {featuredProjects.map(project => (
-            <Link
-              href={`/portfolio/${project.id}`}
-              key={project.id}
-              className="group"
-            >
-              <Card className="overflow-hidden transition-all duration-300 group-hover:shadow-primary/10">
-                <div className="relative h-80 w-full">
-                  <Image
-                    src={project.image}
-                    alt={project.imageAlt}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                  <div className="absolute bottom-0 left-0 p-6">
-                    <Badge variant="secondary">{project.category}</Badge>
-                    <h3 className="mt-2 font-headline text-2xl font-bold text-white">
-                      {project.title}
-                    </h3>
-                  </div>
-                  <div className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-background/50 text-white opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
-                    <ArrowRight className="h-5 w-5" />
-                  </div>
-                </div>
-              </Card>
-            </Link>
-          ))}
-        </div>
-        <div className="mt-16 text-center">
-          <Button asChild size="lg">
-            <Link href="/portfolio">
-              View All Projects <ArrowRight className="ml-2" />
-            </Link>
-          </Button>
-        </div>
+    <section className="border-t border-border bg-background">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        {featuredProjects.map((project, index) => (
+          <FeaturedProjectColumn
+            key={project.id}
+            project={project}
+            index={index}
+          />
+        ))}
       </div>
     </section>
   );

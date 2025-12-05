@@ -39,6 +39,7 @@ export type Project = {
     role: string;
     company: string;
   };
+  featured?: boolean;
 };
 
 export type Testimonial = {
@@ -198,7 +199,7 @@ export const getProjects = (): Project[] => Array.from({ length: 20 }, (_, i) =>
     role: ['Lead Developer', 'UI/UX Designer', 'Project Manager', 'QA Engineer'][i % 4],
     duration: `${i % 6 + 2} Months`,
     url: '#',
-    technologies: [['Next.js', 'Firebase', 'Stripe'], ['Figma', 'Webflow'], ['Zapier', 'Airtable'], ['React Native', 'Firebase']][i % 4],
+    technologies: [['LABORATORY', 'Next.js', 'Firebase'], ['ENGINEERING', 'Figma', 'Webflow'], ['LAB PRODUCTION', 'Zapier', 'Airtable'], ['PROJECTS 3D', 'React Native', 'Firebase']][i % 4],
     kpis: [
       { value: `${i*5 + 10}%+`, label: 'Metric Increase' },
       { value: `$${(i+1) * 100}k`, label: 'Revenue Generated' },
@@ -209,6 +210,7 @@ export const getProjects = (): Project[] => Array.from({ length: 20 }, (_, i) =>
       role: 'CEO',
       company: `Company ${i + 1}`,
     },
+    featured: i < 8, // Let's feature the first 8 projects for variety
 }));
 
 export const getFounder = (): Founder => ({
@@ -321,4 +323,3 @@ export const getTemplates = (): Template[] => Array.from({ length: 20 }, (_, i) 
       'Lifetime Updates',
     ],
 }));
-
