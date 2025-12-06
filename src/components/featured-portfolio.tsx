@@ -59,7 +59,18 @@ export function FeaturedPortfolio() {
   }, []);
 
   if (featuredProjects.length < 4) {
-    return null;
+    // Return a placeholder or null while waiting for the client-side effect to run
+    // This ensures the server-render and initial client-render match.
+    return (
+        <section className="border-t border-border bg-background">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 h-[90vh]">
+                <div className="border-r border-border p-6"></div>
+                <div className="border-r border-border p-6"></div>
+                <div className="border-r border-border p-6"></div>
+                <div className="border-r border-border p-6"></div>
+            </div>
+        </section>
+    );
   }
 
   return (

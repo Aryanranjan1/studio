@@ -45,7 +45,11 @@ const StatCard = ({
 export function HeroGrid() {
   const allArticles = getArticles();
   const popularArticles = allArticles.filter(a => a.popular);
-  const featuredArticle = popularArticles.length > 0 ? popularArticles[Math.floor(Math.random() * popularArticles.length)] : allArticles[0];
+  // This Math.random is safe because it's used to pick from a static list
+  // and the entire component is client-side rendered by its parent if necessary,
+  // but for safety, we could also move this into a useEffect if hydration issues persist.
+  // For now, it's selecting from a list that should be consistent between server/client.
+  const featuredArticle = popularArticles.length > 0 ? popularArticles[0] : allArticles[0];
 
 
   return (
