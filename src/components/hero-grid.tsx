@@ -1,5 +1,4 @@
 
-
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { MoveUpRight, Zap, Code, Bot, TrendingUp } from 'lucide-react';
@@ -7,8 +6,8 @@ import { HeroSvg } from './hero-svg';
 import Link from 'next/link';
 import { Badge } from './ui/badge';
 import placeholderImages from '@/app/lib/placeholder-images.json';
-import { DraggableServices } from './draggable-services';
 import { getArticles } from '@/lib/data';
+import { DraggableServices } from './draggable-services';
 
 const BentoCard = ({
   className,
@@ -44,19 +43,9 @@ const StatCard = ({
 );
 
 export function HeroGrid() {
-  const services = [
-    'Web Design',
-    'Development',
-    'Mobile App',
-    'Automation',
-    'SEO',
-    'UI/UX',
-    'Webflow',
-    'Framer',
-  ];
   const allArticles = getArticles();
   const popularArticles = allArticles.filter(a => a.popular);
-  const featuredArticle = popularArticles[Math.floor(Math.random() * popularArticles.length)];
+  const featuredArticle = popularArticles.length > 0 ? popularArticles[Math.floor(Math.random() * popularArticles.length)] : allArticles[0];
 
 
   return (
@@ -72,11 +61,11 @@ export function HeroGrid() {
       lg:col-span-6 lg:row-span-5 items-center justify-center"
       >
         <Image
-          src="https://picsum.photos/seed/hero-main-bg/1200/800"
+          src="https://picsum.photos/seed/hero-abstract-purple/1200/800"
           alt="Abstract background"
           fill
           className="object-cover"
-          data-ai-hint="abstract dark"
+          data-ai-hint="abstract purple dark"
         />
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 flex h-full w-full flex-col justify-between p-6 text-white">
@@ -93,50 +82,22 @@ export function HeroGrid() {
               WE ARE CREATING A BEAUTIFUL DESIGN FOR YOU{' '}
             </h1>
           </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex flex-col">
-              <span className="text-sm text-neutral-300">Our Creators</span>
-              <div className="mt-2 flex items-center">
-                <div className="flex -space-x-2 overflow-hidden">
-                  <Image
-                    className="inline-block h-8 w-8 rounded-full ring-2 ring-background"
-                    src="https://picsum.photos/seed/creator-avatar1/40/40"
-                    width={40}
-                    height={40}
-                    alt="Creator 1"
-                    data-ai-hint="woman smiling"
-                  />
-                  <Image
-                    className="inline-block h-8 w-8 rounded-full ring-2 ring-background"
-                    src="https://picsum.photos/seed/creator-avatar2/40/40"
-                    width={40}
-                    height={40}
-                    alt="Creator 2"
-                    data-ai-hint="man portrait"
-                  />
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground ring-2 ring-background">
-                    2k+
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </BentoCard>
       {/* div2 */}
       <BentoCard
-        className="text-black bg-gradient-to-br from-cyan-200 to-cyan-400
+        className="text-foreground bg-card/50
       col-span-2 row-span-2
       md:col-span-3 md:row-start-6 md:row-span-3
       lg:col-span-3 lg:row-span-3 lg:col-start-1 lg:row-start-6 p-6 flex flex-col justify-between"
       >
-        <Link href="/about" className="group flex flex-col justify-between h-full">
+        <div className="absolute inset-0 z-0 opacity-20" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'}}></div>
+        <Link href="/about" className="group flex flex-col justify-between h-full z-10">
           <div className="flex justify-between items-start">
-            <Badge variant="outline" className="bg-white/80 backdrop-blur-sm border-0 text-black">
+            <Badge variant="outline" className="bg-background/80 backdrop-blur-sm border-border text-foreground">
               About us
             </Badge>
-            <MoveUpRight className="h-6 w-6 text-black transition-transform group-hover:rotate-45" />
+            <MoveUpRight className="h-6 w-6 text-foreground transition-transform group-hover:rotate-45" />
           </div>
           <h2 className="text-lg font-semibold mt-auto">
             Explore our fascinating journey and the services we offer you
@@ -145,17 +106,18 @@ export function HeroGrid() {
       </BentoCard>
       {/* div3 */}
       <BentoCard
-        className="text-black bg-violet-300
+        className="text-foreground bg-card/50
       col-span-2 row-span-2
-      md:col-span-2 md:row-start-6 md:row-span-3
+      md:col-span-2 md:row-start-6 md-row-span-3
       lg:col-span-3 lg:row-span-3 lg:col-start-4 lg:row-start-6 p-6 flex flex-col justify-between"
       >
-        <Link href="/services" className="group flex flex-col justify-between h-full">
+        <div className="absolute inset-0 z-0 opacity-20" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'49\' viewBox=\'0 0 28 49\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg id=\'Page-1\' fill=\'%239C92AC\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M28 0v49H0V0h28zM0 48h28v1H0v-1z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'}}></div>
+        <Link href="/services" className="group flex flex-col justify-between h-full z-10">
           <div className="flex justify-between items-start">
-            <Badge variant="outline" className="bg-white/80 backdrop-blur-sm border-0 text-black">
+            <Badge variant="outline" className="bg-background/80 backdrop-blur-sm border-border text-foreground">
               New release
             </Badge>
-            <MoveUpRight className="h-6 w-6 text-black transition-transform group-hover:rotate-45" />
+            <MoveUpRight className="h-6 w-6 text-foreground transition-transform group-hover:rotate-45" />
           </div>
           <h2 className="text-lg font-semibold mt-auto">
             Get ready to take on a new workload
@@ -164,20 +126,20 @@ export function HeroGrid() {
       </BentoCard>
       {/* div4 */}
       <BentoCard
-        className="bg-[#7ba2ee]
+        className="bg-muted
       col-span-4 row-span-3 flex-col justify-between
       md:col-start-6 md:col-span-3 md:row-start-1 md:row-span-3
       lg:col-span-4 lg:row-span-4 lg:col-start-7 lg:row-start-1"
       >
         <div className="flex flex-col justify-between h-full w-full">
           <div className="flex justify-between items-start">
-            <Badge variant="outline" className="bg-white/80 backdrop-blur-sm border-0 text-black">
+            <Badge variant="outline" className="bg-background/80 backdrop-blur-sm border-border text-foreground">
               Our services
             </Badge>
             <span className="text-sm font-semibold">2025-26</span>
           </div>
           <div className='relative flex-grow w-full'>
-            <DraggableServices services={services} />
+            <DraggableServices services={[]} />
           </div>
         </div>
       </BentoCard>
@@ -230,7 +192,7 @@ export function HeroGrid() {
       </BentoCard>
       {/* div7 */}
       <BentoCard
-        className="bg-gradient-to-br from-amber-200 to-amber-400 p-6 text-black
+        className="bg-gradient-to-br from-primary to-primary/70 p-6 text-primary-foreground
         col-span-4 row-span-1
         md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-7 
         lg:col-span-2 lg:row-span-2 lg:col-start-11 lg:row-start-7"

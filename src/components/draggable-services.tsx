@@ -3,14 +3,14 @@ import React, { useEffect, useRef, useState } from "react";
 
 /* ----- Config / Data ----- */
 const SKILLS = [
-    { id: "web-design", label: "Web Design", color: "#f1f5f9" },
-    { id: "development", label: "Development", color: "#f8fafc" },
-    { id: "mobile-app", label: "Mobile App", color: "#e2e8f0" },
-    { id: "automation", label: "Automation", color: "#f1f5f9" },
-    { id: "seo", label: "SEO", color: "#e2e8f0" },
-    { id: "ui-ux", label: "UI/UX", color: "#f8fafc" },
-    { id: "webflow", label: "Webflow", color: "#f1f5f9" },
-    { id: "framer", label: "Framer", color: "#e2e8f0" }
+    { id: "web-design", label: "Web Design" },
+    { id: "development", label: "Development" },
+    { id: "mobile-app", label: "Mobile App" },
+    { id: "automation", label: "Automation" },
+    { id: "seo", label: "SEO" },
+    { id: "ui-ux", label: "UI/UX" },
+    { id: "webflow", label: "Webflow" },
+    { id: "framer", label: "Framer" }
 ] as const;
 
 
@@ -19,7 +19,6 @@ type Skill = typeof SKILLS[number];
 type Particle = {
   id: string;
   label: string;
-  color: string;
   x: number;
   y: number;
   vx: number;
@@ -102,7 +101,6 @@ export function DraggableServices({
       return {
         id: s.id,
         label: s.label,
-        color: s.color,
         x,
         y,
         vx: (Math.random() - 0.5) * 80, // Reduced initial velocity
@@ -406,6 +404,15 @@ export function DraggableServices({
 
   /* Render */
   const particles = particlesRef.current;
+  const pillColors = [
+    'bg-primary text-primary-foreground',
+    'bg-secondary text-secondary-foreground',
+    'bg-muted text-muted-foreground',
+    'bg-primary/70 text-primary-foreground',
+    'bg-secondary/70 text-secondary-foreground',
+    'bg-muted/70 text-muted-foreground',
+  ];
+
 
   return (
     <div
@@ -423,7 +430,7 @@ export function DraggableServices({
       }}
       aria-label="Skill pills playground"
     >
-      {particles.map((p) => (
+      {particles.map((p, i) => (
         <div
           key={p.id}
           ref={attachRef(p)}
@@ -431,55 +438,23 @@ export function DraggableServices({
           tabIndex={0}
           aria-label={`${p.label} skill`}
           aria-grabbed={p.ariaGrabbed ? "true" : "false"}
+          className={cn(
+              "absolute flex items-center justify-center p-2 rounded-full cursor-grab active:cursor-grabbing",
+              pillColors[i % pillColors.length],
+          )}
           style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
             transform: `translate3d(${Math.round(p.x - p.width / 2)}px, ${Math.round(p.y - p.height / 2)}px, 0)`,
             width: `${p.width}px`,
             height: `${p.height}px`,
-            borderRadius: `999px`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "6px 12px",
-            boxSizing: "border-box",
-            fontSize: "14px",
-            fontWeight: 700,
-            color: "#334155", // slate-700
-            whiteSpace: "nowrap",
-            pointerEvents: "auto",
-            cursor: p.picking ? "grabbing" : "grab",
-            background: p.color,
-            border: "2px solid #334155", // slate-700
             boxShadow: p.picking
               ? "0 14px 36px rgba(0,0,0,0.45)"
               : "0 8px 20px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.03)",
             transition: "box-shadow 0.12s ease"
           }}
         >
-          <span style={{ transform: "translateY(-1px)", pointerEvents: "none" }}>{p.label}</span>
+          <span className="pointer-events-none" style={{ transform: "translateY(-1px)"}}>{p.label}</span>
         </div>
       ))}
     </div>
   );
-}
-
-/* ----- Helpers for colors ----- */
-function hexToRgb(hex: string) {
-  const h = hex.replace("#", "");
-  if (h.length === 3) {
-    return {
-      r: parseInt(h[0] + h[0], 16),
-      g: parseInt(h[1] + h[1], 16),
-      b: parseInt(h[2] + h[2], 16)
-    };
-  } else if (h.length === 6) {
-    return {
-      r: parseInt(h.substring(0, 2), 16),
-      g: parseInt(h.substring(2, 4), 16),
-      b: parseInt(h.substring(4, 6), 16)
-    };
-  }
-  return null;
 }
