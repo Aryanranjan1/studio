@@ -1,3 +1,4 @@
+
 'use client';
 
 import { getProjects } from '@/lib/data';
@@ -17,7 +18,7 @@ const FeaturedProjectColumn = ({
   return (
     <Link
       href={`/portfolio/${project.id}`}
-      className="group relative flex h-[90vh] flex-col justify-between overflow-hidden border-r border-border p-6 transition-all duration-500 hover:bg-black"
+      className="group relative flex h-[90vh] flex-col justify-between overflow-hidden border-t border-b border-r border-border p-6 transition-all duration-500 hover:bg-black"
       style={{'--bg-image': `url(${project.image})`} as React.CSSProperties}
     >
       <div className="absolute inset-0 z-0 bg-[image:var(--bg-image)] bg-cover bg-center opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
@@ -54,7 +55,7 @@ export function FeaturedPortfolio() {
     const allProjects = getProjects();
     const projectsWithFeatured = allProjects.filter(p => p.featured);
     // Get 4 random featured projects
-    const randomProjects = projectsWithFeatured.sort(() => 0.5 - Math.random()).slice(0, 4);
+    const randomProjects = [...projectsWithFeatured].sort(() => 0.5 - Math.random()).slice(0, 4);
     setFeaturedProjects(randomProjects);
   }, []);
 
