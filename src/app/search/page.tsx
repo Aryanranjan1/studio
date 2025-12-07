@@ -1,3 +1,4 @@
+
 import { Badge } from '@/components/ui/badge';
 import { getArticles, getProjects, getTemplates } from '@/lib/data';
 import { SearchResults } from '@/components/search-results';
@@ -16,7 +17,7 @@ export default function SearchPage() {
             variant="outline"
             className="border-primary/50 text-primary"
           >
-            Search
+            Search & Explore
           </Badge>
           <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
             Find What You&apos;re Looking For
