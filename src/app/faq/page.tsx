@@ -33,25 +33,32 @@ export default function FaqPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <main className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
-        {/* Hero Section */}
-        <section className="mb-16 md:mb-24">
-          <div className="max-w-3xl">
-            <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-              Frequently Asked Questions
-            </h1>
-            <p className="mt-6 text-lg text-muted-foreground">
-              Clear answers about our process, pricing, timelines, support, and
-              working with Ampire Studio.
-            </p>
-            <Button asChild variant="link" className="mt-6 px-0">
-              <Link href="/contact">
-                Contact Us <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </section>
 
+      {/* Hero Section */}
+      <section className="-mx-4 -mt-4 bg-primary text-primary-foreground sm:-mx-6">
+        <div className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+            <div className="max-w-3xl">
+              <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+                Frequently Asked Questions
+              </h1>
+              <p className="mt-6 text-lg text-primary-foreground/80">
+                Clear answers about our process, pricing, timelines, support, and
+                working with Ampire Studio.
+              </p>
+              <Button
+                asChild
+                variant="link"
+                className="mt-6 px-0 text-primary-foreground hover:text-primary-foreground/80"
+              >
+                <Link href="/contact">
+                  Contact Us <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+        </div>
+      </section>
+
+      <main className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
         {/* Featured Questions */}
         <section className="mb-16">
            <h2 className="font-headline text-2xl font-bold">Top Questions</h2>
