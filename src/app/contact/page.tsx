@@ -194,7 +194,7 @@ export default function ContactPage() {
                 </div>
                 <Button
                   asChild
-                  className="mt-6 w-full bg-green-500/10 text-green-400 hover:bg-green-500/20 hover:text-green-300"
+                  className="mt-6 w-full bg-foreground text-background hover:bg-foreground/90"
                 >
                   <a href="https://wa.me/1234567890" target="_blank">
                     Chat on WhatsApp <ArrowRight className="ml-2 h-4 w-4" />
