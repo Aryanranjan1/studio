@@ -70,7 +70,7 @@ export default function ContactPage() {
     <div className="w-full bg-background text-foreground">
       <main className="container mx-auto min-h-screen px-4 py-16 sm:px-6 lg:px-8">
         {/* Hero Section */}
-        <section className="mb-16 text-center">
+        <section className="mb-16 text-center lg:mb-24">
              <Badge
                 variant="outline"
                 className="border-primary/50 text-primary"
