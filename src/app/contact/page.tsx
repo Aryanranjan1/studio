@@ -27,13 +27,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  ArrowRight,
-  Behance,
-  Dribbble,
-  Instagram,
-  Linkedin,
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { FaInstagram, FaLinkedin, FaDribbble, FaBehance } from 'react-icons/fa6';
+import { cn } from '@/lib/utils';
 
 const services = [
   'Website',
@@ -129,28 +125,28 @@ export default function ContactPage() {
                     className="transition-colors hover:text-primary"
                     aria-label="Instagram"
                   >
-                    <Instagram className="h-6 w-6" />
+                    <FaInstagram className="h-6 w-6" />
                   </a>
                   <a
                     href="#"
                     className="transition-colors hover:text-primary"
                     aria-label="LinkedIn"
                   >
-                    <Linkedin className="h-6 w-6" />
+                    <FaLinkedin className="h-6 w-6" />
                   </a>
                   <a
                     href="#"
                     className="transition-colors hover:text-primary"
                     aria-label="Dribbble"
                   >
-                    <Dribbble className="h-6 w-6" />
+                    <FaDribbble className="h-6 w-6" />
                   </a>
                   <a
                     href="#"
                     className="transition-colors hover:text-primary"
                     aria-label="Behance"
                   >
-                    <Behance className="h-6 w-6" />
+                    <FaBehance className="h-6 w-6" />
                   </a>
                 </div>
                 <Button
