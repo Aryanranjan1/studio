@@ -11,6 +11,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useEffect, useMemo, useState } from 'react';
 import type { Article } from '@/lib/data';
 import { Input } from '@/components/ui/input';
+import { CtaSection } from '@/components/cta-section';
+import { Footer } from '@/components/footer';
 
 const allCategories = [
   'Web Design',
@@ -77,23 +79,10 @@ export default function BlogPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <header className="container mx-auto px-4 py-16 text-center sm:px-6 lg:px-8">
-        <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-          Insights, Tutorials & Industry Perspectives
-        </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          Articles, case studies, and strategies for modern brands and digital creators.
-        </p>
-        <div className="mt-8 flex justify-center">
-            <Button asChild>
-                <Link href="#">Subscribe for Updates</Link>
-            </Button>
-        </div>
-      </header>
-
+      
       <main className="container mx-auto px-4 pb-16 sm:px-6 lg:px-8">
         {featuredArticle && (
-          <section className="mb-16">
+          <section className="my-16">
             <Link href={`/blog/${featuredArticle.id}`} className="group" data-event="FeaturedArticleClick">
               <Card className="grid grid-cols-1 overflow-hidden md:grid-cols-2 bg-card/50 backdrop-blur-lg">
                 <div className="relative h-80 w-full md:h-auto">
@@ -202,6 +191,9 @@ export default function BlogPage() {
             <Button variant="outline" data-event="PaginationClick">Next</Button>
         </section>
       </main>
+
+      <CtaSection />
+      <Footer />
     </div>
   );
 }
