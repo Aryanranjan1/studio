@@ -30,6 +30,8 @@ import { Button } from './ui/button';
 import {
   Sheet,
   SheetContent,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { useUser } from '@/firebase/auth/use-user';
@@ -225,6 +227,9 @@ export function Header() {
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="sm:max-w-xs">
+             <SheetHeader>
+                <SheetTitle className="sr-only">Main Menu</SheetTitle>
+              </SheetHeader>
             {mobileNavContent}
           </SheetContent>
         </Sheet>
