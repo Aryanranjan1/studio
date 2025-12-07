@@ -19,7 +19,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: 'Blog — Ampire Studio',
-  description: 'Articles, guides, and practical insights for small businesses, creators, and growing brands on web design, development, and automation.',
+  description: 'Articles, case studies, and strategies for modern brands and digital creators on web design, development, and automation.',
 };
 
 export default function RootLayout({
@@ -45,5 +45,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-    

@@ -18,7 +18,7 @@ const allCategories = [
   'Automation',
   'Templates',
   'Branding',
-  'Business Tips',
+  'Business Strategy',
   'Case Studies',
 ];
 
@@ -40,7 +40,7 @@ export default function BlogPage() {
         const term = searchTerm.toLowerCase();
         const categoryMatch =
           selectedCategories.length === 0 ||
-          selectedCategories.some(cat => article.tags.includes(cat)); // Logic corrected for tags
+          selectedCategories.some(cat => article.tags.includes(cat));
         const searchMatch =
           article.title.toLowerCase().includes(term) ||
           article.excerpt.toLowerCase().includes(term);
@@ -56,32 +56,46 @@ export default function BlogPage() {
     );
   };
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    'name': 'Ampire Studio Blog',
+    'description': 'Articles, case studies, and strategies for modern brands and digital creators.',
+    'publisher': {
+      '@type': 'Organization',
+      'name': 'Ampire Studio'
+    }
+  };
+
   if (articles.length === 0) {
     return <div>Loading...</div>; // Or a proper skeleton loader
   }
 
   return (
-    <div className="bg-background text-foreground">
+    <div className="w-full bg-background text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <header className="container mx-auto px-4 py-16 text-center sm:px-6 lg:px-8">
-        <Badge
-          variant="outline"
-          className="border-primary/50 text-primary"
-        >
-          Our Blog
-        </Badge>
-        <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-          Insights & Ideas
+        <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+          Insights, Tutorials & Industry Perspectives
         </h1>
         <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-          Articles, guides, and practical insights for small businesses, creators, and growing brands.
+          Articles, case studies, and strategies for modern brands and digital creators.
         </p>
+        <div className="mt-8 flex justify-center">
+            <Button asChild>
+                <Link href="#">Subscribe for Updates</Link>
+            </Button>
+        </div>
       </header>
 
       <main className="container mx-auto px-4 pb-16 sm:px-6 lg:px-8">
         {featuredArticle && (
           <section className="mb-16">
-            <Link href={`/blog/${featuredArticle.id}`} className="group">
-              <Card className="grid grid-cols-1 overflow-hidden md:grid-cols-2">
+            <Link href={`/blog/${featuredArticle.id}`} className="group" data-event="FeaturedArticleClick">
+              <Card className="grid grid-cols-1 overflow-hidden md:grid-cols-2 bg-card/50 backdrop-blur-lg">
                 <div className="relative h-80 w-full md:h-auto">
                   <Image
                     src={featuredArticle.image}
@@ -89,13 +103,17 @@ export default function BlogPage() {
                     fill
                     className="object-cover"
                   />
+                   <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-primary/20" />
                 </div>
                 <div className="flex flex-col p-8">
-                  <Badge variant="secondary">{featuredArticle.category}</Badge>
+                  <Badge variant="outline" className="w-fit border-primary/50 text-primary">{featuredArticle.category}</Badge>
                   <h2 className="mt-4 font-headline text-3xl font-bold group-hover:text-primary">
                     {featuredArticle.title}
                   </h2>
                   <p className="mt-4 text-muted-foreground">{featuredArticle.excerpt}</p>
+                   <p className="mt-4 text-sm text-muted-foreground">
+                    {new Date(featuredArticle.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} · {featuredArticle.readingTime} min read
+                  </p>
                   <div className="mt-auto pt-4">
                     <p className="font-semibold text-primary">
                       Read Article <ArrowRight className="ml-2 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -109,21 +127,31 @@ export default function BlogPage() {
 
         <section className="mb-12">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
-              placeholder="Search articles..."
-              className="h-12 w-full rounded-md border-border bg-card pl-10 text-base"
+              placeholder="Search articles — design, development, automation…"
+              className="h-14 w-full rounded-lg border-border bg-card/50 pl-12 text-base focus-visible:ring-primary"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              role="search"
+              aria-label="Search articles"
+              data-event="BlogSearch"
             />
+            {searchTerm && (
+                <p className="mt-2 text-sm text-muted-foreground" aria-live="polite">
+                    {filteredArticles.length} results found.
+                </p>
+            )}
           </div>
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="mt-6 flex flex-wrap gap-2">
             {allCategories.map(category => (
               <Button
                 key={category}
-                variant={selectedCategories.includes(category) ? 'default' : 'outline'}
+                variant={selectedCategories.includes(category) ? 'default' : 'secondary'}
+                className="rounded-full"
                 onClick={() => handleCategoryToggle(category)}
+                data-event="FilterApplied"
               >
                 {category}
               </Button>
@@ -132,35 +160,46 @@ export default function BlogPage() {
         </section>
 
         <section>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {filteredArticles.map((article) => (
-              <Link href={`/blog/${article.id}`} key={article.id} className="group">
-                <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10">
-                  <div className="relative h-48 w-full">
+              <Link href={`/blog/${article.id}`} key={article.id} className="group" data-event="ArticleCardClick">
+                <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10 bg-card/50 backdrop-blur-lg">
+                  <div className="relative h-60 w-full">
                     <Image
                       src={article.image}
                       alt={article.imageAlt}
                       fill
                       className="object-cover"
                     />
-                    <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-black/40" />
+                    <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-primary/20" />
                   </div>
                   <CardContent className="p-6">
-                    <Badge variant="secondary">{article.category}</Badge>
-                    <h3 className="mt-2 font-headline text-xl font-bold group-hover:text-primary">
+                    <Badge variant="outline" className="border-primary/50 text-primary">{article.category}</Badge>
+                    <h3 className="mt-4 font-headline text-2xl font-bold group-hover:text-primary">
                       {article.title}
                     </h3>
-                    <p className="mt-2 text-sm text-muted-foreground">
+                    <p className="mt-2 text-muted-foreground">
                       {article.excerpt}
                     </p>
-                    <p className="mt-4 text-sm font-semibold text-primary">
-                      Read More <ArrowRight className="ml-1 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <p className="mt-4 text-sm text-muted-foreground">
+                      {new Date(article.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} · {article.readingTime} min read
+                    </p>
+                     <p className="mt-6 font-semibold text-primary">
+                      Read Article <ArrowRight className="ml-2 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </p>
                   </CardContent>
                 </Card>
               </Link>
             ))}
           </div>
+        </section>
+
+        <section className="mt-16 flex justify-center gap-2">
+            <Button variant="outline" data-event="PaginationClick">Previous</Button>
+            <Button variant="secondary" data-event="PaginationClick">1</Button>
+            <Button variant="ghost" data-event="PaginationClick">2</Button>
+            <Button variant="ghost" data-event="PaginationClick">3</Button>
+            <Button variant="outline" data-event="PaginationClick">Next</Button>
         </section>
       </main>
     </div>

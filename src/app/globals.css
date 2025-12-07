@@ -34,13 +34,6 @@
     --ring: 0 0% 3.9%;
  
     --radius: 0.5rem;
-
-    /* Neo-Brutalist Additions */
-    --cream: 48 100% 97%; /* hsl(48, 100%, 97%) */
-    --pastel-yellow: 54 100% 90%; /* hsl(54, 100%, 90%) */
-    --pastel-mint: 150 78% 90%; /* hsl(150, 78%, 90%) */
-    --pastel-pink: 340 100% 92%; /* hsl(340, 100%, 92%) */
-    --pastel-blue: 200 100% 90%; /* hsl(200, 100%, 90%) */
   }
 
   .dark {
@@ -90,11 +83,3 @@
   border-radius: 10px;
   border: 3px solid hsl(var(--background));
 }
-
-/* Fallback for blog page */
-.bg-cream {
-    background-color: hsl(var(--cream));
-}
-
-
-    

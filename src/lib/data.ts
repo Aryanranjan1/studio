@@ -93,6 +93,7 @@ export type Article = {
   category: string;
   readingTime: number;
   featured?: boolean;
+  popular?: boolean;
 };
 
 export type Template = {
@@ -409,7 +410,7 @@ export const getFeaturedFaqs = (): FaqItem[] => {
 }
 
 
-const articleCategories = ['Web Design', 'Development', 'Automation', 'Templates', 'Branding', 'Business Tips', 'Case Studies'];
+const articleCategories = ['Web Design', 'Development', 'Automation', 'Templates', 'Branding', 'Business Strategy', 'Case Studies'];
 
 export const getArticles = (): Article[] => Array.from({ length: 21 }, (_, i) => ({
     id: `article-${i + 1}`,
@@ -420,7 +421,7 @@ export const getArticles = (): Article[] => Array.from({ length: 21 }, (_, i) =>
         'Unlocking Growth: A Case Study in E-commerce SEO',
         '10 Essential Tips for Aspiring Digital Creators',
         'The Developer\'s Guide to Client Communication',
-        'Brutalist Design: Ugly, or the Future?',
+        'Mastering Dark Mode: A Guide to Premium UI',
     ][i % 7],
     date: new Date(2024, i % 12, (i % 28) + 1).toISOString().split('T')[0],
     author: ['Alex Doe', 'Jane Smith', 'Sam Wilson'][i % 3],
@@ -433,6 +434,7 @@ export const getArticles = (): Article[] => Array.from({ length: 21 }, (_, i) =>
     category: articleCategories[i % articleCategories.length],
     readingTime: Math.floor(Math.random() * 10) + 3, // 3 to 12 minutes
     featured: i === 0, // Make the first article featured
+    popular: i < 5,
 }));
 
 
@@ -473,6 +475,3 @@ export const getTemplates = (): Template[] => Array.from({ length: 20 }, (_, i) 
       'Lifetime Updates',
     ],
 }));
-
-
-    
