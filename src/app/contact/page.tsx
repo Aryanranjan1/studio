@@ -31,13 +31,12 @@ import { FaInstagram, FaLinkedin, FaDribbble, FaBehance } from 'react-icons/fa6'
 import { Badge } from '@/components/ui/badge';
 import { Footer } from '@/components/footer';
 
-const services = [
-  'Website',
-  'Automation',
-  'UI/UX',
-  'Development',
-  'Branding',
-  'Consultation',
+const inquiryTypes = [
+  'New Project',
+  'Template Support',
+  'General Question',
+  'Collaboration',
+  'Other',
 ];
 
 const faqItems = [
@@ -64,7 +63,7 @@ const faqItems = [
 ];
 
 export default function ContactPage() {
-  const [selectedService, setSelectedService] = useState('Website');
+  const [inquiryType, setInquiryType] = useState('New Project');
 
   return (
     <div className="w-full bg-background text-foreground">
@@ -93,7 +92,7 @@ export default function ContactPage() {
             <Card className="h-full">
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">
-                  Project Details
+                  Get in Touch
                 </CardTitle>
                 <CardDescription>
                   Please provide as much detail as possible.
@@ -101,51 +100,37 @@ export default function ContactPage() {
               </CardHeader>
               <CardContent>
                 <form className="space-y-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
-                    <Input id="name" placeholder="John Doe" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="john.doe@example.com"
-                    />
-                  </div>
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <div className="space-y-2">
-                      <Label htmlFor="budget">Budget</Label>
-                      <Select>
-                        <SelectTrigger id="budget">
-                          <SelectValue placeholder="Select a budget range" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="<5k">&lt; $5,000</SelectItem>
-                          <SelectItem value="5k-10k">$5,000 - $10,000</SelectItem>
-                          <SelectItem value="10k-25k">$10,000 - $25,000</SelectItem>
-                          <SelectItem value="25k+">$25,000+</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <Label htmlFor="name">Name</Label>
+                      <Input id="name" placeholder="John Doe" />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="service">Service Needed</Label>
-                      <Select
-                        value={selectedService}
-                        onValueChange={setSelectedService}
-                      >
-                        <SelectTrigger id="service">
-                          <SelectValue placeholder="Select a service" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {services.map(service => (
-                            <SelectItem key={service} value={service}>
-                              {service}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        placeholder="john.doe@example.com"
+                      />
                     </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="inquiry-type">What can we help you with?</Label>
+                    <Select
+                      value={inquiryType}
+                      onValueChange={setInquiryType}
+                    >
+                      <SelectTrigger id="inquiry-type">
+                        <SelectValue placeholder="Select a reason" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {inquiryTypes.map(type => (
+                          <SelectItem key={type} value={type}>
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="message">Message</Label>
