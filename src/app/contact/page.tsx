@@ -227,7 +227,7 @@ export default function ContactPage() {
                       value={`item-${index}`}
                       className="border-border/50"
                     >
-                      <AccordionTrigger className="text-left font-semibold text-foreground/80 hover:text-primary [&[data-state=open]]:text-primary">
+                      <AccordionTrigger className="text-left font-semibold text-foreground/80 [&[data-state=open]]:text-primary">
                         {faq.question}
                       </AccordionTrigger>
                       <AccordionContent className="text-muted-foreground">
