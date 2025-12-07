@@ -231,7 +231,7 @@ export default function ContactPage() {
                     <AccordionItem
                       key={index}
                       value={`item-${index}`}
-                      className="border-b-border/50"
+                      className="border-b border-b-border/50"
                     >
                       <AccordionTrigger className="text-left font-semibold text-foreground/80 no-underline hover:no-underline">
                         {faq.question}
