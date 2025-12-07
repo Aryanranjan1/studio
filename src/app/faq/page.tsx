@@ -1,3 +1,4 @@
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { getFaqs } from '@/lib/data';
@@ -7,6 +8,7 @@ import { FaqSearch } from '@/components/faq-search';
 import { FaqSidebar } from '@/components/faq-sidebar';
 import { getFeaturedFaqs } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
+import { Footer } from '@/components/footer';
 
 export default function FaqPage() {
   const faqs = getFaqs();
@@ -80,6 +82,7 @@ export default function FaqPage() {
           </aside>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

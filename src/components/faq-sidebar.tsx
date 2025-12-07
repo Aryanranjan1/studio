@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -23,7 +24,7 @@ export function FaqSidebar() {
   ]
 
   return (
-    <aside className="sticky top-24 space-y-8">
+    <aside className="space-y-8">
       {/* Still Need Help Card */}
       <Card className="bg-muted/50">
         <CardHeader>

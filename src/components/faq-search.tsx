@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -62,7 +63,7 @@ export function FaqSearch({ faqs }: FaqSearchProps) {
   return (
     <div>
       <div
-        className="sticky top-14 z-20 bg-background/80 py-4 backdrop-blur-md"
+        className="py-4"
         role="search"
       >
         <Input
