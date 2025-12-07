@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <body className={cn('antialiased', inter.variable, spaceGrotesk.variable)}>
         <FirebaseClientProvider>
           <div className="flex min-h-screen w-full flex-col">
