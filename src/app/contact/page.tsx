@@ -8,7 +8,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -29,7 +28,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowRight } from 'lucide-react';
 import { FaInstagram, FaLinkedin, FaDribbble, FaBehance } from 'react-icons/fa6';
-import { cn } from '@/lib/utils';
+import { Footer } from '@/components/footer';
 
 const services = [
   'Website',
@@ -83,112 +82,6 @@ export default function ContactPage() {
         {/* Page Structure */}
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           {/* Left Column */}
-          <aside className="space-y-8 lg:col-span-4">
-            {/* Quick Project Selector */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="font-headline text-xl">
-                  What do you need help with?
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {services.map(service => (
-                    <button
-                      key={service}
-                      onClick={() => setSelectedService(service)}
-                      className={cn(
-                        'rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background',
-                        selectedService === service
-                          ? 'border-primary bg-primary text-primary-foreground shadow-md'
-                          : 'border-border bg-background text-muted-foreground hover:border-primary/50 hover:text-foreground'
-                      )}
-                    >
-                      {service}
-                    </button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Social Links + WhatsApp */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="font-headline text-xl">
-                  Connect with us
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center space-x-4 text-muted-foreground">
-                  <a
-                    href="#"
-                    className="transition-colors hover:text-primary"
-                    aria-label="Instagram"
-                  >
-                    <FaInstagram className="h-6 w-6" />
-                  </a>
-                  <a
-                    href="#"
-                    className="transition-colors hover:text-primary"
-                    aria-label="LinkedIn"
-                  >
-                    <FaLinkedin className="h-6 w-6" />
-                  </a>
-                  <a
-                    href="#"
-                    className="transition-colors hover:text-primary"
-                    aria-label="Dribbble"
-                  >
-                    <FaDribbble className="h-6 w-6" />
-                  </a>
-                  <a
-                    href="#"
-                    className="transition-colors hover:text-primary"
-                    aria-label="Behance"
-                  >
-                    <FaBehance className="h-6 w-6" />
-                  </a>
-                </div>
-                <Button
-                  asChild
-                  className="mt-6 w-full bg-green-500/10 text-green-400 hover:bg-green-500/20 hover:text-green-300"
-                >
-                  <a href="https://wa.me/1234567890" target="_blank">
-                    Chat on WhatsApp <ArrowRight className="ml-2 h-4 w-4" />
-                  </a>
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Mini FAQ */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="font-headline text-xl">
-                  Frequently Asked
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Accordion type="single" collapsible className="w-full">
-                  {faqItems.map((faq, index) => (
-                    <AccordionItem
-                      key={index}
-                      value={`item-${index}`}
-                      className="border-border/50"
-                    >
-                      <AccordionTrigger className="text-left font-semibold text-foreground/80 hover:text-primary [&[data-state=open]]:text-primary">
-                        {faq.question}
-                      </AccordionTrigger>
-                      <AccordionContent className="text-muted-foreground">
-                        {faq.answer}
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </CardContent>
-            </Card>
-          </aside>
-
-          {/* Right Column */}
           <div className="lg:col-span-8">
             <Card className="h-full">
               <CardHeader>
@@ -267,8 +160,88 @@ export default function ContactPage() {
               </CardContent>
             </Card>
           </div>
+
+          {/* Right Column */}
+          <aside className="space-y-8 lg:col-span-4">
+            {/* Social Links + WhatsApp */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-headline text-xl">
+                  Connect with us
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center space-x-4 text-muted-foreground">
+                  <a
+                    href="#"
+                    className="transition-colors hover:text-primary"
+                    aria-label="Instagram"
+                  >
+                    <FaInstagram className="h-6 w-6" />
+                  </a>
+                  <a
+                    href="#"
+                    className="transition-colors hover:text-primary"
+                    aria-label="LinkedIn"
+                  >
+                    <FaLinkedin className="h-6 w-6" />
+                  </a>
+                  <a
+                    href="#"
+                    className="transition-colors hover:text-primary"
+                    aria-label="Dribbble"
+                  >
+                    <FaDribbble className="h-6 w-6" />
+                  </a>
+                  <a
+                    href="#"
+                    className="transition-colors hover:text-primary"
+                    aria-label="Behance"
+                  >
+                    <FaBehance className="h-6 w-6" />
+                  </a>
+                </div>
+                <Button
+                  asChild
+                  className="mt-6 w-full bg-green-500/10 text-green-400 hover:bg-green-500/20 hover:text-green-300"
+                >
+                  <a href="https://wa.me/1234567890" target="_blank">
+                    Chat on WhatsApp <ArrowRight className="ml-2 h-4 w-4" />
+                  </a>
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Mini FAQ */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-headline text-xl">
+                  Frequently Asked
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Accordion type="single" collapsible className="w-full">
+                  {faqItems.map((faq, index) => (
+                    <AccordionItem
+                      key={index}
+                      value={`item-${index}`}
+                      className="border-border/50"
+                    >
+                      <AccordionTrigger className="text-left font-semibold text-foreground/80 hover:text-primary [&[data-state=open]]:text-primary">
+                        {faq.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </CardContent>
+            </Card>
+          </aside>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
