@@ -1,3 +1,4 @@
+
 import type { Metadata } from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
@@ -17,8 +18,8 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'FAQ — Ampire Studio | Website Design & Development Answers',
-  description: 'Find clear answers to questions about our process, pricing, timelines, and working with Ampire Studio. Get information on web design, development, and automation services.',
+  title: 'Blog — Ampire Studio',
+  description: 'Articles, guides, and practical insights for small businesses, creators, and growing brands on web design, development, and automation.',
 };
 
 export default function RootLayout({
@@ -44,3 +45,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+    

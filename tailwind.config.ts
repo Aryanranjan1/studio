@@ -1,3 +1,4 @@
+
 import type { Config } from 'tailwindcss';
 
 const config = {
@@ -56,6 +57,17 @@ const config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        'pastel-yellow': 'hsl(var(--pastel-yellow))',
+        'pastel-mint': 'hsl(var(--pastel-mint))',
+        'pastel-pink': 'hsl(var(--pastel-pink))',
+        'pastel-blue': 'hsl(var(--pastel-blue))',
+        'cream': 'hsl(var(--cream))',
+      },
+      boxShadow: {
+        'neo': '4px 4px 0px #000',
+        'neo-md': '6px 6px 0px #000',
+        'neo-lg': '8px 8px 0px #000',
+        'neo-xl': '12px 12px 0px #000',
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -82,3 +94,5 @@ const config = {
 } satisfies Config;
 
 export default config;
+
+    

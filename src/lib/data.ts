@@ -1,4 +1,5 @@
 
+
 export type Service = {
   id: string;
   title: string;
@@ -89,8 +90,9 @@ export type Article = {
   image: string;
   imageAlt: string;
   tags: string[];
-  popular?: boolean;
   category: string;
+  readingTime: number;
+  featured?: boolean;
 };
 
 export type Template = {
@@ -407,19 +409,30 @@ export const getFeaturedFaqs = (): FaqItem[] => {
 }
 
 
-export const getArticles = (): Article[] => Array.from({ length: 20 }, (_, i) => ({
+const articleCategories = ['Web Design', 'Development', 'Automation', 'Templates', 'Branding', 'Business Tips', 'Case Studies'];
+
+export const getArticles = (): Article[] => Array.from({ length: 21 }, (_, i) => ({
     id: `article-${i + 1}`,
-    title: `The Future of Web Development in ${2024 + i}`,
+    title: [
+        'The 5 Pillars of a Successful Website Redesign',
+        'From Zero to Hero: A Guide to Business Automation',
+        'Why Your Brand Needs a Style Guide, Yesterday',
+        'Unlocking Growth: A Case Study in E-commerce SEO',
+        '10 Essential Tips for Aspiring Digital Creators',
+        'The Developer\'s Guide to Client Communication',
+        'Brutalist Design: Ugly, or the Future?',
+    ][i % 7],
     date: new Date(2024, i % 12, (i % 28) + 1).toISOString().split('T')[0],
     author: ['Alex Doe', 'Jane Smith', 'Sam Wilson'][i % 3],
     authorImage: `https://picsum.photos/seed/author-img${i % 3}/40/40`,
-    excerpt: `A look into the upcoming trends for web development in ${2024 + i}, from AI integration to new JavaScript frameworks.`,
-    content: `This is the full content for the article about web development trends in ${2024 + i}. It delves deep into topics like the rise of server-side rendering, the impact of AI on coding practices, and how to stay ahead of the curve. It's a must-read for any developer looking to future-proof their skills.`,
+    excerpt: `A brief look into article number ${i + 1}. This piece explores key concepts and provides actionable advice.`,
+    content: `This is the full content for the article. It delves deep into the topics, supported by research and real-world examples to provide comprehensive insights.`,
     image: `https://picsum.photos/seed/ablog-cover-${i + 1}/1200/800`,
-    imageAlt: `Abstract image representing future tech for ${2024 + i}`,
+    imageAlt: `Abstract image for article ${i + 1}`,
     tags: [['Web Dev', 'Future Tech', 'AI'], ['JavaScript', 'React', 'Vue'], ['Performance', 'UX', 'Design']][i % 3],
-    popular: i % 3 === 0,
-    category: ['News', 'Community', 'How-To', 'Case Study'][i % 4]
+    category: articleCategories[i % articleCategories.length],
+    readingTime: Math.floor(Math.random() * 10) + 3, // 3 to 12 minutes
+    featured: i === 0, // Make the first article featured
 }));
 
 
@@ -460,3 +473,6 @@ export const getTemplates = (): Template[] => Array.from({ length: 20 }, (_, i) 
       'Lifetime Updates',
     ],
 }));
+
+
+    
