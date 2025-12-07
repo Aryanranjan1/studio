@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { Calendar, User } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
+import { Card, CardContent } from '@/components/ui/card';
 
 export default function ArticlePage({ params }: { params: { id: string } }) {
   const articles = getArticles();
