@@ -28,7 +28,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowRight } from 'lucide-react';
 import { FaInstagram, FaLinkedin, FaDribbble, FaBehance } from 'react-icons/fa6';
-import { Footer } from '@/components/footer';
+import { Badge } from '@/components/ui/badge';
 
 const services = [
   'Website',
@@ -69,11 +69,17 @@ export default function ContactPage() {
     <div className="w-full bg-background text-foreground">
       <main className="container mx-auto min-h-screen px-4 py-16 sm:px-6 lg:px-8">
         {/* Hero Section */}
-        <section className="mb-16">
-          <h1 className="font-headline text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+        <section className="mb-16 text-center">
+             <Badge
+                variant="outline"
+                className="border-primary/50 text-primary"
+                >
+                Contact Us
+            </Badge>
+          <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             Let’s Build Something Exceptional
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
+          <p className="mt-4 mx-auto max-w-2xl text-lg text-muted-foreground">
             Share your project details, and our team will get back to you
             shortly.
           </p>
@@ -82,7 +88,7 @@ export default function ContactPage() {
         {/* Page Structure */}
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
           {/* Left Column */}
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-7">
             <Card className="h-full">
               <CardHeader>
                 <CardTitle className="font-headline text-2xl">
@@ -162,9 +168,8 @@ export default function ContactPage() {
           </div>
 
           {/* Right Column */}
-          <aside className="space-y-8 lg:col-span-4">
-            {/* Social Links + WhatsApp */}
-            <Card>
+          <aside className="space-y-8 lg:col-span-5">
+             <Card className='bg-muted'>
               <CardHeader>
                 <CardTitle className="font-headline text-xl">
                   Connect with us
@@ -213,7 +218,7 @@ export default function ContactPage() {
             </Card>
 
             {/* Mini FAQ */}
-            <Card>
+            <Card className='bg-muted'>
               <CardHeader>
                 <CardTitle className="font-headline text-xl">
                   Frequently Asked
@@ -227,7 +232,7 @@ export default function ContactPage() {
                       value={`item-${index}`}
                       className="border-border/50"
                     >
-                      <AccordionTrigger className="text-left font-semibold text-foreground/80 [&[data-state=open]]:text-primary">
+                      <AccordionTrigger className="text-left font-semibold text-foreground/80 no-underline hover:no-underline">
                         {faq.question}
                       </AccordionTrigger>
                       <AccordionContent className="text-muted-foreground">
@@ -241,7 +246,6 @@ export default function ContactPage() {
           </aside>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }
