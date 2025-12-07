@@ -29,6 +29,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ArrowRight } from 'lucide-react';
 import { FaInstagram, FaLinkedin, FaDribbble, FaBehance } from 'react-icons/fa6';
 import { Badge } from '@/components/ui/badge';
+import { Footer } from '@/components/footer';
 
 const services = [
   'Website',
@@ -230,7 +231,7 @@ export default function ContactPage() {
                     <AccordionItem
                       key={index}
                       value={`item-${index}`}
-                      className="border-border/50"
+                      className="border-b-border/50"
                     >
                       <AccordionTrigger className="text-left font-semibold text-foreground/80 no-underline hover:no-underline">
                         {faq.question}
@@ -246,6 +247,7 @@ export default function ContactPage() {
           </aside>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
