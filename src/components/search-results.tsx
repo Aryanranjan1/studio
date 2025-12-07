@@ -12,6 +12,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import Link from 'next/link';
 import { BookOpen, Briefcase, ShoppingBag, ArrowRight } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 type SearchResultsProps = {
   projects: Project[];
@@ -32,7 +33,6 @@ export function SearchResults({
   useEffect(() => {
     const term = searchTerm.toLowerCase();
 
-    // No search term, show some featured items from each category
     if (term === '') {
         setFilteredProjects(projects.filter(p => p.featured).slice(0, 4));
         setFilteredArticles(articles.filter(a => a.popular).slice(0, 4));
@@ -75,22 +75,13 @@ export function SearchResults({
 
   return (
     <div className="mx-auto max-w-7xl">
-      <div className="mb-12">
-        <h1 className="font-headline text-4xl font-bold tracking-tight text-center sm:text-5xl lg:text-6xl">
-            Find What You&apos;re Looking For
-        </h1>
-        <p className="mt-6 mx-auto max-w-2xl text-lg text-muted-foreground text-center">
-            Search through our projects, articles, and templates to find the
-            information you need.
-        </p>
         <Input
             type="search"
             placeholder="Search projects, articles, templates..."
-            className="h-14 text-lg mt-8 max-w-2xl mx-auto"
+            className="h-14 text-lg max-w-2xl mx-auto"
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
         />
-      </div>
 
       <div className="mt-12 space-y-16">
         {isSearching && !hasResults && (
@@ -109,15 +100,15 @@ export function SearchResults({
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
               {filteredProjects.map(project => (
                 <Link href={`/portfolio/${project.id}`} key={project.id} className="group">
-                  <Card className="flex h-full items-center overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-primary/10">
-                    <div className="relative h-28 w-28 flex-shrink-0">
+                  <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10">
+                     <div className="relative aspect-video w-full">
                       <Image src={project.image} alt={project.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
                     </div>
-                    <div className="p-4">
-                      <p className="font-headline text-lg font-bold group-hover:text-primary">{project.title}</p>
-                      <p className="text-sm text-muted-foreground line-clamp-2">{project.description}</p>
-                    </div>
-                    <ArrowRight className="ml-auto mr-6 h-5 w-5 text-muted-foreground opacity-0 transition-all group-hover:opacity-100 group-hover:translate-x-1" />
+                    <CardContent className="p-6">
+                      <Badge variant="outline" className="border-primary/50 text-primary">{project.category}</Badge>
+                      <p className="font-headline text-xl font-bold mt-4 group-hover:text-primary">{project.title}</p>
+                      <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{project.description}</p>
+                    </CardContent>
                   </Card>
                 </Link>
               ))}
@@ -134,15 +125,18 @@ export function SearchResults({
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
               {filteredTemplates.map(template => (
                 <Link href={`/store/${template.id}`} key={template.id} className="group">
-                  <Card className="flex h-full items-center overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-primary/10">
-                     <div className="relative h-28 w-28 flex-shrink-0">
+                  <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10">
+                     <div className="relative aspect-video w-full">
                       <Image src={template.image} alt={template.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
                     </div>
-                    <div className="p-4 flex-grow">
-                      <p className="font-headline text-lg font-bold group-hover:text-primary">{template.title}</p>
-                      <p className="text-sm text-muted-foreground line-clamp-2">{template.description}</p>
-                    </div>
-                     <p className="ml-auto text-xl font-bold text-primary mr-6">${template.price}</p>
+                    <CardContent className="p-6">
+                        <div className="flex justify-between items-start">
+                            <Badge variant="secondary">{template.tags[0]}</Badge>
+                            <p className="text-xl font-bold text-primary">${template.price}</p>
+                        </div>
+                      <p className="font-headline text-xl font-bold mt-4 group-hover:text-primary">{template.title}</p>
+                      <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{template.description}</p>
+                    </CardContent>
                   </Card>
                 </Link>
               ))}
@@ -159,15 +153,15 @@ export function SearchResults({
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
               {filteredArticles.map(article => (
                 <Link href={`/blog/${article.id}`} key={article.id} className="group">
-                  <Card className="flex h-full items-center overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-primary/10">
-                     <div className="relative h-28 w-28 flex-shrink-0">
+                  <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10">
+                     <div className="relative aspect-video w-full">
                       <Image src={article.image} alt={article.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
                     </div>
-                    <div className="p-4">
-                      <p className="font-headline text-lg font-bold group-hover:text-primary">{article.title}</p>
-                      <p className="text-sm text-muted-foreground line-clamp-2">{article.excerpt}</p>
-                    </div>
-                    <ArrowRight className="ml-auto mr-6 h-5 w-5 text-muted-foreground opacity-0 transition-all group-hover:opacity-100 group-hover:translate-x-1" />
+                    <CardContent className="p-6">
+                      <Badge variant="outline" className="border-primary/50 text-primary">{article.category}</Badge>
+                      <p className="font-headline text-xl font-bold mt-4 group-hover:text-primary">{article.title}</p>
+                      <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{article.excerpt}</p>
+                    </CardContent>
                   </Card>
                 </Link>
               ))}
