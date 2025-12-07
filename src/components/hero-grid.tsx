@@ -112,7 +112,7 @@ export function HeroGrid() {
       <BentoCard
         className="text-foreground bg-card/50
       col-span-2 row-span-2
-      md:col-span-2 md:row-start-6 md-row-span-3
+      md:col-span-2 md:row-start-6 md:row-span-3
       lg:col-span-3 lg:row-span-3 lg:col-start-4 lg:row-start-6 p-6 flex flex-col justify-between"
       >
         <div className="absolute inset-0 z-0 opacity-20" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'49\' viewBox=\'0 0 28 49\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg id=\'Page-1\' fill=\'%239C92AC\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M28 0v49H0V0h28zM0 48h28v1H0v-1z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'}}></div>
