@@ -26,22 +26,22 @@ export default function AboutPage() {
       <main>
         <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
           
-          {/* About & How We Work Header */}
-          <div className="col-span-12 lg:col-span-7 bg-black p-8 border-b border-neutral-800">
+          {/* About Header */}
+          <div className="col-span-12 bg-black p-8 border-b border-neutral-800">
             <h1 className="font-headline text-7xl md:text-9xl font-bold">About</h1>
             <p className="mt-4 max-w-sm text-neutral-400">
               Our agency tailors service to your ambitions while focusing on delivering creative and efficient outcomes for your users.
             </p>
           </div>
 
-          <div className="col-span-12 lg:col-span-5 bg-black p-8 border-b border-neutral-800">
+          {/* How we work and Image */}
+          <div className="col-span-12 md:col-span-7 bg-black p-8 border-b border-neutral-800">
             <h2 className="font-headline text-5xl md:text-6xl font-bold">
               How We <span className="text-blue-500">Work</span>
             </h2>
           </div>
 
-          {/* Image */}
-          <div className="col-span-12 md:col-start-8 md:col-span-5 bg-black relative min-h-[300px] border-b border-neutral-800">
+          <div className="col-span-12 md:col-span-5 bg-black relative min-h-[300px] border-b border-neutral-800">
             <Image 
               src="https://picsum.photos/seed/teamwork/800/600"
               alt="A design team collaborating around a table with sticky notes and wireframes."
@@ -52,17 +52,17 @@ export default function AboutPage() {
           </div>
 
           {/* Design Process & Principles */}
-          <div className="col-span-12 md:col-span-7 bg-black grid grid-cols-2 grid-rows-2 gap-px bg-neutral-800 border-b border-neutral-800">
-             <div className="col-span-1 row-span-2 bg-black p-8 flex items-center">
+          <div className="col-span-12 bg-black grid grid-cols-2 grid-rows-2 gap-px bg-neutral-800 border-b border-neutral-800">
+             <div className="col-span-2 md:col-span-1 row-span-2 bg-black p-8 flex items-center">
                 <p className="font-headline text-3xl md:text-4xl font-bold max-w-md">
                     DESIGN PROCESS DOESN’T HAVE TO BE COMPLEX. IN FACT, IT SHOULD BE SIMPLE.
                 </p>
              </div>
-             <div className="col-span-1 row-span-1 bg-black p-8">
+             <div className="col-span-2 md:col-span-1 row-span-1 bg-black p-8">
                 <h3 className="font-headline text-2xl text-blue-500 font-bold">{principles[0].title}</h3>
                 <p className="mt-2 text-neutral-400 text-sm">{principles[0].description}</p>
              </div>
-             <div className="col-span-1 row-span-1 bg-black p-8">
+             <div className="col-span-2 md:col-span-1 row-span-1 bg-black p-8">
                 <h3 className="font-headline text-2xl text-blue-500 font-bold">{principles[1].title}</h3>
                 <p className="mt-2 text-neutral-400 text-sm">{principles[1].description}</p>
              </div>
