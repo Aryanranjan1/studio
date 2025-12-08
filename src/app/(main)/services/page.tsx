@@ -141,8 +141,8 @@ export default function ServicesPage() {
             <div className="mb-12">
                 <h2 className="font-headline text-5xl md:text-6xl font-bold">Technology Stack</h2>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {technologies.slice(0,8).map((tech, index) => (
+            <div className="grid grid-cols-2 md:grid-cols-3">
+                {technologies.slice(0,6).map((tech, index) => (
                     <div
                         key={tech.name}
                         className={cn(
