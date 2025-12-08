@@ -136,11 +136,6 @@ export default function ServicesPage() {
              <HorizontalServices />
           </div>
           
-          {/* 2. PRICING */}
-          <div className="col-span-12 bg-black">
-            <PricingSection />
-          </div>
-
           {/* 4. TECH STACK */}
           <div className="col-span-12 bg-black border-b border-neutral-800">
               <div className="grid h-full w-full grid-cols-2 bg-neutral-800 md:grid-cols-3 lg:grid-cols-4">
@@ -148,7 +143,7 @@ export default function ServicesPage() {
                       <div
                           key={tech.name}
                           className={cn(
-                            'group relative aspect-square flex items-center justify-center bg-black border-r border-b border-neutral-800',
+                            'relative aspect-square flex items-center justify-center bg-black border-r border-b border-neutral-800',
                             index >= 6 ? 'hidden md:hidden lg:flex' : 'flex'
                           )}
                       >
@@ -158,15 +153,16 @@ export default function ServicesPage() {
                             width={64}
                             height={64}
                             unoptimized
-                            className="h-10 w-10 md:h-12 md:w-12 text-white transition-transform duration-300 group-hover:scale-110"
+                            className="h-10 w-10 md:h-12 md:w-12 text-white"
                           />
-                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/90 p-4 text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                              <p className="font-bold text-white">{tech.name}</p>
-                              <p className="text-sm text-neutral-300">{tech.description}</p>
-                          </div>
                       </div>
                   ))}
               </div>
+          </div>
+
+          {/* 2. PRICING */}
+          <div className="col-span-12 bg-black">
+            <PricingSection />
           </div>
           
           {/* 3. PROCESS */}
