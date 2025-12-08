@@ -25,6 +25,7 @@ import {
   Search,
   Mail,
   Workflow,
+  ShoppingCart,
 } from 'lucide-react';
 import { Button } from './ui/button';
 import {
@@ -47,6 +48,7 @@ const navLinks = [
   { href: '/search', label: 'Search', icon: Search },
   { href: '/about', label: 'About', icon: User },
   { href: '/contact', label: 'Contact', icon: Mail },
+  { href: '/cart', label: 'Cart', icon: ShoppingCart },
   { href: '/store', label: 'Store', icon: ShoppingBag },
   { href: '/blog', label: 'Blog', icon: BookOpen },
   { href: '/faq', label: 'FAQ', icon: HelpCircle },
