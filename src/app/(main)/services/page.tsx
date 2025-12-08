@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import React from 'react';
@@ -26,6 +25,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { ProcessGrid } from '@/components/process-grid';
+import { useEffect } from 'react';
 
 const processSteps = [
     {
@@ -109,6 +109,10 @@ const faqItems = [
 ];
 
 export default function ServicesPage() {
+    useEffect(() => {
+        document.title = "Services — Ampire Studio";
+    }, []);
+
   return (
     <div className="w-full bg-black text-white min-h-screen">
       <main>

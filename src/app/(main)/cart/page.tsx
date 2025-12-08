@@ -2,6 +2,12 @@
 import { ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Shopping Cart',
+    description: 'View and manage items in your shopping cart.',
+};
 
 export default function CartPage() {
   return (

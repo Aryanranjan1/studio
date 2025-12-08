@@ -16,10 +16,13 @@ import { Card } from '@/components/ui/card';
 import useMeasure from 'react-use-measure';
 import { Skeleton } from '@/components/ui/skeleton';
 
-
 export default function PortfolioPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    document.title = "Portfolio — Ampire Studio";
+  }, []);
 
   const allCategories = useMemo(() => {
     if (projects.length === 0) return [];

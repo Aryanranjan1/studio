@@ -1,5 +1,4 @@
 
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, MoveRight, Instagram, Linkedin } from 'lucide-react';
@@ -8,6 +7,12 @@ import { TeamMemberCard } from '@/components/team-member-card';
 import { Button } from '@/components/ui/button';
 import { Footer } from '@/components/footer';
 import { DraggableServices } from '@/components/draggable-services';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'About',
+    description: 'Learn about our process, our values, and the team behind Ampire Studio.',
+};
 
 export default function AboutPage() {
   const team = getTeam();

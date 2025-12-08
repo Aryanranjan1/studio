@@ -1,5 +1,4 @@
 
-
 import { getArticles } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -7,6 +6,35 @@ import { Calendar, User } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const articles = getArticles();
+  const article = articles.find((a) => a.id === params.id);
+
+  if (!article) {
+    return {
+      title: 'Article Not Found',
+    };
+  }
+
+  return {
+    title: article.title,
+    description: article.excerpt,
+    openGraph: {
+        title: article.title,
+        description: article.excerpt,
+        images: [
+            {
+                url: article.image,
+                width: 1200,
+                height: 630,
+                alt: article.imageAlt,
+            },
+        ],
+    },
+  };
+}
 
 export default function ArticlePage({ params }: { params: { id: string } }) {
   const articles = getArticles();

@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState } from 'react';
@@ -31,6 +30,7 @@ import { ArrowRight } from 'lucide-react';
 import { FaInstagram, FaLinkedin, FaDribbble, FaBehance } from 'react-icons/fa6';
 import { Badge } from '@/components/ui/badge';
 import { Footer } from '@/components/footer';
+import { useEffect } from 'react';
 
 const inquiryTypes = [
   'New Project',
@@ -65,6 +65,10 @@ const faqItems = [
 
 export default function ContactPage() {
   const [inquiryType, setInquiryType] = useState('New Project');
+
+  useEffect(() => {
+    document.title = "Contact — Ampire Studio";
+  }, []);
 
   return (
     <div className="w-full bg-background text-foreground">

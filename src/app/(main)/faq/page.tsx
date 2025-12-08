@@ -1,5 +1,4 @@
 
-
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { getFaqs } from '@/lib/data';
@@ -10,6 +9,12 @@ import { FaqSidebar } from '@/components/faq-sidebar';
 import { getFeaturedFaqs } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import { Footer } from '@/components/footer';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'FAQ',
+    description: 'Find answers to frequently asked questions about our services, process, and pricing.',
+};
 
 export default function FaqPage() {
   const faqs = getFaqs();

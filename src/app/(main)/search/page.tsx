@@ -1,6 +1,12 @@
 
 import { getArticles, getProjects, getTemplates } from '@/lib/data';
 import { SearchResults } from '@/components/search-results';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Search',
+    description: 'Search for projects, articles, and templates from Ampire Studio.',
+};
 
 export default function SearchPage() {
   const projects = getProjects();

@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +16,7 @@ export default function StorePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    document.title = "Store — Ampire Studio";
     setTemplates(getTemplates());
     setLoading(false);
   }, []);

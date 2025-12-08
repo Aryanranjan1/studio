@@ -1,5 +1,4 @@
 
-
 import { getProjects } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -8,6 +7,36 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+    const projects = getProjects();
+    const project = projects.find((p) => p.id === params.id);
+
+    if (!project) {
+        return {
+            title: 'Project Not Found',
+        };
+    }
+
+    return {
+        title: project.title,
+        description: project.description,
+        openGraph: {
+            title: project.title,
+            description: project.description,
+            images: [
+                {
+                    url: project.image,
+                    width: 1200,
+                    height: 630,
+                    alt: project.imageAlt,
+                },
+            ],
+        },
+    };
+}
+
 
 export default function ProjectDetailsPage({ params }: { params: { id: string } }) {
   const projects = getProjects();

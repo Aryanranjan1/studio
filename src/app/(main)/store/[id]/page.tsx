@@ -1,5 +1,4 @@
 
-
 import { getTemplates } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -8,6 +7,35 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+    const templates = getTemplates();
+    const template = templates.find((p) => p.id === params.id);
+
+    if (!template) {
+        return {
+            title: 'Template Not Found',
+        };
+    }
+
+    return {
+        title: template.title,
+        description: template.description,
+        openGraph: {
+            title: template.title,
+            description: template.description,
+            images: [
+                {
+                    url: template.image,
+                    width: 1200,
+                    height: 630,
+                    alt: template.imageAlt,
+                },
+            ],
+        },
+    };
+}
 
 export default function TemplateDetailsPage({ params }: { params: { id: string } }) {
   const templates = getTemplates();

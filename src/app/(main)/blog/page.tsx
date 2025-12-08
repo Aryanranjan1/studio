@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { getArticles } from '@/lib/data';
@@ -15,16 +14,13 @@ import { Input } from '@/components/ui/input';
 import { CtaSection } from '@/components/cta-section';
 import { Footer } from '@/components/footer';
 import { Skeleton } from '@/components/ui/skeleton';
+import type { Metadata } from 'next';
 
-const allCategories = [
-  'Web Design',
-  'Development',
-  'Automation',
-  'Templates',
-  'Branding',
-  'Business Strategy',
-  'Case Studies',
-];
+// This is a client component, so we can't export metadata directly.
+// However, we can still add the JSON-LD script for SEO.
+// For page title, we'll rely on the parent layout's template.
+// If we needed a fully dynamic title based on client-side data,
+// we'd use a `useEffect` to update `document.title`.
 
 export default function BlogPage() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -33,6 +29,7 @@ export default function BlogPage() {
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
+    document.title = "Blog — Ampire Studio";
     setArticles(getArticles());
     setLoading(false);
   }, []);

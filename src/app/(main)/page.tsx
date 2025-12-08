@@ -8,6 +8,12 @@ import { OzonteHero } from '@/components/ozonte-hero';
 import { PricingSection } from '@/components/pricing-section';
 import { ServicesSection } from '@/components/services-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Home',
+    description: 'A digital design and development agency specializing in bespoke websites and applications.',
+};
 
 export default function Home() {
   return (
@@ -19,16 +25,18 @@ export default function Home() {
         <div className="col-span-12 bg-black pt-16">
           <HeroGrid />
         </div>
-        <div className="col-span-12 bg-black mt-12">
+        <div className="col-span-12 mt-12 bg-black">
           <ServicesSection />
         </div>
         <div className="col-span-12 bg-black">
           <FeaturedPortfolio />
         </div>
         <div className="col-span-12 bg-black">
-          <PricingSection />
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <PricingSection />
+          </div>
         </div>
-        <div className="col-span-12 bg-black my-16">
+        <div className="col-span-12 my-16 bg-black">
           <TestimonialsSection />
         </div>
          <div className="col-span-12 bg-black">
@@ -37,7 +45,7 @@ export default function Home() {
           </div>
         </div>
         <div className="col-span-12 bg-black">
-          <BlogSection />
+            <BlogSection />
         </div>
         <div className="col-span-12 bg-black">
           <Footer />
