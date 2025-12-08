@@ -99,7 +99,7 @@ export default function AboutPage() {
 
           <div className="col-span-12 md:col-span-5 bg-primary text-primary-foreground p-8 flex items-center border-b border-neutral-800">
             <p className="font-headline text-2xl md:text-3xl font-bold">
-              WE ARE CONSTANTLY SEEKING TO STRIKE THE RIGHT BALANCE BETWEEN EFFICIENCY AND IMPRESSIVE LOOK
+              WE BUILD WITH PURPOSE, FOCUSING ON FAST, EFFICIENT SYSTEMS THAT STILL DELIVER A STRONG AND RECOGNIZABLE VISUAL IMPACT.
             </p>
           </div>
 
