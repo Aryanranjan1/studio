@@ -13,7 +13,7 @@ export function ServicesSection() {
   return (
     <section className="bg-background py-24 sm:py-32 border-t border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between border-t border-border pt-8">
           <div className="max-w-2xl">
             <p className="font-semibold uppercase tracking-wider text-muted-foreground">
               What We Do?
