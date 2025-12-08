@@ -19,7 +19,7 @@ export default function Home() {
         <div className="col-span-12 bg-black pt-16">
           <HeroGrid />
         </div>
-        <div className="col-span-12 bg-black">
+        <div className="col-span-12 bg-black mt-12">
           <ServicesSection />
         </div>
         <div className="col-span-12 bg-black">
