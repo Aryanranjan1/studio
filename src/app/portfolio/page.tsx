@@ -3,7 +3,6 @@ import { getProjects } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, MoveRight } from 'lucide-react';
-import { DraggableServices } from '@/components/draggable-services';
 import { Button } from '@/components/ui/button';
 import { Footer } from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
@@ -42,9 +41,6 @@ export default function PortfolioPage() {
           {/* Client Logos */}
             <div className="col-span-12 bg-black py-16">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <h2 className="text-center text-lg font-semibold text-neutral-400">
-                        Trusted by the world’s most innovative companies
-                    </h2>
                     <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">
                         {clientLogos.map((logo) => (
                             <div key={logo.alt} className="flex justify-center">
