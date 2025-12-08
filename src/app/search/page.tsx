@@ -9,14 +9,18 @@ export default function SearchPage() {
 
   return (
     <div className="w-full bg-background text-foreground">
-      <main className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
-        <section>
-          <SearchResults
-            projects={projects}
-            articles={articles}
-            templates={templates}
-          />
-        </section>
+      <main>
+         <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
+            <div className="col-span-12 bg-black py-16">
+                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <SearchResults
+                        projects={projects}
+                        articles={articles}
+                        templates={templates}
+                    />
+                </div>
+            </div>
+        </div>
       </main>
     </div>
   );
