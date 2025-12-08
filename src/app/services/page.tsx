@@ -1,6 +1,7 @@
 
 'use client';
 
+import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getServices } from '@/lib/data';
@@ -255,5 +256,3 @@ export default function ServicesPage() {
     </div>
   );
 }
-
-    
