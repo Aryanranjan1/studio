@@ -2,10 +2,10 @@
 import { getProjects } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, MoveRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { MoveRight } from 'lucide-react';
 import { Footer } from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
+import { CtaSection } from '@/components/cta-section';
 
 const clientLogos = [
     { src: 'https://tailwindui.com/img/logos/158x48/reform-logo-white.svg', alt: 'Reform' },
@@ -92,31 +92,8 @@ export default function PortfolioPage() {
               ))}
             </div>
           
-          {/* Let's Work */}
-          <div className="col-span-12 md:col-span-8 bg-black p-8 flex flex-col justify-between min-h-[300px] border-b border-neutral-800">
-            <div>
-              <h2 className="font-headline text-5xl md:text-6xl font-bold">Let's Work</h2>
-              <p className="text-neutral-400 mt-2">Your brand here</p>
-            </div>
-            <div className="flex gap-4">
-              <Button asChild className="flex-1">
-                <Link href="/contact">Start Project</Link>
-              </Button>
-              <Button asChild variant="outline" className="flex-1">
-                <Link href="/contact">Contact Us</Link>
-              </Button>
-            </div>
-          </div>
-          
-          {/* Contact */}
-          <div className="col-span-12 md:col-span-4 bg-primary text-primary-foreground p-8 flex flex-col justify-center items-center text-center border-b border-neutral-800">
-            <h3 className="font-headline text-3xl font-bold">Have an idea?</h3>
-            <p className="mt-2">Tell us about your project.</p>
-            <Button asChild variant="outline" className="mt-6 bg-primary-foreground text-primary hover:bg-primary-foreground/90">
-                 <Link href="/contact" className="group">
-                    CONTACT <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform"/>
-                 </Link>
-            </Button>
+          <div className="col-span-12 bg-black border-b border-neutral-800">
+            <CtaSection />
           </div>
 
            <div className="col-span-12 bg-black">
