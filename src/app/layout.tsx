@@ -31,14 +31,7 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={cn('antialiased', inter.variable, spaceGrotesk.variable)}>
         <FirebaseClientProvider>
-          <div className="flex min-h-screen w-full flex-col">
-            <Header />
-            <div className="flex flex-col sm:pl-14">
-              <main className="flex-1">
-                {children}
-              </main>
-            </div>
-          </div>
+          {children}
           <Toaster />
         </FirebaseClientProvider>
       </body>
