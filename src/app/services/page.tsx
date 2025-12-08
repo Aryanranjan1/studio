@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import React from 'react';
@@ -99,6 +100,19 @@ export default function ServicesPage() {
           <div className="col-span-12 bg-black">
              <HorizontalServices />
           </div>
+          
+          {/* 4. TECH STACK */}
+          <div className="col-span-12 bg-black p-8 md:p-24 text-center border-b border-neutral-800">
+              <h2 className="font-headline text-5xl font-bold mb-16">Technology Stack</h2>
+              <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-12">
+                  {techStack.map(tech => (
+                      <div key={tech.name} className="flex flex-col items-center gap-4 text-neutral-500 hover:text-white transition-colors">
+                          <Image src={tech.logo} alt={tech.name} width={64} height={64} className="brightness-0 invert opacity-50 hover:opacity-100 transition-opacity" />
+                          <span className="font-medium">{tech.name}</span>
+                      </div>
+                  ))}
+              </div>
+          </div>
 
           {/* 2. PRICING */}
           <div className="col-span-12 bg-black">
@@ -121,74 +135,63 @@ export default function ServicesPage() {
                 ))}
             </div>
           </div>
-          
-          {/* 4. TECH STACK */}
-            <div className="col-span-12 bg-black p-8 md:p-24 text-center border-b border-neutral-800">
-                <h2 className="font-headline text-5xl font-bold mb-16">Technology Stack</h2>
-                <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-12">
-                    {techStack.map(tech => (
-                        <div key={tech.name} className="flex flex-col items-center gap-4 text-neutral-500 hover:text-white transition-colors">
-                            <Image src={tech.logo} alt={tech.name} width={64} height={64} className="brightness-0 invert opacity-50 hover:opacity-100 transition-opacity" />
-                            <span className="font-medium">{tech.name}</span>
-                        </div>
-                    ))}
+
+            {/* 5. FAQ & Contact */}
+            <div className="col-span-12 grid grid-cols-12 gap-px bg-neutral-800 border-b border-neutral-800">
+                <div className="col-span-12 lg:col-span-7 bg-black p-8 md:p-24">
+                    <h2 className="font-headline text-5xl font-bold mb-12">FAQ</h2>
+                    <Accordion type="single" collapsible className="w-full">
+                        {faqItems.map((faq, index) => (
+                        <AccordionItem
+                            key={index}
+                            value={`item-${index}`}
+                            className="border-b border-white/10 last:border-0"
+                        >
+                            <AccordionTrigger className="text-left text-xl font-medium py-6 hover:text-primary transition-colors">
+                            {faq.question}
+                            </AccordionTrigger>
+                            <AccordionContent className="text-neutral-400 text-lg leading-relaxed pb-6">
+                            {faq.answer}
+                            </AccordionContent>
+                        </AccordionItem>
+                        ))}
+                    </Accordion>
+                </div>
+                
+                <div className="col-span-12 lg:col-span-5 bg-black p-8 md:p-24">
+                    <div className="h-full flex flex-col justify-center">
+                        <h2 className="font-headline text-4xl font-bold mb-8">Start a Project</h2>
+                        <form className="space-y-6">
+                            <div className="space-y-2">
+                                <Label htmlFor="name-service" className="text-base">Name</Label>
+                                <Input id="name-service" placeholder="John Doe" className="bg-neutral-900 border-neutral-800 h-12" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="email-service" className="text-base">Email</Label>
+                                <Input
+                                id="email-service"
+                                type="email"
+                                placeholder="john@company.com"
+                                className="bg-neutral-900 border-neutral-800 h-12"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="message-service" className="text-base">Message</Label>
+                                <Textarea
+                                    id="message-service"
+                                    placeholder="Tell us about your project..."
+                                    rows={4}
+                                    className="bg-neutral-900 border-neutral-800 resize-none"
+                                />
+                            </div>
+                            <Button type="submit" size="lg" className="w-full h-14 text-lg mt-4">
+                                Send Inquiry <ArrowRight className="ml-2 h-5 w-5" />
+                            </Button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
-            {/* 5. FAQ */}
-            <div className="col-span-12 lg:col-span-7 bg-black p-8 md:p-24 border-b lg:border-r border-neutral-800">
-                <h2 className="font-headline text-5xl font-bold mb-12">FAQ</h2>
-                <Accordion type="single" collapsible className="w-full">
-                    {faqItems.map((faq, index) => (
-                      <AccordionItem
-                        key={index}
-                        value={`item-${index}`}
-                        className="border-b border-white/10 last:border-0"
-                      >
-                        <AccordionTrigger className="text-left text-xl font-medium py-6 hover:text-primary transition-colors">
-                          {faq.question}
-                        </AccordionTrigger>
-                        <AccordionContent className="text-neutral-400 text-lg leading-relaxed pb-6">
-                          {faq.answer}
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-            </div>
-            
-            {/* 6. CONTACT FORM */}
-            <div className="col-span-12 lg:col-span-5 bg-neutral-900/50 p-8 md:p-24 border-b border-neutral-800">
-                  <div className="h-full flex flex-col justify-center">
-                    <h2 className="font-headline text-4xl font-bold mb-8">Start a Project</h2>
-                    <form className="space-y-6">
-                        <div className="space-y-2">
-                            <Label htmlFor="name-service" className="text-base">Name</Label>
-                            <Input id="name-service" placeholder="John Doe" className="bg-black border-neutral-800 h-12" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="email-service" className="text-base">Email</Label>
-                            <Input
-                            id="email-service"
-                            type="email"
-                            placeholder="john@company.com"
-                            className="bg-black border-neutral-800 h-12"
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="message-service" className="text-base">Message</Label>
-                            <Textarea
-                                id="message-service"
-                                placeholder="Tell us about your project..."
-                                rows={4}
-                                className="bg-black border-neutral-800 resize-none"
-                            />
-                        </div>
-                        <Button type="submit" size="lg" className="w-full h-14 text-lg mt-4">
-                            Send Inquiry <ArrowRight className="ml-2 h-5 w-5" />
-                        </Button>
-                    </form>
-                  </div>
-            </div>
 
           <div className="col-span-12 bg-black">
              <CtaSection />
