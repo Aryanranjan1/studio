@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -77,7 +78,6 @@ export default function ServicesPage() {
           
           {/* Hero Header */}
           <div className="col-span-12 bg-black p-8 md:p-24 border-b border-neutral-800">
-             <span className="text-primary font-bold tracking-widest uppercase text-sm mb-4 block">What we do</span>
              <h1 className="font-headline text-7xl md:text-9xl font-bold leading-tight">
                 Services
              </h1>
