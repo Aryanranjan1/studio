@@ -1,4 +1,6 @@
 
+'use client';
+
 import { getProjects } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -6,6 +8,8 @@ import { MoveRight } from 'lucide-react';
 import { Footer } from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
 import { CtaSection } from '@/components/cta-section';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 
 const clientLogos = [
     { src: 'https://tailwindui.com/img/logos/158x48/reform-logo-white.svg', alt: 'Reform' },
@@ -14,9 +18,30 @@ const clientLogos = [
     { src: 'https://tailwindui.com/img/logos/158x48/transistor-logo-white.svg', alt: 'Transistor' },
 ];
 
+const ITEMS_PER_PAGE = 6;
+
+
 export default function PortfolioPage() {
   const projects = getProjects();
   const projectCategories = [...new Set(projects.map(p => p.category))];
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(projects.length / ITEMS_PER_PAGE);
+
+  const paginatedProjects = projects.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
 
   return (
     <div className="w-full bg-black text-white min-h-screen">
@@ -62,7 +87,7 @@ export default function PortfolioPage() {
 
           {/* Projects Grid */}
             <div className="col-span-12 bg-black grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-800 border-t border-b border-neutral-800">
-              {projects.map((project) => (
+              {paginatedProjects.map((project) => (
                 <Link
                   href={`/portfolio/${project.id}`}
                   key={project.id}
@@ -90,6 +115,27 @@ export default function PortfolioPage() {
                   </div>
                 </Link>
               ))}
+            </div>
+
+            {/* Pagination Controls */}
+            <div className="col-span-12 bg-black p-8 flex justify-center items-center gap-4">
+                <Button 
+                    onClick={handlePrevPage} 
+                    disabled={currentPage === 1}
+                    variant="outline"
+                >
+                    Previous
+                </Button>
+                <span className="text-sm text-neutral-400">
+                    Page {currentPage} of {totalPages}
+                </span>
+                <Button 
+                    onClick={handleNextPage} 
+                    disabled={currentPage === totalPages}
+                    variant="outline"
+                >
+                    Next
+                </Button>
             </div>
           
           <div className="col-span-12 bg-black border-b border-neutral-800">
