@@ -5,6 +5,7 @@ import { ArrowRight, MoveRight, Instagram, Linkedin } from 'lucide-react';
 import { getTeam } from '@/lib/data';
 import { TeamMemberCard } from '@/components/team-member-card';
 import { Button } from '@/components/ui/button';
+import { Footer } from '@/components/footer';
 
 export default function AboutPage() {
   const team = getTeam();
@@ -167,16 +168,10 @@ export default function AboutPage() {
             </div>
             <p className="text-xs text-neutral-500">Next Page</p>
           </div>
+           <div className="col-span-12 bg-black">
+            <Footer />
+          </div>
         </div>
-        
-        <footer className="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 flex justify-between items-center text-xs text-neutral-500">
-            <p>&copy; 2023 Ampire Agency</p>
-            <div className="flex gap-4">
-                <Link href="#" className="hover:text-white">Cookie Policy</Link>
-                <Link href="#" className="hover:text-white">Privacy Policy</Link>
-                <Link href="#" className="hover:text-white">Terms of Use</Link>
-            </div>
-        </footer>
       </main>
     </div>
   );
