@@ -13,32 +13,32 @@
 import { FirebaseOptions } from 'firebase/app';
 
 const firebaseConfig: FirebaseOptions = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  apiKey: "AIzaSyA-HnBbPf8R6qolIH_Qm9PbECrUKSi4Db8",
+  authDomain: "ampire-studio-92664092-32a02.firebaseapp.com",
+  projectId: "ampire-studio-92664092-32a02",
+  storageBucket: "ampire-studio-92664092-32a02.appspot.com",
+  messagingSenderId: "156171619491",
+  appId: "1:156171619491:web:6d2cce1f3ad042d82a4316",
 };
 
 export function getFirebaseConfig(): FirebaseOptions {
   if (!firebaseConfig.apiKey) {
-    throw new Error('Missing Firebase config: `NEXT_PUBLIC_FIREBASE_API_KEY`');
+    throw new Error('Missing Firebase config: `apiKey`');
   }
   if (!firebaseConfig.authDomain) {
-    throw new Error('Missing Firebase config: `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`');
+    throw new Error('Missing Firebase config: `authDomain`');
   }
   if (!firebaseConfig.projectId) {
-    throw new Error('Missing Firebase config: `NEXT_PUBLIC_FIREBASE_PROJECT_ID`');
+    throw new Error('Missing Firebase config: `projectId`');
   }
   if (!firebaseConfig.storageBucket) {
-    throw new Error('Missing Firebase config: `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`');
+    throw new Error('Missing Firebase config: `storageBucket`');
   }
   if (!firebaseConfig.messagingSenderId) {
-    throw new Error('Missing Firebase config: `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`');
+    throw new Error('Missing Firebase config: `messagingSenderId`');
   }
   if (!firebaseConfig.appId) {
-    throw new Error('Missing Firebase config: `NEXT_PUBLIC_FIREBASE_APP_ID`');
+    throw new Error('Missing Firebase config: `appId`');
   }
   return firebaseConfig;
 }
