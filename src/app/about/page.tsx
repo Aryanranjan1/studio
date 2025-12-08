@@ -141,10 +141,10 @@ export default function AboutPage() {
               <p className="text-neutral-400 mt-2">Your brand here</p>
             </div>
             <div className="flex gap-4">
-              <Button asChild>
+              <Button asChild className="flex-1">
                 <Link href="/contact">Start Project</Link>
               </Button>
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" className="flex-1">
                 <Link href="/contact">Contact Us</Link>
               </Button>
             </div>
