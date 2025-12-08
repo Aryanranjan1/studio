@@ -25,7 +25,6 @@ import {
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { ProcessGrid } from '@/components/process-grid';
 
 const processSteps = [
     {
@@ -143,7 +142,7 @@ export default function ServicesPage() {
                 <h2 className="font-headline text-5xl md:text-6xl font-bold">Technology Stack</h2>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {technologies.map((tech, index) => (
+                {technologies.slice(0,8).map((tech, index) => (
                     <div
                         key={tech.name}
                         className={cn(
@@ -175,7 +174,15 @@ export default function ServicesPage() {
                   <h2 className="font-headline text-5xl md:text-6xl font-bold">Our Process</h2>
                   <p className="mt-6 max-w-2xl text-lg text-neutral-400">We follow a structured four-step process to ensure clarity, efficiency, and exceptional results from start to finish.</p>
               </div>
-              <ProcessGrid />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-800 border border-neutral-800">
+                {processSteps.map((item) => (
+                  <div key={item.step} className="bg-black p-8">
+                    <span className="text-primary font-headline text-lg">{item.step}</span>
+                    <h3 className="font-headline text-2xl font-bold mt-2">{item.title}</h3>
+                    <p className="text-neutral-400 mt-4">{item.description}</p>
+                  </div>
+                ))}
+              </div>
           </div>
 
             {/* 5. FAQ & Contact */}

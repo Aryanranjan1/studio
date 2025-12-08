@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Check } from 'lucide-react';
@@ -56,9 +57,9 @@ export function ProcessGrid() {
         >
           <h3 className="font-headline text-3xl font-bold">{phase.phase}</h3>
           <p className="mt-2 text-xl font-semibold text-neutral-300">{phase.title}</p>
-          <div className="relative mt-8 border-l border-neutral-700 pl-8">
+          <div className="relative mt-8 border-l border-neutral-700">
             {phase.steps.map((step, stepIndex) => (
-              <div key={step.number} className="relative py-4">
+              <div key={step.number} className="relative py-4 pl-8">
                 <div className="absolute -left-[13px] top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
                   {step.number}
                 </div>
