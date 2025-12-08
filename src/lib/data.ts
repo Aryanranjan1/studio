@@ -513,3 +513,5 @@ export const getTemplates = (): Template[] => Array.from({ length: 20 }, (_, i) 
       'Lifetime Updates',
     ],
 }));
+
+export const allCategories = articleCategories;

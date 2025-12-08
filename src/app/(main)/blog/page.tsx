@@ -1,7 +1,7 @@
 
 'use client';
 
-import { getArticles } from '@/lib/data';
+import { getArticles, allCategories } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
@@ -195,7 +195,7 @@ export default function BlogPage() {
                               alt={article.imageAlt}
                               fill
                               loading="lazy"
-                              className="object-cover"
+                              className="object-.cover"
                             />
                             <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-primary/20" />
                           </div>
