@@ -18,7 +18,7 @@ const BentoCard = ({
 }) => (
   <div
     className={cn(
-      'border border-border/20 bg-card p-4 shadow-inner flex relative overflow-hidden',
+      'bg-card p-4 flex relative overflow-hidden',
       className
     )}
   >
@@ -54,7 +54,8 @@ export function HeroGrid() {
 
   return (
     <div
-      className="grid auto-rows-[100px] grid-cols-4 gap-2 min-h-screen w-screen max-w-full
+      className="grid auto-rows-[100px] grid-cols-4 gap-px min-h-screen w-screen max-w-full
+      bg-border
       md:grid-cols-8 md:grid-rows-10 
       lg:grid-cols-12 lg:grid-rows-8"
     >
