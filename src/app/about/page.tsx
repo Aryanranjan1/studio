@@ -120,8 +120,7 @@ export default function AboutPage() {
                 {team.map((member) => (
                     <div key={member.id} className="bg-black p-6 border border-neutral-800 flex items-center gap-6">
                     <TeamMemberCard 
-                        imageUrl={member.imageUrl} 
-                        shape={member.shape} 
+                        icon={member.icon}
                         className="w-24 h-24 flex-shrink-0" 
                     />
                     <div>

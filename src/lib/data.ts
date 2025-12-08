@@ -117,8 +117,7 @@ export type TeamMember = {
   id: string;
   name: string;
   role: string;
-  imageUrl: string;
-  shape: 'circle' | 'squircle' | 'flower' | 'octagon';
+  icon: string;
 };
 
 
@@ -234,15 +233,15 @@ export const getFounder = (): Founder => ({
   image: 'https://picsum.photos/seed/founder-img/800/800',
 });
 
-const capabilities = [
-  { id: '1', name: 'Product Design', role: 'User-centred interfaces that convert.', imageUrl: 'https://picsum.photos/seed/team1/200/200', shape: 'squircle' as const },
-  { id: '2', name: 'Front-end Engineering', role: 'Fast, accessible, maintainable builds.', imageUrl: 'https://picsum.photos/seed/team2/200/200', shape: 'flower' as const },
-  { id: '3', name: 'Brand & Visuals', role: 'Identity systems with clarity and purpose.', imageUrl: 'https://picsum.photos/seed/team3/200/200', shape: 'octagon' as const },
-  { id: '4', name: 'Motion & Interaction', role: 'Micro-interactions that guide and engage.', imageUrl: 'https://picsum.photos/seed/team4/200/200', shape: 'circle' as const },
-  { id: '5', name: 'Backend & Integrations', role: 'APIs, automation, and scalable systems.', imageUrl: 'https://picsum.photos/seed/team5/200/200', shape: 'squircle' as const },
-  { id: '6', name: 'Performance & SEO', role: 'Speed, structure, and discoverability.', imageUrl: 'https://picsum.photos/seed/team6/200/200', shape: 'flower' as const },
-  { id: '7', name: 'Mobile & Responsive', role: 'Adaptive layouts that feel native everywhere.', imageUrl: 'https://picsum.photos/seed/team7/200/200', shape: 'octagon' as const },
-  { id: '8', name: 'Launch & Support', role: 'Deploy, monitor, and iterate with stability.', imageUrl: 'https://picsum.photos/seed/team8/200/200', shape: 'circle' as const },
+const capabilities: TeamMember[] = [
+  { id: '1', name: 'Product Design', role: 'User-centred interfaces that convert.', icon: 'Palette' },
+  { id: '2', name: 'Front-end Engineering', role: 'Fast, accessible, maintainable builds.', icon: 'Code' },
+  { id: '3', name: 'Brand & Visuals', role: 'Identity systems with clarity and purpose.', icon: 'Gem' },
+  { id: '4', name: 'Motion & Interaction', role: 'Micro-interactions that guide and engage.', icon: 'Sparkles' },
+  { id: '5', name: 'Backend & Integrations', role: 'APIs, automation, and scalable systems.', icon: 'Server' },
+  { id: '6', name: 'Performance & SEO', role: 'Speed, structure, and discoverability.', icon: 'Gauge' },
+  { id: '7', name: 'Mobile & Responsive', role: 'Adaptive layouts that feel native everywhere.', icon: 'Smartphone' },
+  { id: '8', name: 'Launch & Support', role: 'Deploy, monitor, and iterate with stability.', icon: 'Rocket' },
 ];
 
 export const getTeam = (): TeamMember[] => capabilities;
