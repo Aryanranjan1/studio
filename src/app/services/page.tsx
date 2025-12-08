@@ -24,6 +24,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 const processSteps = [
     {
@@ -48,13 +49,47 @@ const processSteps = [
     },
 ];
 
-const techStack = [
-    { name: "Next.js", logo: "/tech/nextjs.svg" },
-    { name: "React", logo: "/tech/react.svg" },
-    { name: "Firebase", logo: "/tech/firebase.svg" },
-    { name: "Node.js", logo: "/tech/nodejs.svg" },
-    { name: "Figma", logo: "/tech/figma.svg" },
-    { name: "Webflow", logo: "/tech/webflow.svg" },
+const technologies = [
+  { 
+    name: "Next.js", 
+    description: "The React Framework", 
+    src: "https://cdn.simpleicons.org/nextdotjs/white" 
+  },
+  { 
+    name: "React", 
+    description: "User Interfaces", 
+    src: "https://cdn.simpleicons.org/react/61DAFB" 
+  },
+  { 
+    name: "TypeScript", 
+    description: "Type Safety", 
+    src: "https://cdn.simpleicons.org/typescript/3178C6" 
+  },
+  { 
+    name: "Tailwind CSS", 
+    description: "Utility-First CSS", 
+    src: "https://cdn.simpleicons.org/tailwindcss/06B6D4" 
+  },
+  { 
+    name: "Framer Motion", 
+    description: "Production Animation", 
+    src: "https://cdn.simpleicons.org/framer/0055FF" 
+  },
+  { 
+    name: "Firebase", 
+    description: "Backend as a Service", 
+    src: "https://cdn.simpleicons.org/firebase/FFCA28" 
+  },
+  { 
+    name: "Figma", 
+    description: "Collaborative Design", 
+    src: "https://cdn.simpleicons.org/figma/F24E1E" 
+  },
+  { 
+    name: "Vercel", 
+    description: "Global Deployment", 
+    src: "https://cdn.simpleicons.org/vercel/white" 
+  },
 ];
 
 const faqItems = [
@@ -102,13 +137,36 @@ export default function ServicesPage() {
           </div>
           
           {/* 4. TECH STACK */}
-          <div className="col-span-12 bg-black p-8 md:p-24 text-center border-b border-neutral-800">
-              <h2 className="font-headline text-5xl font-bold mb-16">Technology Stack</h2>
-              <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-12">
-                  {techStack.map(tech => (
-                      <div key={tech.name} className="flex flex-col items-center gap-4 text-neutral-500 hover:text-white transition-colors">
-                          <Image src={tech.logo} alt={tech.name} width={64} height={64} className="brightness-0 invert opacity-50 hover:opacity-100 transition-opacity" />
-                          <span className="font-medium">{tech.name}</span>
+          <div className="col-span-12 bg-black p-8 md:p-12 text-center border-b border-neutral-800">
+              <div className="mb-12">
+                  <h2 className="font-headline text-4xl md:text-5xl font-bold">Technology Stack</h2>
+                  <p className="mt-4 max-w-2xl mx-auto text-lg text-neutral-400">
+                      We build with a modern, scalable, and secure stack to deliver high-performance digital experiences.
+                  </p>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 bg-neutral-800 border-l border-t border-neutral-800">
+                  {technologies.map((tech, index) => (
+                      <div
+                          key={tech.name}
+                          className={cn(
+                            'group relative aspect-square flex items-center justify-center bg-black border-r border-b border-neutral-800',
+                            // Show 6 items on mobile and tablet
+                            index >= 6 && 'hidden md:hidden lg:flex',
+                          )}
+                      >
+                          <Image
+                            src={tech.src}
+                            alt={`${tech.name} logo`}
+                            width={64}
+                            height={64}
+                            unoptimized
+                            className="h-10 w-10 md:h-12 md:w-12 text-white transition-transform duration-300 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/90 p-4 text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                              <p className="font-bold text-white">{tech.name}</p>
+                              <p className="text-sm text-neutral-300">{tech.description}</p>
+                          </div>
                       </div>
                   ))}
               </div>
