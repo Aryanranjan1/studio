@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -220,7 +221,10 @@ export function Header() {
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
         {sidebarContent}
       </aside>
-      <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:justify-start sm:border-0 sm:bg-transparent sm:px-6">
+      <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:justify-between sm:border-0 sm:bg-transparent sm:px-6">
+        <div className="sm:hidden">
+          {logo}
+        </div>
         <Sheet>
           <SheetTrigger asChild>
             <Button size="icon" variant="outline" className="sm:hidden">
@@ -235,9 +239,6 @@ export function Header() {
             {mobileNavContent}
           </SheetContent>
         </Sheet>
-        <div className="sm:hidden">
-          {logo}
-        </div>
       </header>
     </>
   );
