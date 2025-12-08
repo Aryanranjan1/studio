@@ -128,7 +128,7 @@ export default function PortfolioPage() {
             <div className="col-span-12 bg-black p-8">
               <Link href={`/portfolio/${featuredProject.id}`} className="group block">
                 <Card className="grid grid-cols-1 overflow-hidden md:grid-cols-2 bg-card/50 backdrop-blur-lg">
-                  <div className="relative h-80 w-full md:h-auto">
+                  <div className="relative h-80 w-full md:h-auto lg:min-h-[480px]">
                     <Image
                       src={featuredProject.image}
                       alt={featuredProject.imageAlt}
@@ -137,14 +137,14 @@ export default function PortfolioPage() {
                     />
                     <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-primary/20" />
                   </div>
-                  <div className="flex flex-col p-8">
+                  <div className="flex flex-col p-8 lg:p-12 justify-center">
                     <Badge variant="outline" className="w-fit border-primary/50 text-primary">
                       Featured Project
                     </Badge>
-                    <h2 className="mt-4 font-headline text-3xl font-bold group-hover:text-primary">
+                    <h2 className="mt-4 font-headline text-3xl lg:text-4xl font-bold group-hover:text-primary">
                       {featuredProject.title}
                     </h2>
-                    <p className="mt-4 text-muted-foreground">{featuredProject.description}</p>
+                    <p className="mt-4 text-muted-foreground lg:text-lg">{featuredProject.description}</p>
                     <div className="mt-auto pt-4">
                       <p className="font-semibold text-primary flex items-center">
                         View Project <MoveRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -252,5 +252,3 @@ export default function PortfolioPage() {
     </div>
   );
 }
-
-    
