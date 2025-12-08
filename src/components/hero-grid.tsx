@@ -18,7 +18,7 @@ const BentoCard = ({
 }) => (
   <div
     className={cn(
-      'rounded-2xl border border-border/20 bg-card p-4 shadow-inner flex relative overflow-hidden',
+      'border border-border/20 bg-card p-4 shadow-inner flex relative overflow-hidden',
       className
     )}
   >
@@ -168,7 +168,7 @@ export function HeroGrid() {
             From the Blog
           </Badge>
           <Link href={`/blog/${featuredArticle.id}`} className="group relative mt-auto">
-             <div className="absolute -bottom-4 -left-4 w-[calc(100%+2rem)] p-4 rounded-2xl bg-black/20 backdrop-blur-md border border-white/10">
+             <div className="absolute -bottom-4 -left-4 w-[calc(100%+2rem)] p-4 bg-black/20 backdrop-blur-md border border-white/10">
                 <Image src={featuredArticle.authorImage} width={32} height={32} alt={featuredArticle.author} className="rounded-full" data-ai-hint="person portrait"/>
                 <div className="flex justify-between items-end mt-2">
                     <div>
@@ -217,3 +217,5 @@ export function HeroGrid() {
     </div>
   );
 }
+
+    
