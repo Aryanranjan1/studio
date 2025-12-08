@@ -22,7 +22,7 @@ export default function AboutPage() {
 
   return (
     <div className="w-full bg-black text-white min-h-screen">
-      <main className="container mx-auto px-4 py-16 sm:px-6 lg:px-8">
+      <main>
         <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
           
           {/* About & How We Work Header */}
@@ -98,25 +98,34 @@ export default function AboutPage() {
 
           {/* Our Team Header */}
           <div className="col-span-12 bg-black p-8 border-b border-neutral-800">
-            <h2 className="font-headline text-5xl md:text-6xl font-bold">
-              <span className="text-blue-500">Our</span> Team
-            </h2>
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+              <h2 className="font-headline text-5xl md:text-6xl font-bold">
+                <span className="text-blue-500">Our</span> Team
+              </h2>
+            </div>
           </div>
 
           {/* Team Grid */}
-          {team.map((member) => (
-            <div key={member.id} className="col-span-12 md:col-span-6 lg:col-span-4 bg-black p-6 border-b border-neutral-800 flex items-center gap-6">
-              <TeamMemberCard 
-                imageUrl={member.imageUrl} 
-                shape={member.shape} 
-                className="w-24 h-24 flex-shrink-0" 
-              />
-              <div>
-                <p className="font-bold text-lg">{member.name}</p>
-                <p className="text-neutral-400 text-sm">{member.role}</p>
+          <div className="col-span-12 bg-black">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 -mx-6">
+                {team.map((member) => (
+                    <div key={member.id} className="bg-black p-6 border border-neutral-800 flex items-center gap-6">
+                    <TeamMemberCard 
+                        imageUrl={member.imageUrl} 
+                        shape={member.shape} 
+                        className="w-24 h-24 flex-shrink-0" 
+                    />
+                    <div>
+                        <p className="font-bold text-lg">{member.name}</p>
+                        <p className="text-neutral-400 text-sm">{member.role}</p>
+                    </div>
+                    </div>
+                ))}
               </div>
             </div>
-          ))}
+          </div>
+          
 
           {/* Let's Work */}
           <div className="col-span-12 lg:col-span-8 bg-black p-8 border-b border-neutral-800 flex flex-col justify-between min-h-[300px]">
@@ -160,7 +169,7 @@ export default function AboutPage() {
           </div>
         </div>
         
-        <footer className="pt-8 flex justify-between items-center text-xs text-neutral-500">
+        <footer className="container mx-auto px-4 sm:px-6 lg:px-8 pt-8 flex justify-between items-center text-xs text-neutral-500">
             <p>&copy; 2023 Ampire Agency</p>
             <div className="flex gap-4">
                 <Link href="#" className="hover:text-white">Cookie Policy</Link>
