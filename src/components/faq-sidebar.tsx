@@ -103,7 +103,7 @@ export function FaqSidebar() {
             </div>
           ))}
           <Button asChild variant="link" className="p-0 mt-4">
-             <Link href="/process">View full process <ArrowRight className="ml-2 h-4 w-4" /></Link>
+             <Link href="/services">View full process <ArrowRight className="ml-2 h-4 w-4" /></Link>
           </Button>
         </CardContent>
       </Card>
