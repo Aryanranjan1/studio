@@ -13,6 +13,18 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Home',
     description: 'A digital design and development agency specializing in bespoke websites and applications.',
+    openGraph: {
+        title: 'Ampire Studio',
+        description: 'A digital design and development agency specializing in bespoke websites and applications.',
+        images: [
+            {
+                url: 'https://picsum.photos/seed/og-home/1200/630',
+                width: 1200,
+                height: 630,
+                alt: 'Ampire Studio Home Page Preview',
+            },
+        ],
+    },
 };
 
 export default function Home() {
@@ -21,9 +33,6 @@ export default function Home() {
       <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
         <div className="col-span-12 bg-black">
           <OzonteHero />
-        </div>
-        <div className="col-span-12 bg-black pt-16">
-          <HeroGrid />
         </div>
         <div className="col-span-12 mt-12 bg-black">
           <ServicesSection />
