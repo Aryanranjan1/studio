@@ -73,11 +73,8 @@ export default function ContactPage() {
           <div className="col-span-12 bg-black py-12">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                {/* Hero Section */}
-               <div className="col-span-12 lg:col-span-7 bg-black p-8 border-b border-neutral-800">
-                <h1 className="font-headline text-7xl md:text-9xl font-bold">Contact Us</h1>
-                <p className="mt-4 max-w-sm text-neutral-400">
-                    Let’s build something exceptional. Share your project details, and our team will get back to you shortly.
-                </p>
+               <div className="col-span-12 lg:col-span-7 bg-black p-8">
+                <h1 className="font-headline text-7xl md:text-9xl font-bold">Contact <span className="text-primary">Us</span></h1>
               </div>
             </div>
           </div>
@@ -85,7 +82,7 @@ export default function ContactPage() {
           {/* Main Content Area */}
           <div className="grid grid-cols-12 col-span-12 gap-px bg-neutral-800">
             <div className="col-span-12 lg:col-span-7 bg-black p-4 md:p-8">
-              <Card className="h-full border-0 shadow-none rounded-none">
+              <Card className="h-full border-0 shadow-none rounded-none bg-transparent">
                 <CardHeader>
                   <CardTitle className="font-headline text-2xl">
                     Get in Touch
@@ -151,7 +148,7 @@ export default function ContactPage() {
 
             {/* Sidebar */}
             <aside className="col-span-12 lg:col-span-5 bg-black p-4 md:p-8 space-y-8">
-              <Card className='bg-muted border-0 shadow-none rounded-none'>
+              <Card className='bg-muted/50 border-0 shadow-none rounded-none'>
                 <CardHeader>
                   <CardTitle className="font-headline text-xl">
                     Connect with us
@@ -200,7 +197,7 @@ export default function ContactPage() {
               </Card>
 
               {/* Mini FAQ */}
-              <Card className='bg-muted border-0 shadow-none rounded-none'>
+              <Card className='bg-muted/50 border-0 shadow-none rounded-none'>
                 <CardHeader>
                   <CardTitle className="font-headline text-xl">
                     Frequently Asked
