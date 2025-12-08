@@ -14,11 +14,11 @@ export default function AboutPage() {
   const principles = [
     {
       title: 'AGILE',
-      description: 'Our approach is agile before agile was called agile. We work in sprints to move through the project both fast and thoughtfully. Our project size starts at 4-weekly sprints at least.',
+      description: 'Our workflow adapts quickly and stays structured. We break projects into tight sprints that keep progress visible, predictable, and fast. Most builds move through several focused weekly cycles from start to finish.',
     },
     {
       title: 'TRANSPARENT',
-      description: 'You are always aware about what we are working on. We give you access to our Figma design file and plan frequent calls with you.',
+      description: 'You stay informed at every stage. We share files, timelines, and decisions openly, giving you full access to designs, progress, and ongoing updates.',
     },
   ];
 
@@ -62,7 +62,7 @@ export default function AboutPage() {
              <div className="col-span-1 grid grid-rows-2">
                 <div className="row-span-1 bg-black p-8 flex items-center">
                     <p className="font-headline text-3xl md:text-4xl font-bold max-w-md">
-                        DESIGN PROCESS DOESN’T HAVE TO BE COMPLEX. IN FACT, IT SHOULD BE SIMPLE.
+                        THE BEST PRODUCTS COME FROM CLARITY. THE WORK FLOWS BETTER WHEN THE PROCESS STAYS CLEAN AND FOCUSED.
                     </p>
                 </div>
                 <div className="row-span-1 bg-black p-8 relative min-h-[250px]">
