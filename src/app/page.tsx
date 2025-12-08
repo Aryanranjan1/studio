@@ -12,36 +12,43 @@ import { TestimonialsSection } from '@/components/testimonials-section';
 export default function Home() {
   return (
     <main className="w-full overflow-x-hidden bg-black text-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
-          <div className="col-span-12 bg-black">
-            <OzonteHero />
-          </div>
-          <div className="col-span-12 bg-black">
-            <HeroGrid />
-          </div>
-          <div className="col-span-12 bg-black">
+      <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
+        <div className="col-span-12 bg-black">
+          <OzonteHero />
+        </div>
+        <div className="col-span-12 bg-black">
+          <HeroGrid />
+        </div>
+        <div className="col-span-12 bg-black">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <ServicesSection />
           </div>
-          <div className="col-span-12 bg-black">
-            <FeaturedPortfolio />
-          </div>
-          <div className="col-span-12 bg-black">
+        </div>
+        <div className="col-span-12 bg-black">
+          <FeaturedPortfolio />
+        </div>
+        <div className="col-span-12 bg-black">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <PricingSection />
           </div>
-          <div className="col-span-12 bg-black">
-            <TestimonialsSection />
-          </div>
-           <div className="col-span-12 bg-black">
+        </div>
+        <div className="col-span-12 bg-black">
+          <TestimonialsSection />
+        </div>
+         <div className="col-span-12 bg-black">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <CtaSection />
           </div>
-          <div className="col-span-12 bg-black">
-             <BlogSection />
+        </div>
+        <div className="col-span-12 bg-black">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <BlogSection />
           </div>
         </div>
+        <div className="col-span-12 bg-black">
+          <Footer />
+        </div>
       </div>
-      
-      <Footer />
     </main>
   );
 }
