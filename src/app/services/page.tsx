@@ -5,7 +5,7 @@ import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getServices } from '@/lib/data';
-import { ArrowRight, Bot, Code, Palette, Megaphone, Server, Gem, Sparkles, Gauge, Smartphone, Rocket, Check } from 'lucide-react';
+import { ArrowRight, Bot, Code, Palette, Megaphone, Server, Gem, Sparkles, Gauge, Smartphone, Rocket, Check, Search } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { PricingSection } from '@/components/pricing-section';
@@ -33,6 +33,7 @@ const iconComponents: { [key: string]: React.ElementType } = {
   Gauge,
   Smartphone,
   Rocket,
+  Search,
 };
 
 const processSteps = [

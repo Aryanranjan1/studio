@@ -41,6 +41,8 @@ export type Project = {
     company: string;
   };
   featured?: boolean;
+  tags: string[];
+  popular?: boolean;
 };
 
 export type Testimonial = {
@@ -131,51 +133,63 @@ export const getSiteSettings = (): SiteSettings => ({
 
 export const getServices = (): Service[] => [
   {
-    id: 'ideation-evaluation',
-    title: 'Ideation & Evaluation',
-    description: 'At Designify we specialize in designing, building, shipping and scaling beautiful, usable products with blazing-fast efficiency.',
-    longDescription: 'We help you flesh out your ideas and validate them against market needs. Our process involves deep market research, competitive analysis, and user interviews to ensure your product has a solid foundation for success.',
-    icon: 'Bot',
-    category: 'Strategy',
+    id: 'web-design',
+    title: 'Web Design',
+    description: 'We create beautiful, user-centric designs that are both functional and visually stunning.',
+    longDescription: 'Our web design process focuses on creating a seamless user experience. We conduct thorough research to understand your audience, resulting in intuitive interfaces that drive engagement and conversions. From wireframes to high-fidelity mockups, we ensure every pixel serves a purpose.',
+    icon: 'Palette',
+    category: 'Design',
     kpis: [
-      { value: '98%', label: 'Idea Validation Rate' },
-      { value: '50+', label: 'Concepts Developed' },
+      { value: '+25%', label: 'User Engagement' },
+      { value: 'Top 1%', label: 'Design Awards' },
     ],
   },
   {
-    id: 'design-development',
-    title: 'Design, Development',
-    description: 'At Designify we specialize in designing, building, shipping and scaling beautiful, usable products with blazing-fast efficiency.',
+    id: 'web-development',
+    title: 'Web Development',
+    description: 'We build high-performance websites using modern technologies like Next.js and React.',
     longDescription: 'We build high-performance websites and applications using modern technologies. Our focus is on creating secure, scalable, and maintainable solutions that grow with your business, from marketing sites to complex e-commerce platforms with full CMS integration.',
     icon: 'Code',
-    category: 'Web Design',
+    category: 'Development',
     kpis: [
       { value: 'Under 50ms', label: 'Page Loads' },
       { value: '99.9%', label: 'Uptime' },
     ],
   },
   {
-    id: 'online-marketing',
-    title: 'Online Marketing',
-    description: 'At Designify we specialize in designing, building, shipping and scaling beautiful, usable products with blazing-fast efficiency.',
-    longDescription: 'Our digital marketing services are designed to increase your visibility and drive qualified leads. We specialize in technical SEO, content strategy, and performance marketing to ensure your message reaches the right audience at the right time.',
-    icon: 'Megaphone',
-    category: 'Marketing',
+    id: 'automation',
+    title: 'Automation',
+    description: 'We streamline your business processes with custom automation solutions.',
+    longDescription: 'Our automation services help you eliminate repetitive tasks and improve efficiency. We build custom workflows, integrate APIs, and leverage tools like Zapier and Airtable to connect your systems and free up your team to focus on what matters most.',
+    icon: 'Bot',
+    category: 'Systems',
     kpis: [
-      { value: '+300%', label: 'Organic Traffic' },
-      { value: '+50%', label: 'Conversion Rate' },
+      { value: '80%', label: 'Reduction in Manual Tasks' },
+      { value: '10k+', label: 'Hours Saved for Clients' },
     ],
   },
   {
-    id: 'product-management',
-    title: 'Product Management',
-    description: 'At Collax we specialize in designing, building, shipping and scaling beautiful, usable products with blazing-fast efficiency.',
-    longDescription: 'We provide end-to-end product management, from creating a product roadmap to overseeing the development lifecycle and post-launch optimization, ensuring your product meets business goals and user needs.',
-    icon: 'UserCog',
-    category: 'Management',
+    id: 'mobile-app',
+    title: 'Mobile App',
+    description: 'We design and develop native and cross-platform mobile applications.',
+    longDescription: 'From iOS to Android, we build mobile apps that provide a seamless user experience. Our team handles everything from initial concept and UI/UX design to development, testing, and deployment on the app stores.',
+    icon: 'Smartphone',
+    category: 'Development',
     kpis: [
-      { value: '25%', label: 'Faster Time-to-Market' },
-      { value: '40%', label: 'Increase in User Retention' },
+      { value: '1M+', label: 'App Downloads' },
+      { value: '4.8/5', label: 'Average App Store Rating' },
+    ],
+  },
+  {
+    id: 'seo-optimization',
+    title: 'SEO Optimization',
+    description: 'We improve your search engine rankings to drive organic traffic.',
+    longDescription: 'Our SEO services are designed to increase your visibility and drive qualified leads. We specialize in technical SEO, keyword research, content strategy, and link building to ensure your message reaches the right audience at the right time.',
+    icon: 'Search',
+    category: 'Marketing',
+    kpis: [
+      { value: '+300%', label: 'Organic Traffic' },
+      { value: 'Top 3', label: 'Keyword Rankings' },
     ],
   },
 ];
@@ -222,6 +236,8 @@ export const getProjects = (): Project[] => Array.from({ length: 20 }, (_, i) =>
       company: `Company ${i + 1}`,
     },
     featured: i < 8, // Let's feature the first 8 projects for variety
+    tags: [['Web Dev', 'Future Tech', 'AI'], ['JavaScript', 'React', 'Vue'], ['Performance', 'UX', 'Design']][i % 3],
+    popular: i < 5,
 }));
 
 export const getFounder = (): Founder => ({
