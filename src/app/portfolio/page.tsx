@@ -8,29 +8,38 @@ import { MoveRight, Search } from 'lucide-react';
 import { Footer } from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
 import { CtaSection } from '@/components/cta-section';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { FeaturedPortfolio } from '@/components/featured-portfolio';
 import { Input } from '@/components/ui/input';
-
+import type { Project } from '@/lib/data';
+import { Card } from '@/components/ui/card';
 
 const ITEMS_PER_PAGE = 6;
 
-
 export default function PortfolioPage() {
-  const projects = getProjects();
-  const allCategories = useMemo(() => [...new Set(projects.map(p => p.category))], [projects]);
+  const projects = useMemo(() => getProjects(), []);
+  const allCategories = useMemo(() => ['All', ...new Set(projects.map(p => p.category))], [projects]);
 
+  const [featuredProject, setFeaturedProject] = useState<Project | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(['All']);
+
+  useEffect(() => {
+    const featured = projects.filter(p => p.featured);
+    if (featured.length > 0) {
+      const randomProject = featured[Math.floor(Math.random() * featured.length)];
+      setFeaturedProject(randomProject);
+    }
+  }, [projects]);
+
 
   const filteredProjects = useMemo(() => {
     return projects
       .filter(project => {
         const term = searchTerm.toLowerCase();
         const categoryMatch =
-          selectedCategories.length === 0 ||
+          selectedCategories.includes('All') ||
           selectedCategories.includes(project.category);
         const searchMatch =
           project.title.toLowerCase().includes(term) ||
@@ -57,11 +66,18 @@ export default function PortfolioPage() {
   };
 
   const handleCategoryToggle = (category: string) => {
-    setSelectedCategories(prev =>
-      prev.includes(category)
-        ? prev.filter(c => c !== category)
-        : [...prev, category]
-    );
+    if (category === 'All') {
+      setSelectedCategories(['All']);
+    } else {
+      setSelectedCategories(prev => {
+        const newCats = prev.filter(c => c !== 'All');
+        if (newCats.includes(category)) {
+          return newCats.filter(c => c !== category);
+        } else {
+          return [...newCats, category];
+        }
+      });
+    }
     setCurrentPage(1); // Reset to first page on filter change
   };
 
@@ -88,11 +104,40 @@ export default function PortfolioPage() {
               </div>
             </div>
           </div>
-
-          {/* Featured Projects */}
-            <div className="col-span-12 bg-black">
-                <FeaturedPortfolio />
+          
+          {/* Featured Project Section */}
+          {featuredProject && (
+            <div className="col-span-12 bg-black p-8">
+              <Link href={`/portfolio/${featuredProject.id}`} className="group block">
+                <Card className="grid grid-cols-1 overflow-hidden md:grid-cols-2 bg-card/50 backdrop-blur-lg">
+                  <div className="relative h-80 w-full md:h-auto">
+                    <Image
+                      src={featuredProject.image}
+                      alt={featuredProject.imageAlt}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-primary/20" />
+                  </div>
+                  <div className="flex flex-col p-8">
+                    <Badge variant="outline" className="w-fit border-primary/50 text-primary">
+                      Featured Project
+                    </Badge>
+                    <h2 className="mt-4 font-headline text-3xl font-bold group-hover:text-primary">
+                      {featuredProject.title}
+                    </h2>
+                    <p className="mt-4 text-muted-foreground">{featuredProject.description}</p>
+                    <div className="mt-auto pt-4">
+                      <p className="font-semibold text-primary flex items-center">
+                        View Project <MoveRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+              </Link>
             </div>
+          )}
+
 
             {/* Search and Filter Section */}
             <div className="col-span-12 bg-black p-8">
