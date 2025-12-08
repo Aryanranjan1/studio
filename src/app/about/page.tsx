@@ -42,6 +42,9 @@ export default function AboutPage() {
             <h2 className="font-headline text-5xl md:text-6xl font-bold">
               How We <span className="text-primary">Work</span>
             </h2>
+            <p className="mt-4 max-w-lg text-neutral-400">
+              We keep the workflow simple and structured. Every project moves in short, focused cycles where you see progress early, understand each decision, and stay aligned with the outcome. No clutter, no slow loops — just clear steps and steady forward motion.
+            </p>
           </div>
 
           <div className="col-span-12 md:col-span-5 bg-black relative min-h-[300px] border-b border-neutral-800">
