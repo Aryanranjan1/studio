@@ -86,7 +86,7 @@ export default function PortfolioPage() {
 
 
           {/* Projects Grid */}
-            <div className="col-span-12 bg-black grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-800 border-t border-b border-neutral-800">
+            <div className="col-span-12 bg-black grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-neutral-800 border-t border-b border-neutral-800">
               {paginatedProjects.map((project) => (
                 <Link
                   href={`/portfolio/${project.id}`}
