@@ -129,7 +129,7 @@ export default function AboutPage() {
           
 
           {/* Let's Work */}
-          <div className="col-span-12 lg:col-span-8 bg-black p-8 border-b border-neutral-800 flex flex-col justify-between min-h-[300px]">
+          <div className="col-span-12 md:col-span-8 bg-black p-8 border-b border-neutral-800 flex flex-col justify-between min-h-[300px]">
             <div>
               <h2 className="font-headline text-5xl md:text-6xl font-bold">Let's Work</h2>
               <p className="text-neutral-400 mt-2">Your brand here</p>
@@ -149,7 +149,7 @@ export default function AboutPage() {
           </div>
           
           {/* Contact */}
-          <div className="col-span-12 lg:col-span-4 bg-black p-8 border-b border-neutral-800 flex flex-col justify-between items-center text-center">
+          <div className="col-span-12 md:col-span-4 bg-black p-8 border-b border-neutral-800 flex flex-col justify-between items-center text-center">
             <div className="flex gap-4">
               <a href="#" className="hover:text-blue-500">Be</a>
               <a href="#" className="hover:text-blue-500">Clutch</a>
