@@ -22,6 +22,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { Badge } from '@/components/ui/badge';
 
 const processSteps = [
     {
@@ -77,10 +78,21 @@ export default function ServicesPage() {
         <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
           
           {/* Hero Header */}
-          <div className="col-span-12 bg-black p-8 md:p-24 border-b border-neutral-800">
-             <h1 className="font-headline text-7xl md:text-9xl font-bold leading-tight">
-                Services
-             </h1>
+          <div className="col-span-12 bg-black p-8 border-b border-neutral-800">
+             <div className="flex flex-col md:flex-row justify-between md:items-end gap-8">
+              <h1 className="font-headline text-7xl md:text-9xl font-bold">Services</h1>
+               <div className='max-w-md'>
+                <p className="mt-4 md:mt-0 text-neutral-400">
+                  From foundational branding to complex web applications, we provide the expertise to elevate your business in the digital landscape.
+                </p>
+                <div className="flex flex-wrap gap-2 mt-4">
+                    <Badge variant="secondary">Web Development</Badge>
+                    <Badge variant="secondary">Branding</Badge>
+                    <Badge variant="secondary">Automation</Badge>
+                    <Badge variant="secondary">Mobile App</Badge>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* 1. HORIZONTAL SCROLL SERVICES */}
