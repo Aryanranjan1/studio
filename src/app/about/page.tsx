@@ -40,7 +40,7 @@ export default function AboutPage() {
           {/* How we work and Image */}
           <div className="col-span-12 md:col-span-7 bg-black p-8 border-b border-neutral-800">
             <h2 className="font-headline text-5xl md:text-6xl font-bold">
-              How We <span className="text-blue-500">Work</span>
+              How We <span className="text-primary">Work</span>
             </h2>
           </div>
 
@@ -68,11 +68,11 @@ export default function AboutPage() {
              </div>
              <div className="col-span-1 grid grid-rows-2 gap-px bg-neutral-800">
                 <div className="row-span-1 bg-black p-8">
-                    <h3 className="font-headline text-2xl text-blue-500 font-bold">{principles[0].title}</h3>
+                    <h3 className="font-headline text-2xl text-primary font-bold">{principles[0].title}</h3>
                     <p className="mt-2 text-neutral-400 text-sm">{principles[0].description}</p>
                 </div>
                 <div className="row-span-1 bg-black p-8">
-                    <h3 className="font-headline text-2xl text-blue-500 font-bold">{principles[1].title}</h3>
+                    <h3 className="font-headline text-2xl text-primary font-bold">{principles[1].title}</h3>
                     <p className="mt-2 text-neutral-400 text-sm">{principles[1].description}</p>
                 </div>
              </div>
@@ -93,11 +93,11 @@ export default function AboutPage() {
                 <div className="absolute bottom-0 w-48 h-24 border-b border-l border-r border-neutral-700 rounded-b-full scale-x-50"></div>
             </div>
 
-            <div className="absolute bottom-8 left-8 w-32 h-32 bg-yellow-400 rounded-tr-3xl"></div>
-            <div className="absolute bottom-8 left-1/2 w-32 h-32 bg-pink-400 -translate-x-1/2 rounded-tl-3xl"></div>
+            <div className="absolute bottom-8 left-8 w-32 h-32 bg-primary rounded-tr-3xl"></div>
+            <div className="absolute bottom-8 left-1/2 w-32 h-32 bg-primary/70 -translate-x-1/2 rounded-tl-3xl"></div>
           </div>
 
-          <div className="col-span-12 md:col-span-5 bg-blue-500 text-black p-8 flex items-center border-b border-neutral-800">
+          <div className="col-span-12 md:col-span-5 bg-primary text-primary-foreground p-8 flex items-center border-b border-neutral-800">
             <p className="font-headline text-2xl md:text-3xl font-bold">
               WE ARE CONSTANTLY SEEKING TO STRIKE THE RIGHT BALANCE BETWEEN EFFICIENCY AND IMPRESSIVE LOOK
             </p>
@@ -107,7 +107,7 @@ export default function AboutPage() {
           <div className="col-span-12 bg-black p-8 border-b border-neutral-800">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <h2 className="font-headline text-5xl md:text-6xl font-bold">
-                <span className="text-blue-500">Our</span> Team
+                <span className="text-primary">Our</span> Team
               </h2>
             </div>
           </div>
@@ -141,11 +141,11 @@ export default function AboutPage() {
               <p className="text-neutral-400 mt-2">Your brand here</p>
             </div>
             <div className="flex items-center gap-4">
-              <button className="h-20 w-20 rounded-full bg-yellow-400 text-black font-bold flex items-center justify-center transition-transform hover:scale-105">
+              <button className="h-20 w-20 rounded-full bg-primary text-primary-foreground font-bold flex items-center justify-center transition-transform hover:scale-105">
                 Next Step
               </button>
               <div className="flex gap-2">
-                <span className="w-2 h-2 rounded-full bg-yellow-400"></span>
+                <span className="w-2 h-2 rounded-full bg-primary"></span>
                 <span className="w-2 h-2 rounded-full bg-neutral-700"></span>
                 <span className="w-2 h-2 rounded-full bg-neutral-700"></span>
                 <span className="w-2 h-2 rounded-full bg-neutral-700"></span>
@@ -157,12 +157,12 @@ export default function AboutPage() {
           {/* Contact */}
           <div className="col-span-12 md:col-span-4 bg-black p-8 border-b border-neutral-800 flex flex-col justify-between items-center text-center">
             <div className="flex gap-4">
-              <a href="#" className="hover:text-blue-500">Be</a>
-              <a href="#" className="hover:text-blue-500">Clutch</a>
-              <a href="#" className="hover:text-blue-500">
+              <a href="#" className="hover:text-primary">Be</a>
+              <a href="#" className="hover:text-primary">Clutch</a>
+              <a href="#" className="hover:text-primary">
                 <Linkedin className="h-5 w-5"/>
               </a>
-               <a href="#" className="hover:text-blue-500">
+               <a href="#" className="hover:text-primary">
                 <Instagram className="h-5 w-5"/>
               </a>
             </div>
