@@ -1,4 +1,3 @@
-
 'use client';
 
 import { getServices } from '@/lib/data';
@@ -11,9 +10,9 @@ export function ServicesSection() {
   const services = getServices().slice(0, 4); // We only want to show 4 services in this grid
 
   return (
-    <section className="bg-background py-24 border-t border-b border-border">
+    <section className="bg-background py-12 border-t border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-start justify-between border-t border-border pt-8">
+        <div className="flex items-start justify-between">
           <div className="max-w-2xl">
             <p className="font-semibold uppercase tracking-wider text-muted-foreground">
               What We Do?
