@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -94,7 +95,7 @@ export function FaqSearch({ faqs }: FaqSearchProps) {
         </p>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-4">
         {Object.entries(groupedFaqs).map(([category, items]) => (
           <div key={category} className="mb-8">
             <h2 className="mb-4 font-headline text-xl font-bold">{category}</h2>

@@ -85,7 +85,7 @@ export default function BlogPage() {
         <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
           <div className="col-span-12 bg-black">
             {featuredArticle && (
-              <section className="my-16">
+              <section className="my-12">
                 <Link href={`/blog/${featuredArticle.id}`} className="group" data-event="FeaturedArticleClick">
                   <Card className="grid grid-cols-1 overflow-hidden md:grid-cols-2 bg-card/50 backdrop-blur-lg">
                     <div className="relative h-80 w-full md:h-auto">
@@ -189,7 +189,7 @@ export default function BlogPage() {
             </section>
           </div>
           <div className="col-span-12 bg-black">
-            <section className="mt-16 flex justify-center gap-2 px-4 pb-16">
+            <section className="mt-12 flex justify-center gap-2 px-4 pb-12">
                 <Button variant="outline" data-event="PaginationClick">Previous</Button>
                 <Button variant="secondary" data-event="PaginationClick">1</Button>
                 <Button variant="ghost" data-event="PaginationClick">2</Button>

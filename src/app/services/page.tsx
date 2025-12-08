@@ -21,7 +21,7 @@ export default function ServicesPage() {
         <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
           <div className="col-span-12 bg-black">
             {/* Hero Section */}
-            <section className="text-center py-16">
+            <section className="text-center py-12">
               <Badge
                 variant="outline"
                 className="border-primary/50 text-primary"
@@ -40,7 +40,7 @@ export default function ServicesPage() {
 
           <div className="col-span-12 bg-black">
             {/* Services Grid */}
-            <section className="py-16">
+            <section className="py-12">
               <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                 {services.map((service) => {
                   const IconComponent = iconComponents[service.icon];

@@ -15,7 +15,7 @@ export default function StorePage() {
         <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
           <div className="col-span-12 bg-black">
             {/* Hero Section */}
-            <section className="text-center py-16">
+            <section className="text-center py-12">
               <Badge
                 variant="outline"
                 className="border-primary/50 text-primary"
@@ -34,7 +34,7 @@ export default function StorePage() {
 
           <div className="col-span-12 bg-black">
             {/* Templates Grid */}
-            <section className="py-16">
+            <section className="py-12">
               <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {templates.map((template) => (
                   <Link
