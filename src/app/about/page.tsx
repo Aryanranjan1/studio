@@ -140,18 +140,6 @@ export default function AboutPage() {
               <h2 className="font-headline text-5xl md:text-6xl font-bold">Let's Work</h2>
               <p className="text-neutral-400 mt-2">Your brand here</p>
             </div>
-            <div className="flex items-center gap-4">
-              <button className="h-20 w-20 rounded-full bg-white text-black font-bold flex items-center justify-center transition-transform hover:scale-105">
-                Next Step
-              </button>
-              <div className="flex gap-2">
-                <span className="w-2 h-2 rounded-full bg-primary"></span>
-                <span className="w-2 h-2 rounded-full bg-neutral-700"></span>
-                <span className="w-2 h-2 rounded-full bg-neutral-700"></span>
-                <span className="w-2 h-2 rounded-full bg-neutral-700"></span>
-                <span className="w-2 h-2 rounded-full bg-neutral-700"></span>
-              </div>
-            </div>
           </div>
           
           {/* Contact */}
