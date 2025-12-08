@@ -55,7 +55,7 @@ const services = [
 ];
 
 const IntroCard = () => (
-  <div className="w-screen h-screen flex-shrink-0 flex flex-col justify-between p-8 border-r border-white/20 bg-black">
+  <div className="w-screen md:w-[50vw] h-[75vh] flex-shrink-0 flex flex-col justify-between p-8 border-r border-white/20 bg-black">
      <h3 className="font-headline text-5xl font-bold text-white tracking-tight">
         A full-service<br />design &<br />development<br />agency.
       </h3>
@@ -69,7 +69,7 @@ const IntroCard = () => (
 );
 
 const CtaCard = () => (
-    <div className="w-screen h-screen flex-shrink-0 flex flex-col items-center justify-center p-8 border-r border-white/20 bg-primary text-primary-foreground text-center">
+    <div className="w-screen md:w-[50vw] h-[75vh] flex-shrink-0 flex flex-col items-center justify-center p-8 border-r border-white/20 bg-primary text-primary-foreground text-center">
       <h3 className="font-headline text-5xl font-bold tracking-tight">
         Have a project<br />in mind?
       </h3>
@@ -86,8 +86,6 @@ export function HorizontalServices() {
     target: targetRef,
   });
 
-  // Maps vertical scroll (0 to 1) to horizontal movement.
-  // Adjust the second value in the output range to control how much it scrolls.
   const x = useTransform(scrollYProgress, [0, 1], ['0%', '-85.75%']);
 
   return (
@@ -96,7 +94,7 @@ export function HorizontalServices() {
         <motion.div style={{ x }} className="flex">
           <IntroCard />
           {services.map((service, index) => (
-            <div key={index} className="w-screen h-screen flex-shrink-0 relative border-r border-white/20 overflow-hidden group">
+            <div key={index} className="w-screen md:w-[50vw] h-[75vh] flex-shrink-0 relative border-r border-white/20 overflow-hidden group">
                 <Image 
                     src={service.image}
                     alt={service.title}
