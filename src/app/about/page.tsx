@@ -54,7 +54,7 @@ export default function AboutPage() {
 
           {/* Design Process & Principles */}
           <div className="col-span-12 bg-black grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-800 border-b border-neutral-800">
-             <div className="col-span-1 grid grid-rows-2 gap-px bg-neutral-800">
+             <div className="col-span-1 grid grid-rows-2">
                 <div className="row-span-1 bg-black p-8 flex items-center">
                     <p className="font-headline text-3xl md:text-4xl font-bold max-w-md">
                         DESIGN PROCESS DOESN’T HAVE TO BE COMPLEX. IN FACT, IT SHOULD BE SIMPLE.
