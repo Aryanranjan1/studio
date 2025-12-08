@@ -140,6 +140,14 @@ export default function AboutPage() {
               <h2 className="font-headline text-5xl md:text-6xl font-bold">Let's Work</h2>
               <p className="text-neutral-400 mt-2">Your brand here</p>
             </div>
+            <div className="flex gap-4">
+              <Button asChild>
+                <Link href="/contact">Start Project</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/contact">Contact Us</Link>
+              </Button>
+            </div>
           </div>
           
           {/* Contact */}
