@@ -32,7 +32,7 @@ export default function AboutPage() {
             <div className="md:flex justify-between items-end">
               <h1 className="font-headline text-7xl md:text-9xl font-bold">About</h1>
               <p className="mt-4 md:mt-0 max-w-sm text-neutral-400">
-                Our agency tailors service to your ambitions while focusing on delivering creative and efficient outcomes for your users.
+                We build digital experiences that stay clear, fast, and focused on delivering real value for your business and your users.
               </p>
             </div>
           </div>
