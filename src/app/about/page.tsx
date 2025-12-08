@@ -109,7 +109,6 @@ export default function AboutPage() {
               <h2 className="font-headline text-5xl md:text-6xl font-bold">
                 Capabilities
               </h2>
-              <p className="mt-2 text-muted-foreground">What we do, not who we are.</p>
             </div>
           </div>
 
@@ -151,8 +150,8 @@ export default function AboutPage() {
           </div>
           
           {/* Contact */}
-          <div className="col-span-12 md:col-span-4 bg-black p-8 border-b border-neutral-800 flex flex-col justify-between items-center text-center">
-            <div className="flex gap-4">
+          <div className="col-span-12 md:col-span-4 bg-black p-8 border-b border-neutral-800 flex flex-col justify-end items-center text-center">
+            <div className="mb-8 flex gap-4">
               <a href="#" className="hover:text-primary">Be</a>
               <a href="#" className="hover:text-primary">Clutch</a>
               <a href="#" className="hover:text-primary">
