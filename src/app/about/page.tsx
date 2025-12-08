@@ -141,7 +141,7 @@ export default function AboutPage() {
               <p className="text-neutral-400 mt-2">Your brand here</p>
             </div>
             <div className="flex items-center gap-4">
-              <button className="h-20 w-20 rounded-full bg-primary text-primary-foreground font-bold flex items-center justify-center transition-transform hover:scale-105">
+              <button className="h-20 w-20 rounded-full bg-white text-black font-bold flex items-center justify-center transition-transform hover:scale-105">
                 Next Step
               </button>
               <div className="flex gap-2">
