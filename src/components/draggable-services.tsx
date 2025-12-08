@@ -1,262 +1,164 @@
-"use client"
 
-import { useEffect, useRef } from "react"
-import Script from "next/script"
-import { cn } from "@/lib/utils"
+'use client';
 
-const SKILLS = [
-    { id: 'web-design', label: 'Web Design' },
-    { id: 'development', label: 'Development' },
-    { id: 'mobile-app', label: 'Mobile App' },
-    { id: 'automation', label: 'Automation' },
-    { id: 'seo', label: 'SEO' },
-    { id: 'ui-ux', label: 'UI/UX' },
-    { id: 'webflow', label: 'Webflow' },
-    { id: 'framer', label: 'Framer' },
-  ] as const;
-  
+import { useEffect, useRef } from 'react';
+import Matter from 'matter-js';
+import { cn } from '@/lib/utils';
 
-declare global {
-    interface Window {
-        Matter: any
-    }
+const DEFAULT_SKILLS = [
+  'Web Design',
+  'Development',
+  'Mobile App',
+  'Automation',
+  'SEO',
+  'UI/UX',
+  'Webflow',
+  'Framer',
+];
+
+interface DraggableServicesProps {
+  items?: string[];
+  className?: string;
 }
 
-export function DraggableServices({
-    className = '',
-    style,
-  }: {
-    services?: string[];
-    className?: string;
-    style?: React.CSSProperties;
-  }) {
-    const containerRef = useRef<HTMLDivElement>(null)
-    const scriptLoaded = useRef(false)
-    const engineRef = useRef<any>(null)
-    const renderRef = useRef<any>(null)
-    const resizeHandler = useRef<() => void>();
+export function DraggableServices({ items = DEFAULT_SKILLS, className }: DraggableServicesProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const engineRef = useRef<Matter.Engine | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+  const bodiesRef = useRef<Matter.Body[]>([]);
+  const itemElementsRef = useRef<NodeListOf<HTMLDivElement> | null>(null);
 
-    const pillColors = [
-        'bg-primary text-primary-foreground',
-        'bg-secondary text-secondary-foreground',
-        'bg-muted text-muted-foreground',
-        'bg-primary/70 text-primary-foreground',
-        'bg-secondary/70 text-secondary-foreground',
-        'bg-muted/70 text-muted-foreground',
-    ];
 
-    useEffect(() => {
-        // This effect will run once on mount
-        const cleanup = () => {
-            if (engineRef.current && renderRef.current) {
-                const Matter = window.Matter
-                if (Matter) {
-                    Matter.Render.stop(renderRef.current)
-                    Matter.Engine.clear(engineRef.current)
-                    if (renderRef.current.canvas) {
-                        renderRef.current.canvas.remove();
-                    }
-                }
-            }
-            if (resizeHandler.current) {
-                window.removeEventListener("resize", resizeHandler.current);
-            }
-        };
+  useEffect(() => {
+    const containerElement = containerRef.current;
+    if (!containerElement) return;
 
-        if (scriptLoaded.current && containerRef.current) {
-            initSimulation(containerRef.current);
-        }
-        
-        return cleanup;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // --- Matter.js Setup ---
+    const { Engine, World, Bodies, Mouse, MouseConstraint, Composite } = Matter;
+    const engine = Engine.create();
+    engineRef.current = engine;
+    const world = engine.world;
+    engine.gravity.y = 0.4;
 
-    const handleScriptLoad = () => {
-        scriptLoaded.current = true
-        if (containerRef.current) {
-            initSimulation(containerRef.current)
-        }
-    }
+    const createBoundaries = (width: number, height: number) => {
+      const oldBoundaries = world.bodies.filter(body => body.label?.includes('boundary'));
+      World.remove(world, oldBoundaries);
+      
+      const thickness = 100;
+      const options: Matter.IChamferableBodyDefinition = {
+        isStatic: true,
+        render: { fillStyle: 'transparent' },
+        friction: 1,
+      };
+
+      World.add(world, [
+        Bodies.rectangle(width / 2, height + thickness / 2, width + thickness * 2, thickness, { ...options, label: 'boundary_ground' }),
+        Bodies.rectangle(-thickness / 2, height / 2, thickness, height, { ...options, label: 'boundary_wallLeft' }),
+        Bodies.rectangle(width + thickness / 2, height / 2, thickness, height, { ...options, label: 'boundary_wallRight' }),
+        Bodies.rectangle(width / 2, -thickness / 2, width + thickness * 2, thickness, { ...options, label: 'boundary_roof' }),
+      ]);
+    };
+
+    let { width, height } = containerElement.getBoundingClientRect();
+    createBoundaries(width, height);
     
-    function initSimulation(containerElement: HTMLDivElement) {
-        if (typeof window === "undefined" || !window.Matter) return
-        
-        const Matter = window.Matter
-        const Engine = Matter.Engine,
-            Render = Matter.Render,
-            World = Matter.World,
-            Bodies = Matter.Bodies,
-            MouseConstraint = Matter.MouseConstraint,
-            Mouse = Matter.Mouse,
-            Events = Matter.Events,
-            Composite = Matter.Composite;
-
-        const engine = Engine.create()
-        const world = engine.world
-        engineRef.current = engine;
-
-        // Engine Configuration
-        engine.world.gravity.y = 0.6;
-        engine.constraintIterations = 3;
-        engine.positionIterations = 8;
-        engine.velocityIterations = 6;
-        
-        let containerWidth = containerElement.clientWidth;
-        let containerHeight = containerElement.clientHeight;
-
-        const render = Render.create({
-            element: containerElement,
-            engine: engine,
-            options: {
-                width: containerWidth,
-                height: containerHeight,
-                background: "transparent",
-                wireframes: false,
-            },
-        });
-        renderRef.current = render;
-        
-        if (render.canvas) {
-            render.canvas.style.position = 'absolute';
-            render.canvas.style.top = '0';
-            render.canvas.style.left = '0';
-            render.canvas.style.width = '100%';
-            render.canvas.style.height = '100%';
-            render.canvas.style.zIndex = '0';
-            render.canvas.style.pointerEvents = 'auto';
-        }
-
-        Render.run(render);
-        Engine.run(engine);
-        
-        const createBoundaries = (world: any, width: number, height: number) => {
-            const bodies = Composite.allBodies(world);
-            bodies.forEach((body: any) => {
-                if (body.isStatic && body.label !== 'MouseConstraint') {
-                    World.remove(world, body);
-                }
-            });
-            const thickness = 100;
-            const options = {
-                isStatic: true,
-                render: { fillStyle: 'transparent' },
-            };
-            World.add(world, [
-                Bodies.rectangle(width / 2, height + thickness / 2, width + thickness * 2, thickness, { ...options, label: 'ground' }),
-                Bodies.rectangle(-thickness / 2, height / 2, thickness, height + thickness * 2, { ...options, label: 'wallLeft' }),
-                Bodies.rectangle(width + thickness / 2, height / 2, thickness, height + thickness * 2, { ...options, label: 'wallRight' }),
-                Bodies.rectangle(width / 2, -thickness / 2, width + thickness * 2, thickness, { ...options, label: 'roof' }),
-            ]);
-        };
-
-        createBoundaries(world, containerWidth, containerHeight);
-
-        const tagElements = containerElement.querySelectorAll('.tag') as NodeListOf<HTMLDivElement>;
-        
-        const tagBodies = Array.from(tagElements).map((tagEl) => {
-            const width = tagEl.offsetWidth;
-            const height = tagEl.offsetHeight;
-            if (width === 0 || height === 0) return null;
-
-            const hitBoxWidth = width + 4;
-            const hitBoxHeight = height + 4;
-            const margin = 60;
-            const x = Math.random() * (containerWidth - width - margin * 2) + width / 2 + margin;
-            const y = Math.random() * (containerHeight - height - margin * 2) + height / 2 + margin;
-
-            const body = Bodies.rectangle(x, y, hitBoxWidth, hitBoxHeight, {
-                chamfer: { radius: height / 2 },
-                density: 0.008,
-                friction: 0.3,
-                frictionAir: 0.02,
-                restitution: 0.4,
-                render: { fillStyle: 'transparent' },
-            });
-            World.add(world, body);
-            return { body, element: tagEl };
-        }).filter(Boolean) as { body: any; element: HTMLDivElement }[];
-
-
-        Events.on(engine, 'afterUpdate', () => {
-            const maxVelocity = 15;
-            const margin = 50;
-
-            tagBodies.forEach(({ body, element }) => {
-                const { x, y } = body.position;
-                const angle = body.angle;
-                element.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px) rotate(${angle}rad)`;
-
-                if (x < -margin || x > containerWidth + margin || y < -margin || y > containerHeight + margin) {
-                    Matter.Body.setPosition(body, {
-                        x: containerWidth / 2 + (Math.random() - 0.5) * 100,
-                        y: containerHeight / 4 + Math.random() * 100,
-                    });
-                    Matter.Body.setVelocity(body, { x: 0, y: 0 });
-                    Matter.Body.setAngularVelocity(body, 0);
-                }
-                if (body.velocity.x > maxVelocity) Matter.Body.setVelocity(body, { x: maxVelocity, y: body.velocity.y });
-                if (body.velocity.x < -maxVelocity) Matter.Body.setVelocity(body, { x: -maxVelocity, y: body.velocity.y });
-                if (body.velocity.y > maxVelocity) Matter.Body.setVelocity(body, { x: body.velocity.x, y: maxVelocity });
-                if (body.velocity.y < -maxVelocity) Matter.Body.setVelocity(body, { x: body.velocity.x, y: -maxVelocity });
-            });
-        });
-
-        const mouse = Mouse.create(render.canvas);
-        const mouseConstraint = MouseConstraint.create(engine, {
-            mouse: mouse,
-            constraint: {
-                stiffness: 0.15,
-                render: { visible: false },
-            },
-        });
-        World.add(world, mouseConstraint);
-
-        resizeHandler.current = () => {
-            if (!renderRef.current) return;
-            containerWidth = containerElement.clientWidth;
-            containerHeight = containerElement.clientHeight;
-
-            renderRef.current.canvas.width = containerWidth;
-            renderRef.current.canvas.height = containerHeight;
-            if (renderRef.current.options) {
-                renderRef.current.options.width = containerWidth;
-                renderRef.current.options.height = containerHeight;
-            }
-            createBoundaries(world, containerWidth, containerHeight);
-        };
-        window.addEventListener('resize', resizeHandler.current);
-    }
+    // --- Body Creation ---
+    itemElementsRef.current = containerElement.querySelectorAll('[data-letter]') as NodeListOf<HTMLDivElement>;
     
-    return (
-        <>
-            <Script
-                src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"
-                onLoad={handleScriptLoad}
-                strategy="afterInteractive"
-            />
-            <div
-                ref={containerRef}
-                className={cn('w-full h-full relative overflow-hidden', className)}
-                style={style}
-            >
-                {SKILLS.map((skill, i) => {
-                    const isWhite = skill.label === 'Mobile App' || skill.label === 'UI/UX';
-                    return (
-                        <div
-                            key={skill.id}
-                            className={cn(
-                                'tag absolute flex items-center justify-center rounded-full cursor-grab active:cursor-grabbing',
-                                'transform -translate-x-1/2 -translate-y-1/2',
-                                'pointer-events-none z-10',
-                                'p-1 px-3 text-xs md:p-2 md:px-4 md:text-sm',
-                                isWhite ? 'bg-white text-black' : pillColors[i % pillColors.length]
-                            )}
-                        >
-                            <span>{skill.label}</span>
-                        </div>
-                    );
-                })}
-            </div>
-        </>
-    )
+    bodiesRef.current = Array.from(itemElementsRef.current).map((el) => {
+      const w = el.offsetWidth;
+      const h = el.offsetHeight;
+      const body = Bodies.rectangle(
+        width / 4 + Math.random() * (width / 2),
+        height / 4 + Math.random() * (height / 2),
+        w,
+        h,
+        {
+          chamfer: { radius: h / 2 },
+          density: 0.01,
+          friction: 0.1,
+          frictionAir: 0.01,
+          restitution: 0.6,
+        }
+      );
+      return body;
+    });
+
+    World.add(world, bodiesRef.current);
+    
+    // --- Mouse Interaction ---
+    const mouse = Mouse.create(containerElement);
+    const mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: {
+        stiffness: 0.2,
+        render: { visible: false },
+      },
+    });
+    World.add(world, mouseConstraint);
+    
+    // --- Manual Animation Loop ---
+    const animationLoop = () => {
+      Engine.update(engine, 1000 / 60);
+      
+      if(itemElementsRef.current) {
+        bodiesRef.current.forEach((body, i) => {
+          const el = itemElementsRef.current![i];
+          if (el) {
+            el.style.transform = `translate(${body.position.x - el.offsetWidth / 2}px, ${
+              body.position.y - el.offsetHeight / 2
+            }px) rotate(${body.angle}rad)`;
+          }
+        });
+      }
+      animationFrameRef.current = requestAnimationFrame(animationLoop);
+    };
+    animationLoop();
+    
+    // --- Resize Handler ---
+    const handleResize = () => {
+      if (containerElement) {
+        const newBounds = containerElement.getBoundingClientRect();
+        width = newBounds.width;
+        height = newBounds.height;
+        createBoundaries(width, height);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+
+    // --- CRITICAL Cleanup ---
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      window.removeEventListener('resize', handleResize);
+      
+      const currentEngine = engineRef.current;
+      if (currentEngine) {
+        World.clear(currentEngine.world, false);
+        Engine.clear(currentEngine);
+        engineRef.current = null;
+      }
+      bodiesRef.current = [];
+    };
+  }, [items]); // Rerun effect if items prop changes
+
+  return (
+    <div ref={containerRef} className={cn('w-full h-full relative overflow-hidden', className)}>
+      {items.map((item, index) => (
+        <div
+          key={index}
+          data-letter={item}
+          className={cn(
+            'absolute flex items-center justify-center rounded-full cursor-grab active:cursor-grabbing',
+            'bg-white text-black border border-black',
+            'p-1 px-3 text-xs md:p-2 md:px-4 md:text-sm font-semibold',
+            'pointer-events-none' // This is crucial for mouse events to pass through
+          )}
+        >
+          {item}
+        </div>
+      ))}
+    </div>
+  );
 }
