@@ -25,16 +25,16 @@ export default function PortfolioPage() {
           
           {/* Hero Header */}
           <div className="col-span-12 bg-black p-8 border-b border-neutral-800 flex flex-col justify-between min-h-[50vh]">
-            <div>
-                <h1 className="font-headline text-7xl md:text-9xl font-bold">Portfolio</h1>
-                <p className="mt-4 max-w-md text-neutral-400">
-                    We build digital experiences that stay clear, fast, and focused on delivering real value for your business and your users.
-                </p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-                {projectCategories.map(cat => (
-                    <Badge key={cat} variant="outline" className="text-sm">{cat}</Badge>
-                ))}
+            <h1 className="font-headline text-7xl md:text-9xl font-bold">Portfolio</h1>
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 mt-8">
+              <p className="max-w-md text-neutral-400">
+                  We build digital experiences that stay clear, fast, and focused on delivering real value for your business and your users.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                  {projectCategories.map(cat => (
+                      <Badge key={cat} variant="outline" className="text-sm">{cat}</Badge>
+                  ))}
+              </div>
             </div>
           </div>
 
