@@ -137,22 +137,19 @@ export default function ServicesPage() {
           </div>
           
           {/* 4. TECH STACK */}
-          <div className="col-span-12 bg-black p-8 md:p-12 text-center border-b border-neutral-800">
-              <div className="mb-12">
-                  <h2 className="font-headline text-4xl md:text-5xl font-bold">Technology Stack</h2>
-                  <p className="mt-4 max-w-2xl mx-auto text-lg text-neutral-400">
-                      We build with a modern, scalable, and secure stack to deliver high-performance digital experiences.
-                  </p>
-              </div>
-
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 bg-neutral-800 border-l border-t border-neutral-800">
+          <div className="col-span-12 bg-black border-b border-neutral-800">
+              <div className="grid h-full w-full grid-cols-2 bg-neutral-800 md:grid-cols-3 lg:grid-cols-4">
                   {technologies.map((tech, index) => (
                       <div
                           key={tech.name}
                           className={cn(
                             'group relative aspect-square flex items-center justify-center bg-black border-r border-b border-neutral-800',
-                            // Show 6 items on mobile and tablet
-                            index >= 6 && 'hidden md:hidden lg:flex',
+                             // On mobile, show 2x3 grid (6 items)
+                            index >= 6 && 'hidden md:flex',
+                             // On tablet, show 3x2 grid (6 items)
+                            index >= 6 && 'hidden lg:hidden md:flex',
+                            // On desktop show all 8 in 4x2
+                            'lg:flex'
                           )}
                       >
                           <Image
