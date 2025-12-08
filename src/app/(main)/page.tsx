@@ -32,7 +32,7 @@ export default function Home() {
             <PricingSection />
           </div>
         </div>
-        <div className="col-span-12 bg-black">
+        <div className="col-span-12 bg-black my-16">
           <TestimonialsSection />
         </div>
          <div className="col-span-12 bg-black">
