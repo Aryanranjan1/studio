@@ -34,6 +34,9 @@ export default function Home() {
         <div className="col-span-12 bg-black">
           <OzonteHero />
         </div>
+        <div className="col-span-12 bg-black">
+          <HeroGrid />
+        </div>
         <div className="col-span-12 mt-12 bg-black">
           <ServicesSection />
         </div>
