@@ -1,3 +1,4 @@
+
 'use client';
 import Image from 'next/image';
 import { Button } from './ui/button';
@@ -13,15 +14,7 @@ export function OzonteHero() {
         </h1>
       </div>
       <div className="absolute inset-0">
-        <Image
-          src="https://picsum.photos/seed/hero-bg-main/1920/1080"
-          alt="Abstract purple waves"
-          fill
-          className="object-cover"
-          priority
-          data-ai-hint="abstract purple waves dark"
-        />
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black" />
       </div>
       <footer className="absolute bottom-0 left-0 right-0 z-10 p-8">
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-end gap-8 md:grid-cols-3">

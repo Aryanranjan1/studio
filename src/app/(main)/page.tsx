@@ -16,7 +16,7 @@ export default function Home() {
         <div className="col-span-12 bg-black">
           <OzonteHero />
         </div>
-        <div className="col-span-12 bg-black my-16">
+        <div className="col-span-12 bg-black mt-16">
           <HeroGrid />
         </div>
         <div className="col-span-12 bg-black">
