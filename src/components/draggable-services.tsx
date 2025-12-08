@@ -239,19 +239,23 @@ export function DraggableServices({
                 className={cn('w-full h-full relative overflow-hidden', className)}
                 style={style}
             >
-                {SKILLS.map((skill, i) => (
-                    <div
-                        key={skill.id}
-                        className={cn(
-                            'tag absolute flex items-center justify-center p-2 px-4 rounded-full cursor-grab active:cursor-grabbing text-sm md:text-base',
-                            'transform -translate-x-1/2 -translate-y-1/2',
-                            'pointer-events-none z-10', 
-                            pillColors[i % pillColors.length]
-                        )}
-                    >
-                        <span>{skill.label}</span>
-                    </div>
-                ))}
+                {SKILLS.map((skill, i) => {
+                    const isWhite = skill.label === 'Mobile App' || skill.label === 'UI/UX';
+                    return (
+                        <div
+                            key={skill.id}
+                            className={cn(
+                                'tag absolute flex items-center justify-center rounded-full cursor-grab active:cursor-grabbing',
+                                'transform -translate-x-1/2 -translate-y-1/2',
+                                'pointer-events-none z-10',
+                                'p-1 px-3 text-xs md:p-2 md:px-4 md:text-sm',
+                                isWhite ? 'bg-white text-black' : pillColors[i % pillColors.length]
+                            )}
+                        >
+                            <span>{skill.label}</span>
+                        </div>
+                    );
+                })}
             </div>
         </>
     )
