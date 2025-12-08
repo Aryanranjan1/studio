@@ -4,13 +4,14 @@
 import { getProjects } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MoveRight } from 'lucide-react';
+import { MoveRight, Search } from 'lucide-react';
 import { Footer } from '@/components/footer';
 import { Badge } from '@/components/ui/badge';
 import { CtaSection } from '@/components/cta-section';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { FeaturedPortfolio } from '@/components/featured-portfolio';
+import { Input } from '@/components/ui/input';
 
 
 const ITEMS_PER_PAGE = 6;
@@ -18,13 +19,31 @@ const ITEMS_PER_PAGE = 6;
 
 export default function PortfolioPage() {
   const projects = getProjects();
-  const projectCategories = [...new Set(projects.map(p => p.category))];
+  const allCategories = useMemo(() => [...new Set(projects.map(p => p.category))], [projects]);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-  const totalPages = Math.ceil(projects.length / ITEMS_PER_PAGE);
+  const filteredProjects = useMemo(() => {
+    return projects
+      .filter(project => {
+        const term = searchTerm.toLowerCase();
+        const categoryMatch =
+          selectedCategories.length === 0 ||
+          selectedCategories.includes(project.category);
+        const searchMatch =
+          project.title.toLowerCase().includes(term) ||
+          project.description.toLowerCase().includes(term) ||
+          project.technologies.some(tech => tech.toLowerCase().includes(term));
+        return categoryMatch && searchMatch;
+      });
+  }, [projects, searchTerm, selectedCategories]);
 
-  const paginatedProjects = projects.slice(
+
+  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
+
+  const paginatedProjects = filteredProjects.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
@@ -37,6 +56,15 @@ export default function PortfolioPage() {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
+  const handleCategoryToggle = (category: string) => {
+    setSelectedCategories(prev =>
+      prev.includes(category)
+        ? prev.filter(c => c !== category)
+        : [...prev, category]
+    );
+    setCurrentPage(1); // Reset to first page on filter change
+  };
+
 
   return (
     <div className="w-full bg-black text-white min-h-screen">
@@ -45,14 +73,52 @@ export default function PortfolioPage() {
           
           {/* Hero Header */}
           <div className="col-span-12 bg-black p-8 border-b border-neutral-800">
-            <div className="flex flex-col md:flex-row justify-between md:items-end gap-8">
+             <div className="flex flex-col md:flex-row justify-between md:items-end gap-8">
               <h1 className="font-headline text-7xl md:text-9xl font-bold">Portfolio</h1>
+               <div className='max-w-md'>
+                <p className="mt-4 md:mt-0 text-neutral-400">
+                  We build digital experiences that stay clear, fast, and focused on delivering real value for your business and your users.
+                </p>
+                <div className="flex flex-wrap gap-2 mt-4">
+                    <Badge variant="secondary">Web Development</Badge>
+                    <Badge variant="secondary">Branding</Badge>
+                    <Badge variant="secondary">Automation</Badge>
+                    <Badge variant="secondary">Mobile App</Badge>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Featured Projects */}
             <div className="col-span-12 bg-black">
                 <FeaturedPortfolio />
+            </div>
+
+            {/* Search and Filter Section */}
+            <div className="col-span-12 bg-black p-8">
+                <div className="relative mt-4 max-w-4xl mx-auto">
+                  <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    type="search"
+                    placeholder="Search projects — Next.js, Figma, Automation..."
+                    className="h-14 w-full rounded-lg border-border bg-card/50 pl-12 text-base focus-visible:ring-primary"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    aria-label="Search projects"
+                  />
+                </div>
+                <div className="mt-6 flex flex-wrap justify-center gap-2">
+                  {allCategories.map(category => (
+                    <Button
+                      key={category}
+                      variant={selectedCategories.includes(category) ? 'default' : 'secondary'}
+                      className="rounded-full"
+                      onClick={() => handleCategoryToggle(category)}
+                    >
+                      {category}
+                    </Button>
+                  ))}
+                </div>
             </div>
 
 
@@ -89,25 +155,27 @@ export default function PortfolioPage() {
             </div>
 
             {/* Pagination Controls */}
-            <div className="col-span-12 bg-black p-8 flex justify-center items-center gap-4">
-                <Button 
-                    onClick={handlePrevPage} 
-                    disabled={currentPage === 1}
-                    variant="outline"
-                >
-                    Previous
-                </Button>
-                <span className="text-sm text-neutral-400">
-                    Page {currentPage} of {totalPages}
-                </span>
-                <Button 
-                    onClick={handleNextPage} 
-                    disabled={currentPage === totalPages}
-                    variant="outline"
-                >
-                    Next
-                </Button>
-            </div>
+            {totalPages > 1 && (
+                <div className="col-span-12 bg-black p-8 flex justify-center items-center gap-4">
+                    <Button 
+                        onClick={handlePrevPage} 
+                        disabled={currentPage === 1}
+                        variant="outline"
+                    >
+                        Previous
+                    </Button>
+                    <span className="text-sm text-neutral-400">
+                        Page {currentPage} of {totalPages}
+                    </span>
+                    <Button 
+                        onClick={handleNextPage} 
+                        disabled={currentPage === totalPages}
+                        variant="outline"
+                    >
+                        Next
+                    </Button>
+                </div>
+            )}
           
           <div className="col-span-12 bg-black border-b border-neutral-800">
             <CtaSection />
