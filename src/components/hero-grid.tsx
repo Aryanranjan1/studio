@@ -19,7 +19,7 @@ const BentoCard = ({
 }) => (
   <div
     className={cn(
-      'bg-card p-4 flex relative overflow-hidden border-2 border-border',
+      'bg-card p-4 flex relative overflow-hidden border-2 border-transparent',
       className
     )}
   >
@@ -146,7 +146,7 @@ export function HeroGrid() {
             <span className="text-sm font-semibold">2025-26</span>
           </div>
           <div className='relative flex-grow w-full'>
-            <DraggableServices items={[]} />
+            <DraggableServices />
           </div>
         </div>
       </BentoCard>
