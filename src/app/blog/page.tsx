@@ -122,7 +122,7 @@ export default function BlogPage() {
           <div className="col-span-12 bg-black">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <section className="mb-12">
-                <div className="relative">
+                <div className="relative mt-4">
                   <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     type="search"
