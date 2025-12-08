@@ -113,6 +113,15 @@ export type Template = {
   features: string[];
 };
 
+export type TeamMember = {
+  id: string;
+  name: string;
+  role: string;
+  imageUrl: string;
+  shape: 'circle' | 'squircle' | 'flower' | 'octagon';
+};
+
+
 export const getSiteSettings = (): SiteSettings => ({
   title: 'Dezine',
   description:
@@ -224,6 +233,18 @@ export const getFounder = (): Founder => ({
     'Alex started his journey in design and development over a decade ago with a deep passion for art and technology. After working with several leading agencies and honing his skills on enterprise-level projects, he founded this agency to bring that same level of quality and strategic thinking to small and medium-sized enterprises. His philosophy is that great digital architecture is not just about aesthetics, but about solving core business problems and creating meaningful, high-performance experiences. When not coding or designing, Alex enjoys hiking and photography.',
   image: 'https://picsum.photos/seed/founder-img/800/800',
 });
+
+export const getTeam = (): TeamMember[] => [
+  { id: '1', name: 'Ed Hurley', role: 'Grant Designer', imageUrl: 'https://picsum.photos/seed/team1/200/200', shape: 'squircle' },
+  { id: '2', name: 'Gordon Cole', role: 'Founder, Art Director', imageUrl: 'https://picsum.photos/seed/team2/200/200', shape: 'flower' },
+  { id: '3', name: 'Annie Cooper', role: 'Photographer, Film Maker', imageUrl: 'https://picsum.photos/seed/team3/200/200', shape: 'octagon' },
+  { id: '4', name: 'Riley O\'Hara', role: 'Motion Designer', imageUrl: 'https://picsum.photos/seed/team4/200/200', shape: 'circle' },
+  { id: '5', name: 'David Murphy', role: 'UI Designer', imageUrl: 'https://picsum.photos/seed/team5/200/200', shape: 'squircle' },
+  { id: '6', name: 'Rebecca May', role: 'Mobile Designer', imageUrl: 'https://picsum.photos/seed/team6/200/200', shape: 'flower' },
+  { id: '7', name: 'Tasha Summers', role: 'UI Designer', imageUrl: 'https://picsum.photos/seed/team7/200/200', shape: 'octagon' },
+  { id: '8', name: 'Kylian Marshall', role: 'UI Designer', imageUrl: 'https://picsum.photos/seed/team8/200/200', shape: 'circle' },
+];
+
 
 export const getTestimonials = (): Testimonial[] => [
   {
