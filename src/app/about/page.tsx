@@ -67,7 +67,7 @@ export default function AboutPage() {
                 </div>
              </div>
              <div className="col-span-1 grid grid-rows-2 gap-px bg-neutral-800">
-                <div className="row-span-1 bg-black p-8">
+                <div className="row-span-1 bg-black p-8 border-b border-neutral-800">
                     <h3 className="font-headline text-2xl text-primary font-bold">{principles[0].title}</h3>
                     <p className="mt-2 text-neutral-400 text-sm">{principles[0].description}</p>
                 </div>
@@ -93,7 +93,7 @@ export default function AboutPage() {
                 <div className="absolute bottom-0 w-48 h-24 border-b border-l border-r border-neutral-700 rounded-b-full scale-x-50"></div>
             </div>
 
-            <div className="absolute bottom-8 left-8 w-32 h-32 bg-primary rounded-tr-3xl"></div>
+            <div className="absolute bottom-8 left-8 w-32 h-32 bg-white rounded-tr-3xl"></div>
             <div className="absolute bottom-8 left-1/2 w-32 h-32 bg-primary/70 -translate-x-1/2 rounded-tl-3xl"></div>
           </div>
 
