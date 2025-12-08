@@ -1,21 +1,21 @@
 'use client';
-import React, { useEffect, useRef } from "react";
-import Matter from "matter-js";
-import { cn } from "@/lib/utils";
+import React, { useEffect, useRef } from 'react';
+import Matter from 'matter-js';
+import { cn } from '@/lib/utils';
 
 const SKILLS = [
-    { id: "web-design", label: "Web Design" },
-    { id: "development", label: "Development" },
-    { id: "mobile-app", label: "Mobile App" },
-    { id: "automation", label: "Automation" },
-    { id: "seo", label: "SEO" },
-    { id: "ui-ux", label: "UI/UX" },
-    { id: "webflow", label: "Webflow" },
-    { id: "framer", label: "Framer" }
+  { id: 'web-design', label: 'Web Design' },
+  { id: 'development', label: 'Development' },
+  { id: 'mobile-app', label: 'Mobile App' },
+  { id: 'automation', label: 'Automation' },
+  { id: 'seo', label: 'SEO' },
+  { id: 'ui-ux', label: 'UI/UX' },
+  { id: 'webflow', label: 'Webflow' },
+  { id: 'framer', label: 'Framer' },
 ] as const;
 
 export function DraggableServices({
-  className = "",
+  className = '',
   style,
 }: {
   services: string[];
@@ -50,8 +50,8 @@ export function DraggableServices({
     engine.positionIterations = 8;
     engine.velocityIterations = 6;
 
-    const containerWidth = containerElement.clientWidth;
-    const containerHeight = containerElement.clientHeight;
+    let containerWidth = containerElement.clientWidth;
+    let containerHeight = containerElement.clientHeight;
 
     const render = Render.create({
       element: containerElement,
@@ -59,72 +59,81 @@ export function DraggableServices({
       options: {
         width: containerWidth,
         height: containerHeight,
-        background: "transparent",
+        background: 'transparent',
         wireframes: false,
       },
     });
     renderRef.current = render;
 
     if (render.canvas) {
-      render.canvas.style.position = "absolute";
-      render.canvas.style.top = "0";
-      render.canvas.style.left = "0";
-      render.canvas.style.width = "100%";
-      render.canvas.style.height = "100%";
-      render.canvas.style.zIndex = "0";
-      render.canvas.style.pointerEvents = "auto";
+      render.canvas.style.position = 'absolute';
+      render.canvas.style.top = '0';
+      render.canvas.style.left = '0';
+      render.canvas.style.width = '100%';
+      render.canvas.style.height = '100%';
+      render.canvas.style.zIndex = '0';
+      render.canvas.style.pointerEvents = 'auto'; // Let canvas handle mouse events
     }
 
     Render.run(render);
     Engine.run(engine);
 
     const createBoundaries = (world: Matter.World, width: number, height: number) => {
-        const bodies = Composite.allBodies(world);
-        bodies.forEach((body) => {
-            if (body.isStatic && body.label !== "MouseConstraint") {
-                World.remove(world, body);
-            }
-        });
-        const thickness = 100;
-        const options = {
-            isStatic: true,
-            render: { fillStyle: "transparent" },
-        };
-        World.add(world, [
-            Bodies.rectangle(width / 2, height + thickness / 2, width + thickness * 2, thickness, { ...options, label: "ground" }),
-            Bodies.rectangle(-thickness / 2, height / 2, thickness, height + thickness * 2, { ...options, label: "wallLeft" }),
-            Bodies.rectangle(width + thickness / 2, height / 2, thickness, height + thickness * 2, { ...options, label: "wallRight" }),
-            Bodies.rectangle(width / 2, -thickness / 2, width + thickness * 2, thickness, { ...options, label: "roof" }),
-        ]);
+      const bodies = Composite.allBodies(world);
+      bodies.forEach((body) => {
+        if (body.isStatic && body.label !== 'MouseConstraint') {
+          World.remove(world, body);
+        }
+      });
+      const thickness = 100;
+      const options = {
+        isStatic: true,
+        render: { fillStyle: 'transparent' },
+      };
+      World.add(world, [
+        Bodies.rectangle(width / 2, height + thickness / 2, width + thickness * 2, thickness, { ...options, label: 'ground' }),
+        Bodies.rectangle(-thickness / 2, height / 2, thickness, height + thickness * 2, { ...options, label: 'wallLeft' }),
+        Bodies.rectangle(width + thickness / 2, height / 2, thickness, height + thickness * 2, { ...options, label: 'wallRight' }),
+        Bodies.rectangle(width / 2, -thickness / 2, width + thickness * 2, thickness, { ...options, label: 'roof' }),
+      ]);
     };
 
     createBoundaries(world, containerWidth, containerHeight);
 
-    const tagElements = containerElement.querySelectorAll(".tag") as NodeListOf<HTMLDivElement>;
-    tagElementsRef.current = Array.from(tagElements).map((tagEl) => {
-      const width = tagEl.offsetWidth;
-      const height = tagEl.offsetHeight;
+    const tagElements = containerElement.querySelectorAll('.tag') as NodeListOf<HTMLDivElement>;
+    
+    // Ensure we run this after the DOM has had a chance to render the tags
+    setTimeout(() => {
+        containerWidth = containerElement.clientWidth;
+        containerHeight = containerElement.clientHeight;
+        
+        tagElementsRef.current = Array.from(tagElements).map((tagEl) => {
+          const width = tagEl.offsetWidth;
+          const height = tagEl.offsetHeight;
+          if (width === 0 || height === 0) return null;
 
-      const hitBoxWidth = width + 4;
-      const hitBoxHeight = height + 4;
+          const hitBoxWidth = width + 4;
+          const hitBoxHeight = height + 4;
 
-      const margin = 60;
-      const x = Math.random() * (containerWidth - width - margin * 2) + width / 2 + margin;
-      const y = Math.random() * (containerHeight - height - margin * 2) + height / 2 + margin;
+          const margin = 60;
+          const x = Math.random() * (containerWidth - width - margin * 2) + width / 2 + margin;
+          const y = Math.random() * (containerHeight - height - margin * 2) + height / 2 + margin;
+    
+          const body = Bodies.rectangle(x, y, hitBoxWidth, hitBoxHeight, {
+            chamfer: { radius: height / 2 },
+            density: 0.008,
+            friction: 0.3,
+            frictionAir: 0.02,
+            restitution: 0.4,
+            render: { fillStyle: 'transparent' },
+          });
+          World.add(world, body);
+          return { body, element: tagEl };
+        }).filter(Boolean) as { body: Matter.Body; element: HTMLDivElement }[];
 
-      const body = Bodies.rectangle(x, y, hitBoxWidth, hitBoxHeight, {
-        chamfer: { radius: height / 2 },
-        density: 0.008,
-        friction: 0.3,
-        frictionAir: 0.02,
-        restitution: 0.4,
-        render: { fillStyle: "transparent" },
-      });
-      World.add(world, body);
-      return { body, element: tagEl };
-    });
+    }, 100); // A small delay to ensure offsetWidth/offsetHeight are correct
 
-    Events.on(engine, "afterUpdate", () => {
+    Events.on(engine, 'afterUpdate', () => {
       const maxVelocity = 15;
       const margin = 50;
 
@@ -160,33 +169,39 @@ export function DraggableServices({
     World.add(world, mouseConstraint);
 
     const handleResize = () => {
-        if (!renderRef.current) return;
-        const newWidth = containerElement.clientWidth;
-        const newHeight = containerElement.clientHeight;
+      if (!renderRef.current) return;
+      containerWidth = containerElement.clientWidth;
+      containerHeight = containerElement.clientHeight;
 
-        renderRef.current.canvas.width = newWidth;
-        renderRef.current.canvas.height = newHeight;
-        renderRef.current.options.width = newWidth;
-        renderRef.current.options.height = newHeight;
-
-        createBoundaries(world, newWidth, newHeight);
+      renderRef.current.canvas.width = containerWidth;
+      renderRef.current.canvas.height = containerHeight;
+      if (renderRef.current.options) {
+        renderRef.current.options.width = containerWidth;
+        renderRef.current.options.height = containerHeight;
+      }
+      
+      createBoundaries(world, containerWidth, containerHeight);
     };
 
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     return () => {
       if (renderRef.current) {
         Render.stop(renderRef.current);
-        World.clear(renderRef.current.engine.world, false);
-        Engine.clear(renderRef.current.engine);
-        renderRef.current.canvas.remove();
+        if (renderRef.current.canvas) {
+            renderRef.current.canvas.remove();
+        }
+        if (renderRef.current.engine) {
+            World.clear(renderRef.current.engine.world, false);
+            Engine.clear(renderRef.current.engine);
+        }
         renderRef.current = null;
       }
       if (engineRef.current) {
         Engine.clear(engineRef.current);
         engineRef.current = null;
       }
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -202,16 +217,16 @@ export function DraggableServices({
   return (
     <div
       ref={containerRef}
-      className={cn("w-full h-full relative overflow-hidden", className)}
+      className={cn('w-full h-full relative overflow-hidden', className)}
       style={style}
     >
       {SKILLS.map((skill, i) => (
         <div
           key={skill.id}
           className={cn(
-            "tag absolute flex items-center justify-center p-2 rounded-full cursor-grab active:cursor-grabbing text-sm md:text-base",
-            "transform -translate-x-1/2 -translate-y-1/2", // Initial centering for JS calculation
-            "pointer-events-none z-10", // Visible tags don't get mouse events
+            'tag absolute flex items-center justify-center p-2 px-4 rounded-full cursor-grab active:cursor-grabbing text-sm md:text-base',
+            'transform -translate-x-1/2 -translate-y-1/2',
+            'pointer-events-none z-10', // Let canvas handle clicks
             pillColors[i % pillColors.length]
           )}
         >
