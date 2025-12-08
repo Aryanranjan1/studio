@@ -118,13 +118,12 @@ export default function ServicesPage() {
               </div>
           </div>
 
-          {/* Services Section - FIXED */}
+          {/* Services Section */}
           {services.map((service, index) => {
             const IconComponent = iconComponents[service.icon];
             const isReversed = index % 2 !== 0;
             
             return (
-              // FIX: Wrapped in a col-span-12 container to isolate the 'order' context
               <div key={service.id} className="col-span-12 grid grid-cols-12 gap-px bg-neutral-800 border-b border-neutral-800">
                 
                 {/* Text Content */}
