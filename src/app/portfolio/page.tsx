@@ -10,13 +10,8 @@ import { Badge } from '@/components/ui/badge';
 import { CtaSection } from '@/components/cta-section';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { FeaturedPortfolio } from '@/components/featured-portfolio';
 
-const clientLogos = [
-    { src: 'https://tailwindui.com/img/logos/158x48/reform-logo-white.svg', alt: 'Reform' },
-    { src: 'https://tailwindui.com/img/logos/158x48/savvycal-logo-white.svg', alt: 'SavvyCal' },
-    { src: 'https://tailwindui.com/img/logos/158x48/statamic-logo-white.svg', alt: 'Statamic' },
-    { src: 'https://tailwindui.com/img/logos/158x48/transistor-logo-white.svg', alt: 'Transistor' },
-];
 
 const ITEMS_PER_PAGE = 6;
 
@@ -52,36 +47,12 @@ export default function PortfolioPage() {
           <div className="col-span-12 bg-black p-8 border-b border-neutral-800">
             <div className="flex flex-col md:flex-row justify-between md:items-end gap-8">
               <h1 className="font-headline text-7xl md:text-9xl font-bold">Portfolio</h1>
-              <div className="flex flex-col gap-4 max-w-md">
-                <p className="text-neutral-400">
-                    We build digital experiences that stay clear, fast, and focused on delivering real value for your business and your users.
-                </p>
-                <div className="flex flex-wrap gap-2">
-                    {projectCategories.map(cat => (
-                        <Badge key={cat} variant="outline" className="text-sm">{cat}</Badge>
-                    ))}
-                </div>
-              </div>
             </div>
           </div>
 
-          {/* Client Logos */}
-            <div className="col-span-12 bg-black py-16">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="mt-10 grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-4">
-                        {clientLogos.map((logo) => (
-                            <div key={logo.alt} className="flex justify-center">
-                                <Image
-                                    className="max-h-12 w-full object-contain"
-                                    src={logo.src}
-                                    alt={logo.alt}
-                                    width={158}
-                                    height={48}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
+          {/* Featured Projects */}
+            <div className="col-span-12 bg-black">
+                <FeaturedPortfolio />
             </div>
 
 
