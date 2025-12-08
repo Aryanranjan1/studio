@@ -13,7 +13,7 @@ export function BlogSection() {
   const otherArticles = articles.slice(1, 4);
 
   return (
-    <section className="bg-background py-24 sm:py-32">
+    <section className="bg-background py-24 sm:py-32 border-t border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <div className="relative">
