@@ -86,10 +86,16 @@ export function HorizontalServices() {
     target: targetRef,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-85.75%']);
+  // Total of 7 cards (1 intro + 5 services + 1 CTA)
+  // On desktop, each card is 50vw. Total width = 7 * 50vw = 350vw
+  // We want to scroll past 6 cards (300vw) to reveal the last one.
+  // The transform needs to be -(total_width - viewport_width).
+  // Total width is 350vw. Viewport is 100vw. So we need to move by -250vw.
+  // In percentage of the total width (350vw), this is (-250/350)*100 = -71.42%
+  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-71.42857143%']);
 
   return (
-    <section ref={targetRef} className="relative h-[800vh] bg-black border-y border-neutral-800">
+    <section ref={targetRef} className="relative h-[500vh] bg-black border-y border-neutral-800">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div style={{ x }} className="flex">
           <IntroCard />
