@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect } from 'react';
@@ -7,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useUser } from '@/firebase/auth/use-user';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const auth = useAuth();
@@ -31,7 +33,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-5rem)] items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center">
         <Card className="w-full max-w-sm">
             <CardHeader className="text-center">
                 <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
@@ -44,9 +46,12 @@ export default function LoginPage() {
                 <Button onClick={handleAnonymousLogin} className="w-full" disabled={loading}>
                     {loading ? 'Authenticating...' : 'Sign In Anonymously'}
                 </Button>
-                <p className="px-8 text-center text-sm text-muted-foreground">
-                    This is a placeholder login. In a real app, you'd have email/password or social logins here.
-                </p>
+                <div className="mt-4 text-center text-sm">
+                    Don&apos;t have an account?{' '}
+                    <Link href="/signup" className="underline">
+                        Sign up
+                    </Link>
+                </div>
                 </div>
             </CardContent>
         </Card>
