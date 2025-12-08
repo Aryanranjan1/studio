@@ -40,6 +40,7 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
     engine.gravity.y = 0.4;
 
     const createBoundaries = (width: number, height: number) => {
+      // First, remove any existing boundaries to avoid duplication
       const oldBoundaries = world.bodies.filter(body => body.label?.includes('boundary'));
       World.remove(world, oldBoundaries);
       
@@ -47,13 +48,17 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
       const options: Matter.IChamferableBodyDefinition = {
         isStatic: true,
         render: { fillStyle: 'transparent' },
-        friction: 1,
+        friction: 1, // High friction for boundaries
       };
 
       World.add(world, [
+        // Ground
         Bodies.rectangle(width / 2, height + thickness / 2, width + thickness * 2, thickness, { ...options, label: 'boundary_ground' }),
+        // Left Wall
         Bodies.rectangle(-thickness / 2, height / 2, thickness, height, { ...options, label: 'boundary_wallLeft' }),
+        // Right Wall
         Bodies.rectangle(width + thickness / 2, height / 2, thickness, height, { ...options, label: 'boundary_wallRight' }),
+         // Roof
         Bodies.rectangle(width / 2, -thickness / 2, width + thickness * 2, thickness, { ...options, label: 'boundary_roof' }),
       ]);
     };
@@ -68,16 +73,17 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
       const w = el.offsetWidth;
       const h = el.offsetHeight;
       const body = Bodies.rectangle(
+        // Spawn in a random position within the container
         width / 4 + Math.random() * (width / 2),
         height / 4 + Math.random() * (height / 2),
         w,
         h,
         {
-          chamfer: { radius: h / 2 },
+          chamfer: { radius: h / 2 }, // Make them pill-shaped
           density: 0.01,
           friction: 0.1,
           frictionAir: 0.01,
-          restitution: 0.6,
+          restitution: 0.6, // Bounciness
         }
       );
       return body;
@@ -90,7 +96,7 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
     const mouseConstraint = MouseConstraint.create(engine, {
       mouse: mouse,
       constraint: {
-        stiffness: 0.2,
+        stiffness: 0.2, // Makes dragging feel more "springy"
         render: { visible: false },
       },
     });
@@ -98,8 +104,10 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
     
     // --- Manual Animation Loop ---
     const animationLoop = () => {
+      // Update the physics engine
       Engine.update(engine, 1000 / 60);
       
+      // Sync HTML element positions with physics body positions
       if(itemElementsRef.current) {
         bodiesRef.current.forEach((body, i) => {
           const el = itemElementsRef.current![i];
@@ -134,8 +142,8 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
       
       const currentEngine = engineRef.current;
       if (currentEngine) {
-        World.clear(currentEngine.world, false);
-        Engine.clear(currentEngine);
+        World.clear(currentEngine.world, false); // Clear the world
+        Engine.clear(currentEngine); // Clear the engine
         engineRef.current = null;
       }
       bodiesRef.current = [];
@@ -143,9 +151,9 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
   }, [items]); // Rerun effect if items prop changes
 
   const colorClasses = [
-    'bg-primary text-primary-foreground',
-    'bg-background text-foreground border border-foreground/20',
-    'bg-muted text-muted-foreground',
+    'bg-primary text-primary-foreground', // Purple
+    'bg-white text-black', // White
+    'bg-[#0e0e11] text-white border border-neutral-700', // Dark Grey
   ];
 
   return (
