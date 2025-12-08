@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -89,6 +88,7 @@ export default function ServicesPage() {
   return (
     <div className="w-full bg-black text-white min-h-screen">
       <main>
+        {/* Main Grid Container */}
         <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
           
           {/* Hero Header */}
@@ -101,12 +101,33 @@ export default function ServicesPage() {
             </div>
           </div>
 
-          {/* Services Section */}
+          {/* Tech Stack Section */}
+          <div className="col-span-12 bg-black p-8 md:p-12 text-center border-b border-neutral-800">
+              <h2 className="font-headline text-5xl font-bold">Technology Stack</h2>
+              <p className="mt-4 max-w-xl mx-auto text-neutral-400">
+                  We use a modern, battle-tested stack to build fast, scalable, and secure digital products.
+              </p>
+              <div className="mt-12 flex flex-wrap justify-center items-center gap-x-8 gap-y-6 md:gap-x-12">
+                  {techStack.map(tech => (
+                      <div key={tech.name} className="flex flex-col items-center gap-2 text-neutral-400">
+                          {/* Note: Ensure these SVGs exist in your public/tech folder */}
+                          <Image src={tech.logo} alt={tech.name} width={48} height={48} className="brightness-0 invert" />
+                          <span>{tech.name}</span>
+                      </div>
+                  ))}
+              </div>
+          </div>
+
+          {/* Services Section - FIXED */}
           {services.map((service, index) => {
             const IconComponent = iconComponents[service.icon];
             const isReversed = index % 2 !== 0;
+            
             return (
-              <div key={service.id} className="col-span-12 grid grid-cols-1 md:grid-cols-12 gap-px bg-neutral-800 border-b border-neutral-800">
+              // FIX: Wrapped in a col-span-12 container to isolate the 'order' context
+              <div key={service.id} className="col-span-12 grid grid-cols-12 gap-px bg-neutral-800 border-b border-neutral-800">
+                
+                {/* Text Content */}
                 <div className={`col-span-12 md:col-span-7 bg-black p-8 ${isReversed ? 'md:order-2' : ''}`}>
                   <div className="flex items-center gap-4">
                     {IconComponent && <IconComponent className="h-8 w-8 text-primary" />}
@@ -130,11 +151,13 @@ export default function ServicesPage() {
                     ))}
                   </div>
                   <Button asChild variant="link" className="p-0 mt-8 text-white">
-                     <Link href={`/portfolio?category=${service.id}`} className="group inline-flex items-center font-semibold text-primary">
+                      <Link href={`/portfolio?category=${service.id}`} className="group inline-flex items-center font-semibold text-primary">
                         View Projects <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Link>
                   </Button>
                 </div>
+
+                {/* Image Content */}
                 <div className={`col-span-12 md:col-span-5 bg-black relative min-h-[300px] ${isReversed ? 'md:order-1' : ''}`}>
                   <Image 
                     src={`https://picsum.photos/seed/service-${index}/800/600`}
@@ -143,7 +166,7 @@ export default function ServicesPage() {
                     loading="lazy"
                     className="object-cover"
                   />
-                   <div className="absolute inset-0 bg-black/20" />
+                    <div className="absolute inset-0 bg-black/20" />
                 </div>
               </div>
             );
@@ -156,8 +179,8 @@ export default function ServicesPage() {
           {/* Process Section */}
           <div className="col-span-12 bg-black p-8 md:p-12 border-b border-neutral-800">
             <div className="text-center">
-                 <h2 className="font-headline text-5xl md:text-6xl font-bold">Our Process</h2>
-                 <p className="mt-4 max-w-2xl mx-auto text-neutral-400">We follow a structured four-step process to ensure clarity, efficiency, and exceptional results from start to finish.</p>
+                  <h2 className="font-headline text-5xl md:text-6xl font-bold">Our Process</h2>
+                  <p className="mt-4 max-w-2xl mx-auto text-neutral-400">We follow a structured four-step process to ensure clarity, efficiency, and exceptional results from start to finish.</p>
             </div>
             <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-800 border-t border-r border-neutral-800">
                 {processSteps.map(item => (
@@ -170,82 +193,66 @@ export default function ServicesPage() {
             </div>
           </div>
           
-          {/* Tech Stack Section */}
-            <div className="col-span-12 bg-black p-8 md:p-12 text-center border-b border-neutral-800">
-                <h2 className="font-headline text-5xl font-bold">Technology Stack</h2>
-                <p className="mt-4 max-w-xl mx-auto text-neutral-400">
-                    We use a modern, battle-tested stack to build fast, scalable, and secure digital products.
-                </p>
-                <div className="mt-12 flex flex-wrap justify-center items-center gap-x-8 gap-y-6 md:gap-x-12">
-                    {techStack.map(tech => (
-                        <div key={tech.name} className="flex flex-col items-center gap-2 text-neutral-400">
-                            <Image src={tech.logo} alt={tech.name} width={48} height={48} className="brightness-0 invert" />
-                            <span>{tech.name}</span>
-                        </div>
+          <div className="col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-px bg-neutral-800 border-b border-neutral-800">
+            {/* FAQ Section */}
+            <div className="lg:col-span-7 bg-black p-8">
+                <h2 className="font-headline text-5xl font-bold mb-8">FAQ</h2>
+                <Accordion type="single" collapsible className="w-full">
+                    {faqItems.map((faq, index) => (
+                      <AccordionItem
+                        key={index}
+                        value={`item-${index}`}
+                        className="border-b border-b-border/50"
+                      >
+                        <AccordionTrigger className="text-left text-lg font-semibold text-foreground/80 no-underline hover:no-underline">
+                          {faq.question}
+                        </AccordionTrigger>
+                        <AccordionContent className="text-muted-foreground">
+                          {faq.answer}
+                        </AccordionContent>
+                      </AccordionItem>
                     ))}
-                </div>
+                  </Accordion>
             </div>
-
-            {/* FAQ and Contact Section */}
-            <div className="col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-px bg-neutral-800 border-b border-neutral-800">
-                <div className="lg:col-span-7 bg-black p-8">
-                    <h2 className="font-headline text-5xl font-bold mb-8">FAQ</h2>
-                    <Accordion type="single" collapsible className="w-full">
-                        {faqItems.map((faq, index) => (
-                        <AccordionItem
-                            key={index}
-                            value={`item-${index}`}
-                            className="border-b border-b-border/50"
-                        >
-                            <AccordionTrigger className="text-left text-lg font-semibold text-foreground/80 no-underline hover:no-underline">
-                            {faq.question}
-                            </AccordionTrigger>
-                            <AccordionContent className="text-muted-foreground">
-                            {faq.answer}
-                            </AccordionContent>
-                        </AccordionItem>
-                        ))}
-                    </Accordion>
-                </div>
-                
-                <div className="lg:col-span-5 bg-muted/10 p-8">
-                    <Card className="h-full border border-border bg-transparent shadow-none rounded-none">
-                        <CardHeader>
-                        <CardTitle className="font-headline text-2xl">
-                            Start a Project
-                        </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                        <form className="space-y-6">
-                            <div className="space-y-2">
-                                <Label htmlFor="name-service">Name</Label>
-                                <Input id="name-service" placeholder="John Doe" />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="email-service">Email</Label>
-                                <Input
-                                id="email-service"
-                                type="email"
-                                placeholder="john.doe@example.com"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="message-service">Message</Label>
-                                <Textarea
-                                    id="message-service"
-                                    placeholder="Tell us briefly about your project..."
-                                    rows={4}
-                                />
-                            </div>
-                            <Button type="submit" size="lg" className="w-full">
-                                Send Inquiry <ArrowRight className="ml-2 h-4 w-4" />
-                            </Button>
-                        </form>
-                        </CardContent>
-                    </Card>
-                </div>
+            
+            {/* Contact Form Section */}
+            <div className="lg:col-span-5 bg-muted/10 p-8">
+                  <Card className="h-full border border-border bg-transparent shadow-none rounded-none">
+                    <CardHeader>
+                    <CardTitle className="font-headline text-2xl">
+                        Start a Project
+                    </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                    <form className="space-y-6">
+                        <div className="space-y-2">
+                            <Label htmlFor="name-service">Name</Label>
+                            <Input id="name-service" placeholder="John Doe" />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="email-service">Email</Label>
+                            <Input
+                            id="email-service"
+                            type="email"
+                            placeholder="john.doe@example.com"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="message-service">Message</Label>
+                            <Textarea
+                                id="message-service"
+                                placeholder="Tell us briefly about your project..."
+                                rows={4}
+                            />
+                        </div>
+                        <Button type="submit" size="lg" className="w-full">
+                            Send Inquiry <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    </form>
+                    </CardContent>
+                </Card>
             </div>
-
+          </div>
 
           <div className="col-span-12 bg-black">
              <CtaSection />
