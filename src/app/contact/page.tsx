@@ -82,7 +82,7 @@ export default function ContactPage() {
           {/* Main Content Area */}
           <div className="grid grid-cols-12 col-span-12 gap-px bg-neutral-800">
             <div className="col-span-12 lg:col-span-7 bg-black p-4 md:p-8">
-              <Card className="h-full border-0 shadow-none rounded-none bg-transparent">
+              <Card className="h-full border border-border bg-transparent shadow-none rounded-none">
                 <CardHeader>
                   <CardTitle className="font-headline text-2xl">
                     Get in Touch
@@ -148,7 +148,7 @@ export default function ContactPage() {
 
             {/* Sidebar */}
             <aside className="col-span-12 lg:col-span-5 bg-black p-4 md:p-8 space-y-8">
-              <Card className='bg-muted/50 border-0 shadow-none rounded-none'>
+              <Card className='bg-transparent border border-border shadow-none rounded-none'>
                 <CardHeader>
                   <CardTitle className="font-headline text-xl">
                     Connect with us
@@ -197,7 +197,7 @@ export default function ContactPage() {
               </Card>
 
               {/* Mini FAQ */}
-              <Card className='bg-muted/50 border-0 shadow-none rounded-none'>
+              <Card className='bg-transparent border border-border shadow-none rounded-none'>
                 <CardHeader>
                   <CardTitle className="font-headline text-xl">
                     Frequently Asked
