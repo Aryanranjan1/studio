@@ -20,6 +20,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
 
 const iconComponents: { [key: string]: React.ElementType } = {
   Code,
@@ -100,9 +108,9 @@ export default function ServicesPage() {
               </p>
             </div>
           </div>
-
-          {/* Tech Stack Section */}
-          <div className="col-span-12 bg-black p-8 md:p-12 text-center border-b border-neutral-800">
+          
+           {/* Tech Stack Section */}
+           <div className="col-span-12 bg-black p-8 md:p-12 text-center border-b border-neutral-800">
               <h2 className="font-headline text-5xl font-bold">Technology Stack</h2>
               <p className="mt-4 max-w-xl mx-auto text-neutral-400">
                   We use a modern, battle-tested stack to build fast, scalable, and secure digital products.
@@ -216,28 +224,56 @@ export default function ServicesPage() {
             
             {/* Contact Form Section */}
             <div className="lg:col-span-5 bg-muted/10 p-8">
-                  <Card className="h-full border border-border bg-transparent shadow-none rounded-none">
-                    <CardHeader>
-                    <CardTitle className="font-headline text-2xl">
+                <Card className="h-full border border-border bg-transparent shadow-none rounded-none p-6">
+                    <CardHeader className='p-0'>
+                    <CardTitle className="font-headline text-2xl mb-4">
                         Start a Project
                     </CardTitle>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className='p-0'>
                     <form className="space-y-6">
-                        <div className="space-y-2">
-                            <Label htmlFor="name-service">Name</Label>
-                            <Input id="name-service" placeholder="John Doe" />
+                        <div className='space-y-2'>
+                             <Label htmlFor="name-service">Name (required)</Label>
+                             <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <Input id="first-name" placeholder="First Name" />
+                                </div>
+                                <div>
+                                    <Input id="last-name" placeholder="Last Name" />
+                                </div>
+                             </div>
+                        </div>
+                         <div className="space-y-2">
+                            <Label htmlFor="service">Service</Label>
+                            <Select>
+                                <SelectTrigger id="service">
+                                <SelectValue placeholder="Select a service" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                {services.map(service => (
+                                    <SelectItem key={service.id} value={service.title}>
+                                    {service.title}
+                                    </SelectItem>
+                                ))}
+                                </SelectContent>
+                            </Select>
                         </div>
                         <div className="space-y-2">
-                            <Label htmlFor="email-service">Email</Label>
+                            <Label htmlFor="email-service">Email (required)</Label>
                             <Input
                             id="email-service"
                             type="email"
                             placeholder="john.doe@example.com"
                             />
                         </div>
+                        <div className="flex items-center space-x-2">
+                            <Checkbox id="newsletter" />
+                            <Label htmlFor="newsletter" className="text-sm font-normal text-muted-foreground">
+                                Sign up for news and updates
+                            </Label>
+                        </div>
                         <div className="space-y-2">
-                            <Label htmlFor="message-service">Message</Label>
+                            <Label htmlFor="message-service">Project description</Label>
                             <Textarea
                                 id="message-service"
                                 placeholder="Tell us briefly about your project..."
@@ -245,7 +281,7 @@ export default function ServicesPage() {
                             />
                         </div>
                         <Button type="submit" size="lg" className="w-full">
-                            Send Inquiry <ArrowRight className="ml-2 h-4 w-4" />
+                            Submit
                         </Button>
                     </form>
                     </CardContent>
