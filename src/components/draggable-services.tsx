@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -143,6 +142,12 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
     };
   }, [items]); // Rerun effect if items prop changes
 
+  const colorClasses = [
+    'bg-primary text-primary-foreground',
+    'bg-background text-foreground border border-foreground/20',
+    'bg-muted text-muted-foreground',
+  ];
+
   return (
     <div ref={containerRef} className={cn('w-full h-full relative overflow-hidden', className)}>
       {items.map((item, index) => (
@@ -151,9 +156,9 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
           data-letter={item}
           className={cn(
             'absolute flex items-center justify-center rounded-full cursor-grab active:cursor-grabbing',
-            'bg-white text-black border border-black',
             'p-1 px-3 text-xs md:p-2 md:px-4 md:text-sm font-semibold',
-            'pointer-events-none' // This is crucial for mouse events to pass through
+            'pointer-events-none', // This is crucial for mouse events to pass through
+            colorClasses[index % colorClasses.length]
           )}
         >
           {item}
