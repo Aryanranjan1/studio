@@ -6,6 +6,7 @@ import { getTeam } from '@/lib/data';
 import { TeamMemberCard } from '@/components/team-member-card';
 import { Button } from '@/components/ui/button';
 import { Footer } from '@/components/footer';
+import { DraggableServices } from '@/components/draggable-services';
 
 export default function AboutPage() {
   const team = getTeam();
@@ -52,19 +53,26 @@ export default function AboutPage() {
           </div>
 
           {/* Design Process & Principles */}
-          <div className="col-span-12 bg-black grid grid-cols-2 grid-rows-2 gap-px bg-neutral-800 border-b border-neutral-800">
-             <div className="col-span-2 md:col-span-1 row-span-2 bg-black p-8 flex items-center">
-                <p className="font-headline text-3xl md:text-4xl font-bold max-w-md">
-                    DESIGN PROCESS DOESN’T HAVE TO BE COMPLEX. IN FACT, IT SHOULD BE SIMPLE.
-                </p>
+          <div className="col-span-12 bg-black grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-800 border-b border-neutral-800">
+             <div className="col-span-1 grid grid-rows-2 gap-px bg-neutral-800">
+                <div className="row-span-1 bg-black p-8 flex items-center">
+                    <p className="font-headline text-3xl md:text-4xl font-bold max-w-md">
+                        DESIGN PROCESS DOESN’T HAVE TO BE COMPLEX. IN FACT, IT SHOULD BE SIMPLE.
+                    </p>
+                </div>
+                <div className="row-span-1 bg-black p-8 relative min-h-[250px]">
+                    <DraggableServices />
+                </div>
              </div>
-             <div className="col-span-2 md:col-span-1 row-span-1 bg-black p-8">
-                <h3 className="font-headline text-2xl text-blue-500 font-bold">{principles[0].title}</h3>
-                <p className="mt-2 text-neutral-400 text-sm">{principles[0].description}</p>
-             </div>
-             <div className="col-span-2 md:col-span-1 row-span-1 bg-black p-8">
-                <h3 className="font-headline text-2xl text-blue-500 font-bold">{principles[1].title}</h3>
-                <p className="mt-2 text-neutral-400 text-sm">{principles[1].description}</p>
+             <div className="col-span-1 grid grid-rows-2 gap-px bg-neutral-800">
+                <div className="row-span-1 bg-black p-8">
+                    <h3 className="font-headline text-2xl text-blue-500 font-bold">{principles[0].title}</h3>
+                    <p className="mt-2 text-neutral-400 text-sm">{principles[0].description}</p>
+                </div>
+                <div className="row-span-1 bg-black p-8">
+                    <h3 className="font-headline text-2xl text-blue-500 font-bold">{principles[1].title}</h3>
+                    <p className="mt-2 text-neutral-400 text-sm">{principles[1].description}</p>
+                </div>
              </div>
           </div>
           
