@@ -1,3 +1,4 @@
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,42 +8,50 @@ import Link from 'next/link';
 
 const pricingTiers = [
   {
-    name: 'Starter',
-    price: '$499',
-    description: 'For small projects and startups.',
+    name: 'Template Website',
+    price: 'RM 200 – 300',
+    description: 'For quick builds using pre-designed layouts. No domain, no hosting, no maintenance included.',
     features: [
-      '1 Page Website',
-      'Basic SEO',
-      'Contact Form',
+      '1–5 Pages',
+      'Pre-Built Template (Framer / Webflow)',
+      'Basic Style Adjustments',
       'Mobile Responsive',
+      'Contact Form',
+      'Paid Add-Ons Only (Revisions, hosting, domain, etc.)',
     ],
     isFeatured: false,
-    cta: 'Get Started',
+    cta: 'Get Template',
   },
   {
-    name: 'Pro',
-    price: '$1,299',
-    description: 'For growing businesses and professionals.',
+    name: 'Custom Website',
+    price: 'RM 999',
+    description: 'For brands needing a proper, flexible website with structured content management.',
     features: [
-      'Up to 5 Pages',
-      'Advanced SEO',
-      'CMS Integration',
-      'Social Media Integration',
-      'Priority Support',
+      'Up to 10 Custom Pages',
+      'Full Custom Design (Framer / Webflow / Next.js coded)',
+      'Complete CMS Setup (Blog / Services / Portfolio)',
+      'SEO-Ready Structure',
+      'Mobile Responsive',
+      '5 Revisions Included',
+      '3 Months Maintenance',
+      'Free Domain (< RM50)',
+      '1 Year Basic Hosting Included',
     ],
     isFeatured: true,
-    cta: 'Choose Pro',
+    badge: 'Most Popular',
+    cta: 'Choose Custom',
   },
   {
-    name: 'Enterprise',
-    price: 'Contact Us',
-    description: 'For large-scale applications and custom solutions.',
+    name: 'Enterprise Build',
+    price: 'Custom Quote',
+    description: 'For businesses needing complex features, automation, or large-scale builds.',
     features: [
       'Unlimited Pages',
-      'Custom Integrations',
-      'Dedicated Account Manager',
-      'E-commerce Functionality',
-      'Full Automation Suite',
+      'Advanced CMS',
+      'Custom Integrations (API, CRM, Automations)',
+      'E-commerce Optional',
+      'Priority Support',
+      'Scalable Maintenance Options',
     ],
     isFeatured: false,
     cta: 'Contact Us',
@@ -79,9 +88,9 @@ export function PricingSection() {
               )}
             >
               <CardHeader className="relative">
-                {tier.isFeatured && (
+                {tier.isFeatured && tier.badge && (
                   <div className="absolute top-0 right-6 -translate-y-1/2">
-                    <Badge>Most Popular</Badge>
+                    <Badge>{tier.badge}</Badge>
                   </div>
                 )}
                 <CardTitle className="font-headline text-2xl">{tier.name}</CardTitle>
