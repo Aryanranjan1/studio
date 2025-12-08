@@ -41,7 +41,7 @@ export default function AboutPage() {
           </div>
 
           {/* Image */}
-          <div className="col-span-12 lg:col-span-5 lg:col-start-8 bg-black relative min-h-[300px] border-b border-neutral-800">
+          <div className="col-span-12 md:col-span-5 md:col-start-8 bg-black relative min-h-[300px] border-b border-neutral-800">
             <Image 
               src="https://picsum.photos/seed/teamwork/800/600"
               alt="A design team collaborating around a table with sticky notes and wireframes."
@@ -52,14 +52,14 @@ export default function AboutPage() {
           </div>
 
           {/* Design Process */}
-          <div className="col-span-12 lg:col-span-7 bg-black p-8 border-b border-neutral-800 flex items-center">
+          <div className="col-span-12 md:col-span-7 bg-black p-8 border-b border-neutral-800 flex items-center">
             <p className="font-headline text-3xl md:text-4xl font-bold max-w-md">
               DESIGN PROCESS DOESN’T HAVE TO BE COMPLEX. IN FACT, IT SHOULD BE SIMPLE.
             </p>
           </div>
 
           {/* Agile & Transparent */}
-          <div className="col-span-12 lg:col-span-7 bg-black p-8 border-b border-neutral-800">
+          <div className="col-span-12 md:col-span-7 bg-black p-8 border-b border-neutral-800">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {principles.map(p => (
                 <div key={p.title}>
@@ -70,7 +70,7 @@ export default function AboutPage() {
             </div>
           </div>
           
-          <div className="hidden lg:block lg:col-span-5 bg-black border-b border-neutral-800"></div>
+          <div className="hidden md:block md:col-span-5 bg-black border-b border-neutral-800"></div>
           
           {/* Geometric Section */}
           <div className="col-span-12 md:col-span-7 bg-black p-8 relative min-h-[300px] border-b border-neutral-800">
