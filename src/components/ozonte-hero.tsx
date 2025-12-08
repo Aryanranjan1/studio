@@ -1,4 +1,3 @@
-
 'use client';
 import Image from 'next/image';
 import { Button } from './ui/button';
@@ -25,10 +24,8 @@ export function OzonteHero() {
               first seconds
             </p>
           </div>
-          <div className="hidden text-sm text-muted-foreground md:block md:col-span-1">
-            <p>& seamlessly blend with marketing</p>
-          </div>
-          <div className="flex items-center justify-end gap-4 md:col-span-1">
+          
+          <div className="flex items-center justify-end gap-4 md:col-span-2">
             <Button
               variant="ghost"
               asChild
