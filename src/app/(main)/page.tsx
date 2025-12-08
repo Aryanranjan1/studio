@@ -12,11 +12,11 @@ import { TestimonialsSection } from '@/components/testimonials-section';
 export default function Home() {
   return (
     <main className="w-full overflow-x-hidden bg-black text-white">
-      <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
+      <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
         <div className="col-span-12 bg-black">
           <OzonteHero />
         </div>
-        <div className="col-span-12 bg-black mt-16">
+        <div className="col-span-12 bg-black pt-16">
           <HeroGrid />
         </div>
         <div className="col-span-12 bg-black">

@@ -114,7 +114,7 @@ export default function PortfolioPage() {
   return (
     <div className="w-full bg-black text-white min-h-screen">
       <main ref={ref}>
-        <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
+        <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
           
           {/* Hero Header */}
           <div className="col-span-12 bg-black p-8 border-b border-neutral-800">

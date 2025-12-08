@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { ProcessGrid } from '@/components/process-grid';
 
 const processSteps = [
     {
@@ -111,7 +112,7 @@ export default function ServicesPage() {
   return (
     <div className="w-full bg-black text-white min-h-screen">
       <main>
-        <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
+        <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
           
           {/* Hero Header */}
           <div className="col-span-12 bg-black p-8 border-b border-neutral-800">
@@ -142,7 +143,7 @@ export default function ServicesPage() {
                 <h2 className="font-headline text-5xl md:text-6xl font-bold">Technology Stack</h2>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3">
-                {technologies.slice(0,6).map((tech, index) => (
+                {technologies.slice(0, 6).map((tech, index) => (
                     <div
                         key={tech.name}
                         className={cn(

@@ -35,7 +35,7 @@ export default function FaqPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <main>
-        <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
+        <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
           {/* Hero Section */}
           <section className="col-span-12 bg-black bg-primary text-primary-foreground">
             <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
