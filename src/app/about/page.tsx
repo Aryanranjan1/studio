@@ -103,16 +103,17 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* Our Team Header */}
+          {/* Capabilities Header */}
           <div className="col-span-12 bg-black p-8 border-b border-neutral-800">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <h2 className="font-headline text-5xl md:text-6xl font-bold">
-                <span className="text-primary">Our</span> Team
+                Capabilities
               </h2>
+              <p className="mt-2 text-muted-foreground">What we do, not who we are.</p>
             </div>
           </div>
 
-          {/* Team Grid */}
+          {/* Capabilities Grid */}
           <div className="col-span-12 bg-black">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 -mx-6">

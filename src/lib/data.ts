@@ -234,16 +234,18 @@ export const getFounder = (): Founder => ({
   image: 'https://picsum.photos/seed/founder-img/800/800',
 });
 
-export const getTeam = (): TeamMember[] => [
-  { id: '1', name: 'Ed Hurley', role: 'Grant Designer', imageUrl: 'https://picsum.photos/seed/team1/200/200', shape: 'squircle' },
-  { id: '2', name: 'Gordon Cole', role: 'Founder, Art Director', imageUrl: 'https://picsum.photos/seed/team2/200/200', shape: 'flower' },
-  { id: '3', name: 'Annie Cooper', role: 'Photographer, Film Maker', imageUrl: 'https://picsum.photos/seed/team3/200/200', shape: 'octagon' },
-  { id: '4', name: 'Riley O\'Hara', role: 'Motion Designer', imageUrl: 'https://picsum.photos/seed/team4/200/200', shape: 'circle' },
-  { id: '5', name: 'David Murphy', role: 'UI Designer', imageUrl: 'https://picsum.photos/seed/team5/200/200', shape: 'squircle' },
-  { id: '6', name: 'Rebecca May', role: 'Mobile Designer', imageUrl: 'https://picsum.photos/seed/team6/200/200', shape: 'flower' },
-  { id: '7', name: 'Tasha Summers', role: 'UI Designer', imageUrl: 'https://picsum.photos/seed/team7/200/200', shape: 'octagon' },
-  { id: '8', name: 'Kylian Marshall', role: 'UI Designer', imageUrl: 'https://picsum.photos/seed/team8/200/200', shape: 'circle' },
+const capabilities = [
+  { id: '1', name: 'Product Design', role: 'User-centred interfaces that convert.', imageUrl: 'https://picsum.photos/seed/team1/200/200', shape: 'squircle' as const },
+  { id: '2', name: 'Front-end Engineering', role: 'Fast, accessible, maintainable builds.', imageUrl: 'https://picsum.photos/seed/team2/200/200', shape: 'flower' as const },
+  { id: '3', name: 'Brand & Visuals', role: 'Identity systems with clarity and purpose.', imageUrl: 'https://picsum.photos/seed/team3/200/200', shape: 'octagon' as const },
+  { id: '4', name: 'Motion & Interaction', role: 'Micro-interactions that guide and engage.', imageUrl: 'https://picsum.photos/seed/team4/200/200', shape: 'circle' as const },
+  { id: '5', name: 'Backend & Integrations', role: 'APIs, automation, and scalable systems.', imageUrl: 'https://picsum.photos/seed/team5/200/200', shape: 'squircle' as const },
+  { id: '6', name: 'Performance & SEO', role: 'Speed, structure, and discoverability.', imageUrl: 'https://picsum.photos/seed/team6/200/200', shape: 'flower' as const },
+  { id: '7', name: 'Mobile & Responsive', role: 'Adaptive layouts that feel native everywhere.', imageUrl: 'https://picsum.photos/seed/team7/200/200', shape: 'octagon' as const },
+  { id: '8', name: 'Launch & Support', role: 'Deploy, monitor, and iterate with stability.', imageUrl: 'https://picsum.photos/seed/team8/200/200', shape: 'circle' as const },
 ];
+
+export const getTeam = (): TeamMember[] => capabilities;
 
 
 export const getTestimonials = (): Testimonial[] => [
