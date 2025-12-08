@@ -148,8 +148,8 @@ export default function ServicesPage() {
                         key={tech.name}
                         className={cn(
                           'relative aspect-square flex items-center justify-center bg-black border border-neutral-800',
-                          index > 5 && 'hidden md:flex', // Hide 7th and 8th on mobile/tablet
-                          index >= 8 && 'lg:hidden' // This is to ensure we only show 8 on desktop, if more are added
+                          index >= 6 && 'hidden md:flex',
+                          index >= 8 && 'hidden lg:flex'
                         )}
                     >
                         <Image
