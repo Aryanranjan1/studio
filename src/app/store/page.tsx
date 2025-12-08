@@ -1,13 +1,25 @@
 
+
+'use client';
+
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { getTemplates } from '@/lib/data';
 import { ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import type { Template } from '@/lib/data';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function StorePage() {
-  const templates = getTemplates();
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTemplates(getTemplates());
+    setLoading(false);
+  }, []);
 
   return (
     <div className="w-full bg-background text-foreground">
@@ -39,48 +51,68 @@ export default function StorePage() {
               {/* Templates Grid */}
               <section className="py-12">
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                  {templates.map((template, index) => (
-                    <Link
-                      href={`/store/${template.id}`}
-                      key={template.id}
-                      className="group"
-                    >
-                      <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-lg group-hover:shadow-primary/10">
-                        <div className="relative h-64 w-full">
-                          <Image
-                            src={template.image}
-                            alt={template.imageAlt}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                            priority={index < 3}
-                            loading={index >= 3 ? "lazy" : undefined}
-                          />
-                          <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-black/40" />
-                          <div className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-background/50 text-white opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
-                            <ShoppingCart className="h-5 w-5" />
+                  {loading ? (
+                    Array.from({ length: 6 }).map((_, index) => (
+                       <Card key={index} className="h-full overflow-hidden">
+                          <Skeleton className="h-64 w-full" />
+                          <CardContent className="p-6">
+                            <div className="flex items-start justify-between">
+                              <Skeleton className="h-8 w-3/4" />
+                              <Skeleton className="h-8 w-1/4" />
+                            </div>
+                            <Skeleton className="mt-4 h-4 w-full" />
+                            <Skeleton className="mt-2 h-4 w-5/6" />
+                            <div className="mt-4 flex flex-wrap gap-2">
+                              <Skeleton className="h-5 w-16" />
+                              <Skeleton className="h-5 w-20" />
+                            </div>
+                          </CardContent>
+                       </Card>
+                    ))
+                  ) : (
+                    templates.map((template, index) => (
+                      <Link
+                        href={`/store/${template.id}`}
+                        key={template.id}
+                        className="group"
+                      >
+                        <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-lg group-hover:shadow-primary/10">
+                          <div className="relative h-64 w-full">
+                            <Image
+                              src={template.image}
+                              alt={template.imageAlt}
+                              fill
+                              className="object-cover transition-transform duration-300 group-hover:scale-105"
+                              priority={index < 3}
+                              loading={index >= 3 ? "lazy" : undefined}
+                            />
+                            <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-black/40" />
+                            <div className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-background/50 text-white opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
+                              <ShoppingCart className="h-5 w-5" />
+                            </div>
                           </div>
-                        </div>
-                        <CardContent className="p-6">
-                          <div className="flex items-start justify-between">
-                            <h2 className="font-headline text-xl font-bold group-hover:text-primary">
-                              {template.title}
-                            </h2>
-                            <p className="text-lg font-bold text-primary">
-                              ${template.price}
+                          <CardContent className="p-6">
+                            <div className="flex items-start justify-between">
+                              <h2 className="font-headline text-xl font-bold group-hover:text-primary">
+                                {template.title}
+                              </h2>
+                              <p className="text-lg font-bold text-primary">
+                                ${template.price}
+                              </p>
+                            </div>
+                            <p className="mt-2 text-sm text-muted-foreground">
+                              {template.description}
                             </p>
-                          </div>
-                          <p className="mt-2 text-sm text-muted-foreground">
-                            {template.description}
-                          </p>
-                           <div className="mt-4 flex flex-wrap gap-2">
-                              {template.tags.map(tag => (
-                                  <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
-                              ))}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </Link>
-                  ))}
+                            <div className="mt-4 flex flex-wrap gap-2">
+                                {template.tags.map(tag => (
+                                    <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
+                                ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    ))
+                  )}
                 </div>
               </section>
             </div>

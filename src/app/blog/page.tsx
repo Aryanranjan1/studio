@@ -14,6 +14,7 @@ import type { Article } from '@/lib/data';
 import { Input } from '@/components/ui/input';
 import { CtaSection } from '@/components/cta-section';
 import { Footer } from '@/components/footer';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const allCategories = [
   'Web Design',
@@ -29,9 +30,11 @@ export default function BlogPage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     setArticles(getArticles());
+    setLoading(false);
   }, []);
 
   const featuredArticle = useMemo(() => articles.find(a => a.featured), [articles]);
@@ -70,10 +73,6 @@ export default function BlogPage() {
     }
   };
 
-  if (articles.length === 0) {
-    return <div>Loading...</div>; // Or a proper skeleton loader
-  }
-
   return (
     <div className="w-full bg-background text-foreground">
       <script
@@ -85,8 +84,22 @@ export default function BlogPage() {
         <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
           <div className="col-span-12 bg-black">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              {featuredArticle && (
-                <section className="my-12">
+              <section className="my-12">
+                {loading ? (
+                  <Card className="grid grid-cols-1 overflow-hidden md:grid-cols-2 bg-card/50 backdrop-blur-lg">
+                    <Skeleton className="h-80 w-full md:h-auto" />
+                    <div className="flex flex-col p-8">
+                      <Skeleton className="h-6 w-24" />
+                      <Skeleton className="mt-4 h-8 w-3/4" />
+                      <Skeleton className="mt-4 h-4 w-full" />
+                      <Skeleton className="mt-2 h-4 w-5/6" />
+                      <Skeleton className="mt-4 h-4 w-1/2" />
+                      <div className="mt-auto pt-4">
+                        <Skeleton className="h-6 w-32" />
+                      </div>
+                    </div>
+                  </Card>
+                ) : featuredArticle && (
                   <Link href={`/blog/${featuredArticle.id}`} className="group" data-event="FeaturedArticleClick">
                     <Card className="grid grid-cols-1 overflow-hidden md:grid-cols-2 bg-card/50 backdrop-blur-lg">
                       <div className="relative h-80 w-full md:h-auto">
@@ -96,6 +109,7 @@ export default function BlogPage() {
                           fill
                           className="object-cover"
                           priority
+                          loading="lazy"
                         />
                          <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-primary/20" />
                       </div>
@@ -116,8 +130,8 @@ export default function BlogPage() {
                       </div>
                     </Card>
                   </Link>
-                </section>
-              )}
+                )}
+              </section>
             </div>
           </div>
           <div className="col-span-12 bg-black">
@@ -161,37 +175,53 @@ export default function BlogPage() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <section>
                 <div className="grid grid-cols-1 gap-px bg-neutral-700 md:grid-cols-2 lg:grid-cols-3">
-                  {filteredArticles.map((article) => (
-                    <Link href={`/blog/${article.id}`} key={article.id} className="group" data-event="ArticleCardClick">
-                      <div className="h-full overflow-hidden bg-black p-4 transition-all duration-300 group-hover:bg-neutral-900">
-                        <div className="relative h-60 w-full">
-                          <Image
-                            src={article.image}
-                            alt={article.imageAlt}
-                            fill
-                            loading="lazy"
-                            className="object-cover"
-                          />
-                          <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-primary/20" />
-                        </div>
+                  {loading ? (
+                     Array.from({ length: 6 }).map((_, index) => (
+                      <div key={index} className="h-full overflow-hidden bg-black p-4">
+                        <Skeleton className="h-60 w-full" />
                         <div className="p-6">
-                          <Badge variant="outline" className="border-primary/50 text-primary">{article.category}</Badge>
-                          <h3 className="mt-4 font-headline text-2xl font-bold group-hover:text-primary">
-                            {article.title}
-                          </h3>
-                          <p className="mt-2 text-muted-foreground">
-                            {article.excerpt}
-                          </p>
-                          <p className="mt-4 text-sm text-muted-foreground">
-                            {new Date(article.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} · {article.readingTime} min read
-                          </p>
-                           <p className="mt-6 font-semibold text-primary">
-                            Read Article <ArrowRight className="ml-2 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
-                          </p>
+                           <Skeleton className="h-6 w-24" />
+                           <Skeleton className="mt-4 h-8 w-3/4" />
+                           <Skeleton className="mt-2 h-4 w-full" />
+                           <Skeleton className="mt-2 h-4 w-5/6" />
+                           <Skeleton className="mt-4 h-4 w-1/2" />
+                           <Skeleton className="mt-6 h-6 w-32" />
                         </div>
                       </div>
-                    </Link>
-                  ))}
+                     ))
+                  ) : (
+                    filteredArticles.map((article) => (
+                      <Link href={`/blog/${article.id}`} key={article.id} className="group" data-event="ArticleCardClick">
+                        <div className="h-full overflow-hidden bg-black p-4 transition-all duration-300 group-hover:bg-neutral-900">
+                          <div className="relative h-60 w-full">
+                            <Image
+                              src={article.image}
+                              alt={article.imageAlt}
+                              fill
+                              loading="lazy"
+                              className="object-cover"
+                            />
+                            <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-primary/20" />
+                          </div>
+                          <div className="p-6">
+                            <Badge variant="outline" className="border-primary/50 text-primary">{article.category}</Badge>
+                            <h3 className="mt-4 font-headline text-2xl font-bold group-hover:text-primary">
+                              {article.title}
+                            </h3>
+                            <p className="mt-2 text-muted-foreground">
+                              {article.excerpt}
+                            </p>
+                            <p className="mt-4 text-sm text-muted-foreground">
+                              {new Date(article.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} · {article.readingTime} min read
+                            </p>
+                             <p className="mt-6 font-semibold text-primary">
+                              Read Article <ArrowRight className="ml-2 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))
+                  )}
                 </div>
               </section>
             </div>

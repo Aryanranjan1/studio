@@ -14,11 +14,18 @@ import { Input } from '@/components/ui/input';
 import type { Project } from '@/lib/data';
 import { Card } from '@/components/ui/card';
 import useMeasure from 'react-use-measure';
+import { Skeleton } from '@/components/ui/skeleton';
 
 
 export default function PortfolioPage() {
-  const projects = useMemo(() => getProjects(), []);
-  const allCategories = useMemo(() => ['All', ...new Set(projects.map(p => p.category))], [projects]);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const allCategories = useMemo(() => {
+    if (projects.length === 0) return [];
+    return ['All', ...new Set(projects.map(p => p.category))];
+  }, [projects]);
+  
 
   const [featuredProject, setFeaturedProject] = useState<Project | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,6 +35,18 @@ export default function PortfolioPage() {
   const [ref, { width }] = useMeasure();
   const [itemsPerPage, setItemsPerPage] = useState(12);
 
+  useEffect(() => {
+    const allProjects = getProjects();
+    setProjects(allProjects);
+
+    const featured = allProjects.filter(p => p.featured);
+    if (featured.length > 0) {
+      const randomProject = featured[Math.floor(Math.random() * featured.length)];
+      setFeaturedProject(randomProject);
+    }
+    setLoading(false);
+  }, []);
+  
   useEffect(() => {
     if (width > 0) {
       if (width < 768) {
@@ -39,14 +58,6 @@ export default function PortfolioPage() {
       }
     }
   }, [width]);
-
-  useEffect(() => {
-    const featured = projects.filter(p => p.featured);
-    if (featured.length > 0) {
-      const randomProject = featured[Math.floor(Math.random() * featured.length)];
-      setFeaturedProject(randomProject);
-    }
-  }, [projects]);
 
 
   const filteredProjects = useMemo(() => {
@@ -124,8 +135,21 @@ export default function PortfolioPage() {
           </div>
           
           {/* Featured Project Section */}
-          {featuredProject && (
-            <div className="col-span-12 bg-black p-8">
+          <div className="col-span-12 bg-black p-8">
+            {loading ? (
+                <Card className="grid grid-cols-1 overflow-hidden md:grid-cols-2 bg-card/50 backdrop-blur-lg">
+                    <Skeleton className="h-80 w-full md:h-auto lg:min-h-[480px]" />
+                    <div className="flex flex-col p-8 lg:p-12 justify-center">
+                        <Skeleton className="h-6 w-32 mb-4" />
+                        <Skeleton className="h-10 w-3/4 mb-4" />
+                        <Skeleton className="h-5 w-full mb-2" />
+                        <Skeleton className="h-5 w-5/6" />
+                        <div className="mt-auto pt-4">
+                           <Skeleton className="h-6 w-40" />
+                        </div>
+                    </div>
+                </Card>
+            ) : featuredProject && (
               <Link href={`/portfolio/${featuredProject.id}`} className="group block">
                 <Card className="grid grid-cols-1 overflow-hidden md:grid-cols-2 bg-card/50 backdrop-blur-lg">
                   <div className="relative h-80 w-full md:h-auto lg:min-h-[480px]">
@@ -154,8 +178,8 @@ export default function PortfolioPage() {
                   </div>
                 </Card>
               </Link>
-            </div>
-          )}
+            )}
+          </div>
 
 
             {/* Search and Filter Section */}
@@ -188,35 +212,54 @@ export default function PortfolioPage() {
 
           {/* Projects Grid */}
             <div className="col-span-12 bg-black grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-neutral-800 border-t border-b border-neutral-800">
-              {paginatedProjects.map((project) => (
-                <Link
-                  href={`/portfolio/${project.id}`}
-                  key={project.id}
-                  className="group relative block overflow-hidden bg-black p-8"
-                >
-                  <div className="relative h-80 w-full rounded-lg overflow-hidden">
-                    <Image
-                      src={project.image}
-                      alt={project.imageAlt}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      data-ai-hint="website screenshot"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-black/30"></div>
-                  </div>
-                  <div className="mt-6">
-                    <div className="flex justify-between items-center">
-                        <h3 className="font-headline text-3xl font-bold">{project.title}</h3>
-                        <MoveRight className="h-8 w-8 text-neutral-500 transition-transform group-hover:translate-x-2 group-hover:text-primary" />
-                    </div>
-                    <p className="mt-2 text-neutral-400">{project.description}</p>
-                     <div className="mt-4">
-                        <Badge variant="secondary">{project.category}</Badge>
+             {loading ? (
+                Array.from({ length: itemsPerPage }).map((_, index) => (
+                  <div key={index} className="bg-black p-8">
+                    <Skeleton className="h-80 w-full rounded-lg" />
+                    <div className="mt-6">
+                      <div className="flex justify-between items-center">
+                        <Skeleton className="h-8 w-1/2" />
+                        <Skeleton className="h-8 w-8 rounded-full" />
+                      </div>
+                      <Skeleton className="mt-4 h-4 w-full" />
+                      <Skeleton className="mt-2 h-4 w-5/6" />
+                      <div className="mt-4">
+                        <Skeleton className="h-6 w-24" />
+                      </div>
                     </div>
                   </div>
-                </Link>
-              ))}
+                ))
+              ) : (
+                paginatedProjects.map((project) => (
+                  <Link
+                    href={`/portfolio/${project.id}`}
+                    key={project.id}
+                    className="group relative block overflow-hidden bg-black p-8"
+                  >
+                    <div className="relative h-80 w-full rounded-lg overflow-hidden">
+                      <Image
+                        src={project.image}
+                        alt={project.imageAlt}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        data-ai-hint="website screenshot"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-black/30"></div>
+                    </div>
+                    <div className="mt-6">
+                      <div className="flex justify-between items-center">
+                          <h3 className="font-headline text-3xl font-bold">{project.title}</h3>
+                          <MoveRight className="h-8 w-8 text-neutral-500 transition-transform group-hover:translate-x-2 group-hover:text-primary" />
+                      </div>
+                      <p className="mt-2 text-neutral-400">{project.description}</p>
+                       <div className="mt-4">
+                          <Badge variant="secondary">{project.category}</Badge>
+                      </div>
+                    </div>
+                  </Link>
+                ))
+              )}
             </div>
 
             {/* Pagination Controls */}
