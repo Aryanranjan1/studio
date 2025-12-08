@@ -89,7 +89,7 @@ export function HorizontalServices() {
   const x = useTransform(scrollYProgress, [0, 1], ['0%', '-85.75%']);
 
   return (
-    <section ref={targetRef} className="relative h-[700vh] bg-black border-y border-neutral-800">
+    <section ref={targetRef} className="relative h-[800vh] bg-black border-y border-neutral-800">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div style={{ x }} className="flex">
           <IntroCard />
