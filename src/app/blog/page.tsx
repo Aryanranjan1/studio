@@ -159,10 +159,10 @@ export default function BlogPage() {
           <div className="col-span-12 bg-black">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <section>
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                   {filteredArticles.map((article) => (
                     <Link href={`/blog/${article.id}`} key={article.id} className="group" data-event="ArticleCardClick">
-                      <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10 bg-card/50 backdrop-blur-lg">
+                      <div className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10 border border-border p-4">
                         <div className="relative h-60 w-full">
                           <Image
                             src={article.image}
@@ -172,7 +172,7 @@ export default function BlogPage() {
                           />
                           <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-primary/20" />
                         </div>
-                        <CardContent className="p-6">
+                        <div className="p-6">
                           <Badge variant="outline" className="border-primary/50 text-primary">{article.category}</Badge>
                           <h3 className="mt-4 font-headline text-2xl font-bold group-hover:text-primary">
                             {article.title}
@@ -186,8 +186,8 @@ export default function BlogPage() {
                            <p className="mt-6 font-semibold text-primary">
                             Read Article <ArrowRight className="ml-2 inline h-4 w-4 transition-transform group-hover:translate-x-1" />
                           </p>
-                        </CardContent>
-                      </Card>
+                        </div>
+                      </div>
                     </Link>
                   ))}
                 </div>
