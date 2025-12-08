@@ -1,4 +1,5 @@
 
+'use client';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { MoveUpRight, Zap, Code, Bot, TrendingUp } from 'lucide-react';
@@ -18,7 +19,7 @@ const BentoCard = ({
 }) => (
   <div
     className={cn(
-      'bg-card p-4 flex relative overflow-hidden',
+      'bg-card p-4 flex relative overflow-hidden border-2 border-border',
       className
     )}
   >
@@ -54,8 +55,8 @@ export function HeroGrid() {
 
   return (
     <div
-      className="grid auto-rows-[100px] grid-cols-4 gap-px min-h-screen w-screen max-w-full
-      bg-border
+      className="grid auto-rows-[100px] grid-cols-4 gap-2 min-h-screen w-screen max-w-full
+      bg-black p-2
       md:grid-cols-8 md:grid-rows-10 
       lg:grid-cols-12 lg:grid-rows-8"
     >
@@ -145,7 +146,7 @@ export function HeroGrid() {
             <span className="text-sm font-semibold">2025-26</span>
           </div>
           <div className='relative flex-grow w-full'>
-            <DraggableServices services={[]} />
+            <DraggableServices items={[]} />
           </div>
         </div>
       </BentoCard>
@@ -218,5 +219,3 @@ export function HeroGrid() {
     </div>
   );
 }
-
-    

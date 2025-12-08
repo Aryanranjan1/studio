@@ -4,6 +4,11 @@ import { useEffect, useRef } from 'react';
 import Matter from 'matter-js';
 import { cn } from '@/lib/utils';
 
+interface DraggableServicesProps {
+  items?: string[];
+  className?: string;
+}
+
 const DEFAULT_SKILLS = [
   'Web Design',
   'Development',
@@ -14,11 +19,6 @@ const DEFAULT_SKILLS = [
   'Webflow',
   'Framer',
 ];
-
-interface DraggableServicesProps {
-  items?: string[];
-  className?: string;
-}
 
 export function DraggableServices({ items = DEFAULT_SKILLS, className }: DraggableServicesProps) {
   const containerRef = useRef<HTMLDivElement>(null);
