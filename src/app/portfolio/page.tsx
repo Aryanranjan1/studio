@@ -25,7 +25,7 @@ export default function PortfolioPage() {
         <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
           
           {/* Hero Header */}
-          <div className="col-span-12 md:col-span-7 bg-black p-8 border-b border-neutral-800 flex flex-col justify-between min-h-[50vh]">
+          <div className="col-span-12 bg-black p-8 border-b border-neutral-800 flex flex-col justify-between min-h-[50vh]">
             <div>
                 <h1 className="font-headline text-7xl md:text-9xl font-bold">Portfolio</h1>
                 <p className="mt-4 max-w-md text-neutral-400">
@@ -37,12 +37,6 @@ export default function PortfolioPage() {
                     <Badge key={cat} variant="outline" className="text-sm">{cat}</Badge>
                 ))}
             </div>
-          </div>
-
-          <div className="col-span-12 md:col-span-5 bg-black relative min-h-[300px] border-b border-neutral-800">
-             <DraggableServices 
-                items={['Next.js', 'Figma', 'Webflow', 'React', 'AI/ML', 'Automation', 'Firebase', 'SEO']}
-             />
           </div>
 
           {/* Client Logos */}
