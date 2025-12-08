@@ -84,48 +84,44 @@ export function PricingSection() {
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-px border border-border bg-border">
           {pricingTiers.map(tier => (
-            <Card
+            <div
               key={tier.name}
               className={cn(
-                'flex flex-col',
-                tier.isFeatured && 'border-primary ring-2 ring-primary'
+                'flex flex-col p-8 bg-black relative',
+                tier.isFeatured && 'border-2 border-primary'
               )}
             >
-              <CardHeader className="relative">
-                {tier.isFeatured && tier.badge && (
-                  <div className="absolute top-0 right-6 -translate-y-1/2">
-                    <Badge>{tier.badge}</Badge>
-                  </div>
-                )}
-                <CardTitle className="font-headline text-2xl">{tier.name}</CardTitle>
-                <p className="text-4xl font-bold">{tier.price}</p>
-                <p className="text-sm text-muted-foreground">{tier.description}</p>
-              </CardHeader>
-              <CardContent className="flex-grow space-y-4">
-                <ul className="space-y-3">
-                  {tier.features.map(feature => (
-                    <li key={feature} className="flex items-center gap-3">
-                      <Check className="h-5 w-5 flex-shrink-0 text-primary" />
-                      <span className="text-muted-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <Button
-                  asChild
-                  className="w-full"
-                  variant={tier.isFeatured ? 'default' : 'outline'}
-                  size="lg"
-                >
-                  <Link href="/contact">
-                    {tier.cta} <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </CardFooter>
-            </Card>
+              {tier.isFeatured && tier.badge && (
+                <div className="absolute top-0 right-6 -translate-y-1/2">
+                  <Badge>{tier.badge}</Badge>
+                </div>
+              )}
+              <h3 className="font-headline text-2xl">{tier.name}</h3>
+              <p className="text-4xl font-bold mt-4">{tier.price}</p>
+              <p className="text-sm text-muted-foreground mt-2">{tier.description}</p>
+              
+              <ul className="space-y-3 mt-8 mb-10 flex-grow">
+                {tier.features.map(feature => (
+                  <li key={feature} className="flex items-center gap-3">
+                    <Check className="h-5 w-5 flex-shrink-0 text-primary" />
+                    <span className="text-muted-foreground">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Button
+                asChild
+                className="w-full mt-auto"
+                variant={tier.isFeatured ? 'default' : 'outline'}
+                size="lg"
+              >
+                <Link href="/contact">
+                  {tier.cta} <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           ))}
         </div>
       </div>
