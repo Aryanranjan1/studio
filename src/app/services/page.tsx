@@ -201,29 +201,8 @@ export default function ServicesPage() {
           </div>
           
           <div className="col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-px bg-neutral-800 border-b border-neutral-800">
-            {/* FAQ Section */}
-            <div className="lg:col-span-7 bg-black p-8">
-                <h2 className="font-headline text-5xl font-bold mb-8">FAQ</h2>
-                <Accordion type="single" collapsible className="w-full">
-                    {faqItems.map((faq, index) => (
-                      <AccordionItem
-                        key={index}
-                        value={`item-${index}`}
-                        className="border-b border-b-border/50"
-                      >
-                        <AccordionTrigger className="text-left text-lg font-semibold text-foreground/80 no-underline hover:no-underline">
-                          {faq.question}
-                        </AccordionTrigger>
-                        <AccordionContent className="text-muted-foreground">
-                          {faq.answer}
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-            </div>
-            
             {/* Contact Form Section */}
-            <div className="lg:col-span-5 bg-black p-8">
+            <div className="lg:col-span-8 bg-black p-8">
                 <Card className="h-full border border-border bg-transparent shadow-none rounded-none p-6">
                     <CardHeader className='p-0'>
                     <CardTitle className="font-headline text-2xl mb-4">
@@ -286,6 +265,27 @@ export default function ServicesPage() {
                     </form>
                     </CardContent>
                 </Card>
+            </div>
+
+            {/* FAQ Section */}
+            <div className="lg:col-span-4 bg-black p-8">
+                <h2 className="font-headline text-5xl font-bold mb-8">FAQ</h2>
+                <Accordion type="single" collapsible className="w-full">
+                    {faqItems.map((faq, index) => (
+                      <AccordionItem
+                        key={index}
+                        value={`item-${index}`}
+                        className="border-b border-b-border/50"
+                      >
+                        <AccordionTrigger className="text-left text-lg font-semibold text-foreground/80 no-underline hover:no-underline">
+                          {faq.question}
+                        </AccordionTrigger>
+                        <AccordionContent className="text-muted-foreground">
+                          {faq.answer}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
             </div>
           </div>
 
