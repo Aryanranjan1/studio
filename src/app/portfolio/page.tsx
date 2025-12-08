@@ -13,8 +13,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import type { Project } from '@/lib/data';
 import { Card } from '@/components/ui/card';
+import useMeasure from 'react-use-measure';
 
-const ITEMS_PER_PAGE = 6;
 
 export default function PortfolioPage() {
   const projects = useMemo(() => getProjects(), []);
@@ -24,6 +24,21 @@ export default function PortfolioPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['All']);
+  
+  const [ref, { width }] = useMeasure();
+  const [itemsPerPage, setItemsPerPage] = useState(12);
+
+  useEffect(() => {
+    if (width > 0) {
+      if (width < 768) {
+        setItemsPerPage(6);
+      } else if (width < 1024) {
+        setItemsPerPage(8);
+      } else {
+        setItemsPerPage(12);
+      }
+    }
+  }, [width]);
 
   useEffect(() => {
     const featured = projects.filter(p => p.featured);
@@ -40,7 +55,7 @@ export default function PortfolioPage() {
         const term = searchTerm.toLowerCase();
         const categoryMatch =
           selectedCategories.includes('All') ||
-          selectedCategories.includes(project.category);
+          selectedCategories.some(cat => project.tags.includes(cat) || project.category === cat);
         const searchMatch =
           project.title.toLowerCase().includes(term) ||
           project.description.toLowerCase().includes(term) ||
@@ -50,11 +65,11 @@ export default function PortfolioPage() {
   }, [projects, searchTerm, selectedCategories]);
 
 
-  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
 
   const paginatedProjects = filteredProjects.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   const handleNextPage = () => {
@@ -72,8 +87,11 @@ export default function PortfolioPage() {
       setSelectedCategories(prev => {
         const newCats = prev.filter(c => c !== 'All');
         if (newCats.includes(category)) {
-          return newCats.filter(c => c !== category);
+          // If it's already there, remove it. If it's the last one, default to 'All'.
+          const remaining = newCats.filter(c => c !== category);
+          return remaining.length > 0 ? remaining : ['All'];
         } else {
+          // If it's not there, add it.
           return [...newCats, category];
         }
       });
@@ -84,7 +102,7 @@ export default function PortfolioPage() {
 
   return (
     <div className="w-full bg-black text-white min-h-screen">
-      <main>
+      <main ref={ref}>
         <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-neutral-800">
           
           {/* Hero Header */}
@@ -234,3 +252,5 @@ export default function PortfolioPage() {
     </div>
   );
 }
+
+    
