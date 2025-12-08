@@ -136,6 +136,11 @@ export default function ServicesPage() {
              <HorizontalServices />
           </div>
           
+          {/* 2. PRICING */}
+          <div className="col-span-12 bg-black">
+            <PricingSection />
+          </div>
+
           {/* 4. TECH STACK */}
           <div className="col-span-12 bg-black border-b border-neutral-800">
               <div className="grid h-full w-full grid-cols-2 bg-neutral-800 md:grid-cols-3 lg:grid-cols-4">
@@ -144,12 +149,7 @@ export default function ServicesPage() {
                           key={tech.name}
                           className={cn(
                             'group relative aspect-square flex items-center justify-center bg-black border-r border-b border-neutral-800',
-                             // On mobile, show 2x3 grid (6 items)
-                            index >= 6 && 'hidden md:flex',
-                             // On tablet, show 3x2 grid (6 items)
-                            index >= 6 && 'hidden lg:hidden md:flex',
-                            // On desktop show all 8 in 4x2
-                            'lg:flex'
+                            index >= 6 ? 'hidden md:hidden lg:flex' : 'flex'
                           )}
                       >
                           <Image
@@ -167,11 +167,6 @@ export default function ServicesPage() {
                       </div>
                   ))}
               </div>
-          </div>
-
-          {/* 2. PRICING */}
-          <div className="col-span-12 bg-black">
-            <PricingSection />
           </div>
           
           {/* 3. PROCESS */}
