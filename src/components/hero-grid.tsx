@@ -69,6 +69,7 @@ export function HeroGrid() {
           alt="Abstract background"
           fill
           className="object-cover"
+          priority
           data-ai-hint="abstract purple dark"
         />
         <div className="absolute inset-0 bg-black/50" />
@@ -158,6 +159,7 @@ export function HeroGrid() {
           src={featuredArticle.image}
           alt={featuredArticle.imageAlt}
           fill
+          loading="lazy"
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />

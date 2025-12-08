@@ -38,6 +38,7 @@ export function BlogSection() {
                 alt={latestArticle.imageAlt}
                 width={800}
                 height={600}
+                loading="lazy"
                 className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
             </div>
@@ -64,6 +65,7 @@ export function BlogSection() {
                       src={article.image}
                       alt={article.imageAlt}
                       fill
+                      loading="lazy"
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                  </div>

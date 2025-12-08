@@ -85,6 +85,7 @@ export function Footer() {
             src="https://picsum.photos/seed/footer-texture/1600/400" 
             alt="Abstract decorative image"
             fill
+            loading="lazy"
             className="object-cover"
             data-ai-hint="abstract dark texture"
         />

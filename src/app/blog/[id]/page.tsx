@@ -24,6 +24,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
           alt={article.imageAlt}
           fill
           className="object-cover"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent" />
       </div>
@@ -83,6 +84,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
                       src={otherArticle.image}
                       alt={otherArticle.imageAlt}
                       fill
+                      loading="lazy"
                       className="object-cover"
                     />
                      <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-black/40" />

@@ -30,6 +30,8 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
                     alt={img.alt}
                     fill
                     className="object-cover"
+                    priority={index === 0}
+                    loading={index > 0 ? "lazy" : undefined}
                   />
                 </div>
               ))}
@@ -106,6 +108,7 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
                       src={otherTemplate.image}
                       alt={otherTemplate.imageAlt}
                       fill
+                      loading="lazy"
                       className="object-cover"
                     />
                      <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/80 to-transparent p-6">

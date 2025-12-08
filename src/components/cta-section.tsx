@@ -10,6 +10,7 @@ export function CtaSection() {
           src="https://picsum.photos/seed/cta-bg/1920/1080"
           alt="Abstract background"
           fill
+          loading="lazy"
           className="object-cover"
           data-ai-hint="abstract dark texture"
         />

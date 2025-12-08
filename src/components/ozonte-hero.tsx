@@ -18,6 +18,7 @@ export function OzonteHero() {
           alt="Abstract purple waves"
           fill
           className="object-cover"
+          priority
           data-ai-hint="abstract purple waves dark"
         />
         <div className="absolute inset-0 bg-black/40" />

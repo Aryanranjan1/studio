@@ -7,6 +7,7 @@ import { ArrowRight, MoveRight } from 'lucide-react';
 import { Badge } from './ui/badge';
 import { useEffect, useState } from 'react';
 import type { Project } from '@/lib/data';
+import Image from 'next/image';
 
 const FeaturedProjectColumn = ({
   project,
@@ -19,9 +20,14 @@ const FeaturedProjectColumn = ({
     <Link
       href={`/portfolio/${project.id}`}
       className="group relative flex h-[90vh] flex-col justify-between overflow-hidden border-t border-b border-r border-border p-6 transition-all duration-500 hover:bg-black"
-      style={{'--bg-image': `url(${project.image})`} as React.CSSProperties}
     >
-      <div className="absolute inset-0 z-0 bg-[image:var(--bg-image)] bg-cover bg-center opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+        <Image 
+            src={project.image}
+            alt={project.title}
+            fill
+            loading="lazy"
+            className="absolute inset-0 z-0 object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        />
        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
       <div className="relative z-20 flex flex-grow items-center justify-center">

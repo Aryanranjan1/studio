@@ -52,6 +52,7 @@ export default function AboutPage() {
               src="https://picsum.photos/seed/teamwork/800/600"
               alt="A design team collaborating around a table with sticky notes and wireframes."
               fill
+              loading="lazy"
               className="object-cover"
               data-ai-hint="team collaboration office"
             />

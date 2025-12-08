@@ -95,6 +95,7 @@ export default function BlogPage() {
                           alt={featuredArticle.imageAlt}
                           fill
                           className="object-cover"
+                          priority
                         />
                          <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-primary/20" />
                       </div>
@@ -168,6 +169,7 @@ export default function BlogPage() {
                             src={article.image}
                             alt={article.imageAlt}
                             fill
+                            loading="lazy"
                             className="object-cover"
                           />
                           <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-primary/20" />

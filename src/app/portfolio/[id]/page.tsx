@@ -25,6 +25,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
           alt={project.imageAlt}
           fill
           className="object-cover"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         <div className="absolute inset-0 flex items-end">
@@ -61,6 +62,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                       src={img.src}
                       alt={img.alt}
                       fill
+                      loading="lazy"
                       className="object-cover transition-transform duration-300 hover:scale-105"
                     />
                   </div>
@@ -169,6 +171,7 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                       src={otherProject.image}
                       alt={otherProject.imageAlt}
                       fill
+                      loading="lazy"
                       className="object-cover"
                     />
                     <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/80 to-transparent p-6">

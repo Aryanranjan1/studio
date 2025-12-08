@@ -105,7 +105,7 @@ export function SearchResults({
                     <Link href={`/portfolio/${project.id}`} className="group h-full block">
                         <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10 rounded-none border-transparent">
                             <div className="relative aspect-video w-full">
-                            <Image src={project.image} alt={project.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+                            <Image src={project.image} alt={project.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
                             </div>
                             <CardContent className="p-6">
                             <Badge variant="outline" className="border-primary/50 text-primary">{project.category}</Badge>
@@ -132,7 +132,7 @@ export function SearchResults({
                         <Link href={`/store/${template.id}`} className="group h-full block">
                         <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10 rounded-none border-transparent">
                             <div className="relative aspect-video w-full">
-                            <Image src={template.image} alt={template.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+                            <Image src={template.image} alt={template.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
                             </div>
                             <CardContent className="p-6">
                                 <div className="flex justify-between items-start">
@@ -162,7 +162,7 @@ export function SearchResults({
                         <Link href={`/blog/${article.id}`} className="group h-full block">
                             <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10 rounded-none border-transparent">
                                 <div className="relative aspect-video w-full">
-                                <Image src={article.image} alt={article.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+                                <Image src={article.image} alt={article.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
                                 </div>
                                 <CardContent className="p-6">
                                 <Badge variant="outline" className="border-primary/50 text-primary">{article.category}</Badge>

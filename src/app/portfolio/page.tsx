@@ -134,6 +134,7 @@ export default function PortfolioPage() {
                       alt={featuredProject.imageAlt}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      priority
                     />
                     <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-primary/20" />
                   </div>
@@ -200,6 +201,7 @@ export default function PortfolioPage() {
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                       data-ai-hint="website screenshot"
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-black/10 transition-colors group-hover:bg-black/30"></div>
                   </div>

@@ -39,7 +39,7 @@ export default function StorePage() {
               {/* Templates Grid */}
               <section className="py-12">
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                  {templates.map((template) => (
+                  {templates.map((template, index) => (
                     <Link
                       href={`/store/${template.id}`}
                       key={template.id}
@@ -52,6 +52,8 @@ export default function StorePage() {
                             alt={template.imageAlt}
                             fill
                             className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            priority={index < 3}
+                            loading={index >= 3 ? "lazy" : undefined}
                           />
                           <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-black/40" />
                           <div className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-background/50 text-white opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
