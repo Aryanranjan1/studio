@@ -106,8 +106,8 @@ export default function ServicesPage() {
             const IconComponent = iconComponents[service.icon];
             const isReversed = index % 2 !== 0;
             return (
-              <React.Fragment key={service.id}>
-                <div className={`col-span-12 md:col-span-7 bg-black p-8 border-b border-neutral-800 ${isReversed ? 'md:order-2' : ''}`}>
+              <div key={service.id} className="col-span-12 grid grid-cols-1 md:grid-cols-12 gap-px bg-neutral-800 border-b border-neutral-800">
+                <div className={`col-span-12 md:col-span-7 bg-black p-8 ${isReversed ? 'md:order-2' : ''}`}>
                   <div className="flex items-center gap-4">
                     {IconComponent && <IconComponent className="h-8 w-8 text-primary" />}
                     <h2 className="font-headline text-5xl md:text-6xl font-bold">
@@ -135,7 +135,7 @@ export default function ServicesPage() {
                     </Link>
                   </Button>
                 </div>
-                <div className={`col-span-12 md:col-span-5 bg-black relative min-h-[300px] border-b border-neutral-800 ${isReversed ? 'md:order-1' : ''}`}>
+                <div className={`col-span-12 md:col-span-5 bg-black relative min-h-[300px] ${isReversed ? 'md:order-1' : ''}`}>
                   <Image 
                     src={`https://picsum.photos/seed/service-${index}/800/600`}
                     alt={service.title}
@@ -145,7 +145,7 @@ export default function ServicesPage() {
                   />
                    <div className="absolute inset-0 bg-black/20" />
                 </div>
-              </React.Fragment>
+              </div>
             );
           })}
 
@@ -186,64 +186,66 @@ export default function ServicesPage() {
                 </div>
             </div>
 
-            {/* FAQ Section */}
-            <div className="col-span-12 lg:col-span-7 bg-black p-8 border-b border-neutral-800">
-                <h2 className="font-headline text-5xl font-bold mb-8">FAQ</h2>
-                <Accordion type="single" collapsible className="w-full">
-                    {faqItems.map((faq, index) => (
-                      <AccordionItem
-                        key={index}
-                        value={`item-${index}`}
-                        className="border-b border-b-border/50"
-                      >
-                        <AccordionTrigger className="text-left text-lg font-semibold text-foreground/80 no-underline hover:no-underline">
-                          {faq.question}
-                        </AccordionTrigger>
-                        <AccordionContent className="text-muted-foreground">
-                          {faq.answer}
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
+            {/* FAQ and Contact Section */}
+            <div className="col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-px bg-neutral-800 border-b border-neutral-800">
+                <div className="lg:col-span-7 bg-black p-8">
+                    <h2 className="font-headline text-5xl font-bold mb-8">FAQ</h2>
+                    <Accordion type="single" collapsible className="w-full">
+                        {faqItems.map((faq, index) => (
+                        <AccordionItem
+                            key={index}
+                            value={`item-${index}`}
+                            className="border-b border-b-border/50"
+                        >
+                            <AccordionTrigger className="text-left text-lg font-semibold text-foreground/80 no-underline hover:no-underline">
+                            {faq.question}
+                            </AccordionTrigger>
+                            <AccordionContent className="text-muted-foreground">
+                            {faq.answer}
+                            </AccordionContent>
+                        </AccordionItem>
+                        ))}
+                    </Accordion>
+                </div>
+                
+                <div className="lg:col-span-5 bg-muted/10 p-8">
+                    <Card className="h-full border border-border bg-transparent shadow-none rounded-none">
+                        <CardHeader>
+                        <CardTitle className="font-headline text-2xl">
+                            Start a Project
+                        </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                        <form className="space-y-6">
+                            <div className="space-y-2">
+                                <Label htmlFor="name-service">Name</Label>
+                                <Input id="name-service" placeholder="John Doe" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="email-service">Email</Label>
+                                <Input
+                                id="email-service"
+                                type="email"
+                                placeholder="john.doe@example.com"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="message-service">Message</Label>
+                                <Textarea
+                                    id="message-service"
+                                    placeholder="Tell us briefly about your project..."
+                                    rows={4}
+                                />
+                            </div>
+                            <Button type="submit" size="lg" className="w-full">
+                                Send Inquiry <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                        </form>
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
-            
-            {/* Contact Form Section */}
-            <div className="col-span-12 lg:col-span-5 bg-muted/10 p-8 border-b border-neutral-800">
-                 <Card className="h-full border border-border bg-transparent shadow-none rounded-none">
-                    <CardHeader>
-                    <CardTitle className="font-headline text-2xl">
-                        Start a Project
-                    </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                    <form className="space-y-6">
-                        <div className="space-y-2">
-                            <Label htmlFor="name-service">Name</Label>
-                            <Input id="name-service" placeholder="John Doe" />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="email-service">Email</Label>
-                            <Input
-                            id="email-service"
-                            type="email"
-                            placeholder="john.doe@example.com"
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="message-service">Message</Label>
-                            <Textarea
-                                id="message-service"
-                                placeholder="Tell us briefly about your project..."
-                                rows={4}
-                            />
-                        </div>
-                        <Button type="submit" size="lg" className="w-full">
-                            Send Inquiry <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                    </form>
-                    </CardContent>
-                </Card>
-            </div>
+
 
           <div className="col-span-12 bg-black">
              <CtaSection />
