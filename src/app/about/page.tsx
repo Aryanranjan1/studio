@@ -73,7 +73,7 @@ export default function AboutPage() {
           <div className="hidden lg:block lg:col-span-5 bg-black border-b border-neutral-800"></div>
           
           {/* Geometric Section */}
-          <div className="col-span-12 lg:col-span-7 bg-black p-8 relative min-h-[300px] border-b border-neutral-800">
+          <div className="col-span-12 md:col-span-7 bg-black p-8 relative min-h-[300px] border-b border-neutral-800">
             <div className="absolute inset-0 grid grid-cols-2">
                 <div className="border-r border-neutral-800"></div>
                 <div></div>
@@ -91,7 +91,7 @@ export default function AboutPage() {
             <div className="absolute bottom-8 left-1/2 w-32 h-32 bg-pink-400 -translate-x-1/2 rounded-tl-3xl"></div>
           </div>
 
-          <div className="col-span-12 lg:col-span-5 bg-blue-500 text-black p-8 flex items-center border-b border-neutral-800">
+          <div className="col-span-12 md:col-span-5 bg-blue-500 text-black p-8 flex items-center border-b border-neutral-800">
             <p className="font-headline text-2xl md:text-3xl font-bold">
               WE ARE CONSTANTLY SEEKING TO STRIKE THE RIGHT BALANCE BETWEEN EFFICIENCY AND IMPRESSIVE LOOK
             </p>
