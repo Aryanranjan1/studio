@@ -109,7 +109,6 @@ export default function BlogPage() {
                           fill
                           className="object-cover"
                           priority
-                          loading="lazy"
                         />
                          <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-primary/20" />
                       </div>
