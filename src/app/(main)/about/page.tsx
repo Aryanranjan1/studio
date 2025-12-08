@@ -1,4 +1,5 @@
 
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, MoveRight, Instagram, Linkedin } from 'lucide-react';

@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { ProcessGrid } from '@/components/process-grid';
 
 const processSteps = [
     {
@@ -137,28 +138,33 @@ export default function ServicesPage() {
           </div>
           
           {/* 4. TECH STACK */}
-          <div className="col-span-12 bg-black border-b border-neutral-800">
-              <div className="grid h-full w-full grid-cols-2 bg-neutral-800 md:grid-cols-3 lg:grid-cols-4">
-                  {technologies.map((tech, index) => (
-                      <div
-                          key={tech.name}
-                          className={cn(
-                            'relative aspect-square flex items-center justify-center bg-black border-r border-b border-neutral-800',
-                            index >= 6 ? 'hidden md:hidden lg:flex' : 'flex'
-                          )}
-                      >
-                          <Image
-                            src={tech.src}
-                            alt={`${tech.name} logo`}
-                            width={64}
-                            height={64}
-                            unoptimized
-                            className="h-10 w-10 md:h-12 md:w-12 text-white"
-                          />
-                      </div>
-                  ))}
-              </div>
+           <div className="col-span-12 bg-black border-b border-neutral-800 p-8 md:p-16">
+            <div className="mb-12">
+                <h2 className="font-headline text-5xl md:text-6xl font-bold">Technology Stack</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {technologies.map((tech, index) => (
+                    <div
+                        key={tech.name}
+                        className={cn(
+                          'relative aspect-square flex items-center justify-center bg-black border border-neutral-800',
+                          index > 5 && 'hidden md:flex', // Hide 7th and 8th on mobile/tablet
+                          index >= 8 && 'lg:hidden' // This is to ensure we only show 8 on desktop, if more are added
+                        )}
+                    >
+                        <Image
+                          src={tech.src}
+                          alt={`${tech.name} logo`}
+                          width={64}
+                          height={64}
+                          unoptimized
+                          className="h-10 w-10 md:h-12 md:w-12 text-white"
+                        />
+                    </div>
+                ))}
+            </div>
           </div>
+
 
           {/* 2. PRICING */}
           <div className="col-span-12 bg-black">
@@ -166,25 +172,17 @@ export default function ServicesPage() {
           </div>
           
           {/* 3. PROCESS */}
-          <div className="col-span-12 bg-black p-8 md:p-24 border-b border-neutral-800">
-            <div className="mb-16">
+           <div className="col-span-12 bg-black p-8 md:p-16 border-b border-neutral-800">
+              <div className="mb-12">
                   <h2 className="font-headline text-5xl md:text-6xl font-bold">Our Process</h2>
-                  <p className="mt-6 max-w-2xl text-xl text-neutral-400">We follow a structured four-step process to ensure clarity, efficiency, and exceptional results from start to finish.</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-800 border border-neutral-800">
-                {processSteps.map(item => (
-                    <div key={item.step} className="bg-black p-8 md:p-12 hover:bg-neutral-900 transition-colors duration-300">
-                        <span className="text-7xl font-headline font-bold text-neutral-800 block mb-6">{item.step}</span>
-                        <h3 className="font-headline text-2xl font-bold mb-4 text-white">{item.title}</h3>
-                        <p className="text-neutral-400 leading-relaxed">{item.description}</p>
-                    </div>
-                ))}
-            </div>
+                  <p className="mt-6 max-w-2xl text-lg text-neutral-400">We follow a structured four-step process to ensure clarity, efficiency, and exceptional results from start to finish.</p>
+              </div>
+              <ProcessGrid />
           </div>
 
             {/* 5. FAQ & Contact */}
-            <div className="col-span-12 grid grid-cols-12 gap-px bg-neutral-800 border-b border-neutral-800">
-                <div className="col-span-12 lg:col-span-7 bg-black p-8 md:p-24">
+            <div className="col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-px bg-neutral-800 border-b border-neutral-800">
+                <div className="col-span-12 lg:col-span-6 bg-black p-8 md:p-16">
                     <h2 className="font-headline text-5xl font-bold mb-12">FAQ</h2>
                     <Accordion type="single" collapsible className="w-full">
                         {faqItems.map((faq, index) => (
@@ -204,7 +202,7 @@ export default function ServicesPage() {
                     </Accordion>
                 </div>
                 
-                <div className="col-span-12 lg:col-span-5 bg-black p-8 md:p-24">
+                <div className="col-span-12 lg:col-span-6 bg-black p-8 md:p-16">
                     <div className="h-full flex flex-col justify-center">
                         <h2 className="font-headline text-4xl font-bold mb-8">Start a Project</h2>
                         <form className="space-y-6">
