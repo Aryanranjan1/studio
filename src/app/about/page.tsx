@@ -160,7 +160,7 @@ export default function AboutPage() {
                     CONTACT <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform"/>
                  </Link>
             </div>
-            <p className="text-xs text-neutral-500">Next Page</p>
+            
           </div>
            <div className="col-span-12 bg-black">
             <Footer />
