@@ -20,17 +20,13 @@ export default function Home() {
           <HeroGrid />
         </div>
         <div className="col-span-12 bg-black">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <ServicesSection />
-          </div>
+          <ServicesSection />
         </div>
         <div className="col-span-12 bg-black">
           <FeaturedPortfolio />
         </div>
         <div className="col-span-12 bg-black">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <PricingSection />
-          </div>
+          <PricingSection />
         </div>
         <div className="col-span-12 bg-black my-16">
           <TestimonialsSection />
@@ -41,9 +37,7 @@ export default function Home() {
           </div>
         </div>
         <div className="col-span-12 bg-black">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <BlogSection />
-          </div>
+          <BlogSection />
         </div>
         <div className="col-span-12 bg-black">
           <Footer />
