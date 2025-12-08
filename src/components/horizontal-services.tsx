@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useRef } from 'react';
@@ -54,7 +55,7 @@ const services = [
 ];
 
 const IntroCard = () => (
-  <div className="w-[85vw] md:w-[600px] h-[600px] flex-shrink-0 flex flex-col justify-between p-8 border border-white/20 rounded-3xl bg-black">
+  <div className="w-screen h-screen flex-shrink-0 flex flex-col justify-between p-8 border-r border-white/20 bg-black">
      <h3 className="font-headline text-5xl font-bold text-white tracking-tight">
         A full-service<br />design &<br />development<br />agency.
       </h3>
@@ -68,12 +69,12 @@ const IntroCard = () => (
 );
 
 const CtaCard = () => (
-    <div className="w-[85vw] md:w-[600px] h-[600px] flex-shrink-0 flex flex-col items-center justify-center p-8 border border-white/20 rounded-3xl bg-primary text-primary-foreground text-center">
+    <div className="w-screen h-screen flex-shrink-0 flex flex-col items-center justify-center p-8 border-r border-white/20 bg-primary text-primary-foreground text-center">
       <h3 className="font-headline text-5xl font-bold tracking-tight">
         Have a project<br />in mind?
       </h3>
       <p className="text-lg mt-4 max-w-xs">Let's build something great together.</p>
-      <Link href="/contact" className="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-full bg-primary-foreground text-primary font-bold transition-transform hover:scale-105">
+      <Link href="/contact" className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-primary-foreground text-primary font-bold transition-transform hover:scale-105">
           Get in Touch <ArrowRight className="w-5 h-5"/>
       </Link>
   </div>
@@ -87,16 +88,15 @@ export function HorizontalServices() {
 
   // Maps vertical scroll (0 to 1) to horizontal movement.
   // Adjust the second value in the output range to control how much it scrolls.
-  // e.g., "-80%" means it will scroll almost its entire width.
-  const x = useTransform(scrollYProgress, [0, 1], ['1%', '-75%']);
+  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-85.75%']);
 
   return (
-    <section ref={targetRef} className="relative h-[300vh] bg-black border-y border-neutral-800">
+    <section ref={targetRef} className="relative h-[700vh] bg-black border-y border-neutral-800">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-        <motion.div style={{ x }} className="flex gap-8">
+        <motion.div style={{ x }} className="flex">
           <IntroCard />
           {services.map((service, index) => (
-            <div key={index} className="w-[85vw] md:w-[600px] h-[600px] flex-shrink-0 relative border border-white/20 rounded-3xl overflow-hidden group">
+            <div key={index} className="w-screen h-screen flex-shrink-0 relative border-r border-white/20 overflow-hidden group">
                 <Image 
                     src={service.image}
                     alt={service.title}
@@ -108,7 +108,7 @@ export function HorizontalServices() {
 
                 <div className="relative z-20 flex flex-col justify-between h-full p-8 text-white">
                     <div className="flex justify-between items-start">
-                        <div className="p-3 border border-white/20 rounded-full bg-white/10 backdrop-blur-sm">
+                        <div className="p-3 border border-white/20 bg-white/10 backdrop-blur-sm">
                             <service.icon className="w-6 h-6" />
                         </div>
                         <span className="font-headline text-8xl font-bold text-white/10">
@@ -121,7 +121,7 @@ export function HorizontalServices() {
                         <p className="mt-2 text-neutral-300 max-w-sm">{service.description}</p>
                         <div className="flex flex-wrap gap-2 mt-6">
                             {service.tags.map(tag => (
-                                <span key={tag} className="px-3 py-1 rounded-full border border-white/20 bg-white/10 text-sm text-neutral-200">
+                                <span key={tag} className="px-3 py-1 border border-white/20 bg-white/10 text-sm text-neutral-200">
                                     {tag}
                                 </span>
                             ))}
