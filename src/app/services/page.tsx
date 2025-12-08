@@ -223,7 +223,7 @@ export default function ServicesPage() {
             </div>
             
             {/* Contact Form Section */}
-            <div className="lg:col-span-5 bg-muted/10 p-8">
+            <div className="lg:col-span-5 bg-black p-8">
                 <Card className="h-full border border-border bg-transparent shadow-none rounded-none p-6">
                     <CardHeader className='p-0'>
                     <CardTitle className="font-headline text-2xl mb-4">
