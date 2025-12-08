@@ -52,20 +52,20 @@ export default function AboutPage() {
           </div>
 
           {/* Design Process & Principles */}
-          <div className="col-span-12 md:col-span-7 bg-black p-8 border-b border-neutral-800 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="flex items-center">
+          <div className="col-span-12 md:col-span-7 bg-black grid grid-cols-2 grid-rows-2 gap-px bg-neutral-800 border-b border-neutral-800">
+             <div className="col-span-1 row-span-2 bg-black p-8 flex items-center">
                 <p className="font-headline text-3xl md:text-4xl font-bold max-w-md">
-                DESIGN PROCESS DOESN’T HAVE TO BE COMPLEX. IN FACT, IT SHOULD BE SIMPLE.
+                    DESIGN PROCESS DOESN’T HAVE TO BE COMPLEX. IN FACT, IT SHOULD BE SIMPLE.
                 </p>
-            </div>
-            <div className="flex flex-col gap-8">
-              {principles.map(p => (
-                <div key={p.title}>
-                  <h3 className="font-headline text-2xl text-blue-500 font-bold">{p.title}</h3>
-                  <p className="mt-2 text-neutral-400 text-sm">{p.description}</p>
-                </div>
-              ))}
-            </div>
+             </div>
+             <div className="col-span-1 row-span-1 bg-black p-8">
+                <h3 className="font-headline text-2xl text-blue-500 font-bold">{principles[0].title}</h3>
+                <p className="mt-2 text-neutral-400 text-sm">{principles[0].description}</p>
+             </div>
+             <div className="col-span-1 row-span-1 bg-black p-8">
+                <h3 className="font-headline text-2xl text-blue-500 font-bold">{principles[1].title}</h3>
+                <p className="mt-2 text-neutral-400 text-sm">{principles[1].description}</p>
+             </div>
           </div>
           
           {/* Geometric Section */}
