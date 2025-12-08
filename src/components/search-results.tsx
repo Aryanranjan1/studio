@@ -74,101 +74,107 @@ export function SearchResults({
   const isSearching = searchTerm.length > 0;
 
   return (
-    <div className="mx-auto max-w-7xl">
-        <Input
-            type="search"
-            placeholder="Search projects, articles, templates..."
-            className="h-14 text-lg max-w-2xl mx-auto"
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-        />
+    <div className="grid grid-cols-12 gap-px bg-neutral-800">
+        <div className="col-span-12 bg-black p-8 md:p-12">
+            <Input
+                type="search"
+                placeholder="Search projects, articles, templates..."
+                className="h-14 text-lg max-w-2xl mx-auto"
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+            />
+        </div>
 
-      <div className="mt-12 space-y-16">
-        {isSearching && !hasResults && (
-            <div className="text-center py-16">
+      {isSearching && !hasResults && (
+            <div className="col-span-12 bg-black p-8 md:p-12 text-center py-16">
                 <p className="text-2xl font-semibold text-muted-foreground">No results found for &quot;{searchTerm}&quot;</p>
                 <p className="mt-4 text-muted-foreground">Try a different search term or explore our featured content below.</p>
             </div>
         )}
 
         {(isSearching ? filteredProjects.length > 0 : true) && (
-          <section>
-            <div className="flex items-center gap-3 mb-8">
-                <Briefcase className="h-7 w-7 text-primary" />
-                <h2 className="font-headline text-3xl font-bold">{isSearching ? 'Projects' : 'Featured Projects'}</h2>
+          <>
+            <div className="col-span-12 bg-black p-8 md:p-12">
+                <div className="flex items-center gap-3">
+                    <Briefcase className="h-7 w-7 text-primary" />
+                    <h2 className="font-headline text-3xl font-bold">{isSearching ? 'Projects' : 'Featured Projects'}</h2>
+                </div>
             </div>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-              {filteredProjects.map(project => (
-                <Link href={`/portfolio/${project.id}`} key={project.id} className="group">
-                  <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10">
-                     <div className="relative aspect-video w-full">
-                      <Image src={project.image} alt={project.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
-                    </div>
-                    <CardContent className="p-6">
-                      <Badge variant="outline" className="border-primary/50 text-primary">{project.category}</Badge>
-                      <p className="font-headline text-xl font-bold mt-4 group-hover:text-primary">{project.title}</p>
-                      <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{project.description}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          </section>
+            {filteredProjects.map(project => (
+                <div key={project.id} className="col-span-12 md:col-span-6 bg-black">
+                    <Link href={`/portfolio/${project.id}`} className="group h-full block">
+                        <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10 rounded-none border-transparent">
+                            <div className="relative aspect-video w-full">
+                            <Image src={project.image} alt={project.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+                            </div>
+                            <CardContent className="p-6">
+                            <Badge variant="outline" className="border-primary/50 text-primary">{project.category}</Badge>
+                            <p className="font-headline text-xl font-bold mt-4 group-hover:text-primary">{project.title}</p>
+                            <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{project.description}</p>
+                            </CardContent>
+                        </Card>
+                    </Link>
+                </div>
+            ))}
+          </>
         )}
 
         {(isSearching ? filteredTemplates.length > 0 : true) && (
-          <section>
-            <div className="flex items-center gap-3 mb-8">
-                <ShoppingBag className="h-7 w-7 text-primary" />
-                <h2 className="font-headline text-3xl font-bold">{isSearching ? 'Templates' : 'Popular Templates'}</h2>
-            </div>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-              {filteredTemplates.map(template => (
-                <Link href={`/store/${template.id}`} key={template.id} className="group">
-                  <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10">
-                     <div className="relative aspect-video w-full">
-                      <Image src={template.image} alt={template.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+            <>
+                <div className="col-span-12 bg-black p-8 md:p-12">
+                    <div className="flex items-center gap-3">
+                        <ShoppingBag className="h-7 w-7 text-primary" />
+                        <h2 className="font-headline text-3xl font-bold">{isSearching ? 'Templates' : 'Popular Templates'}</h2>
                     </div>
-                    <CardContent className="p-6">
-                        <div className="flex justify-between items-start">
-                            <Badge variant="secondary">{template.tags[0]}</Badge>
-                            <p className="text-xl font-bold text-primary">${template.price}</p>
-                        </div>
-                      <p className="font-headline text-xl font-bold mt-4 group-hover:text-primary">{template.title}</p>
-                      <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{template.description}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-            </div>
-          </section>
+                </div>
+                {filteredTemplates.map(template => (
+                    <div key={template.id} className="col-span-12 md:col-span-6 bg-black">
+                        <Link href={`/store/${template.id}`} className="group h-full block">
+                        <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10 rounded-none border-transparent">
+                            <div className="relative aspect-video w-full">
+                            <Image src={template.image} alt={template.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+                            </div>
+                            <CardContent className="p-6">
+                                <div className="flex justify-between items-start">
+                                    <Badge variant="secondary">{template.tags[0]}</Badge>
+                                    <p className="text-xl font-bold text-primary">${template.price}</p>
+                                </div>
+                            <p className="font-headline text-xl font-bold mt-4 group-hover:text-primary">{template.title}</p>
+                            <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{template.description}</p>
+                            </CardContent>
+                        </Card>
+                        </Link>
+                    </div>
+                ))}
+          </>
         )}
 
         {(isSearching ? filteredArticles.length > 0 : true) && (
-          <section>
-            <div className="flex items-center gap-3 mb-8">
-                <BookOpen className="h-7 w-7 text-primary" />
-                <h2 className="font-headline text-3xl font-bold">{isSearching ? 'Articles' : 'Latest Articles'}</h2>
-            </div>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-              {filteredArticles.map(article => (
-                <Link href={`/blog/${article.id}`} key={article.id} className="group">
-                  <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10">
-                     <div className="relative aspect-video w-full">
-                      <Image src={article.image} alt={article.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+            <>
+                <div className="col-span-12 bg-black p-8 md:p-12">
+                    <div className="flex items-center gap-3">
+                        <BookOpen className="h-7 w-7 text-primary" />
+                        <h2 className="font-headline text-3xl font-bold">{isSearching ? 'Articles' : 'Latest Articles'}</h2>
                     </div>
-                    <CardContent className="p-6">
-                      <Badge variant="outline" className="border-primary/50 text-primary">{article.category}</Badge>
-                      <p className="font-headline text-xl font-bold mt-4 group-hover:text-primary">{article.title}</p>
-                      <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{article.excerpt}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
+                </div>
+                {filteredArticles.map(article => (
+                    <div key={article.id} className="col-span-12 md:col-span-6 bg-black">
+                        <Link href={`/blog/${article.id}`} className="group h-full block">
+                            <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10 rounded-none border-transparent">
+                                <div className="relative aspect-video w-full">
+                                <Image src={article.image} alt={article.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+                                </div>
+                                <CardContent className="p-6">
+                                <Badge variant="outline" className="border-primary/50 text-primary">{article.category}</Badge>
+                                <p className="font-headline text-xl font-bold mt-4 group-hover:text-primary">{article.title}</p>
+                                <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{article.excerpt}</p>
+                                </CardContent>
+                            </Card>
+                        </Link>
+                    </div>
               ))}
-            </div>
-          </section>
+          </>
         )}
-      </div>
     </div>
   );
 }
