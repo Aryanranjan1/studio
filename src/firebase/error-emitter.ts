@@ -12,15 +12,8 @@ type ErrorEvents = {
   'permission-error': (error: FirestorePermissionError) => void;
 };
 
-// We have to declare the emitter as a global variable to ensure that it is
-// a singleton.
-declare global {
-  var errorEmitter: EventEmitter<ErrorEvents> | undefined;
-}
+// By instantiating the EventEmitter here, it acts as a singleton for the
+// entire application lifecycle.
+const errorEmitter = new EventEmitter<ErrorEvents>();
 
-export const errorEmitter =
-  global.errorEmitter || new EventEmitter<ErrorEvents>();
-
-if (process.env.NODE_ENV !== 'production') {
-  global.errorEmitter = errorEmitter;
-}
+export { errorEmitter };
