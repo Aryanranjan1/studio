@@ -147,9 +147,7 @@ export default function ServicesPage() {
                     <div
                         key={tech.name}
                         className={cn(
-                          'relative aspect-square flex items-center justify-center bg-black border border-neutral-800',
-                          index >= 6 && 'hidden md:flex',
-                          index >= 8 && 'hidden lg:flex'
+                          'relative aspect-square flex items-center justify-center bg-black border border-neutral-800'
                         )}
                     >
                         <Image
