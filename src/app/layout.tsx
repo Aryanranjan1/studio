@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
-import { Header } from '@/components/header';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { Toaster } from '@/components/ui/toaster';
 
@@ -23,6 +22,9 @@ export const metadata: Metadata = {
     template: '%s — Ampire Studio',
   },
   description: 'A digital design and development agency specializing in bespoke websites and applications.',
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({
