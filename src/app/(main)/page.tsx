@@ -51,13 +51,13 @@ export default function Home() {
         <div className="col-span-12 my-16 bg-black">
           <TestimonialsSection />
         </div>
-         <div className="col-span-12 bg-black">
+        <div className="col-span-12 bg-black">
+            <BlogSection />
+        </div>
+        <div className="col-span-12 bg-black">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <CtaSection />
           </div>
-        </div>
-        <div className="col-span-12 bg-black">
-            <BlogSection />
         </div>
         <div className="col-span-12 bg-black">
           <Footer />
