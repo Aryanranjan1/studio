@@ -13,15 +13,18 @@ import { DraggableServices } from './draggable-services';
 const BentoCard = ({
   className,
   children,
+  style,
 }: {
   className?: string;
   children?: React.ReactNode;
+  style?: React.CSSProperties;
 }) => (
   <div
     className={cn(
       'bg-card p-4 flex relative overflow-hidden border-2 border-transparent',
       className
     )}
+    style={style}
   >
     {children}
   </div>
@@ -46,10 +49,6 @@ const StatCard = ({
 export function HeroGrid() {
   const allArticles = getArticles();
   const popularArticles = allArticles.filter(a => a.popular);
-  // This Math.random is safe because it's used to pick from a static list
-  // and the entire component is client-side rendered by its parent if necessary,
-  // but for safety, we could also move this into a useEffect if hydration issues persist.
-  // For now, it's selecting from a list that should be consistent between server/client.
   const featuredArticle = popularArticles.length > 0 ? popularArticles[0] : allArticles[0];
 
 
@@ -97,8 +96,9 @@ export function HeroGrid() {
       col-span-2 row-span-2
       md:col-span-3 md:row-start-6 md:row-span-3
       lg:col-span-3 lg:row-span-3 lg:col-start-1 lg:row-start-6 p-6 flex flex-col justify-between"
+        style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'}}
       >
-        <div className="absolute inset-0 z-0 opacity-20" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'}}></div>
+        <div className="absolute inset-0 z-0 opacity-20"></div>
         <Link href="/about" className="group flex flex-col justify-between h-full z-10">
           <div className="flex justify-between items-start">
             <Badge variant="outline" className="bg-background/80 backdrop-blur-sm border-border text-foreground">
@@ -117,8 +117,8 @@ export function HeroGrid() {
       col-span-2 row-span-2
       md:col-span-2 md:row-start-6 md:row-span-3
       lg:col-span-3 lg:row-span-3 lg:col-start-4 lg:row-start-6 p-6 flex flex-col justify-between"
+        style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'49\' viewBox=\'0 0 28 49\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg id=\'Page-1\' fill=\'%239C92AC\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M28 0v49H0V0h28zM0 48h28v1H0v-1z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'}}
       >
-        <div className="absolute inset-0 z-0 opacity-20" style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'28\' height=\'49\' viewBox=\'0 0 28 49\'%3E%3Cg fill-rule=\'evenodd\'%3E%3Cg id=\'Page-1\' fill=\'%239C92AC\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M28 0v49H0V0h28zM0 48h28v1H0v-1z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'}}></div>
         <Link href="/services" className="group flex flex-col justify-between h-full z-10">
           <div className="flex justify-between items-start">
             <Badge variant="outline" className="bg-background/80 backdrop-blur-sm border-border text-foreground">
@@ -137,6 +137,7 @@ export function HeroGrid() {
       col-span-4 row-span-3 flex-col justify-between
       md:col-start-6 md:col-span-3 md:row-start-1 md:row-span-3
       lg:col-span-4 lg:row-span-4 lg:col-start-7 lg:row-start-1"
+        style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23000000\' fill-opacity=\'0.05\' fill-rule=\'evenodd\'%3E%3Cpath d=\'M0 40L40 0H20L0 20M40 40V20L20 40\'/%3E%3C/g%3E%3C/svg%3E")'}}
       >
         <div className="flex flex-col justify-between h-full w-full">
           <div className="flex justify-between items-start">
@@ -190,6 +191,7 @@ export function HeroGrid() {
         className="col-span-4 row-span-2
         md:col-start-1 md:col-span-6 md:row-span-2 md:row-start-9 
         lg:col-span-2 lg:row-span-6 lg:col-start-11 lg:row-start-1"
+        style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'52\' height=\'26\' viewBox=\'0 0 52 26\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.04\'%3E%3Cpath d=\'M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z\' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E")'}}
       >
         <div className="grid h-full w-full grid-cols-2 grid-rows-2 justify-items-center gap-4 md:grid-cols-4 md:grid-rows-1 lg:grid-cols-1 lg:grid-rows-4">
           <StatCard icon={<Zap size={24} />} value="10k+" label="Hours Saved" />
@@ -204,6 +206,7 @@ export function HeroGrid() {
         col-span-4 row-span-1
         md:col-span-2 md:row-span-2 md:row-start-9 md:col-start-7 
         lg:col-span-2 lg:row-span-2 lg:col-start-11 lg:row-start-7"
+        style={{backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-4c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63-28c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm-48-14c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm8 45c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm34-1c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-34-35c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm4-2c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 99c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm56-76c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm-22 9c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zm-14 26c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zm23-15c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM11 4c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%23ffffff\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'/%3E%3C/svg%3E")'}}
       >
         <div className="flex flex-col items-start justify-center h-full w-full">
           <h3 className="text-2xl font-bold font-headline">Have a project?</h3>
@@ -219,3 +222,5 @@ export function HeroGrid() {
     </div>
   );
 }
+
+    
