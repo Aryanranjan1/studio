@@ -1,3 +1,4 @@
+
 'use client';
 import Image from 'next/image';
 import { Button } from './ui/button';
@@ -7,13 +8,21 @@ import Link from 'next/link';
 export function OzonteHero() {
   return (
     <div className="relative flex h-screen w-full flex-col bg-black text-white">
-      <div className="absolute top-0 left-0 z-10">
+      <div className="absolute top-0 left-0 z-10 p-8">
         <h1 className="font-headline text-8xl font-bold uppercase md:text-9xl">
           <span className="text-primary">Ampire</span> studio
         </h1>
       </div>
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-black" />
+        <Image
+          src="https://picsum.photos/seed/hero-main/1920/1080"
+          alt="Abstract background image for the hero section"
+          fill
+          className="object-cover"
+          priority
+          data-ai-hint="abstract dark texture"
+        />
+        <div className="absolute inset-0 bg-black/60" />
       </div>
       <footer className="absolute bottom-0 left-0 right-0 z-10 p-8">
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-end gap-8 md:grid-cols-3">
