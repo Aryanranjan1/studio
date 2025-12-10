@@ -21,10 +21,14 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Space Grotesk', 'sans-serif'],
+        tech: ['Courier New', 'monospace'],
+        display: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
       },
       colors: {
+        'bg-color': '#050505',
+        'text-color': '#ffffff',
+        'border-color': 'rgba(255, 255, 255, 0.3)',
+        'border-active': '#ffffff',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -58,13 +62,6 @@ export default {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
-        chart: {
-          '1': 'hsl(var(--chart-1))',
-          '2': 'hsl(var(--chart-2))',
-          '3': 'hsl(var(--chart-3))',
-          '4': 'hsl(var(--chart-4))',
-          '5': 'hsl(var(--chart-5))',
-        },
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -88,16 +85,12 @@ export default {
             height: '0',
           },
         },
-        "float": {
-          "0%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-10px)" },
-          "100%": { transform: "translateY(0px)" },
-        },
+        "blinker": { "50%": { opacity: "0" } },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        "float": "float 4s ease-in-out infinite",
+        "ping-slow": "blinker 2s infinite",
       },
     },
   },
@@ -115,4 +108,3 @@ function addVariablesForColors({ addBase, theme }: any) {
       ":root": newVars,
     });
   }
-  

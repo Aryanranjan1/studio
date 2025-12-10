@@ -1,4 +1,3 @@
-import { Header } from '@/components/header';
 
 export default function MainLayout({
   children,
@@ -7,8 +6,8 @@ export default function MainLayout({
 }) {
   return (
     <div className="relative flex min-h-screen flex-col bg-background">
-      <Header />
-      <main className="flex-1 sm:pl-14">{children}</main>
+      {/* The Header component is removed to allow for a full-width layout */}
+      <main className="flex-1">{children}</main>
     </div>
   );
 }

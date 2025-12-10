@@ -66,47 +66,47 @@ const pricingTiers = [
 
 export function PricingSection() {
   return (
-    <section className="bg-black py-24 sm:py-32">
+    <section className="bg-bg-color py-24 sm:py-32 border-b border-border-active">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <Badge
             variant="outline"
-            className="mb-4 border-primary/50 text-primary"
+            className="mb-4 border-border-active text-white"
           >
             Pricing
           </Badge>
-          <h2 className="font-headline text-3xl font-bold sm:text-4xl">
+          <h2 className="font-display text-4xl font-bold sm:text-5xl">
             Flexible Plans for Every Need
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-neutral-400">
             Choose the perfect plan to kickstart your project and grow your
             business.
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-px border border-border bg-border">
+        <div className="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-px border border-border-color bg-border-color">
           {pricingTiers.map(tier => (
             <div
               key={tier.name}
               className={cn(
-                'flex flex-col p-8 bg-black relative',
-                tier.isFeatured && 'border-2 border-primary'
+                'flex flex-col p-8 bg-bg-color relative',
+                tier.isFeatured && 'border-2 border-border-active'
               )}
             >
               {tier.isFeatured && tier.badge && (
                 <div className="absolute top-0 right-6 -translate-y-1/2">
-                  <Badge>{tier.badge}</Badge>
+                  <Badge className='bg-white text-black hover:bg-neutral-200'>{tier.badge}</Badge>
                 </div>
               )}
-              <h3 className="font-headline text-2xl">{tier.name}</h3>
+              <h3 className="font-display text-2xl">{tier.name}</h3>
               <p className="text-4xl font-bold mt-4">{tier.price}</p>
-              <p className="text-sm text-muted-foreground mt-2">{tier.description}</p>
+              <p className="text-sm text-neutral-400 mt-2">{tier.description}</p>
               
               <ul className="space-y-3 mt-8 mb-10 flex-grow">
                 {tier.features.map(feature => (
                   <li key={feature} className="flex items-center gap-3">
-                    <Check className="h-5 w-5 flex-shrink-0 text-primary" />
-                    <span className="text-muted-foreground">{feature}</span>
+                    <Check className="h-5 w-5 flex-shrink-0 text-white" />
+                    <span className="text-neutral-400">{feature}</span>
                   </li>
                 ))}
               </ul>

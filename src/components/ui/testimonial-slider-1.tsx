@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import * as React from 'react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 // Define the type for a single review
 type Review = {
@@ -35,23 +35,23 @@ export const TestimonialSlider = ({
 }: TestimonialSliderProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   // 'direction' helps framer-motion understand slide direction (next vs. prev)
-  const [direction, setDirection] = useState<"left" | "right">("right");
+  const [direction, setDirection] = useState<'left' | 'right'>('right');
 
   const activeReview = reviews[currentIndex];
 
   const handleNext = () => {
-    setDirection("right");
-    setCurrentIndex((prev) => (prev + 1) % reviews.length);
+    setDirection('right');
+    setCurrentIndex(prev => (prev + 1) % reviews.length);
   };
 
   const handlePrev = () => {
-    setDirection("left");
-    setCurrentIndex((prev) => (prev - 1 + reviews.length) % reviews.length);
+    setDirection('left');
+    setCurrentIndex(prev => (prev - 1 + reviews.length) % reviews.length);
   };
 
   const handleThumbnailClick = (index: number) => {
     // Determine direction for animation
-    setDirection(index > currentIndex ? "right" : "left");
+    setDirection(index > currentIndex ? 'right' : 'left');
     setCurrentIndex(index);
   };
 
@@ -62,26 +62,26 @@ export const TestimonialSlider = ({
 
   // Animation variants for the main image
   const imageVariants = {
-    enter: (direction: "left" | "right") => ({
-      y: direction === "right" ? "100%" : "-100%",
+    enter: (direction: 'left' | 'right') => ({
+      y: direction === 'right' ? '100%' : '-100%',
       opacity: 0,
     }),
     center: { y: 0, opacity: 1 },
-    exit: (direction: "left" | "right") => ({
-      y: direction === "right" ? "-100%" : "100%",
+    exit: (direction: 'left' | 'right') => ({
+      y: direction === 'right' ? '-100%' : '100%',
       opacity: 0,
     }),
   };
 
   // Animation variants for the text content
   const textVariants = {
-    enter: (direction: "left" | "right") => ({
-      x: direction === "right" ? 50 : -50,
+    enter: (direction: 'left' | 'right') => ({
+      x: direction === 'right' ? 50 : -50,
       opacity: 0,
     }),
     center: { x: 0, opacity: 1 },
-    exit: (direction: "left" | "right") => ({
-      x: direction === "right" ? -50 : 50,
+    exit: (direction: 'left' | 'right') => ({
+      x: direction === 'right' ? -50 : 50,
       opacity: 0,
     }),
   };
@@ -89,7 +89,7 @@ export const TestimonialSlider = ({
   return (
     <div
       className={cn(
-        "relative w-full min-h-[650px] md:min-h-[600px] overflow-hidden bg-background text-foreground p-8 md:p-12 border-y border-border",
+        'relative w-full min-h-[750px] md:min-h-[700px] overflow-hidden bg-bg-color text-text-color p-8 md:p-12 border-y border-border-active',
         className
       )}
     >
@@ -98,34 +98,32 @@ export const TestimonialSlider = ({
         <div className="md:col-span-3 flex flex-col justify-between order-2 md:order-1">
           <div className="flex flex-row md:flex-col justify-between md:justify-start space-x-4 md:space-x-0 md:space-y-4">
             {/* Pagination */}
-            <span className="text-sm text-muted-foreground font-mono">
-              {String(currentIndex + 1).padStart(2, "0")} /{" "}
-              {String(reviews.length).padStart(2, "0")}
+            <span className="text-sm text-neutral-400 font-tech">
+              {String(currentIndex + 1).padStart(2, '0')} /{' '}
+              {String(reviews.length).padStart(2, '0')}
             </span>
             {/* Vertical "Reviews" Text */}
-            <h2 className="text-sm font-medium tracking-widest uppercase [writing-mode:vertical-rl] md:rotate-180 hidden md:block">
-              Reviews
+            <h2 className="text-sm font-medium tracking-widest uppercase [writing-mode:vertical-rl] md:rotate-180 hidden md:block text-neutral-400">
+              // Testimonials
             </h2>
           </div>
 
           {/* Thumbnail Navigation */}
           <div className="flex space-x-2 mt-8 md:mt-0">
-            {thumbnailReviews.map((review) => {
+            {thumbnailReviews.map(review => {
               // Find the original index to navigate to
-              const originalIndex = reviews.findIndex(
-                (r) => r.id === review.id
-              );
+              const originalIndex = reviews.findIndex(r => r.id === review.id);
               return (
                 <button
                   key={review.id}
                   onClick={() => handleThumbnailClick(originalIndex)}
-                  className="overflow-hidden rounded-md w-16 h-20 md:w-20 md:h-24 opacity-70 hover:opacity-100 transition-opacity duration-300 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background"
+                  className="overflow-hidden w-16 h-20 md:w-20 md:h-24 opacity-70 hover:opacity-100 transition-opacity duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black border border-border-color hover:border-border-active"
                   aria-label={`View review from ${review.name}`}
                 >
                   <img
                     src={review.thumbnailSrc}
                     alt={review.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover grayscale"
                   />
                 </button>
               );
@@ -134,7 +132,7 @@ export const TestimonialSlider = ({
         </div>
 
         {/* === Center Column: Main Image === */}
-        <div className="md:col-span-4 relative h-80 min-h-[400px] md:min-h-[500px] order-1 md:order-2">
+        <div className="md:col-span-4 relative h-80 min-h-[400px] md:min-h-[500px] order-1 md:order-2 border border-border-active">
           <AnimatePresence initial={false} custom={direction}>
             <motion.img
               key={currentIndex}
@@ -145,8 +143,8 @@ export const TestimonialSlider = ({
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }} // Cubic bezier for smooth ease
-              className="absolute inset-0 w-full h-full object-cover rounded-lg"
+              transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+              className="absolute inset-0 w-full h-full object-cover grayscale"
             />
           </AnimatePresence>
         </div>
@@ -165,13 +163,13 @@ export const TestimonialSlider = ({
                 exit="exit"
                 transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
               >
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="text-sm font-medium text-neutral-400 font-display">
                   {activeReview.affiliation}
                 </p>
-                <h3 className="text-xl font-semibold mt-1">
+                <h3 className="text-xl font-semibold mt-1 font-display">
                   {activeReview.name}
                 </h3>
-                <blockquote className="mt-6 text-2xl md:text-3xl font-medium leading-snug">
+                <blockquote className="mt-6 text-2xl md:text-3xl font-medium leading-snug font-display">
                   "{activeReview.quote}"
                 </blockquote>
               </motion.div>
@@ -183,16 +181,16 @@ export const TestimonialSlider = ({
             <Button
               variant="outline"
               size="icon"
-              className="rounded-full w-12 h-12 border-muted-foreground/50"
+              className="rounded-none w-12 h-12 border-border-color text-white hover:bg-white hover:text-black"
               onClick={handlePrev}
               aria-label="Previous review"
             >
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <Button
-              variant="default"
+              variant="outline"
               size="icon"
-              className="rounded-full w-12 h-12 bg-primary text-primary-foreground hover:bg-primary/90"
+              className="rounded-none w-12 h-12 border-border-color text-white bg-white text-black hover:bg-neutral-200"
               onClick={handleNext}
               aria-label="Next review"
             >
