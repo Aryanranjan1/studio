@@ -23,6 +23,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { useEffect } from 'react';
 import { DraggableServices } from '@/components/draggable-services';
+import { TechStack } from '@/components/tech-stack';
 
 
 const processSteps = [
@@ -46,20 +47,6 @@ const processSteps = [
       title: "Launch & Handover",
       description: "After final payment, we deploy your project to your live domain and hand over all assets. We include up to 5 minor post-launch fixes for free.",
     },
-];
-
-const technologies = [
-  'Next.js',
-  'React',
-  'TypeScript',
-  'Tailwind CSS',
-  'Framer Motion',
-  'Firebase',
-  'Figma',
-  'Vercel',
-  'Webflow',
-  'Zapier',
-  'Airtable'
 ];
 
 const faqItems = [
@@ -111,14 +98,7 @@ export default function ServicesPage() {
           </div>
           
           {/* 4. TECH STACK */}
-           <div className="col-span-12 bg-black border-b border-neutral-800 p-8 md:p-16">
-            <div className="mb-12">
-                <h2 className="font-headline text-5xl md:text-6xl font-bold">Technology Stack</h2>
-            </div>
-             <div className="relative min-h-[400px] bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,2S55,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px]">
-                <DraggableServices items={technologies} />
-              </div>
-          </div>
+          <TechStack />
 
 
           {/* 2. PRICING */}
