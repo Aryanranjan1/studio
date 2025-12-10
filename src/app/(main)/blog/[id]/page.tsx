@@ -1,7 +1,8 @@
+
 'use client';
 
 import { getArticles } from '@/lib/data';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
@@ -9,7 +10,10 @@ import type { Article } from '@/lib/data';
 import './page.css';
 import { Footer } from '@/components/footer';
 
-export default function ArticlePage({ params }: { params: { id: string } }) {
+export default function ArticlePage() {
+  const params = useParams();
+  const id = params.id as string;
+  
   const [article, setArticle] = useState<Article | null>(null);
   const [nextArticle, setNextArticle] = useState<Article | null>(null);
   const [otherArticles, setOtherArticles] = useState<Article[]>([]);
@@ -64,10 +68,10 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
 
 
   useEffect(() => {
-    if (!params.id) return;
+    if (!id) return;
     
     const allArticles = getArticles();
-    const currentArticleIndex = allArticles.findIndex(a => a.id === params.id);
+    const currentArticleIndex = allArticles.findIndex(a => a.id === id);
     const currentArticle = allArticles[currentArticleIndex];
 
     if (currentArticle) {
@@ -94,7 +98,7 @@ export default function ArticlePage({ params }: { params: { id: string } }) {
       notFound();
     }
     setLoading(false);
-  }, [params.id]);
+  }, [id]);
 
 
   if (loading || !article) {
