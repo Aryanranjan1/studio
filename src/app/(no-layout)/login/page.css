@@ -1,0 +1,137 @@
+
+/* --- Login/Auth Page Styles --- */
+
+.auth-page {
+    background-color: #050505;
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+}
+
+.auth-container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 450px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(10px);
+    color: #fff;
+}
+
+.auth-header {
+    padding: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: left;
+}
+
+.auth-header-meta {
+    font-size: 0.8rem;
+    color: hsl(var(--primary));
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.auth-title {
+    font-family: var(--font-headline);
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    text-transform: uppercase;
+}
+
+.auth-content {
+    padding: 40px;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #888;
+}
+
+.auth-input {
+    background: #111;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-family: var(--font-body);
+    padding: 12px;
+    font-size: 1rem;
+    width: 100%;
+    transition: all 0.3s;
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: hsl(var(--primary));
+    background: #222;
+}
+
+.auth-button {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    border: 1px solid hsl(var(--primary));
+    padding: 15px;
+    font-family: var(--font-body);
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.auth-button:hover:not(:disabled) {
+    background: hsl(var(--primary) / 0.8);
+}
+
+.auth-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.auth-footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.auth-footer a {
+    color: #fff;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.auth-footer a:hover {
+    color: hsl(var(--primary));
+}

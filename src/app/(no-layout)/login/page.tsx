@@ -6,9 +6,9 @@ import { useAuth } from '@/firebase';
 import { signInAnonymously } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/firebase/auth/use-user';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+import './page.css';
 
 export default function LoginPage() {
   const auth = useAuth();
@@ -16,6 +16,7 @@ export default function LoginPage() {
   const { user, loading } = useUser();
 
   useEffect(() => {
+    document.title = "Login — Ampire Studio";
     if (!loading && user) {
       router.push('/admin');
     }
@@ -33,28 +34,27 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-        <Card className="w-full max-w-sm">
-            <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
-                <CardDescription>
-                Sign in to manage your website content.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <div className="space-y-4">
-                <Button onClick={handleAnonymousLogin} className="w-full" disabled={loading}>
-                    {loading ? 'Authenticating...' : 'Sign In Anonymously'}
-                </Button>
-                <div className="mt-4 text-center text-sm">
-                    Don&apos;t have an account?{' '}
-                    <Link href="/signup" className="underline">
-                        Sign up
+    <div className="auth-page">
+        <div className="auth-container">
+            <div className="auth-header">
+                <div className="auth-header-meta">// SECURE_ACCESS</div>
+                <h1 className="auth-title">Admin Login</h1>
+            </div>
+            <div className="auth-content">
+                <div className="auth-form">
+                    <button onClick={handleAnonymousLogin} className="auth-button" disabled={loading}>
+                        {loading ? 'Authenticating...' : 'Enter Secure Area'}
+                        {!loading && <ArrowRight size={16} />}
+                    </button>
+                </div>
+                <div className="auth-footer">
+                    <span>Don&apos;t have an account? </span>
+                    <Link href="/signup">
+                        Request Access
                     </Link>
                 </div>
-                </div>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     </div>
   );
 }

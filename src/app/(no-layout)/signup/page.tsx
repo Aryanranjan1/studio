@@ -1,55 +1,62 @@
 
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+import './../login/page.css';
 
 export default function SignUpPage() {
+    const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    document.title = "Sign Up — Ampire Studio";
+  }, []);
+
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     // Sign up logic will go here
+    await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API call
     alert('Sign up functionality coming soon!');
+    setLoading(false);
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-        <Card className="w-full max-w-sm">
-            <CardHeader className="text-center">
-                <CardTitle className="text-2xl font-bold">Create an Account</CardTitle>
-                <CardDescription>
-                Enter your details below to create your account.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <form onSubmit={handleSignUp} className="space-y-4">
-                     <div className="space-y-2">
-                        <Label htmlFor="name">Name</Label>
-                        <Input id="name" type="text" placeholder="John Doe" required />
+    <div className="auth-page">
+        <div className="auth-container">
+            <div className="auth-header">
+                <div className="auth-header-meta">// AUTHORIZATION_REQUEST</div>
+                <h1 className="auth-title">Create Account</h1>
+            </div>
+            <div className="auth-content">
+                <form onSubmit={handleSignUp} className="auth-form">
+                    <div className="input-group">
+                        <label htmlFor="name" className="input-label">Full Name</label>
+                        <input id="name" type="text" placeholder="INPUT_NAME" required className="auth-input"/>
                     </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" type="email" placeholder="john@example.com" required />
+                     <div className="input-group">
+                        <label htmlFor="email" className="input-label">Email Address</label>
+                        <input id="email" type="email" placeholder="INPUT_EMAIL" required className="auth-input"/>
                     </div>
-                     <div className="space-y-2">
-                        <Label htmlFor="password">Password</Label>
-                        <Input id="password" type="password" required />
+                     <div className="input-group">
+                        <label htmlFor="password" className="input-label">Password</label>
+                        <input id="password" type="password" placeholder="INPUT_SECURE_PASSWORD" required className="auth-input" />
                     </div>
-                    <Button type="submit" className="w-full">
-                        Create Account
-                    </Button>
+                    <button type="submit" className="auth-button" disabled={loading}>
+                        {loading ? 'Processing...' : 'Request Access'}
+                         {!loading && <ArrowRight size={16} />}
+                    </button>
                 </form>
-                <div className="mt-4 text-center text-sm">
-                    Already have an account?{' '}
-                    <Link href="/login" className="underline">
-                        Sign in
+                <div className="auth-footer">
+                    <span>Already have an account? </span>
+                    <Link href="/login">
+                        Sign In
                     </Link>
                 </div>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     </div>
   );
 }
