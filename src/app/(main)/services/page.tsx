@@ -1,4 +1,3 @@
-
 'use client';
 
 import React from 'react';
@@ -8,6 +7,7 @@ import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
 // Components
+import { HorizontalServices } from '@/components/horizontal-services';
 import { PricingSection } from '@/components/pricing-section';
 import { CtaSection } from '@/components/cta-section';
 import { Footer } from '@/components/footer';
@@ -22,8 +22,8 @@ import {
 } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { useEffect } from 'react';
-import { HorizontalServices } from '@/components/horizontal-services';
 import { DraggableServices } from '@/components/draggable-services';
+
 
 const processSteps = [
     {
