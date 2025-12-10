@@ -1,80 +1,99 @@
 
 'use client';
 
-import Image from 'next/image';
+import { Code, Cpu, Database, Fingerprint, Framer, LucideIcon, Palette, Bot, Server, Sparkles, Wind } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-const technologies = [
-  { 
-    name: "Next.js", 
-    description: "The React Framework", 
-    src: "https://cdn.simpleicons.org/nextdotjs/white" 
+const technologies: {
+  id: string;
+  name: string;
+  description: string;
+  Icon: LucideIcon;
+}[] = [
+  {
+    id: '01',
+    name: 'Next.js',
+    description: '// FRONTEND FRAMEWORK\nServer-side rendering for max speed.',
+    Icon: Wind,
   },
-  { 
-    name: "React", 
-    description: "User Interfaces", 
-    src: "https://cdn.simpleicons.org/react/white" 
+  {
+    id: '02',
+    name: 'Tailwind',
+    description: '// STYLING ENGINE\nUtility-first CSS for custom designs.',
+    Icon: Palette,
   },
-  { 
-    name: "TypeScript", 
-    description: "Type Safety", 
-    src: "https://cdn.simpleicons.org/typescript/white" 
+  {
+    id: '03',
+    name: 'Python',
+    description: '// BACKEND LOGIC\nComplex data processing & AI integration.',
+    Icon: Code,
   },
-  { 
-    name: "Tailwind CSS", 
-    description: "Utility-First CSS", 
-    src: "https://cdn.simpleicons.org/tailwindcss/white" 
+  {
+    id: '04',
+    name: 'Three.js',
+    description: '// WEBGL RENDERER\nImmersive 3D experiences in-browser.',
+    Icon: Sparkles,
   },
-  { 
-    name: "Framer Motion", 
-    description: "Production Animation", 
-    src: "https://cdn.simpleicons.org/framer/white" 
+  {
+    id: '05',
+    name: 'Postgres',
+    description: '// DATABASE\nReliable, scalable structured data.',
+    Icon: Database,
   },
-  { 
-    name: "Firebase", 
-    description: "Backend as a Service", 
-    src: "https://cdn.simpleicons.org/firebase/white" 
+  {
+    id: '06',
+    name: 'Vercel',
+    description: '// INFRASTRUCTURE\nEdge network deployment globally.',
+    Icon: Server,
   },
-  { 
-    name: "Figma", 
-    description: "Collaborative Design", 
-    src: "https://cdn.simpleicons.org/figma/white" 
+  {
+    id: '07',
+    name: 'OpenAI API',
+    description: '// INTELLIGENCE\nCustom agents & automation logic.',
+    Icon: Bot,
   },
-  { 
-    name: "Vercel", 
-    description: "Global Deployment", 
-    src: "https://cdn.simpleicons.org/vercel/white" 
+  {
+    id: '08',
+    name: 'Auth.js',
+    description: '// SECURITY\nEncrypted authentication flows.',
+    Icon: Fingerprint,
   },
 ];
 
 export function TechStack() {
   return (
-    <div className="col-span-12 bg-black border-b border-neutral-800 p-8 md:p-16">
-      <div className="mb-12">
-        <h2 className="font-headline text-5xl md:text-6xl font-bold">Technology Stack</h2>
-         <p className="mt-6 max-w-2xl text-lg text-neutral-400">We build with a modern, scalable, and battle-tested stack to ensure your product is ready for the future.</p>
+    <section className="tech-section relative w-full overflow-hidden border-b border-white/20 bg-black">
+      <div className="tech-marquee overflow-hidden whitespace-nowrap border-t border-b border-white/20 bg-black py-4">
+        <div className="marquee-track inline-block animate-scroll">
+          {[...Array(4)].map((_, i) => (
+            <span key={i} className="marquee-content mx-4 font-headline text-lg font-bold uppercase tracking-wider">
+              SYSTEM ARCHITECTURE // CORE TECHNOLOGIES // OPTIMIZED FOR PERFORMANCE //
+            </span>
+          ))}
+        </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-neutral-800 border-l border-t border-neutral-800">
-        {technologies.map((tech) => (
+
+      <div className="tech-grid-container grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        {technologies.map(({ id, name, description, Icon }) => (
           <div
-            key={tech.name}
-            className="group relative aspect-square flex items-center justify-center bg-black border-r border-b border-neutral-800 p-8 transition-colors hover:bg-neutral-900"
+            key={id}
+            className="tech-cell group relative flex h-[250px] cursor-crosshair flex-col justify-between border-b border-r border-neutral-700 p-8 transition-all duration-300 ease-in-out hover:bg-white hover:text-black lg:[&:nth-child(4n)]:border-r-0 md:[&:nth-child(2n)]:border-r-0 md:border-r-neutral-700"
           >
-            <Image
-              src={tech.src}
-              alt={`${tech.name} logo`}
-              width={64}
-              height={64}
-              unoptimized
-              className="h-12 w-12 text-white transition-opacity group-hover:opacity-10"
-            />
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <p className="font-bold text-lg">{tech.name}</p>
-                <p className="text-sm text-neutral-400">{tech.description}</p>
+            <div className="tech-header flex justify-between items-start">
+              <span className="tech-id rounded-full border border-neutral-700 px-3 py-1 text-xs transition-colors duration-300 group-hover:border-black">
+                {id}
+              </span>
+              <Icon className="tech-icon h-6 w-6 text-neutral-500 transition-colors duration-300" />
+            </div>
+            <div className="tech-info">
+              <h3 className="mb-2 font-headline text-2xl font-bold uppercase">{name}</h3>
+              <p className="whitespace-pre-line text-xs leading-snug text-neutral-400 transition-colors duration-300 group-hover:text-neutral-600">
+                {description}
+              </p>
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 }
