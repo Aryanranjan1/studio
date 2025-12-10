@@ -73,17 +73,19 @@ export function TechStack() {
         </div>
       </div>
 
-      <div className="tech-grid-container grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-        {technologies.map(({ id, name, description, Icon }) => (
+      <div className="tech-grid-container grid w-full grid-cols-1 border-neutral-700 bg-neutral-700 md:grid-cols-2 lg:grid-cols-4">
+        {technologies.map(({ id, name, description, Icon }, index) => (
           <div
             key={id}
-            className="tech-cell group relative flex h-[250px] cursor-crosshair flex-col justify-between border-b border-r border-neutral-700 p-8 transition-all duration-300 ease-in-out hover:bg-white hover:text-black lg:[&:nth-child(4n)]:border-r-0 md:[&:nth-child(2n)]:border-r-0 md:border-r-neutral-700"
+            className={cn(
+              "tech-cell group relative flex h-[250px] cursor-crosshair flex-col justify-between bg-black p-8 transition-all duration-300 ease-in-out hover:bg-white hover:text-black",
+            )}
           >
             <div className="tech-header flex justify-between items-start">
               <span className="tech-id rounded-full border border-neutral-700 px-3 py-1 text-xs transition-colors duration-300 group-hover:border-black">
                 {id}
               </span>
-              <Icon className="tech-icon h-6 w-6 text-neutral-500 transition-colors duration-300" />
+              <Icon className="tech-icon h-6 w-6 text-neutral-500 transition-colors duration-300 group-hover:text-black" />
             </div>
             <div className="tech-info">
               <h3 className="mb-2 font-headline text-2xl font-bold uppercase">{name}</h3>
