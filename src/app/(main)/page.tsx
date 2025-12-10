@@ -71,7 +71,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
 
 // --- MAIN PAGE ---
 export default function Home() {
-  const projects = getProjects().slice(0, 4);
+  const projects = getProjects().slice(0, 6);
 
   return (
     <main className="bg-[#050505] text-white font-tech selection:bg-primary selection:text-black">
