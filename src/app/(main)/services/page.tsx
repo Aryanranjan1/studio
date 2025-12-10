@@ -115,7 +115,7 @@ export default function ServicesPage() {
             <div className="mb-12">
                 <h2 className="font-headline text-5xl md:text-6xl font-bold">Technology Stack</h2>
             </div>
-             <div className="relative min-h-[400px] bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px]">
+             <div className="relative min-h-[400px] bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,2S55,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px]">
                 <DraggableServices items={technologies} />
               </div>
           </div>
