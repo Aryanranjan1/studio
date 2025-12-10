@@ -25,6 +25,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { ProcessGrid } from '@/components/process-grid';
 import { useEffect } from 'react';
+import { DraggableServices } from '@/components/draggable-services';
 
 const processSteps = [
     {
@@ -50,46 +51,17 @@ const processSteps = [
 ];
 
 const technologies = [
-  { 
-    name: "Next.js", 
-    description: "The React Framework", 
-    src: "https://cdn.simpleicons.org/nextdotjs/white" 
-  },
-  { 
-    name: "React", 
-    description: "User Interfaces", 
-    src: "https://cdn.simpleicons.org/react/61DAFB" 
-  },
-  { 
-    name: "TypeScript", 
-    description: "Type Safety", 
-    src: "https://cdn.simpleicons.org/typescript/3178C6" 
-  },
-  { 
-    name: "Tailwind CSS", 
-    description: "Utility-First CSS", 
-    src: "https://cdn.simpleicons.org/tailwindcss/06B6D4" 
-  },
-  { 
-    name: "Framer Motion", 
-    description: "Production Animation", 
-    src: "https://cdn.simpleicons.org/framer/0055FF" 
-  },
-  { 
-    name: "Firebase", 
-    description: "Backend as a Service", 
-    src: "https://cdn.simpleicons.org/firebase/FFCA28" 
-  },
-  { 
-    name: "Figma", 
-    description: "Collaborative Design", 
-    src: "https://cdn.simpleicons.org/figma/F24E1E" 
-  },
-  { 
-    name: "Vercel", 
-    description: "Global Deployment", 
-    src: "https://cdn.simpleicons.org/vercel/white" 
-  },
+  'Next.js',
+  'React',
+  'TypeScript',
+  'Tailwind CSS',
+  'Framer Motion',
+  'Firebase',
+  'Figma',
+  'Vercel',
+  'Webflow',
+  'Zapier',
+  'Airtable'
 ];
 
 const faqItems = [
@@ -141,25 +113,9 @@ export default function ServicesPage() {
             <div className="mb-12">
                 <h2 className="font-headline text-5xl md:text-6xl font-bold">Technology Stack</h2>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3">
-                {technologies.slice(0, 6).map((tech, index) => (
-                    <div
-                        key={tech.name}
-                        className={cn(
-                          'relative aspect-square flex items-center justify-center bg-black border border-neutral-800'
-                        )}
-                    >
-                        <Image
-                          src={tech.src}
-                          alt={`${tech.name} logo`}
-                          width={64}
-                          height={64}
-                          unoptimized
-                          className="h-10 w-10 md:h-12 md:w-12 text-white"
-                        />
-                    </div>
-                ))}
-            </div>
+             <div className="relative min-h-[400px]">
+                <DraggableServices items={technologies} />
+              </div>
           </div>
 
 

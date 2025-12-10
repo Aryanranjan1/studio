@@ -10,6 +10,7 @@ import { Manifesto } from '@/components/manifesto';
 import { PricingSection } from '@/components/pricing-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
 import { Footer } from '@/components/footer';
+import { DraggableServices } from '@/components/draggable-services';
 
 // --- HUD HEADER COMPONENT ---
 const HudHeader = () => {

@@ -6,7 +6,6 @@ import { getTeam } from '@/lib/data';
 import { TeamMemberCard } from '@/components/team-member-card';
 import { Button } from '@/components/ui/button';
 import { Footer } from '@/components/footer';
-import { DraggableServices } from '@/components/draggable-services';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -73,7 +72,14 @@ export default function AboutPage() {
                     </p>
                 </div>
                 <div className="row-span-1 bg-black p-8 relative min-h-[250px]">
-                    <DraggableServices />
+                    <Image 
+                      src="https://picsum.photos/seed/process/800/600"
+                      alt="Abstract design process visualization"
+                      fill
+                      loading="lazy"
+                      className="object-cover"
+                      data-ai-hint="abstract design process"
+                    />
                 </div>
              </div>
              <div className="col-span-1 grid grid-rows-2 gap-px bg-neutral-800">
