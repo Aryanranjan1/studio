@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -97,12 +98,6 @@ export default function ServicesPage() {
           </div>
           
           {/* 4. TECH STACK */}
-          <div className="col-span-12 bg-black p-8 md:p-16 border-t border-neutral-800">
-            <div className="mb-12">
-              <h2 className="font-headline text-5xl md:text-6xl font-bold">Technology Stack</h2>
-              <p className="mt-6 max-w-2xl text-lg text-neutral-400">We build with a modern, scalable, and secure technology stack to ensure your project is ready for the future.</p>
-            </div>
-          </div>
           <div className="col-span-12 bg-black">
             <TechStack />
           </div>
