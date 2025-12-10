@@ -323,6 +323,11 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
     display: flex;
     gap: 0;
     border: 1px solid #fff;
+    transition: border-color 0.3s;
+}
+
+.nl-form:hover {
+    border-color: hsl(var(--primary));
 }
 
 .nl-input {
@@ -344,8 +349,9 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
     font-weight: bold;
     cursor: pointer;
     text-transform: uppercase;
+    transition: background-color 0.3s;
 }
-.nl-btn:hover { background: var(--accent-color); }
+.nl-btn:hover { background: hsl(var(--primary)); }
 
 
 /* --- 8. RESPONSIVE --- */
