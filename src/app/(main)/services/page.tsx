@@ -95,6 +95,15 @@ export default function ServicesPage() {
     <div className="w-full bg-black text-white min-h-screen">
       <main>
         
+        <div className="col-span-12 bg-black border-b border-neutral-800 p-8 md:p-16">
+            <div className="max-w-3xl">
+              <h1 className="font-headline text-7xl md:text-9xl font-bold">Services</h1>
+              <p className="mt-6 text-lg text-neutral-400">
+                From bespoke websites to complex business automation, we provide end-to-end digital solutions that drive results. Our process is transparent, our technology is modern, and our focus is always on quality.
+              </p>
+            </div>
+        </div>
+
           <div className="col-span-12 bg-black">
             <ServicesSection />
           </div>
