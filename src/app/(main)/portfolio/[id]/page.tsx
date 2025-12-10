@@ -12,20 +12,20 @@ import { Footer } from '@/components/footer';
 
 export function generateStaticParams() {
   const projects = getProjects();
-  console.log('[generateStaticParams] Generating params for slugs:', projects.map(p => p.id));
+  console.log('[generateStaticParams] Generating params for ids:', projects.map(p => ({ id: p.id })));
   return projects.map((project) => ({
-    slug: String(project.id), // Ensure slug is always a string
+    id: project.id,
   }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-    const { slug } = params;
-    console.log(`[generateMetadata] Generating metadata for slug: "${slug}"`);
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+    const { id } = params;
+    console.log(`[generateMetadata] Generating metadata for id: "${id}"`);
     const projects = getProjects();
-    const project = projects.find((p) => p.id === slug);
+    const project = projects.find((p) => p.id === id);
 
     if (!project) {
-        console.warn(`[generateMetadata] Project with slug "${slug}" not found.`);
+        console.warn(`[generateMetadata] Project with id "${id}" not found.`);
         return {
             title: 'Project Not Found',
         };
@@ -52,19 +52,19 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 
-export default async function ProjectDetailsPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
-  console.log(`[ProjectDetailsPage] Rendering page for slug: "${slug}"`);
+export default async function ProjectDetailsPage({ params }: { params: { id: string } }) {
+  const { id } = params;
+  console.log(`[ProjectDetailsPage] Rendering page for id: "${id}"`);
 
   const projects = getProjects();
-  const project = projects.find((p) => p.id === slug);
+  const project = projects.find((p) => p.id === id);
   
   if (!project) {
-    console.error(`[ProjectDetailsPage] Project data not found for slug: "${slug}". Triggering 404.`);
+    console.error(`[ProjectDetailsPage] Project data not found for id: "${id}". Triggering 404.`);
     notFound();
   }
 
-  const otherProjects = projects.filter(p => p.id !== slug).slice(0, 2);
+  const otherProjects = projects.filter(p => p.id !== id).slice(0, 2);
   
   console.log(`[ProjectDetailsPage] Successfully found project: "${project.title}"`);
 
