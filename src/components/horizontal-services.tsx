@@ -1,7 +1,7 @@
 
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import {
   ArrowRight,
@@ -55,21 +55,21 @@ const services = [
 ];
 
 const IntroCard = () => (
-  <div className="w-screen md:w-[50vw] h-[75vh] flex-shrink-0 flex flex-col justify-between p-8 border-r border-white/20 bg-black">
+  <div className="w-full md:w-[50vw] h-auto md:h-[75vh] flex-shrink-0 flex flex-col justify-between p-8 border-b md:border-b-0 md:border-r border-white/20 bg-black">
      <h3 className="font-headline text-5xl font-bold text-white tracking-tight">
         A full-service<br />design &<br />development<br />agency.
       </h3>
-      <div className="text-neutral-400">
+      <div className="text-neutral-400 mt-8">
         <p className="text-lg max-w-sm">
           We operate at the intersection of design and engineering. Scroll to see how we help brands scale.
         </p>
-        <MoveRight className="w-12 h-12 mt-8" />
+        <MoveRight className="w-12 h-12 mt-8 hidden md:block" />
       </div>
   </div>
 );
 
 const CtaCard = () => (
-    <div className="w-screen md:w-[50vw] h-[75vh] flex-shrink-0 flex flex-col items-center justify-center p-8 border-r border-white/20 bg-primary text-primary-foreground text-center">
+    <div className="w-full md:w-[50vw] h-[75vh] flex-shrink-0 flex flex-col items-center justify-center p-8 border-b md:border-b-0 md:border-r border-white/20 bg-primary text-primary-foreground text-center">
       <h3 className="font-headline text-5xl font-bold tracking-tight">
         Have a project<br />in mind?
       </h3>
@@ -82,11 +82,70 @@ const CtaCard = () => (
 
 export function HorizontalServices() {
   const targetRef = useRef<HTMLDivElement | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: targetRef,
+    enabled: !isMobile,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-85.71%']);
+  const x = useTransform(scrollYProgress, [0, 1], ['0%', `-${100 - (100 / (services.length + 2))}%`]);
+
+
+  if (isMobile) {
+    return (
+       <section className="bg-black border-y border-neutral-800">
+         <IntroCard />
+          {services.map((service, index) => (
+            <div key={index} className="w-full h-auto flex-shrink-0 relative border-b border-white/20 overflow-hidden group">
+                <div className="relative h-64">
+                  <Image 
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className="object-cover"
+                      data-ai-hint="abstract technology dark"
+                  />
+                  <div className="absolute inset-0 bg-black/70 z-10"/>
+                </div>
+
+                <div className="relative z-20 flex flex-col justify-between h-full p-8 text-white bg-black">
+                    <div className="flex justify-between items-start">
+                        <div className="p-3 border border-white/20 bg-white/10 backdrop-blur-sm">
+                            <service.icon className="w-6 h-6" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 className="font-headline text-4xl font-bold tracking-tight mt-4">{service.title}</h3>
+                        <p className="mt-2 text-neutral-300 max-w-sm">{service.description}</p>
+                        <div className="flex flex-wrap gap-2 mt-6">
+                            {service.tags.map(tag => (
+                                <span key={tag} className="px-3 py-1 border border-white/20 bg-white/10 text-sm text-neutral-200">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                         <Link href={`/portfolio?category=${encodeURIComponent(service.title)}`} className="mt-8 inline-flex items-center text-primary font-semibold group-hover:underline">
+                            View Projects <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+                        </Link>
+                    </div>
+                </div>
+            </div>
+          ))}
+          <CtaCard />
+       </section>
+    );
+  }
 
   return (
     <section ref={targetRef} className="relative h-[500vh] bg-black border-y border-neutral-800">
