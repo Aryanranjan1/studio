@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -17,6 +18,9 @@ import {
   Book,
   Mail,
   PanelLeft,
+  ShoppingBag,
+  ShoppingCart,
+  HelpCircle,
 } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaDribbble } from 'react-icons/fa6';
 import { cn } from '@/lib/utils';
@@ -33,8 +37,14 @@ const mainNavLinks = [
   { href: '/services', label: 'Services', icon: Briefcase },
   { href: '/portfolio', label: 'Portfolio', icon: LayoutGrid },
   { href: '/blog', label: 'Blog', icon: Book },
+  { href: '/store', label: 'Store', icon: ShoppingBag },
+  { href: '/faq', label: 'FAQ', icon: HelpCircle },
   { href: '/contact', label: 'Contact', icon: Mail },
 ];
+
+const secondaryNavLinks = [
+    { href: '/cart', label: 'Cart', icon: ShoppingCart },
+]
 
 const socialLinks = [
   { href: '#', label: 'GitHub', icon: FaGithub },
@@ -94,6 +104,10 @@ export function Header() {
             </nav>
           </div>
           <div className="flex flex-col items-center gap-3">
+             {secondaryNavLinks.map(link => (
+                <NavLink key={link.href} {...link} />
+              ))}
+            <div className='w-full h-px bg-border my-2' />
             {socialLinks.map(({ href, label, icon: Icon }) => (
               <Tooltip key={label}>
                 <TooltipTrigger asChild>
@@ -129,7 +143,7 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="left" className="w-64">
               <nav className="flex flex-col gap-4 mt-8">
-                {mainNavLinks.map((link) => (
+                {[...mainNavLinks, ...secondaryNavLinks].map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
