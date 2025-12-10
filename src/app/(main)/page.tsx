@@ -9,6 +9,7 @@ import { Manifesto } from '@/components/manifesto';
 import { PricingSection } from '@/components/pricing-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
 import { Crown } from 'lucide-react';
+import { Footer } from '@/components/footer';
 
 // --- HUD HEADER COMPONENT ---
 const HudHeader = () => {
@@ -141,6 +142,7 @@ export default function Home() {
         </Button>
         <p className="relative mt-20 text-neutral-500 text-xs font-tech uppercase tracking-widest">&copy; {new Date().getFullYear()} Ampire Studio. Malaysia.</p>
       </footer>
+      <Footer />
     </main>
   );
 }
