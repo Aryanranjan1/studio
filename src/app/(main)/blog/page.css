@@ -64,7 +64,14 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .categories {
     display: flex;
     height: 100%;
+    overflow-x: auto;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 }
+.categories::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
+}
+
 
 .cat-btn {
     background: transparent;
@@ -78,6 +85,7 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
     height: 100%;
     text-transform: uppercase;
     transition: all 0.2s;
+    white-space: nowrap;
 }
 
 .cat-btn:hover, .cat-btn.active {
@@ -109,7 +117,6 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .featured-article {
     display: grid;
     grid-template-columns: 60% 40%;
-    border-bottom: 1px solid var(--border-color);
     min-height: 500px;
     background-color: var(--bg-color);
 }
@@ -171,12 +178,22 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
     align-self: flex-start;
 }
 
+/* --- GRID SEPARATOR --- */
+.grid-separator {
+    height: 1px;
+    background: var(--border-color);
+    margin: 60px 40px 0;
+}
+
+
 /* --- 5. ARTICLE GRID --- */
 .blog-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     width: 100%;
     background-color: var(--bg-color);
+    border-top: 1px solid var(--border-color);
+    margin-top: 60px;
 }
 
 .article-card {
@@ -251,7 +268,40 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
     font-weight: bold;
 }
 
-/* --- 6. NEWSLETTER (TERMINAL STYLE) --- */
+/* --- 6. PAGINATION --- */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 40px;
+    border-bottom: 1px solid var(--border-color);
+    font-family: var(--font-tech);
+    text-transform: uppercase;
+}
+
+.pagination-btn {
+    border-radius: 0;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-color);
+}
+.pagination-btn:hover {
+    background: var(--text-color);
+    color: var(--bg-color);
+}
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-status {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+
+/* --- 7. NEWSLETTER (TERMINAL STYLE) --- */
 .newsletter-section {
     padding: 80px 40px;
     border-bottom: 1px solid var(--border-color);
@@ -298,28 +348,44 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .nl-btn:hover { background: var(--accent-color); }
 
 
-/* --- 7. RESPONSIVE --- */
-@media (max-width: 1024px) {
+/* --- 8. RESPONSIVE --- */
+@media (max-width: 1200px) {
     .blog-grid { grid-template-columns: repeat(2, 1fr); }
     .article-card:nth-child(2n) { border-right: none; }
-    .blog-title { font-size: 4rem; }
 }
+
 
 @media (max-width: 768px) {
     .blog-title { font-size: 3rem; }
     .blog-header { padding: 80px 20px 40px; }
     
-    .controls-bar { padding: 0 20px; overflow-x: auto; }
-    .categories { gap: 0; }
-    .cat-btn { padding: 0 15px; white-space: nowrap; }
-    .search-wrapper { display: none; } /* Hide search on mobile */
+    .controls-bar { 
+        padding: 0 20px; 
+        justify-content: flex-start;
+    }
+
+    .search-wrapper { 
+       flex-grow: 1;
+       justify-content: flex-end;
+    }
+    .search-input {
+        width: 100px;
+    }
 
     .featured-article { grid-template-columns: 1fr; }
     .feat-img-wrapper { height: 300px; border-right: none; border-bottom: 1px solid var(--border-color); }
     .feat-content { padding: 30px 20px; }
 
-    .blog-grid { grid-template-columns: 1fr; }
+    .grid-separator {
+        margin: 40px 20px 0;
+    }
+
+    .blog-grid { grid-template-columns: 1fr; margin-top: 40px;}
     .article-card { border-right: none; }
+
+    .pagination-controls { padding: 30px 20px; }
+    .pagination-status { display: none; }
+
 
     .newsletter-section { flex-direction: column; align-items: flex-start; gap: 30px; padding: 60px 20px; }
     .nl-form { width: 100%; }

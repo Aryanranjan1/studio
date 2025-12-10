@@ -1,4 +1,3 @@
-
 'use client';
 
 import { getArticles } from '@/lib/data';
@@ -8,12 +7,16 @@ import { useEffect, useState, useMemo } from 'react';
 import type { Article } from '@/lib/data';
 import './page.css';
 import { Footer } from '@/components/footer';
+import { Button } from '@/components/ui/button';
+
+const ITEMS_PER_PAGE = 12;
 
 export default function BlogPage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('ALL_LOGS');
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     document.title = 'Ampire Studio // Transmission Log';
@@ -23,8 +26,15 @@ export default function BlogPage() {
   }, []);
 
   const featuredArticle = useMemo(() => {
-    // Find a featured article, or fall back to the first one.
     return articles.find(a => a.featured) || articles[0];
+  }, [articles]);
+
+  const categories = useMemo(() => {
+    const all = ['ALL_LOGS'];
+    const unique = [
+      ...new Set(articles.map(a => a.category.toUpperCase())),
+    ];
+    return [...all, ...unique.filter(c => c !== 'ALL_LOGS')];
   }, [articles]);
 
   const filteredArticles = useMemo(() => {
@@ -35,15 +45,31 @@ export default function BlogPage() {
         (activeCategory === 'ALL_LOGS' ||
           article.category.toUpperCase() === activeCategory) &&
         (article.title.toLowerCase().includes(term) ||
-          article.excerpt.toLowerCase().includes(term))
+          article.excerpt.toLowerCase().includes(term) ||
+          article.tags.some(t => t.toLowerCase().includes(term)))
     );
   }, [articles, featuredArticle, searchTerm, activeCategory]);
+  
+  const totalPages = Math.ceil(filteredArticles.length / ITEMS_PER_PAGE);
 
-  const categories = useMemo(() => {
-      const all = ['ALL_LOGS'];
-      const unique = [...new Set(articles.map(a => a.category.toUpperCase()))];
-      return [...all, ...unique.filter(c => c !== 'ALL_LOGS')];
-  }, [articles]);
+  const paginatedArticles = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredArticles.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredArticles, currentPage]);
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+  
+  const handleCategoryClick = (category: string) => {
+    setActiveCategory(category);
+    setCurrentPage(1); // Reset to first page on filter change
+  };
+
 
   if (loading) {
     return <div className="bg-bg-color text-text-color min-h-screen flex items-center justify-center">Loading Transmission Log...</div>;
@@ -73,7 +99,7 @@ export default function BlogPage() {
                 <button 
                     key={cat} 
                     className={`cat-btn ${activeCategory === cat ? 'active' : ''}`}
-                    onClick={() => setActiveCategory(cat)}
+                    onClick={() => handleCategoryClick(cat)}
                 >
                     {cat}
                 </button>
@@ -111,8 +137,10 @@ export default function BlogPage() {
         </div>
       </section>
 
+      <div className="grid-separator"></div>
+
       <section className="blog-grid">
-        {filteredArticles.map(article => (
+        {paginatedArticles.map(article => (
           <Link href={`/blog/${article.id}`} className="article-card" key={article.id}>
             <div className="art-img-wrapper">
               <Image
@@ -135,6 +163,31 @@ export default function BlogPage() {
           </Link>
         ))}
       </section>
+      
+       {totalPages > 1 && (
+        <div className="pagination-controls">
+          <Button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            variant="outline"
+            className="pagination-btn"
+          >
+            &larr; PREVIOUS
+          </Button>
+          <span className="pagination-status">
+            PAGE {currentPage} OF {totalPages}
+          </span>
+          <Button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            variant="outline"
+            className="pagination-btn"
+          >
+            NEXT &rarr;
+          </Button>
+        </div>
+      )}
+
 
       <section className="newsletter-section">
         <div className="nl-text">
