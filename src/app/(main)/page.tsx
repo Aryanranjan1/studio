@@ -1,68 +1,15 @@
 
-import { BlogSection } from '@/components/blog-section';
-import { CtaSection } from '@/components/cta-section';
-import { FeaturedPortfolio } from '@/components/featured-portfolio';
-import { Footer } from '@/components/footer';
-import { HeroGrid } from '@/components/hero-grid';
-import { OzonteHero } from '@/components/ozonte-hero';
-import { PricingSection } from '@/components/pricing-section';
-import { ServicesSection } from '@/components/services-section';
-import { TestimonialsSection } from '@/components/testimonials-section';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Home',
     description: 'A digital design and development agency specializing in bespoke websites and applications.',
-    openGraph: {
-        title: 'Ampire Studio',
-        description: 'A digital design and development agency specializing in bespoke websites and applications.',
-        images: [
-            {
-                url: 'https://picsum.photos/seed/og-home/1200/630',
-                width: 1200,
-                height: 630,
-                alt: 'Ampire Studio Home Page Preview',
-            },
-        ],
-    },
 };
 
 export default function Home() {
   return (
-    <main className="w-full overflow-x-hidden bg-black text-white">
-      <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
-        <div className="col-span-12 bg-black">
-          <OzonteHero />
-        </div>
-        <div className="col-span-12 bg-black">
-          <HeroGrid />
-        </div>
-        <div className="col-span-12 mt-12 bg-black">
-          <ServicesSection />
-        </div>
-        <div className="col-span-12 bg-black">
-          <FeaturedPortfolio />
-        </div>
-        <div className="col-span-12 bg-black">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <PricingSection />
-          </div>
-        </div>
-        <div className="col-span-12 my-16 bg-black">
-          <TestimonialsSection />
-        </div>
-        <div className="col-span-12 bg-black">
-            <BlogSection />
-        </div>
-        <div className="col-span-12 bg-black">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <CtaSection />
-          </div>
-        </div>
-        <div className="col-span-12 bg-black">
-          <Footer />
-        </div>
-      </div>
+    <main>
+      {/* The homepage is cleared. We can now build the new design here. */}
     </main>
   );
 }
