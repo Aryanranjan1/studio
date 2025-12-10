@@ -21,8 +21,8 @@ import {
   ShoppingCart,
   HelpCircle,
   Crown,
+  LogIn,
 } from 'lucide-react';
-import { FaGithub, FaLinkedin, FaDribbble } from 'react-icons/fa6';
 import { cn } from '@/lib/utils';
 import {
   Sheet,
@@ -45,12 +45,6 @@ const mainNavLinks = [
 const secondaryNavLinks = [
     { href: '/cart', label: 'Cart', icon: ShoppingCart },
 ]
-
-const socialLinks = [
-  { href: '#', label: 'GitHub', icon: FaGithub },
-  { href: '#', label: 'LinkedIn', icon: FaLinkedin },
-  { href: '#', label: 'Dribbble', icon: FaDribbble },
-];
 
 const NavLink = ({
   href,
@@ -108,23 +102,7 @@ export function Header() {
                 <NavLink key={link.href} {...link} />
               ))}
             <div className='w-full h-px bg-border my-2' />
-            {socialLinks.map(({ href, label, icon: Icon }) => (
-              <Tooltip key={label}>
-                <TooltipTrigger asChild>
-                  <Link
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-primary"
-                  >
-                    <Icon className="h-5 w-5" />
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent side="right">
-                  <p>{label}</p>
-                </TooltipContent>
-              </Tooltip>
-            ))}
+            <NavLink href="/login" label="Login" icon={LogIn} />
           </div>
         </header>
       </TooltipProvider>
@@ -155,19 +133,12 @@ export function Header() {
                 ))}
               </nav>
               <div className="absolute bottom-6 left-6 right-6">
-                 <div className="flex justify-center gap-4">
-                    {socialLinks.map(({ href, label, icon: Icon }) => (
-                        <Link
-                            key={label}
-                            href={href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:text-primary"
-                        >
-                            <Icon className="h-5 w-5" />
-                        </Link>
-                    ))}
-                 </div>
+                 <Button asChild className="w-full">
+                    <Link href="/login">
+                        <LogIn className="mr-2 h-5 w-5" />
+                        Login
+                    </Link>
+                 </Button>
               </div>
             </SheetContent>
           </Sheet>
