@@ -7,28 +7,19 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import type { Template } from '@/lib/data';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { ShoppingCart } from 'lucide-react';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  type CarouselApi,
-} from '@/components/ui/carousel';
 import { cn } from '@/lib/utils';
 
 
 export default function TemplateDetailsPage() {
   const params = useParams();
-  const id = params.id;
+  const id = params.id as string;
 
   const [template, setTemplate] = useState<Template | null>(null);
   const [cartCount, setCartCount] = useState(0);
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
+  const sliderRef = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     if (!id) return;
@@ -42,22 +33,18 @@ export default function TemplateDetailsPage() {
     }
   }, [id]);
 
-  useEffect(() => {
-    if (!api) {
-      return;
-    }
-
-    setCount(api.scrollSnapList().length);
-    setCurrent(api.selectedScrollSnap() + 1);
-
-    api.on('select', () => {
-      setCurrent(api.selectedScrollSnap() + 1);
-    });
-  }, [api]);
+  const handleAddToCart = () => {
+    setCartCount(prev => prev + 1);
+    // Here you would typically add the item to a global cart state/context
+  }
   
-  const handleDotClick = useCallback((index: number) => {
-    api?.scrollTo(index);
-  }, [api]);
+  const moveSlide = (direction: number) => {
+    if (sliderRef.current) {
+        const slideWidth = sliderRef.current.querySelector('.slide')?.clientWidth || 0;
+        sliderRef.current.scrollBy({ left: slideWidth * direction, behavior: 'smooth' });
+    }
+  }
+
 
   if (!template) {
     // You can render a loading state here
@@ -68,138 +55,234 @@ export default function TemplateDetailsPage() {
     );
   }
 
-  const handleAddToCart = () => {
-    setCartCount(prev => prev + 1);
-    // Here you would typically add the item to a global cart state/context
-  }
 
   return (
-    <div className="w-full bg-[#050505] text-white font-tech">
-      <nav className="fixed top-0 z-50 flex w-full items-center justify-between border-b border-white/20 bg-black/90 px-5 py-4 text-xs tracking-wider text-[#888] backdrop-blur-md md:px-10">
-        <Link href="/store" className="transition-colors hover:text-white">
-          &lt; BACK_TO_STORE
-        </Link>
+    <div className="w-full bg-[#050505] text-white font-tech h-screen overflow-hidden md:h-auto md:overflow-auto">
+      <nav className="h-[60px] px-5 md:px-10 border-b border-white/20 text-xs text-[#888] fixed top-0 left-0 w-full bg-[#050505] z-50 flex justify-between items-center">
+        <div><Link href="/store" className="hover:text-white">&lt; STORE</Link></div>
         <div className="hidden md:block">
-          AMPIRE_ASSETS // ID: {typeof id === 'string' ? id.split('-')[1].padStart(3, '0') : ''} // CART [{cartCount}]
+            {template.title.toUpperCase()}_V{template.version}
         </div>
-        <Link href="/cart" className="md:hidden">CART [{cartCount}]</Link>
+        <Link href="/cart">CART [{cartCount}]</Link>
       </nav>
 
-      <main className="flex flex-col pt-[60px] md:flex-row">
-        {/* Left Column: Image Slider */}
-        <div className="w-full md:w-[65%] border-b border-white/20 p-5 md:border-b-0 md:border-r md:p-10 flex flex-col justify-center">
-           <Carousel setApi={setApi} className="w-full">
-            <CarouselContent>
-              {template.images.map((img, index) => (
-                <CarouselItem key={index}>
-                   <div className="group relative">
-                    <div className="gallery-item overflow-hidden border border-[#222]">
-                        <Image
-                          src={img.src}
-                          alt={img.alt}
-                          width={1600}
-                          height={900}
-                          className="aspect-video object-cover"
-                          priority={index === 0}
-                        />
+      <main className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-3 h-[calc(100vh-60px)] mt-[60px] w-full">
+        
+        {/* --- LEFT: IMAGE SLIDER --- */}
+        <div className="relative border-r border-white/20 h-full overflow-hidden bg-black md:col-span-3 lg:col-span-2">
+            <button className="slider-btn prev-btn" onClick={() => moveSlide(-1)}>&lt;</button>
+            <div className="slider-track" ref={sliderRef}>
+                {template.images.map((img, index) => (
+                    <div className="slide" key={index}>
+                        <Image src={img.src} alt={img.alt} fill priority={index === 0} />
+                        <div className="slide-caption">[FIG {index + 1}.0] {img.alt}</div>
                     </div>
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <Button asChild variant="outline" className="bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-black">
-                        <a href="https://google.com" target="_blank" rel="noopener noreferrer">Live Preview</a>
-                      </Button>
-                    </div>
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="left-4 bg-black/50 border-white/20 text-white hover:bg-white hover:text-black" />
-            <CarouselNext className="right-4 bg-black/50 border-white/20 text-white hover:bg-white hover:text-black" />
-          </Carousel>
-           <div className="py-4 text-center text-sm text-muted-foreground">
-             <div className="flex items-center justify-center gap-2">
-                {Array.from({ length: count }).map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleDotClick(index)}
-                    className={cn(
-                      'h-2 w-2 rounded-full transition-colors',
-                      current === index + 1 ? 'bg-white' : 'bg-neutral-600 hover:bg-neutral-400'
-                    )}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
                 ))}
             </div>
-             <p className="mt-2 text-right text-[10px] text-[#666] uppercase">
-                [FIG 1.{current-1}] {template.images[current-1]?.alt}
-             </p>
-          </div>
+            <button className="slider-btn next-btn" onClick={() => moveSlide(1)}>&gt;</button>
         </div>
 
-
-        {/* Right Column: Sticky Info */}
-        <div className="w-full md:w-[35%] md:sticky md:top-[60px] md:h-[calc(100vh-60px)]">
-            <div className="p-5 md:p-10 flex flex-col h-full overflow-y-auto">
-                <div className="inline-flex items-center gap-2 border border-primary px-3 py-1 text-xs uppercase text-primary self-start mb-5">
-                    <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                    </span>
-                    INSTANT DOWNLOAD
+        {/* --- RIGHT: INFO PANEL --- */}
+        <div className="info-panel md:col-span-2 lg:col-span-1">
+            <div className="header-group">
+                <div className="status-badge">● INSTANT DOWNLOAD</div>
+                <h1 className="p-title">{template.title}</h1>
+                <div className="price-block">
+                    <span className="p-price">${template.price.toFixed(2)}</span>
+                    <span className="p-license">[ STANDARD LICENSE ]</span>
                 </div>
-                
-                <h1 className="font-display text-5xl font-bold uppercase leading-none">
-                    {template.title}
-                </h1>
-                <span className="mt-3 block text-xs text-[#888]">
-                    VERSION {template.version} // UPDATED DEC 2024
-                </span>
+            </div>
 
-                <p className="mt-6 text-base leading-relaxed text-[#ccc]">
-                    {template.longDescription}
-                </p>
+            <p className="p-description">
+                {template.longDescription}
+            </p>
 
-                <div className="specs-table my-8 w-full border-t border-white/20">
-                    {Object.entries(template.specs).map(([key, value]) => (
-                        <div key={key} className="flex justify-between border-b border-[#222] py-4 text-sm">
-                            <span className="text-[#666] uppercase">{key}</span>
-                            <span className="font-bold uppercase text-right">{value}</span>
-                        </div>
-                    ))}
-                </div>
+            <div className="action-group">
+                 <Button onClick={handleAddToCart} variant="outline" className="btn-main btn-cart rounded-none uppercase h-auto">
+                    Add to Cart
+                 </Button>
+                <Button asChild className="btn-main btn-buy rounded-none uppercase h-auto">
+                    <a href={template.url} target="_blank" rel="noopener noreferrer">
+                        <span>Purchase Now</span>
+                        <span>&rarr;</span>
+                    </a>
+                </Button>
+            </div>
 
-                <div className="file-tree mb-8 border border-[#333] bg-[#111] p-5 font-mono text-xs text-[#888]">
-                    {template.fileTree?.map((item, index) => (
-                        <div key={index} className={`tree-item ${item.indent ? 'pl-5 text-[#555]' : 'text-white'}`}>
-                            {item.indent && '└── '}{item.name}
-                        </div>
-                    ))}
-                </div>
-                
-                {/* Buy Box - Pushed to bottom */}
-                <div className="buy-box mt-auto border border-white bg-black p-5">
-                    <div className="price-row mb-5 flex items-end justify-between font-display">
-                        <span className="text-sm text-[#888]">LICENSE: STANDARD</span>
-                        <span className="text-5xl font-bold">${template.price.toFixed(2)}</span>
+            <div className="compact-specs">
+                {Object.entries(template.specs).map(([key, value]) => (
+                    <div className="spec-item" key={key}>
+                        {key.toUpperCase()}: <span>{value}</span>
                     </div>
-                    <div className="flex gap-2">
-                      <Button asChild className="buy-btn group w-full justify-between rounded-none border-none bg-white p-4 text-base font-bold uppercase text-black transition hover:bg-primary hover:text-black">
-                          <a href={template.url} target="_blank" rel="noopener noreferrer">
-                              <span>Initiate Purchase</span>
-                              <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
-                          </a>
-                      </Button>
-                      <Button onClick={handleAddToCart} variant="outline" size="icon" className="rounded-none bg-transparent text-white border-white/20 hover:bg-white hover:text-black transition-all h-auto px-4">
-                          <ShoppingCart className="w-5 h-5" />
-                      </Button>
-                    </div>
-                    <div className="mt-2 text-center text-[10px] text-[#666]">
-                        SECURE CHECKOUT VIA GUMROAD
-                    </div>
-                </div>
-
+                ))}
             </div>
         </div>
       </main>
+      
+      <style jsx>{`
+        body {
+            /* On desktop, we want a fixed viewport. On mobile, it scrolls normally. */
+            @media (min-width: 769px) {
+                height: 100vh;
+                overflow: hidden;
+            }
+        }
+        .main-grid {
+            display: grid;
+            grid-template-columns: 60% 40%; 
+        }
+        
+        .slider-track {
+            display: flex;
+            height: 100%;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none; /* Firefox hidden */
+            -ms-overflow-style: none; /* IE/Edge hidden */
+            scroll-behavior: smooth;
+        }
+        .slider-track::-webkit-scrollbar { display: none; }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            scroll-snap-align: start;
+            position: relative;
+        }
+        .slide-caption {
+            position: absolute;
+            bottom: 20px; right: 20px;
+            background: rgba(0,0,0,0.8);
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            border: 1px solid var(--border-color);
+            pointer-events: none;
+        }
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            border: 1px solid var(--border-color);
+            width: 40px; height: 40px;
+            font-size: 1.2rem;
+            z-index: 10;
+            transition: 0.3s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .slider-btn:hover { background: #fff; color: #000; }
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+
+        .info-panel {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto; 
+            height: 100%;
+        }
+        .header-group { margin-bottom: 25px; }
+
+        .status-badge {
+            display: inline-block;
+            border: 1px solid hsl(var(--primary));
+            color: hsl(var(--primary));
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        .p-title {
+            font-family: var(--font-headline);
+            font-size: 3rem;
+            line-height: 0.9;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .price-block {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .p-price { font-size: 2rem; font-weight: bold; font-family: var(--font-headline);}
+        .p-license { font-size: 0.8rem; color: #888; }
+        .p-description {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #ccc;
+            margin-bottom: 30px;
+            flex-grow: 0; 
+        }
+        .action-group {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .btn-main {
+            padding: 18px;
+            font-family: var(--font-tech);
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .btn-cart {
+            background: transparent;
+            border: 1px solid var(--border-active);
+            color: var(--text-color);
+        }
+        .btn-cart:hover { background: #333; }
+
+        .btn-buy {
+            background: var(--text-color);
+            border: 1px solid var(--text-color);
+            color: var(--bg-color);
+            justify-content: space-between; padding: 0 25px;
+        }
+        .btn-buy:hover { background: hsl(var(--primary)); border-color: hsl(var(--primary)); }
+
+        .compact-specs {
+            border-top: 1px solid #333;
+            padding-top: 25px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px 30px;
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: auto; 
+        }
+        .spec-item span { display: block; color: #fff; font-size: 0.85rem; margin-top: 5px; }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .main-grid { grid-template-columns: 50% 50%; } 
+            .p-title { font-size: 2.2rem; }
+            .info-panel { padding: 30px; }
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+            }
+            .slider-container {
+                width: 100%;
+                height: 50vh; 
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            .info-panel {
+                width: 100%;
+                height: auto;
+                padding: 30px 20px;
+            }
+             .action-group { grid-template-columns: 1fr; }
+        }
+      `}</style>
     </div>
   );
 }
