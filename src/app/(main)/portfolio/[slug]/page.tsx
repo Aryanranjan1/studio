@@ -7,19 +7,19 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle, MoveRight } from 'lucide-react';
 import type { Metadata } from 'next';
-import './page.css';
+import '../page.css';
 import { Footer } from '@/components/footer';
 
 export function generateStaticParams() {
   const projects = getProjects();
   return projects.map((project) => ({
-    id: project.id,
+    slug: project.id,
   }));
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
     const projects = getProjects();
-    const project = projects.find((p) => p.id === params.id);
+    const project = projects.find((p) => p.id === params.slug);
 
     if (!project) {
         return {
@@ -46,10 +46,10 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 }
 
 
-export default function ProjectDetailsPage({ params }: { params: { id: string } }) {
+export default function ProjectDetailsPage({ params }: { params: { slug: string } }) {
   const projects = getProjects();
-  const project = projects.find((p) => p.id === params.id);
-  const otherProjects = projects.filter(p => p.id !== params.id).slice(0, 2);
+  const project = projects.find((p) => p.id === params.slug);
+  const otherProjects = projects.filter(p => p.id !== params.slug).slice(0, 2);
 
   if (!project) {
     notFound();
@@ -95,23 +95,25 @@ export default function ProjectDetailsPage({ params }: { params: { id: string } 
                 </section>
                 )}
 
-                <section className="gallery-section">
-                    <h2 className="section-title">Gallery</h2>
-                    <div className="gallery-grid">
-                        {project.images?.map((img, index) => (
-                        <div key={index} className="gallery-item">
-                            <Image
-                            src={img.src}
-                            alt={img.alt}
-                            fill
-                            loading="lazy"
-                            className="gallery-image"
-                            />
-                            <div className="gallery-caption">{img.alt}</div>
+                {project.images && project.images.length > 0 && (
+                    <section className="gallery-section">
+                        <h2 className="section-title">Gallery</h2>
+                        <div className="gallery-grid">
+                            {project.images.map((img, index) => (
+                            <div key={index} className="gallery-item">
+                                <Image
+                                src={img.src}
+                                alt={img.alt}
+                                fill
+                                loading="lazy"
+                                className="gallery-image"
+                                />
+                                <div className="gallery-caption">{img.alt}</div>
+                            </div>
+                            ))}
                         </div>
-                        ))}
-                    </div>
-                </section>
+                    </section>
+                )}
             </div>
 
             {/* Sidebar */}
