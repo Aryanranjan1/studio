@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Code, Cpu, Database, Fingerprint, Framer, LucideIcon, Palette, Bot, Server, Sparkles, Wind } from 'lucide-react';
@@ -73,12 +72,12 @@ export function TechStack() {
         </div>
       </div>
 
-      <div className="tech-grid-container grid w-full grid-cols-1 border-neutral-700 bg-neutral-700 md:grid-cols-2 lg:grid-cols-4">
-        {technologies.map(({ id, name, description, Icon }, index) => (
+      <div className="tech-grid-container grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        {technologies.map(({ id, name, description, Icon }) => (
           <div
             key={id}
             className={cn(
-              "tech-cell group relative flex h-[250px] cursor-crosshair flex-col justify-between bg-black p-8 transition-all duration-300 ease-in-out hover:bg-white hover:text-black",
+              "tech-cell group relative flex h-[250px] cursor-crosshair flex-col justify-between border-neutral-700 bg-black p-8 transition-all duration-300 ease-in-out hover:bg-white hover:text-black border"
             )}
           >
             <div className="tech-header flex justify-between items-start">
