@@ -10,13 +10,6 @@ import type { Metadata } from 'next';
 import './page.css';
 import { Footer } from '@/components/footer';
 
-export async function generateStaticParams() {
-  const projects = getProjects();
-  return projects.map((project) => ({
-    id: project.id,
-  }));
-}
-
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
     const projects = getProjects();
     const project = projects.find((p) => p.id === params.id);
