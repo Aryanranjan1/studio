@@ -59,11 +59,13 @@
   * {
     @apply border-border;
   }
+  html, body {
+    overflow-x: hidden;
+  }
   body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: 'Courier New', Courier, monospace;
-    overflow-x: hidden;
   }
 }
 
