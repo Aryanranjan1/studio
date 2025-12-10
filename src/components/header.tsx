@@ -27,6 +27,9 @@ import { cn } from '@/lib/utils';
 import {
   Sheet,
   SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
   SheetTrigger,
 } from "@/components/ui/sheet"
 
@@ -120,6 +123,16 @@ export function Header() {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-64">
+              <SheetHeader>
+                <SheetTitle>
+                   <Link href="/" className="font-headline text-xl font-bold text-primary">
+                      Ampire
+                   </Link>
+                </SheetTitle>
+                <SheetDescription>
+                  Navigate through our studio's offerings and works.
+                </SheetDescription>
+              </SheetHeader>
               <nav className="flex flex-col gap-4 mt-8">
                 {[...mainNavLinks, ...secondaryNavLinks].map((link) => (
                   <Link
