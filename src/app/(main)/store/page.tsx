@@ -1,123 +1,120 @@
 
 'use client';
 
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
 import { getTemplates } from '@/lib/data';
-import { ShoppingCart } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { ArrowRight, ShoppingCart } from 'lucide-react';
+import { useEffect, useState, useMemo } from 'react';
 import type { Template } from '@/lib/data';
-import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 export default function StorePage() {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
-    document.title = "Store — Ampire Studio";
-    setTemplates(getTemplates());
+    document.title = "Ampire Assets // Store";
+    const data = getTemplates();
+    setTemplates(data);
     setLoading(false);
   }, []);
+  
+  const filteredTemplates = useMemo(() => {
+    if (activeFilter === 'all') {
+      return templates;
+    }
+    return templates.filter(t => t.specs.type.toLowerCase() === activeFilter);
+  }, [templates, activeFilter]);
+
+  const categories = useMemo(() => {
+    if (templates.length === 0) return [];
+    return ['all', ...new Set(templates.map(t => t.specs.type.toLowerCase()))];
+  }, [templates]);
+
+
+  if (loading) {
+    return (
+        <div className="w-full bg-black text-white min-h-screen flex items-center justify-center">
+            <p>Loading Store...</p>
+        </div>
+    )
+  }
 
   return (
-    <div className="w-full bg-background text-foreground">
+    <div className="w-full bg-[#050505] text-white font-tech">
       <main>
-        <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
-          <div className="col-span-12 bg-black">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              {/* Hero Section */}
-              <section className="text-center py-12">
-                <Badge
-                  variant="outline"
-                  className="border-primary/50 text-primary"
-                >
-                  Digital Products
-                </Badge>
-                <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-                  Premium Templates & Resources
-                </h1>
-                <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-                  Accelerate your projects with our professionally designed and
-                  developed digital assets.
-                </p>
-              </section>
+        <header className="px-5 md:px-10 py-16 md:py-28 border-b border-white/20 relative">
+            <div className="text-xs text-[#888] mb-5 tracking-wider flex gap-5">
+                <span><span className="inline-block w-2 h-2 bg-green-500 rounded-full mr-2 shadow-[0_0_10px_#00ff00]"></span>SYSTEM ONLINE</span>
+                <span>// DIGITAL ASSETS // V.2.0</span>
             </div>
-          </div>
+            <h1 className="font-display text-5xl md:text-7xl font-bold uppercase leading-none tracking-tight">Template<br/>Store.</h1>
+        </header>
 
-          <div className="col-span-12 bg-black">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              {/* Templates Grid */}
-              <section className="py-12">
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                  {loading ? (
-                    Array.from({ length: 6 }).map((_, index) => (
-                       <Card key={index} className="h-full overflow-hidden">
-                          <Skeleton className="h-64 w-full" />
-                          <CardContent className="p-6">
-                            <div className="flex items-start justify-between">
-                              <Skeleton className="h-8 w-3/4" />
-                              <Skeleton className="h-8 w-1/4" />
-                            </div>
-                            <Skeleton className="mt-4 h-4 w-full" />
-                            <Skeleton className="mt-2 h-4 w-5/6" />
-                            <div className="mt-4 flex flex-wrap gap-2">
-                              <Skeleton className="h-5 w-16" />
-                              <Skeleton className="h-5 w-20" />
-                            </div>
-                          </CardContent>
-                       </Card>
-                    ))
-                  ) : (
-                    templates.map((template, index) => (
-                      <Link
-                        href={`/store/${template.id}`}
-                        key={template.id}
-                        className="group"
-                      >
-                        <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-lg group-hover:shadow-primary/10">
-                          <div className="relative h-64 w-full">
-                            <Image
-                              src={template.image}
-                              alt={template.imageAlt}
-                              fill
-                              className="object-cover transition-transform duration-300 group-hover:scale-105"
-                              priority={index < 3}
-                              loading={index >= 3 ? "lazy" : undefined}
-                            />
-                            <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-black/40" />
-                            <div className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-background/50 text-white opacity-0 backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-100">
-                              <ShoppingCart className="h-5 w-5" />
-                            </div>
-                          </div>
-                          <CardContent className="p-6">
-                            <div className="flex items-start justify-between">
-                              <h2 className="font-headline text-xl font-bold group-hover:text-primary">
-                                {template.title}
-                              </h2>
-                              <p className="text-lg font-bold text-primary">
-                                ${template.price}
-                              </p>
-                            </div>
-                            <p className="mt-2 text-sm text-muted-foreground">
-                              {template.description}
-                            </p>
-                            <div className="mt-4 flex flex-wrap gap-2">
-                                {template.tags.map(tag => (
-                                    <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
-                                ))}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    ))
-                  )}
-                </div>
-              </section>
+        <nav className="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/20 flex justify-between items-center h-16 px-5 md:px-10">
+            <div className="flex h-full">
+                {categories.map(cat => (
+                    <button 
+                        key={cat}
+                        onClick={() => setActiveFilter(cat)}
+                        className={cn(
+                            "bg-transparent border-r border-white/20 text-[#888] font-tech text-sm px-4 md:px-8 h-full uppercase transition-all duration-200 hover:text-white hover:bg-white/5",
+                            activeFilter === cat && "text-black bg-white font-bold"
+                        )}
+                    >
+                       [ {cat === 'all' ? 'ALL_ASSETS' : cat} ]
+                    </button>
+                ))}
             </div>
-          </div>
-        </div>
+            <div className="text-sm font-bold">
+                <Link href="/cart">CART [{cartCount}]</Link>
+            </div>
+        </nav>
+        
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
+            {filteredTemplates.map((template) => (
+              <Link href={`/store/${template.id}`} key={template.id} className="group product-card block border-b border-r border-white/20">
+                <div className="relative">
+                    {template.bestSeller && <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">BEST SELLER</div>}
+                    {template.isNew && <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">NEW</div>}
+                    <div className="h-72 overflow-hidden relative border-b border-white/20">
+                        <Image
+                            src={template.image}
+                            alt={template.imageAlt}
+                            fill
+                            className="w-full h-full object-cover grayscale transition-all duration-500 ease-in-out group-hover:grayscale-0 group-hover:scale-105"
+                        />
+                    </div>
+                </div>
+                <div className="p-8 flex flex-col justify-between flex-grow">
+                    <div>
+                        <div className="flex justify-between items-start mb-5">
+                            <div>
+                                <h3 className="font-display text-2xl font-bold uppercase">{template.title}</h3>
+                            </div>
+                            <span className="text-xl font-bold">${template.price}</span>
+                        </div>
+                        <p className="text-sm text-[#888] leading-relaxed mb-8 max-w-[90%]">{template.description}</p>
+                        
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 mb-8 text-xs text-[#666] border-t border-[#222] pt-4">
+                            <div className="spec-item">STACK: <span className="text-white">{template.specs.stack}</span></div>
+                            <div className="spec-item">CSS: <span className="text-white">{template.specs.css}</span></div>
+                            <div className="spec-item">CMS: <span className="text-white">{template.specs.cms}</span></div>
+                            <div className="spec-item">TYPE: <span className="text-white">{template.specs.type}</span></div>
+                        </div>
+                    </div>
+                    
+                    <Button variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-300 flex items-center justify-center gap-2">
+                        View Details <ArrowRight className="w-4 h-4" />
+                    </Button>
+                </div>
+            </Link>
+            ))}
+        </section>
       </main>
     </div>
   );

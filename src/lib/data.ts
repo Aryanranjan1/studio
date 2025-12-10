@@ -113,6 +113,14 @@ export type Template = {
     alt: string;
   }[];
   features: string[];
+  specs: {
+    stack: string;
+    css: string;
+    cms: string;
+    type: string;
+  };
+  bestSeller?: boolean;
+  isNew?: boolean;
 };
 
 export type TeamMember = {
@@ -478,7 +486,7 @@ export const getArticles = (): Article[] => Array.from({ length: 21 }, (_, i) =>
 
 export const getTemplates = (): Template[] => Array.from({ length: 20 }, (_, i) => ({
     id: `template-${i + 1}`,
-    title: `Pro Template ${i + 1}`,
+    title: `Template ${i + 1}`,
     description: `A high-quality, professional template for ${['agencies', 'SaaS companies', 'portfolios'][i % 3]}.`,
     longDescription: `This is a comprehensive description for Pro Template ${i + 1}. It is designed to be fully responsive, highly customizable, and optimized for performance. It comes with a variety of pre-built pages and components to help you launch your website quickly and efficiently.`,
     price: 49 + (i * 5),
@@ -486,6 +494,12 @@ export const getTemplates = (): Template[] => Array.from({ length: 20 }, (_, i) 
     imageAlt: `Cover image for Pro Template ${i + 1}`,
     url: '#',
     tags: [['Webflow', 'Agency'], ['Next.js', 'SaaS'], ['Framer', 'Portfolio']][i % 3],
+    specs: {
+        stack: ['Next.js', 'React', 'Astro', 'Vue 3'][i % 4],
+        css: ['Tailwind', 'Styled Comp.'][i % 2],
+        cms: ['Sanity', 'Contentful', 'MDX', 'Strapi'][i % 4],
+        type: ['Agency', 'SaaS', 'Portfolio', 'Blog'][i % 4]
+    },
     images: [
       {
         src: `https://picsum.photos/seed/t-img1-${i + 1}/1200/800`,
@@ -512,6 +526,8 @@ export const getTemplates = (): Template[] => Array.from({ length: 20 }, (_, i) 
       'Contact & Subscribe Forms',
       'Lifetime Updates',
     ],
+    bestSeller: i === 0,
+    isNew: i > 0 && i < 3,
 }));
 
 export const allCategories = articleCategories;
