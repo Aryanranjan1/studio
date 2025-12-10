@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const services = [
   {
@@ -41,67 +41,98 @@ const ServiceCard = ({ service }: { service: typeof services[0] }) => (
 );
 
 export function HorizontalServices() {
-  const targetRef = useRef<HTMLDivElement | null>(null);
-  const trackRef = useRef<HTMLDivElement | null>(null);
-  const [scrollRange, setScrollRange] = useState(0);
-  const [isDesktop, setIsDesktop] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const trackRef = useRef<HTMLDivElement>(null);
+    const [isDesktop, setIsDesktop] = useState(false);
 
-  useEffect(() => {
-    // 1. Check if we are on desktop
-    const checkDesktop = () => {
-        setIsDesktop(window.innerWidth > 768);
-    };
-
-    // 2. Calculate exact scroll width
-    const updateScrollRange = () => {
-        if (trackRef.current) {
-            const trackWidth = trackRef.current.scrollWidth;
-            const viewportWidth = window.innerWidth;
-            // Scroll range = Total Width - Viewport Width + Padding Buffer
-            setScrollRange(trackWidth - viewportWidth + 100); 
-        }
-    };
-
-    checkDesktop();
-    updateScrollRange();
-
-    window.addEventListener('resize', () => {
+    useEffect(() => {
+        const checkDesktop = () => setIsDesktop(window.innerWidth > 768);
         checkDesktop();
-        updateScrollRange();
-    });
+        window.addEventListener('resize', checkDesktop);
+        return () => window.removeEventListener('resize', checkDesktop);
+    }, []);
 
-    return () => window.removeEventListener('resize', updateScrollRange);
-  }, []);
+    useEffect(() => {
+        if (!isDesktop || !containerRef.current || !trackRef.current) return;
 
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ['start start', 'end end']
-  });
+        const container = containerRef.current;
+        const track = trackRef.current;
+        let currentX = 0;
+        let targetX = 0;
+        const easing = 0.08;
 
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
-  const x = useTransform(smoothProgress, [0, 1], ["0px", `-${scrollRange}px`]);
+        const handleWheel = (e: WheelEvent) => {
+            const { deltaY } = e;
+            const scrollWidth = track.scrollWidth;
+            const containerWidth = container.clientWidth;
+            const maxScroll = scrollWidth - containerWidth;
 
-  return (
-    <section ref={targetRef} className="services-trigger relative h-auto md:h-[400vh] bg-[#050505] border-b border-white/20">
-      {/* Container: Relative on Mobile (Vertical), Sticky on Desktop (Horizontal) */}
-      <div className="sticky-wrapper relative md:sticky md:top-0 h-auto md:h-screen overflow-hidden flex flex-col md:flex-row items-start md:items-center py-10 md:py-0">
+            // Update targetX based on scroll delta
+            targetX -= deltaY;
+
+            // Clamp the targetX to be within bounds [0, -maxScroll]
+            targetX = Math.max(-maxScroll, Math.min(0, targetX));
+        };
+
+        const animationFrame = () => {
+             // Linear interpolation for smooth scrolling
+            currentX += (targetX - currentX) * easing;
+            track.style.transform = `translateX(${currentX}px)`;
+            requestAnimationFrame(animationFrame);
+        };
         
-        <div className="service-header-static relative md:absolute top-0 md:top-10 left-0 md:left-10 z-10 text-white mix-blend-difference px-5 md:px-0 mb-8 md:mb-0">
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    document.body.style.overflow = 'hidden';
+                    container.addEventListener('wheel', handleWheel, { passive: true });
+                    requestAnimationFrame(animationFrame);
+                } else {
+                    document.body.style.overflow = '';
+                    container.removeEventListener('wheel', handleWheel);
+                }
+            },
+            { threshold: 0.5 } // Trigger when 50% of the element is visible
+        );
+
+        observer.observe(container);
+
+        return () => {
+            document.body.style.overflow = '';
+            observer.disconnect();
+            container.removeEventListener('wheel', handleWheel);
+        };
+
+    }, [isDesktop]);
+
+    if (!isDesktop) {
+         return (
+            <section className="bg-[#050505] border-b border-white/20 py-10 px-5">
+                <div className="mb-8">
+                  <h2 className='font-tech text-xl uppercase text-white'>// Capabilities</h2>
+                </div>
+                 <div className="flex flex-col gap-5">
+                    {services.map((service) => (
+                        <ServiceCard key={service.num} service={service} />
+                    ))}
+                </div>
+            </section>
+        );
+    }
+  
+    return (
+    <section ref={containerRef} className="services-section relative h-screen bg-[#050505] border-b border-white/20 overflow-hidden flex items-center">
+        <div className="absolute top-10 left-10 z-10 text-white mix-blend-difference">
           <h2 className='font-tech text-xl uppercase'>// Capabilities</h2>
         </div>
-
-        {/* Track: Vertical Stack on Mobile, Horizontal Motion on Desktop */}
-        <motion.div 
+        <div 
             ref={trackRef}
-            style={{ x: isDesktop ? x : 0 }} 
-            className="horizontal-track flex flex-col md:flex-row h-auto md:h-[70vh] px-5 md:pl-[5vw] gap-5 md:gap-0 w-full md:w-auto"
+            className="horizontal-track flex h-[70vh] px-[5vw] w-auto"
         >
           {services.map((service) => (
             <ServiceCard key={service.num} service={service} />
           ))}
-        </motion.div>
-        
-      </div>
+        </div>
     </section>
   );
 }

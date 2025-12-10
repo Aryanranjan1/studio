@@ -65,7 +65,6 @@
   body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: 'Courier New', Courier, monospace;
   }
 }
 
@@ -92,3 +91,4 @@
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
+
