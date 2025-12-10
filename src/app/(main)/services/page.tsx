@@ -8,7 +8,6 @@ import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
 // Components
-import { HorizontalServices } from '@/components/horizontal-services';
 import { PricingSection } from '@/components/pricing-section';
 import { CtaSection } from '@/components/cta-section';
 import { Footer } from '@/components/footer';
@@ -136,10 +135,6 @@ export default function ServicesPage() {
             </div>
           </div>
 
-          {/* 1. HORIZONTAL SCROLL SERVICES */}
-          <div className="col-span-12 bg-black">
-             <HorizontalServices />
-          </div>
           
           {/* 4. TECH STACK */}
            <div className="col-span-12 bg-black border-b border-neutral-800 p-8 md:p-16">

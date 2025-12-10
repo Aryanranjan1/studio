@@ -6,11 +6,9 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { getProjects } from '@/lib/data';
 import { Manifesto } from '@/components/manifesto';
-import { HorizontalServices } from '@/components/horizontal-services';
 import { PricingSection } from '@/components/pricing-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
 import { Crown } from 'lucide-react';
-import { DraggableServices } from '@/components/draggable-services';
 
 // --- HUD HEADER COMPONENT ---
 const HudHeader = () => {
@@ -104,9 +102,6 @@ export default function Home() {
       {/* 2. Manifesto Section */}
       <Manifesto />
       
-      {/* 3. Horizontal Services Section */}
-      <HorizontalServices />
-
       {/* 4. Projects Section (Sticky Layout) */}
       <section className="projects-section relative w-full bg-[#050505] border-b border-white/20">
         <div className="container max-w-[1400px] mx-auto px-0 md:px-5 md:border-l md:border-r border-neutral-800">
