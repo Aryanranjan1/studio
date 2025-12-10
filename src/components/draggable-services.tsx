@@ -38,7 +38,7 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
     const engine = Engine.create();
     engineRef.current = engine;
     const world = engine.world;
-    engine.gravity.y = 0.4;
+    engine.gravity.y = 0.2; // Slightly reduced gravity
 
     const createBoundaries = (width: number, height: number) => {
       const oldBoundaries = world.bodies.filter(body => body.label?.includes('boundary'));
@@ -49,6 +49,7 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
         isStatic: true,
         render: { fillStyle: 'transparent' },
         friction: 1,
+        restitution: 0.8, // Make boundaries a bit more bouncy
       };
 
       World.add(world, [
@@ -75,9 +76,9 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
         h,
         {
           chamfer: { radius: h / 2 },
-          density: 0.01,
-          friction: 0.1,
-          frictionAir: 0.01,
+          density: 0.02, // Slightly increase density
+          friction: 0.05, // Increase friction
+          frictionAir: 0.02, // Increase air friction for slower movement
           restitution: 0.6,
         }
       );
@@ -91,7 +92,7 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
     const mouseConstraint = MouseConstraint.create(engine, {
       mouse: mouse,
       constraint: {
-        stiffness: 0.2,
+        stiffness: 0.1, // Softer grip
         render: { visible: false },
       },
     });
@@ -142,9 +143,10 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
   }, [items]);
 
   const colorClasses = [
-    'bg-primary text-primary-foreground',
-    'bg-white text-black',
-    'bg-[#0e0e11] text-white border border-neutral-700',
+    'bg-primary text-primary-foreground', // Solid primary
+    'bg-transparent text-white border border-neutral-700', // Outline
+    'bg-white/10 text-white backdrop-blur-sm border border-white/20', // Glassmorphism
+    'bg-secondary text-secondary-foreground', // Solid secondary
   ];
 
   return (
@@ -155,8 +157,8 @@ export function DraggableServices({ items = DEFAULT_SKILLS, className }: Draggab
           ref={el => itemElementsRef.current[index] = el}
           className={cn(
             'absolute flex items-center justify-center rounded-full cursor-grab active:cursor-grabbing',
-            'p-1 px-3 text-xs md:p-2 md:px-4 md:text-sm font-semibold',
-            'pointer-events-auto', // Changed to auto to allow mouse events
+            'px-4 py-2 text-sm font-semibold transition-colors duration-300', // Uniform padding
+            'pointer-events-auto',
             colorClasses[index % colorClasses.length]
           )}
         >
