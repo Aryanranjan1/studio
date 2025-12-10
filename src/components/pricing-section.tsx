@@ -68,17 +68,9 @@ export function PricingSection() {
   return (
     <section className="bg-bg-color py-24 sm:py-32 border-b border-border-active">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <Badge
-            variant="outline"
-            className="mb-4 border-border-active text-white"
-          >
-            Pricing
-          </Badge>
-          <h2 className="font-display text-4xl font-bold sm:text-5xl">
-            Flexible Plans for Every Need
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-neutral-400">
+        <div className="mb-12">
+          <h2 className="font-headline text-5xl md:text-6xl font-bold">Pricing</h2>
+          <p className="mt-6 max-w-2xl text-lg text-neutral-400">
             Choose the perfect plan to kickstart your project and grow your
             business.
           </p>
