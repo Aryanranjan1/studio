@@ -1,4 +1,3 @@
-
 'use client';
 
 import { getTemplates } from '@/lib/data';
@@ -9,12 +8,19 @@ import { useEffect, useState, useMemo } from 'react';
 import type { Template } from '@/lib/data';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { PricingSection } from '@/components/pricing-section';
+import { TestimonialsSection } from '@/components/testimonials-section';
+import { CtaSection } from '@/components/cta-section';
+import { Footer } from '@/components/footer';
+
+const ITEMS_PER_PAGE = 9;
 
 export default function StorePage() {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('all');
   const [cartCount, setCartCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     document.title = "Ampire Assets // Store";
@@ -30,10 +36,36 @@ export default function StorePage() {
     return templates.filter(t => t.specs.type.toLowerCase() === activeFilter);
   }, [templates, activeFilter]);
 
+  const totalPages = Math.ceil(filteredTemplates.length / ITEMS_PER_PAGE);
+
+  const paginatedTemplates = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return filteredTemplates.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [filteredTemplates, currentPage]);
+
   const categories = useMemo(() => {
     if (templates.length === 0) return [];
     return ['all', ...new Set(templates.map(t => t.specs.type.toLowerCase()))];
   }, [templates]);
+
+  const handleFilterClick = (category: string) => {
+    setActiveFilter(category);
+    setCurrentPage(1);
+  };
+
+  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); // Prevent link navigation
+    e.stopPropagation(); // Stop event from bubbling up to the link
+    setCartCount(prev => prev + 1);
+  };
+  
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
 
 
   if (loading) {
@@ -49,7 +81,7 @@ export default function StorePage() {
       <main>
         <header className="px-5 md:px-10 py-16 md:py-28 border-b border-white/20 relative">
             <div className="text-xs text-[#888] mb-5 tracking-wider flex gap-5">
-                <span><span className="inline-block w-2 h-2 bg-green-500 rounded-full mr-2 shadow-[0_0_10px_#00ff00]"></span>SYSTEM ONLINE</span>
+                <span><span className="inline-block w-2 h-2 bg-primary rounded-full mr-2 shadow-[0_0_10px_var(--primary)]"></span>SYSTEM ONLINE</span>
                 <span>// DIGITAL ASSETS // V.2.0</span>
             </div>
             <h1 className="font-display text-5xl md:text-7xl font-bold uppercase leading-none tracking-tight">Template<br/>Store.</h1>
@@ -60,7 +92,7 @@ export default function StorePage() {
                 {categories.map(cat => (
                     <button 
                         key={cat}
-                        onClick={() => setActiveFilter(cat)}
+                        onClick={() => handleFilterClick(cat)}
                         className={cn(
                             "bg-transparent border-r border-white/20 text-[#888] font-tech text-sm px-4 md:px-8 h-full uppercase transition-all duration-200 hover:text-white hover:bg-white/5",
                             activeFilter === cat && "text-black bg-white font-bold"
@@ -76,7 +108,7 @@ export default function StorePage() {
         </nav>
         
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
-            {filteredTemplates.map((template) => (
+            {paginatedTemplates.map((template) => (
               <Link href={`/store/${template.id}`} key={template.id} className="group product-card block border-b border-r border-white/20">
                 <div className="relative">
                     {template.bestSeller && <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">BEST SELLER</div>}
@@ -108,13 +140,47 @@ export default function StorePage() {
                         </div>
                     </div>
                     
-                    <Button variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-300 flex items-center justify-center gap-2">
-                        View Details <ArrowRight className="w-4 h-4" />
-                    </Button>
+                    <div className="flex gap-2">
+                         <Button asChild variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-300 flex items-center justify-center gap-2">
+                           <span>View Details <ArrowRight className="w-4 h-4" /></span>
+                        </Button>
+                        <Button onClick={handleAddToCart} variant="outline" size="icon" className="uppercase rounded-none bg-transparent text-white border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-300">
+                            <ShoppingCart className="w-4 h-4" />
+                        </Button>
+                    </div>
                 </div>
             </Link>
             ))}
         </section>
+
+        {totalPages > 1 && (
+            <div className="col-span-12 bg-black p-8 flex justify-center items-center gap-4 border-b border-white/20">
+                <Button 
+                    onClick={handlePrevPage} 
+                    disabled={currentPage === 1}
+                    variant="outline"
+                    className="rounded-none"
+                >
+                    Previous
+                </Button>
+                <span className="text-sm text-neutral-400">
+                    Page {currentPage} of {totalPages}
+                </span>
+                <Button 
+                    onClick={handleNextPage} 
+                    disabled={currentPage === totalPages}
+                    variant="outline"
+                    className="rounded-none"
+                >
+                    Next
+                </Button>
+            </div>
+        )}
+
+        <PricingSection />
+        <TestimonialsSection />
+        <CtaSection />
+        <Footer />
       </main>
     </div>
   );
