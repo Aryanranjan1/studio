@@ -83,25 +83,29 @@ export function HorizontalServices() {
         let animationFrameId: number;
 
         const handleWheel = (e: WheelEvent) => {
+            if (!isIntersecting) return;
+
             const { deltaY } = e;
             const scrollWidth = track.scrollWidth;
             const containerWidth = container.clientWidth;
             const maxScroll = scrollWidth - containerWidth;
             
-            // Allow normal scroll if not intersecting
-            if (!isIntersecting) return;
-            
             targetX -= deltaY;
-            targetX = Math.max(-maxScroll, Math.min(0, targetX));
 
-            // If we are at the edges, allow vertical scroll
-            if (targetX === 0 && deltaY < 0) {
-                 // Trying to scroll up at the beginning
-            } else if (targetX === -maxScroll && deltaY > 0) {
-                // Trying to scroll down at the end
+            // Clamp the target position
+            const clampedTargetX = Math.max(-maxScroll, Math.min(0, targetX));
+            
+            // If we are at the boundaries and trying to scroll further, do not prevent default
+            if (
+                (clampedTargetX === 0 && deltaY < 0) || 
+                (clampedTargetX === -maxScroll && deltaY > 0)
+            ) {
+                 // Release the lock
             } else {
-                 e.preventDefault(); // Hijack scroll
+                e.preventDefault(); // Hijack scroll only when within boundaries
             }
+            targetX = clampedTargetX;
+
         };
 
         const animate = () => {
@@ -120,19 +124,19 @@ export function HorizontalServices() {
             { threshold: 1.0 } // Trigger when 100% of the element is visible
         );
 
-        if (container) observer.observe(container);
+        observer.observe(container);
 
         if (isIntersecting) {
-            container.addEventListener('wheel', handleWheel, { passive: false });
+            window.addEventListener('wheel', handleWheel, { passive: false });
             animate();
         } else {
-             container.removeEventListener('wheel', handleWheel);
+             window.removeEventListener('wheel', handleWheel);
              cancelAnimationFrame(animationFrameId!);
         }
 
         return () => {
-            if(container) observer.unobserve(container);
-            container?.removeEventListener('wheel', handleWheel);
+            observer.unobserve(container);
+            window.removeEventListener('wheel', handleWheel);
             cancelAnimationFrame(animationFrameId!);
         };
 
@@ -169,4 +173,3 @@ export function HorizontalServices() {
     </section>
   );
 }
-
