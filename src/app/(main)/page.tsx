@@ -11,6 +11,7 @@ import { PricingSection } from '@/components/pricing-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
 import { Footer } from '@/components/footer';
 import { DraggableServices } from '@/components/draggable-services';
+import { ServicesSection } from '@/components/services-section';
 
 // --- HUD HEADER COMPONENT ---
 const HudHeader = () => {
@@ -108,6 +109,9 @@ export default function Home() {
       {/* 2. Manifesto Section */}
       <Manifesto />
       
+      {/* 3. Services Section */}
+      <ServicesSection />
+
       {/* 4. Projects Section (Sticky Layout) */}
       <section className="projects-section relative w-full bg-[#050505] border-b border-white/20">
         <div className="container max-w-[1400px] mx-auto px-0 md:px-5 md:border-l md:border-r border-neutral-800">
