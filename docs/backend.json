@@ -1,260 +1,118 @@
 {
   "entities": {
-    "Service": {
-      "title": "Service",
-      "description": "Represents a service offered by the agency.",
+    "PortfolioProject": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PortfolioProject",
       "type": "object",
+      "description": "Represents a portfolio project showcased by AMpire Studio.",
       "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the PortfolioProject entity."
+        },
         "title": {
           "type": "string",
-          "description": "The title of the service."
+          "description": "Title of the portfolio project."
         },
         "description": {
           "type": "string",
-          "description": "A short description of the service."
+          "description": "Detailed description of the project."
         },
-        "longDescription": {
+        "imageUrl": {
           "type": "string",
-          "description": "A more detailed description of the service."
-        },
-        "image": {
-          "type": "string",
-          "description": "URL of an image representing the service."
-        },
-        "imageAlt": {
-          "type": "string",
-          "description": "Alt text for the service image."
-        }
-      },
-      "required": ["title", "description"]
-    },
-    "Project": {
-      "title": "Project",
-      "description": "Represents a project in the portfolio.",
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "category": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "longDescription": {
-          "type": "string"
-        },
-        "image": {
-          "type": "string"
-        },
-        "imageAlt": {
-          "type": "string"
-        },
-        "client": {
-          "type": "string"
-        },
-        "role": {
-          "type": "string"
-        },
-        "duration": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string",
+          "description": "URL of the project's image.",
           "format": "uri"
         },
-        "technologies": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": ["title", "category", "description"]
-    },
-    "Testimonial": {
-      "title": "Testimonial",
-      "description": "A testimonial from a client.",
-      "type": "object",
-      "properties": {
-        "quote": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "role": {
-          "type": "string"
-        },
-        "company": {
-          "type": "string"
-        },
-        "image": {
+        "serviceType": {
           "type": "string",
-          "format": "uri"
-        }
-      },
-      "required": ["quote", "name", "role"]
-    },
-    "FaqItem": {
-      "title": "FAQ Item",
-      "description": "A single frequently asked question and its answer.",
-      "type": "object",
-      "properties": {
-        "question": {
-          "type": "string"
+          "description": "Type of service provided in the project (e.g., Web Design, Animation)."
         },
-        "answer": {
-          "type": "string"
-        }
-      },
-      "required": ["question", "answer"]
-    },
-    "Article": {
-      "title": "Article",
-      "description": "A blog post or article.",
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "date": {
+        "projectHighlights": {
           "type": "string",
-          "format": "date"
+          "description": "AI-generated highlights summarizing the project's key value points."
         },
-        "author": {
-          "type": "string"
-        },
-        "excerpt": {
-          "type": "string"
+        "cmsId": {
+          "type": "string",
+          "description": "Reference to CMS content. (Relationship: CMS 1:1 PortfolioProject)"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "imageUrl",
+        "serviceType",
+        "projectHighlights"
+      ]
+    },
+    "CMSContent": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CMSContent",
+      "type": "object",
+      "description": "Represents content managed by the Sanity CMS.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the CMSContent entity."
         },
         "content": {
-          "type": "string"
-        },
-        "image": {
           "type": "string",
-          "format": "uri"
+          "description": "The actual content managed by the CMS, stored as a string (e.g., JSON, Markdown)."
         },
-        "imageAlt": {
-          "type": "string"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "lastUpdated": {
+          "type": "string",
+          "description": "Timestamp of the last content update.",
+          "format": "date-time"
         }
       },
-      "required": ["title", "date", "author", "content"]
-    },
-    "Template": {
-      "title": "Template",
-      "description": "A digital product or template for sale.",
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "price": {
-          "type": "number"
-        },
-        "image": {
-          "type": "string",
-          "format": "uri"
-        },
-        "imageAlt": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string",
-          "format": "uri"
-        },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": ["title", "price", "url"]
-    },
-    "UserProfile": {
-      "title": "User Profile",
-      "description": "Represents a user's profile in the system.",
-      "type": "object",
-      "properties": {
-        "displayName": {
-          "type": "string",
-          "description": "The user's display name."
-        },
-        "email": {
-          "type": "string",
-          "format": "email",
-          "description": "The user's email address."
-        },
-        "photoURL": {
-          "type": "string",
-          "format": "uri",
-          "description": "URL of the user's profile picture."
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time",
-          "description": "The timestamp when the user account was created."
-        }
-      },
-      "required": ["displayName", "email"]
+      "required": [
+        "id",
+        "content",
+        "lastUpdated"
+      ]
     }
   },
   "auth": {
-    "providers": ["anonymous"]
+    "providers": [
+      "password",
+      "anonymous"
+    ]
   },
   "firestore": {
-    "/services": {
-      "schema": {
-        "$ref": "#/entities/Service"
+    "structure": [
+      {
+        "path": "/portfolio_projects/{projectId}",
+        "definition": {
+          "entityName": "PortfolioProject",
+          "schema": {
+            "$ref": "#/backend/entities/PortfolioProject"
+          },
+          "description": "Stores portfolio project data.  No denormalized fields needed, as authorization is open. `{projectId}` corresponds to the 'id' field in the PortfolioProject schema.",
+          "params": [
+            {
+              "name": "projectId",
+              "description": "Unique identifier for the portfolio project."
+            }
+          ]
+        }
       },
-      "description": "Collection of services offered."
-    },
-    "/projects": {
-      "schema": {
-        "$ref": "#/entities/Project"
-      },
-      "description": "Collection of portfolio projects."
-    },
-    "/testimonials": {
-      "schema": {
-        "$ref": "#/entities/Testimonial"
-      },
-      "description": "Collection of client testimonials."
-    },
-    "/faq": {
-      "schema": {
-        "$ref": "#/entities/FaqItem"
-      },
-      "description": "Collection of FAQ items."
-    },
-    "/articles": {
-      "schema": {
-        "$ref": "#/entities/Article"
-      },
-      "description": "Collection of blog articles."
-    },
-    "/templates": {
-      "schema": {
-        "$ref": "#/entities/Template"
-      },
-      "description": "Collection of digital products/templates."
-    },
-    "/users/{userId}": {
-      "schema": {
-        "$ref": "#/entities/UserProfile"
-      },
-      "description": "Stores public information about a user."
-    }
+      {
+        "path": "/cms_content/{contentId}",
+        "definition": {
+          "entityName": "CMSContent",
+          "schema": {
+            "$ref": "#/backend/entities/CMSContent"
+          },
+          "description": "Stores CMS content. No denormalized fields needed, as authorization is open. `{contentId}` corresponds to the 'id' field in the CMSContent schema.",
+          "params": [
+            {
+              "name": "contentId",
+              "description": "Unique identifier for the CMS content."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to manage portfolio projects and associated CMS content for AMpire Studio. It prioritizes authorization independence and simplifies security rules.\n\n`/portfolio_projects`: This collection stores the main portfolio project data.  It supports QAPs because listing all projects requires no authorization checks (the data is assumed to be public).  The schema for `PortfolioProject` ensures a predictable data structure.\n\n`/cms_content`:  This collection stores the CMS content, and is related to the `PortfolioProject` data through the `cmsId` field. Like projects, this collection is designed for public access.\n\nAuthorization Independence: Both collections are designed to avoid hierarchical authorization. Since there are no ownership or role-based restrictions, every document can be accessed by anyone.\n"
   }
 }
