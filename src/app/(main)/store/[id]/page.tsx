@@ -2,7 +2,7 @@
 'use client';
 
 import { getTemplates } from '@/lib/data';
-import { notFound, useRouter } from 'next/navigation';
+import { notFound, useRouter, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -13,20 +13,24 @@ import { useEffect, useState } from 'react';
 // We can't use generateMetadata in a Client Component.
 // We'll set the title using useEffect instead.
 
-export default function TemplateDetailsPage({ params }: { params: { id: string } }) {
+export default function TemplateDetailsPage() {
   const router = useRouter();
+  const params = useParams();
+  const { id } = params;
+
   const [template, setTemplate] = useState<Template | null>(null);
 
   useEffect(() => {
+    if (!id) return;
     const templates = getTemplates();
-    const foundTemplate = templates.find((p) => p.id === params.id);
+    const foundTemplate = templates.find((p) => p.id === id);
     if (foundTemplate) {
       setTemplate(foundTemplate);
       document.title = `${foundTemplate.title} — Ampire Assets`;
     } else {
       notFound();
     }
-  }, [params.id]);
+  }, [id]);
 
 
   if (!template) {
@@ -48,7 +52,7 @@ export default function TemplateDetailsPage({ params }: { params: { id: string }
           &lt; BACK_TO_STORE
         </Link>
         <div className="hidden md:block">
-          AMPIRE_ASSETS // ID: {template.id.split('-')[1].padStart(3, '0')}
+          AMPIRE_ASSETS // ID: {typeof id === 'string' ? id.split('-')[1].padStart(3, '0') : ''}
         </div>
       </nav>
 
