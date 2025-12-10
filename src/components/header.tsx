@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -21,6 +20,7 @@ import {
   ShoppingBag,
   ShoppingCart,
   HelpCircle,
+  Crown,
 } from 'lucide-react';
 import { FaGithub, FaLinkedin, FaDribbble } from 'react-icons/fa6';
 import { cn } from '@/lib/utils';
@@ -95,7 +95,7 @@ export function Header() {
         <header className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center justify-between border-r border-border bg-background py-6 md:flex">
           <div className="flex flex-col items-center gap-8">
             <Link href="/" className="font-headline text-xl font-bold text-primary">
-              A
+              <Crown className="h-8 w-8" />
             </Link>
             <nav className="flex flex-col items-center gap-3">
               {mainNavLinks.map(link => (
