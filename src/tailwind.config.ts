@@ -1,3 +1,4 @@
+
 import type {Config} from 'tailwindcss';
 
 const {
@@ -87,8 +88,7 @@ export default {
         },
         "blinker": { 
           "50%": { 
-            opacity: "0",
-            "background-color": "hsl(var(--primary))"
+            opacity: "0"
           } 
         },
       },
