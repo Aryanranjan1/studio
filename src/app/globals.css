@@ -60,7 +60,7 @@
     @apply border-border;
   }
   html, body {
-    overflow-x: hidden;
+    /* Removed overflow-x-hidden to prevent breaking position: sticky */
   }
   body {
     background-color: var(--bg-color);
@@ -91,4 +91,3 @@
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
-
