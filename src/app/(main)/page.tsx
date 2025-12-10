@@ -10,6 +10,7 @@ import { HorizontalServices } from '@/components/horizontal-services';
 import { PricingSection } from '@/components/pricing-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
 import { Crown } from 'lucide-react';
+import { DraggableServices } from '@/components/draggable-services';
 
 // --- HUD HEADER COMPONENT ---
 const HudHeader = () => {
@@ -95,7 +96,7 @@ export default function Home() {
             <span>LON: 101.69E</span>
           </div>
           <div className="status-box flex items-center">
-            <span className="animate-pulse inline-block h-2 w-2 rounded-full bg-primary mr-2 shadow-[0_0_10px_currentColor]"></span> SYSTEM ONLINE
+            <span className="animate-ping-slow inline-block h-2 w-2 rounded-full bg-primary mr-2 shadow-[0_0_10px_currentColor]"></span> SYSTEM ONLINE
           </div>
         </div>
       </header>
