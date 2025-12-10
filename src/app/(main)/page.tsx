@@ -10,7 +10,7 @@ import { Manifesto } from '@/components/manifesto';
 import { PricingSection } from '@/components/pricing-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
 import { Footer } from '@/components/footer';
-import { ServicesSection } from '@/components/services-section';
+import { HorizontalServices } from '@/components/horizontal-services';
 import { useLenis } from '@studio-freight/react-lenis';
 
 // --- HUD HEADER COMPONENT ---
@@ -114,7 +114,7 @@ export default function Home() {
       <Manifesto />
       
       {/* 3. Services Section */}
-      <ServicesSection />
+      <HorizontalServices />
 
       {/* 4. Projects Section (Sticky Layout) */}
       <section className="projects-section relative w-full bg-[#050505] border-b border-white/20">
@@ -159,3 +159,5 @@ export default function Home() {
     </main>
   );
 }
+
+    
