@@ -31,15 +31,17 @@ const HudHeader = () => {
   }, []);
 
   return (
-    <div className="hud-header absolute top-0 left-0 w-full flex justify-between px-6 md:px-10 py-7 z-20 text-xs md:text-sm text-neutral-400 pointer-events-none select-none">
-      <div>
-        <div className="hud-left font-bold text-white tracking-widest flex items-center">
-            <Crown className="h-4 w-4 mr-2 text-primary" />
-            <span>AMPIRE STUDIO</span>
+    <div className="hud-header absolute top-0 left-0 right-0 mx-6 md:mx-10 mt-7 z-20 pointer-events-none select-none">
+      <div className="flex justify-between items-start text-xs md:text-sm text-neutral-400 border-b border-white/20 pb-4">
+        <div>
+          <div className="hud-left font-bold text-white tracking-widest flex items-center pointer-events-auto">
+              <Crown className="h-4 w-4 mr-2 text-primary" />
+              <span>AMPIRE STUDIO</span>
+          </div>
+          <div className="text-neutral-500 mt-1 hidden md:block">// DIGITAL ARCHITECTS</div>
         </div>
-        <div className="text-neutral-500 mt-1 hidden md:block">// DIGITAL ARCHITECTS</div>
+        <div className="hud-right font-tech text-primary">{time}</div>
       </div>
-      <div className="hud-right font-tech text-primary">{time}</div>
     </div>
   );
 };
