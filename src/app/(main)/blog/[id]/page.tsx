@@ -10,6 +10,13 @@ import type { Article } from '@/lib/data';
 import './page.css';
 import { Footer } from '@/components/footer';
 
+export function generateStaticParams() {
+  const articles = getArticles();
+  return articles.map((article) => ({
+    id: article.id,
+  }));
+}
+
 export default function ArticlePage() {
   const params = useParams();
   const id = params.id as string;
