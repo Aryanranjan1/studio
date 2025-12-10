@@ -12,21 +12,26 @@ import { Footer } from '@/components/footer';
 
 export function generateStaticParams() {
   const projects = getProjects();
+  console.log('[generateStaticParams] Generating params for slugs:', projects.map(p => p.id));
   return projects.map((project) => ({
-    slug: project.id,
+    slug: String(project.id), // Ensure slug is always a string
   }));
 }
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+    const { slug } = params;
+    console.log(`[generateMetadata] Generating metadata for slug: "${slug}"`);
     const projects = getProjects();
-    const project = projects.find((p) => p.id === params.slug);
+    const project = projects.find((p) => p.id === slug);
 
     if (!project) {
-        console.warn(`[generateMetadata] Project with slug "${params.slug}" not found.`);
+        console.warn(`[generateMetadata] Project with slug "${slug}" not found.`);
         return {
             title: 'Project Not Found',
         };
     }
+    
+    console.log(`[generateMetadata] Found project: "${project.title}"`);
 
     return {
         title: project.title,
