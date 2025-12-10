@@ -7,8 +7,18 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import type { Template } from '@/lib/data';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { ShoppingCart } from 'lucide-react';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from '@/components/ui/carousel';
+import { cn } from '@/lib/utils';
+
 
 export default function TemplateDetailsPage() {
   const params = useParams();
@@ -16,6 +26,9 @@ export default function TemplateDetailsPage() {
 
   const [template, setTemplate] = useState<Template | null>(null);
   const [cartCount, setCartCount] = useState(0);
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     if (!id) return;
@@ -28,6 +41,23 @@ export default function TemplateDetailsPage() {
       notFound();
     }
   }, [id]);
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap() + 1);
+
+    api.on('select', () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
+  
+  const handleDotClick = useCallback((index: number) => {
+    api?.scrollTo(index);
+  }, [api]);
 
   if (!template) {
     // You can render a loading state here
@@ -56,31 +86,55 @@ export default function TemplateDetailsPage() {
       </nav>
 
       <main className="flex flex-col pt-[60px] md:flex-row">
-        {/* Left Column: Scrolling Images */}
-        <div className="w-full md:w-[65%] border-b border-white/20 p-5 md:border-b-0 md:border-r md:p-10">
-          {template.images.map((img, index) => (
-            <div key={index} className="mb-10 group relative">
-              <div className="gallery-item overflow-hidden border border-[#222]">
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    width={1600}
-                    height={900}
-                    className="transition-transform duration-500 group-hover:scale-105"
-                    priority={index === 0}
+        {/* Left Column: Image Slider */}
+        <div className="w-full md:w-[65%] border-b border-white/20 p-5 md:border-b-0 md:border-r md:p-10 flex flex-col justify-center">
+           <Carousel setApi={setApi} className="w-full">
+            <CarouselContent>
+              {template.images.map((img, index) => (
+                <CarouselItem key={index}>
+                   <div className="group relative">
+                    <div className="gallery-item overflow-hidden border border-[#222]">
+                        <Image
+                          src={img.src}
+                          alt={img.alt}
+                          width={1600}
+                          height={900}
+                          className="aspect-video object-cover"
+                          priority={index === 0}
+                        />
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <Button asChild variant="outline" className="bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-black">
+                        <a href="https://google.com" target="_blank" rel="noopener noreferrer">Live Preview</a>
+                      </Button>
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-4 bg-black/50 border-white/20 text-white hover:bg-white hover:text-black" />
+            <CarouselNext className="right-4 bg-black/50 border-white/20 text-white hover:bg-white hover:text-black" />
+          </Carousel>
+           <div className="py-4 text-center text-sm text-muted-foreground">
+             <div className="flex items-center justify-center gap-2">
+                {Array.from({ length: count }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleDotClick(index)}
+                    className={cn(
+                      'h-2 w-2 rounded-full transition-colors',
+                      current === index + 1 ? 'bg-white' : 'bg-neutral-600 hover:bg-neutral-400'
+                    )}
+                    aria-label={`Go to slide ${index + 1}`}
                   />
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <Button asChild variant="outline" className="bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-black">
-                  <a href="https://google.com" target="_blank" rel="noopener noreferrer">Live Preview</a>
-                </Button>
-              </div>
-              <div className="mt-3 text-right text-[10px] text-[#666] uppercase">
-                [FIG 1.{index}] {img.alt}
-              </div>
+                ))}
             </div>
-          ))}
+             <p className="mt-2 text-right text-[10px] text-[#666] uppercase">
+                [FIG 1.{current-1}] {template.images[current-1]?.alt}
+             </p>
+          </div>
         </div>
+
 
         {/* Right Column: Sticky Info */}
         <div className="w-full md:w-[35%] md:sticky md:top-[60px] md:h-[calc(100vh-60px)]">
