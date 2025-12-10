@@ -119,6 +119,38 @@
     cursor: not-allowed;
 }
 
+.google-button {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.google-button:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+
+.separator {
+    text-align: center;
+    color: #666;
+    font-size: 0.8rem;
+    margin: 25px 0;
+    position: relative;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 25px);
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+}
+.separator::before { left: 0; }
+.separator::after { right: 0; }
+
+
 .auth-footer {
     margin-top: 30px;
     text-align: center;
