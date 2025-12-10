@@ -1,5 +1,4 @@
 
-
 export type Service = {
   id: string;
   title: string;
@@ -118,9 +117,12 @@ export type Template = {
     css: string;
     cms: string;
     type: string;
+    [key: string]: string; // Allow other string keys
   };
   bestSeller?: boolean;
   isNew?: boolean;
+  version?: string;
+  fileTree?: { name: string; indent: boolean }[];
 };
 
 export type TeamMember = {
@@ -486,36 +488,47 @@ export const getArticles = (): Article[] => Array.from({ length: 21 }, (_, i) =>
 
 export const getTemplates = (): Template[] => Array.from({ length: 20 }, (_, i) => ({
     id: `template-${i + 1}`,
-    title: `Template ${i + 1}`,
+    title: `Obsidian ${i + 1}`,
     description: `A high-quality, professional template for ${['agencies', 'SaaS companies', 'portfolios'][i % 3]}.`,
     longDescription: `This is a comprehensive description for Pro Template ${i + 1}. It is designed to be fully responsive, highly customizable, and optimized for performance. It comes with a variety of pre-built pages and components to help you launch your website quickly and efficiently.`,
     price: 49 + (i * 5),
     image: `https://picsum.photos/seed/t-cover-${i + 1}/1200/800`,
     imageAlt: `Cover image for Pro Template ${i + 1}`,
-    url: '#',
+    url: 'https://gumroad.com/',
     tags: [['Webflow', 'Agency'], ['Next.js', 'SaaS'], ['Framer', 'Portfolio']][i % 3],
+    version: `2.1.${i}`,
     specs: {
-        stack: ['Next.js', 'React', 'Astro', 'Vue 3'][i % 4],
-        css: ['Tailwind', 'Styled Comp.'][i % 2],
-        cms: ['Sanity', 'Contentful', 'MDX', 'Strapi'][i % 4],
+        stack: ['Next.js 14 (App Router)', 'React', 'Astro', 'Vue 3'][i % 4],
+        css: ['Tailwind CSS', 'Styled Components'][i % 2],
+        animation: ['Framer Motion', 'GSAP'][i % 2],
+        cms: ['Sanity.io (Headless)', 'Contentful', 'MDX', 'Strapi'][i % 4],
+        deploy: ['Vercel Ready', 'Netlify Ready'][i % 2],
         type: ['Agency', 'SaaS', 'Portfolio', 'Blog'][i % 4]
     },
+    fileTree: [
+        { name: '/app', indent: false },
+        { name: 'layout.tsx', indent: true },
+        { name: 'page.tsx', indent: true },
+        { name: '/projects', indent: true },
+        { name: '/components', indent: false },
+        { name: 'Hero.tsx', indent: true },
+        { name: 'Navbar.tsx', indent: true },
+        { name: 'Footer.tsx', indent: true },
+        { name: '/lib', indent: false },
+        { name: 'sanity.ts', indent: true },
+    ],
     images: [
       {
         src: `https://picsum.photos/seed/t-img1-${i + 1}/1200/800`,
-        alt: `Gallery image 1 for Template ${i + 1}`,
+        alt: `HOME_PAGE_HERO_SECTION`,
       },
       {
         src: `https://picsum.photos/seed/t-img2-${i + 1}/1200/800`,
-        alt: `Gallery image 2 for Template ${i + 1}`,
+        alt: `MOBILE_RESPONSIVE_MENU`,
       },
       {
         src: `https://picsum.photos/seed/t-img3-${i + 1}/1200/800`,
-        alt: `Gallery image 3 for Template ${i + 1}`,
-      },
-      {
-        src: `https://picsum.photos/seed/t-img4-${i + 1}/1200/800`,
-        alt: `Gallery image 4 for Template ${i + 1}`,
+        alt: `PROJECT_GRID_LAYOUT`,
       },
     ],
     features: [
