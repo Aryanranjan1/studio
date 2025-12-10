@@ -95,14 +95,22 @@ export default function ServicesPage() {
     <div className="w-full bg-black text-white min-h-screen">
       <main>
         
-        <div className="col-span-12 bg-black border-b border-neutral-800 p-8 md:p-16">
-            <div className="max-w-3xl">
+        <div className="col-span-12 bg-black p-8 border-b border-neutral-800">
+             <div className="flex flex-col md:flex-row justify-between md:items-end gap-8">
               <h1 className="font-headline text-7xl md:text-9xl font-bold">Services</h1>
-              <p className="mt-6 text-lg text-neutral-400">
-                From bespoke websites to complex business automation, we provide end-to-end digital solutions that drive results. Our process is transparent, our technology is modern, and our focus is always on quality.
-              </p>
+               <div className='max-w-md'>
+                <p className="mt-4 md:mt-0 text-neutral-400">
+                  From bespoke websites to complex business automation, we provide end-to-end digital solutions that drive results. Our process is transparent, our technology is modern, and our focus is always on quality.
+                </p>
+                <div className="flex flex-wrap gap-2 mt-4">
+                    <Badge variant="secondary">Web Development</Badge>
+                    <Badge variant="secondary">Web Design</Badge>
+                    <Badge variant="secondary">Automation</Badge>
+                    <Badge variant="secondary">Mobile App</Badge>
+                </div>
+              </div>
             </div>
-        </div>
+          </div>
 
           <div className="col-span-12 bg-black">
             <ServicesSection />
