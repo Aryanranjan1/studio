@@ -26,6 +26,7 @@ import { cn } from '@/lib/utils';
 import { ProcessGrid } from '@/components/process-grid';
 import { useEffect } from 'react';
 import { DraggableServices } from '@/components/draggable-services';
+import { ServicesSection } from '@/components/services-section';
 
 const processSteps = [
     {
@@ -107,7 +108,10 @@ export default function ServicesPage() {
             </div>
           </div>
 
-          
+          <div className="col-span-12 bg-black">
+            <ServicesSection />
+          </div>
+
           {/* 4. TECH STACK */}
            <div className="col-span-12 bg-black border-b border-neutral-800 p-8 md:p-16">
             <div className="mb-12">

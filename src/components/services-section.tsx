@@ -11,8 +11,8 @@ export function ServicesSection() {
   const services = getServices().slice(0, 4); // We only want to show 4 services in this grid
 
   return (
-    <section className="bg-background pt-12 border-b border-border">
-      <div className="px-4 sm:px-6 lg:px-8">
+    <section className="bg-background py-16 border-b border-border">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-start justify-between">
           <div className="max-w-2xl">
             <p className="font-semibold uppercase tracking-wider text-muted-foreground">
