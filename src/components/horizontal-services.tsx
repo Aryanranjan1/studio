@@ -63,7 +63,6 @@ export function HorizontalServices() {
     const containerRef = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
     const [isDesktop, setIsDesktop] = useState(false);
-    const [isIntersecting, setIsIntersecting] = useState(false);
 
     useEffect(() => {
         const checkDesktop = () => setIsDesktop(window.innerWidth > 768);
@@ -81,36 +80,32 @@ export function HorizontalServices() {
         let targetX = 0;
         const easing = 0.08;
         let animationFrameId: number;
+        let isLocked = false;
 
         const handleWheel = (e: WheelEvent) => {
-            if (!isIntersecting) return;
+            if (!isLocked) return;
+            
+            e.preventDefault();
 
-            const { deltaY } = e;
             const scrollWidth = track.scrollWidth;
             const containerWidth = container.clientWidth;
             const maxScroll = scrollWidth - containerWidth;
             
-            targetX -= deltaY;
+            targetX -= e.deltaY;
 
-            // Clamp the target position
-            const clampedTargetX = Math.max(-maxScroll, Math.min(0, targetX));
-            
-            // If we are at the boundaries and trying to scroll further, do not prevent default
-            if (
-                (clampedTargetX === 0 && deltaY < 0) || 
-                (clampedTargetX === -maxScroll && deltaY > 0)
-            ) {
-                 // Release the lock
-            } else {
-                e.preventDefault(); // Hijack scroll only when within boundaries
+            // Unlock if scrolling past boundaries
+            if (targetX > 0) {
+                targetX = 0;
+                isLocked = false;
+            } else if (targetX < -maxScroll) {
+                targetX = -maxScroll;
+                isLocked = false;
             }
-            targetX = clampedTargetX;
-
         };
 
         const animate = () => {
             currentX += (targetX - currentX) * easing;
-            if (Math.abs(targetX - currentX) < 0.1) {
+            if (Math.abs(targetX - currentX) < 0.5) {
                 currentX = targetX;
             }
             track.style.transform = `translateX(${currentX}px)`;
@@ -119,28 +114,22 @@ export function HorizontalServices() {
         
         const observer = new IntersectionObserver(
             ([entry]) => {
-                setIsIntersecting(entry.isIntersecting);
+                isLocked = entry.isIntersecting;
             },
-            { threshold: 1.0 } // Trigger when 100% of the element is visible
+            { threshold: 1.0 } // Lock when 100% visible
         );
 
         observer.observe(container);
-
-        if (isIntersecting) {
-            window.addEventListener('wheel', handleWheel, { passive: false });
-            animate();
-        } else {
-             window.removeEventListener('wheel', handleWheel);
-             cancelAnimationFrame(animationFrameId!);
-        }
+        window.addEventListener('wheel', handleWheel, { passive: false });
+        animate();
 
         return () => {
             observer.unobserve(container);
             window.removeEventListener('wheel', handleWheel);
-            cancelAnimationFrame(animationFrameId!);
+            cancelAnimationFrame(animationFrameId);
         };
 
-    }, [isDesktop, isIntersecting]);
+    }, [isDesktop]);
 
     if (!isDesktop) {
          return (
@@ -150,7 +139,7 @@ export function HorizontalServices() {
                 </div>
                  <div className="flex flex-col">
                     {services.map((service) => (
-                        <ServiceCard key={service.num} service={service} isCta={service.isCta} />
+                        <ServiceCard key={service.num || service.title} service={service} isCta={service.isCta} />
                     ))}
                 </div>
             </section>
@@ -167,7 +156,7 @@ export function HorizontalServices() {
             className="horizontal-track flex h-[70vh] px-[5vw] w-auto"
         >
           {services.map((service) => (
-            <ServiceCard key={service.num} service={service} isCta={service.isCta} />
+            <ServiceCard key={service.num || service.title} service={service} isCta={service.isCta} />
           ))}
         </div>
     </section>
