@@ -36,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={cn('antialiased', inter.variable, spaceGrotesk.variable)}>
+      <body className={cn('antialiased', inter.variable, spaceGrotesk.variable)} suppressHydrationWarning={true}>
         <LenisProvider>
           <FirebaseClientProvider>
             {children}
