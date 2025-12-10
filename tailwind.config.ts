@@ -72,10 +72,15 @@ const config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        'blink-color': {
+          '0%, 100%': { backgroundColor: 'hsl(var(--primary))' },
+          '50%': { backgroundColor: '#ffffff' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'blink-color': 'blink-color 2s ease-in-out infinite',
       },
     },
   },
