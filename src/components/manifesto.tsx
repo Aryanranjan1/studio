@@ -51,7 +51,7 @@ export function Manifesto() {
             <motion.span
               key={word + "-" + index}
               variants={letter}
-              className={`word-span inline-block mr-4 ${highlightWords.includes(word) ? 'text-neutral-600' : ''}`}
+              className={`word-span inline-block mr-4 ${highlightWords.includes(word) ? 'text-primary' : ''}`}
             >
               {word}
             </motion.span>
