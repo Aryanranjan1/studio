@@ -27,6 +27,7 @@ import { ProcessGrid } from '@/components/process-grid';
 import { useEffect } from 'react';
 import { DraggableServices } from '@/components/draggable-services';
 import { ServicesSection } from '@/components/services-section';
+import { useLenis } from '@studio-freight/react-lenis';
 
 const processSteps = [
     {
@@ -85,29 +86,15 @@ export default function ServicesPage() {
         document.title = "Services — Ampire Studio";
     }, []);
 
+    // Lenis smooth scroll
+    useLenis((lenis) => {
+      // lenis operations
+    })
+
   return (
     <div className="w-full bg-black text-white min-h-screen">
       <main>
-        <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
-          
-          {/* Hero Header */}
-          <div className="col-span-12 bg-black p-8 border-b border-neutral-800">
-             <div className="flex flex-col md:flex-row justify-between md:items-end gap-8">
-              <h1 className="font-headline text-7xl md:text-9xl font-bold">Services</h1>
-               <div className='max-w-md'>
-                <p className="mt-4 md:mt-0 text-neutral-400">
-                  From foundational branding to complex web applications, we provide the expertise to elevate your business in the digital landscape.
-                </p>
-                <div className="flex flex-wrap gap-2 mt-4">
-                    <Badge variant="secondary">Web Development</Badge>
-                    <Badge variant="secondary">Branding</Badge>
-                    <Badge variant="secondary">Automation</Badge>
-                    <Badge variant="secondary">Mobile App</Badge>
-                </div>
-              </div>
-            </div>
-          </div>
-
+        
           <div className="col-span-12 bg-black">
             <ServicesSection />
           </div>
@@ -209,7 +196,7 @@ export default function ServicesPage() {
           <div className="col-span-12 bg-black">
             <Footer />
           </div>
-        </div>
+        
       </main>
     </div>
   );

@@ -10,8 +10,8 @@ import { Manifesto } from '@/components/manifesto';
 import { PricingSection } from '@/components/pricing-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
 import { Footer } from '@/components/footer';
-import { DraggableServices } from '@/components/draggable-services';
 import { ServicesSection } from '@/components/services-section';
+import { useLenis } from '@studio-freight/react-lenis';
 
 // --- HUD HEADER COMPONENT ---
 const HudHeader = () => {
@@ -77,6 +77,10 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
 // --- MAIN PAGE ---
 export default function Home() {
   const projects = getProjects().slice(0, 6);
+  // Lenis smooth scroll
+  useLenis((lenis) => {
+    // lenis operations
+  })
 
   return (
     <main className="bg-[#050505] text-white font-tech selection:bg-primary selection:text-black">

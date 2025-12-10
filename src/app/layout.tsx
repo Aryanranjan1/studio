@@ -5,6 +5,8 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { FirebaseClientProvider } from '@/firebase/client-provider';
 import { Toaster } from '@/components/ui/toaster';
+import { ReactLenis } from '@studio-freight/react-lenis'
+
 
 const inter = Inter({
   subsets: ['latin'],
@@ -35,10 +37,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={cn('antialiased', inter.variable, spaceGrotesk.variable)}>
-        <FirebaseClientProvider>
-          {children}
-          <Toaster />
-        </FirebaseClientProvider>
+        <ReactLenis root>
+          <FirebaseClientProvider>
+            {children}
+            <Toaster />
+          </FirebaseClientProvider>
+        </ReactLenis>
       </body>
     </html>
   );
