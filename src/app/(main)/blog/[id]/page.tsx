@@ -1,139 +1,228 @@
+'use client';
 
 import { getArticles } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { Calendar, User } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { Card, CardContent } from '@/components/ui/card';
-import type { Metadata } from 'next';
-
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const articles = getArticles();
-  const article = articles.find((a) => a.id === params.id);
-
-  if (!article) {
-    return {
-      title: 'Article Not Found',
-    };
-  }
-
-  return {
-    title: article.title,
-    description: article.excerpt,
-    openGraph: {
-        title: article.title,
-        description: article.excerpt,
-        images: [
-            {
-                url: article.image,
-                width: 1200,
-                height: 630,
-                alt: article.imageAlt,
-            },
-        ],
-    },
-  };
-}
+import { useEffect, useState, useRef } from 'react';
+import type { Article } from '@/lib/data';
+import './page.css';
+import { Footer } from '@/components/footer';
 
 export default function ArticlePage({ params }: { params: { id: string } }) {
-  const articles = getArticles();
-  const article = articles.find((a) => a.id === params.id);
+  const [article, setArticle] = useState<Article | null>(null);
+  const [nextArticle, setNextArticle] = useState<Article | null>(null);
+  const [otherArticles, setOtherArticles] = useState<Article[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [headings, setHeadings] = useState<{ id: string; text: string | null }[]>([]);
+  const [activeId, setActiveId] = useState('');
+  const contentRef = useRef<HTMLElement>(null);
 
-  if (!article) {
-    notFound();
+  // Scroll and progress bar effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const progressBar = document.getElementById('progressBar');
+      if (!progressBar) return;
+      
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      progressBar.style.width = scrolled + '%';
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // TOC active state effect
+  useEffect(() => {
+    if (!contentRef.current) return;
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: `0% 0% -80% 0%` }
+    );
+    
+    headings.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => {
+      headings.forEach(({ id }) => {
+        const el = document.getElementById(id);
+        if (el) observer.unobserve(el);
+      });
+    };
+  }, [headings]);
+
+
+  useEffect(() => {
+    if (!params.id) return;
+    
+    const allArticles = getArticles();
+    const currentArticleIndex = allArticles.findIndex(a => a.id === params.id);
+    const currentArticle = allArticles[currentArticleIndex];
+
+    if (currentArticle) {
+      setArticle(currentArticle);
+      document.title = `Ampire Log // ${currentArticle.title}`;
+      
+      const next = allArticles[currentArticleIndex + 1] || allArticles[0];
+      setNextArticle(next);
+
+      setOtherArticles(
+        allArticles.filter(a => a.id !== currentArticle.id && a.id !== next.id).slice(0, 2)
+      );
+
+      // Simulate TOC generation after render
+      setTimeout(() => {
+          const foundHeadings = Array.from(contentRef.current?.querySelectorAll('h2') || []).map(h => ({
+              id: h.id,
+              text: h.textContent
+          }));
+          setHeadings(foundHeadings);
+      }, 100);
+
+    } else {
+      notFound();
+    }
+    setLoading(false);
+  }, [params.id]);
+
+
+  if (loading || !article) {
+    return (
+      <div className="w-full min-h-screen bg-bg-color text-text-color flex items-center justify-center">
+        Accessing Transmission Log...
+      </div>
+    );
   }
 
-  const otherArticles = articles.filter(a => a.id !== params.id).slice(0, 2);
-
   return (
-    <div className="bg-background text-foreground">
-      <div className="relative h-[400px] w-full">
-        <Image
-          src={article.image}
-          alt={article.imageAlt}
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-transparent" />
+    <>
+      <div className="progress-container">
+        <div className="progress-bar" id="progressBar"></div>
       </div>
 
-      <main className="container mx-auto -mt-32 px-4 pb-16 sm:px-6 lg:px-8">
-        <div className="relative z-10 mx-auto max-w-4xl">
-          <div className="rounded-lg bg-card p-8 shadow-lg">
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                <span>{article.date}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <User className="h-4 w-4" />
-                <span>{article.author}</span>
-              </div>
+      <nav className="nav-bread">
+        <Link href="/blog">&lt; BACK_TO_LOGS</Link>
+        <span>LOG_ID: {article.id.replace('article-', '')}</span>
+      </nav>
+
+      <div className='mt-[64px]'>
+        <header className="article-hero">
+            <div className="hero-meta">{article.category.toUpperCase()} // ANALYSIS</div>
+            <h1 className="article-title">{article.title}</h1>
+            
+            <div className="meta-grid">
+                <div className="meta-item">
+                    <strong>AUTHOR</strong>
+                    <span>{article.author.replace(' ', '_').toUpperCase()}</span>
+                </div>
+                <div className="meta-item">
+                    <strong>DATE</strong>
+                    <span>{new Date(article.date).toISOString().split('T')[0].replace(/-/g, '.')}</span>
+                </div>
+                <div className="meta-item">
+                    <strong>READ TIME</strong>
+                    <span>{String(article.readingTime).padStart(2, '0')} MIN</span>
+                </div>
+                <div className="meta-item">
+                    <strong>STATUS</strong>
+                    <span>ARCHIVED</span>
+                </div>
             </div>
+        </header>
 
-            <h1 className="mt-4 font-headline text-3xl font-bold sm:text-4xl lg:text-5xl">
-              {article.title}
-            </h1>
+        <div className="content-wrapper">
+            <aside className="sidebar">
+                <div className="toc-title">Directory</div>
+                <ul className="toc-list">
+                    {headings.map((h, i) => (
+                      <li key={h.id}>
+                        <a href={`#${h.id}`} className={activeId === h.id ? 'active' : ''}>
+                          {String(i + 1).padStart(2, '0')}. {h.text}
+                        </a>
+                      </li>
+                    ))}
+                </ul>
+            </aside>
 
-            <div className="mt-4 flex flex-wrap gap-2">
-              {article.tags.map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="secondary"
-                  className="text-xs"
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </div>
+            <article className="article-body" ref={contentRef}>
+                <p id="intro" className="lead-text">{article.excerpt}</p>
+                <p>{article.content}</p>
 
-          <article className="prose prose-invert mt-12 max-w-none">
-            {/* The article content will be rendered here. For now, it's just a placeholder. */}
-            <p>{article.content}</p>
-            <blockquote className="border-l-4 border-primary pl-4 italic text-muted-foreground">
-                <p>This is a highlighted quote from the article, designed to draw the reader's attention to a key point. It stands out visually from the rest of the content.</p>
-            </blockquote>
-            <p>The rest of the article continues here, with more insights and information for the reader.</p>
-          </article>
+                <h2 id="section-1">The Monolith Problem</h2>
+                <p>The traditional CMS forces you to play by its rules. You want a custom interaction? You need a plugin. You want to optimize your Largest Contentful Paint (LCP)? Good luck fighting the 40 scripts the theme injected automatically.</p>
+                
+                <blockquote>
+                    "The web was never meant to be rendered by a PHP server in 2025. It was meant to be compiled at the edge."
+                </blockquote>
+
+                <p>This restriction of creativity and performance is why agencies like ours have moved entirely to the "Modern Stack"—Next.js, Tailwind, and a Headless CMS.</p>
+
+                <h2 id="section-2">The Headless Future</h2>
+                <p>A headless CMS separates the <strong>Body</strong> (the content repository) from the <strong>Head</strong> (the frontend display). This allows us to push content not just to a website, but to mobile apps, smartwatches, and even billboard displays from a single source of truth.</p>
+
+                <h2 id="section-3">Implementation</h2>
+                <p>Here is a simplified example of how we fetch data in this new world using a modern stack. Notice the lack of boilerplate.</p>
+
+                <div className="code-block">
+                    <div className="code-header">/lib/data.ts</div>
+                    <div className="code-content">
+                        <span className="kw">export async function</span> <span className="func">getPosts</span>() {'{'} <br/>
+                        {'  '}<span className="kw">const</span> query = <span className="str">`*[_type == "post"]`</span>; <br/>
+                        {'  '}<span className="kw">return</span> client.fetch(query); <br/>
+                        {'}'}
+                    </div>
+                </div>
+
+                <p>This level of control allows us to render exactly what we need, when we need it. No bloat. No compromise.</p>
+
+                <h2 id="conclusion">Conclusion</h2>
+                <p>The transition is painful for legacy developers, but essential. Speed is the currency of the modern web, and monoliths are bankrupt.</p>
+            </article>
         </div>
-
-         {/* Other Articles Section */}
-         <section className="mt-24 border-t border-border pt-16">
-          <h2 className="text-center font-headline text-3xl font-bold">
-            More Articles
-          </h2>
-          <div className="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
-            {otherArticles.map((otherArticle) => (
-              <Link href={`/blog/${otherArticle.id}`} key={otherArticle.id} className="group">
-                <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10">
-                  <div className="relative h-48 w-full">
-                    <Image
-                      src={otherArticle.image}
-                      alt={otherArticle.imageAlt}
-                      fill
-                      loading="lazy"
-                      className="object-cover"
-                    />
-                     <div className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-black/40" />
-                  </div>
-                  <CardContent className="p-6">
-                    <p className="text-sm text-muted-foreground">{otherArticle.date}</p>
-                    <h3 className="mt-2 font-headline text-xl font-bold group-hover:text-primary">
-                      {otherArticle.title}
-                    </h3>
-                    <p className="mt-2 text-muted-foreground">
-                      {otherArticle.excerpt}
-                    </p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
+        
+        {/* Recommendation Section */}
+        <section className="recommendation-section">
+            <h2 className="rec-title">Further Reading</h2>
+            <div className="rec-grid">
+                {otherArticles.map(rec => (
+                    <Link href={`/blog/${rec.id}`} key={rec.id} className="article-card">
+                        <div className="art-img-wrapper">
+                            <Image src={rec.image} alt={rec.imageAlt} width={500} height={300} className="art-img" loading="lazy" />
+                        </div>
+                        <div className="art-body">
+                            <div className="art-meta">
+                                <span>{new Date(rec.date).toISOString().split('T')[0].replace(/-/g, '.')}</span>
+                                <span>[ READ: {String(rec.readingTime).padStart(2, '0')}m ]</span>
+                            </div>
+                            <h3 className="art-title">{rec.title}</h3>
+                            <div className="art-footer">READ_ENTRY &rarr;</div>
+                        </div>
+                    </Link>
+                ))}
+            </div>
         </section>
-      </main>
-    </div>
+
+
+        {nextArticle && (
+            <div className="next-post">
+                <span className="next-label">NEXT_TRANSMISSION &darr;</span>
+                <Link href={`/blog/${nextArticle.id}`} className="next-title">{nextArticle.title}</Link>
+            </div>
+        )}
+        
+        <Footer />
+      </div>
+    </>
   );
 }
