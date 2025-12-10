@@ -1,7 +1,8 @@
+
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 const services = [
   {
@@ -24,19 +25,37 @@ const services = [
     title: "SEO &\nGrowth",
     items: ["> Technical Audits", "> Semantic HTML", "> Core Vitals"],
   },
+  {
+    num: "05",
+    isCta: true,
+    title: "Come work\nwith us",
+    items: ["Let's build the future together."],
+  }
 ];
 
-const ServiceCard = ({ service }: { service: typeof services[0] }) => (
-    <div className="service-card w-full md:min-w-[450px] md:h-full border border-white/20 md:-mr-px flex flex-col justify-between p-8 md:p-10 bg-[#050505] transition-colors duration-300 hover:bg-white hover:text-black mb-5 md:mb-0">
-        <div className="svc-num text-4xl md:text-5xl font-bold opacity-30 mb-4 md:mb-0 font-display">{service.num}</div>
-        <div className="svc-content">
-            <h3 className="text-3xl md:text-5xl mb-5 uppercase font-display whitespace-pre-wrap leading-[0.9]">{service.title}</h3>
-            <ul className="svc-list">
-                {service.items.map((item, i) => (
-                    <li key={i} className="border-t border-neutral-800 py-4 text-sm md:text-base transition-colors duration-300 font-tech">{item}</li>
-                ))}
-            </ul>
-        </div>
+const ServiceCard = ({ service, isCta }: { service: typeof services[0], isCta?: boolean }) => (
+    <div className={`service-card w-full md:min-w-[450px] md:h-full border border-white/20 md:-mr-px flex flex-col justify-between p-8 md:p-10 bg-[#050505] transition-colors duration-300 ${isCta ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'hover:bg-white hover:text-black'} mb-5 md:mb-0`}>
+        {isCta ? (
+             <div className="flex flex-col h-full justify-center items-center text-center">
+                 <h3 className="text-3xl md:text-5xl mb-5 uppercase font-display whitespace-pre-wrap leading-[0.9]">{service.title}</h3>
+                 <p className="mt-4">{service.items[0]}</p>
+                 <Link href="/contact" className="mt-8 underline">
+                    Start a Project
+                 </Link>
+             </div>
+        ) : (
+            <>
+                <div className="svc-num text-4xl md:text-5xl font-bold opacity-30 mb-4 md:mb-0 font-display">{service.num}</div>
+                <div className="svc-content">
+                    <h3 className="text-3xl md:text-5xl mb-5 uppercase font-display whitespace-pre-wrap leading-[0.9]">{service.title}</h3>
+                    <ul className="svc-list">
+                        {service.items.map((item, i) => (
+                            <li key={i} className="border-t border-current/30 py-4 text-sm md:text-base transition-colors duration-300 font-tech">{item}</li>
+                        ))}
+                    </ul>
+                </div>
+            </>
+        )}
     </div>
 );
 
@@ -44,6 +63,7 @@ export function HorizontalServices() {
     const containerRef = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
     const [isDesktop, setIsDesktop] = useState(false);
+    const [isIntersecting, setIsIntersecting] = useState(false);
 
     useEffect(() => {
         const checkDesktop = () => setIsDesktop(window.innerWidth > 768);
@@ -60,50 +80,63 @@ export function HorizontalServices() {
         let currentX = 0;
         let targetX = 0;
         const easing = 0.08;
+        let animationFrameId: number;
 
         const handleWheel = (e: WheelEvent) => {
             const { deltaY } = e;
             const scrollWidth = track.scrollWidth;
             const containerWidth = container.clientWidth;
             const maxScroll = scrollWidth - containerWidth;
-
-            // Update targetX based on scroll delta
+            
+            // Allow normal scroll if not intersecting
+            if (!isIntersecting) return;
+            
             targetX -= deltaY;
-
-            // Clamp the targetX to be within bounds [0, -maxScroll]
             targetX = Math.max(-maxScroll, Math.min(0, targetX));
+
+            // If we are at the edges, allow vertical scroll
+            if (targetX === 0 && deltaY < 0) {
+                 // Trying to scroll up at the beginning
+            } else if (targetX === -maxScroll && deltaY > 0) {
+                // Trying to scroll down at the end
+            } else {
+                 e.preventDefault(); // Hijack scroll
+            }
         };
 
-        const animationFrame = () => {
-             // Linear interpolation for smooth scrolling
+        const animate = () => {
             currentX += (targetX - currentX) * easing;
+            if (Math.abs(targetX - currentX) < 0.1) {
+                currentX = targetX;
+            }
             track.style.transform = `translateX(${currentX}px)`;
-            requestAnimationFrame(animationFrame);
+            animationFrameId = requestAnimationFrame(animate);
         };
         
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (entry.isIntersecting) {
-                    document.body.style.overflow = 'hidden';
-                    container.addEventListener('wheel', handleWheel, { passive: true });
-                    requestAnimationFrame(animationFrame);
-                } else {
-                    document.body.style.overflow = '';
-                    container.removeEventListener('wheel', handleWheel);
-                }
+                setIsIntersecting(entry.isIntersecting);
             },
-            { threshold: 0.5 } // Trigger when 50% of the element is visible
+            { threshold: 1.0 } // Trigger when 100% of the element is visible
         );
 
-        observer.observe(container);
+        if (container) observer.observe(container);
+
+        if (isIntersecting) {
+            container.addEventListener('wheel', handleWheel, { passive: false });
+            animate();
+        } else {
+             container.removeEventListener('wheel', handleWheel);
+             cancelAnimationFrame(animationFrameId!);
+        }
 
         return () => {
-            document.body.style.overflow = '';
-            observer.disconnect();
-            container.removeEventListener('wheel', handleWheel);
+            if(container) observer.unobserve(container);
+            container?.removeEventListener('wheel', handleWheel);
+            cancelAnimationFrame(animationFrameId!);
         };
 
-    }, [isDesktop]);
+    }, [isDesktop, isIntersecting]);
 
     if (!isDesktop) {
          return (
@@ -111,9 +144,9 @@ export function HorizontalServices() {
                 <div className="mb-8">
                   <h2 className='font-tech text-xl uppercase text-white'>// Capabilities</h2>
                 </div>
-                 <div className="flex flex-col gap-5">
+                 <div className="flex flex-col">
                     {services.map((service) => (
-                        <ServiceCard key={service.num} service={service} />
+                        <ServiceCard key={service.num} service={service} isCta={service.isCta} />
                     ))}
                 </div>
             </section>
@@ -130,9 +163,10 @@ export function HorizontalServices() {
             className="horizontal-track flex h-[70vh] px-[5vw] w-auto"
         >
           {services.map((service) => (
-            <ServiceCard key={service.num} service={service} />
+            <ServiceCard key={service.num} service={service} isCta={service.isCta} />
           ))}
         </div>
     </section>
   );
 }
+
