@@ -60,7 +60,7 @@ const HudHeader = () => {
         </div>
         <div className="text-neutral-500 mt-1">// DIGITAL ARCHITECTS</div>
       </div>
-      <div className="hud-right font-tech">{time}</div>
+      <div className="hud-right font-tech text-primary">{time}</div>
     </div>
   );
 };
@@ -90,8 +90,8 @@ export default function Home() {
             <span>LAT: 03.14N</span><br />
             <span>LON: 101.69E</span>
           </div>
-          <div className="status-box">
-            <span className="blink animate-ping-slow inline-block h-2 w-2 rounded-full bg-white mr-2">●</span> SYSTEM ONLINE
+          <div className="status-box flex items-center">
+            <span className="animate-ping-slow inline-block h-2 w-2 rounded-full bg-primary mr-2"></span> SYSTEM ONLINE
           </div>
         </div>
       </header>

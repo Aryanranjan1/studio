@@ -21,8 +21,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        tech: ['Courier New', 'monospace'],
-        display: ['Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
+        tech: ['var(--font-tech)'],
+        display: ['var(--font-display)'],
       },
       colors: {
         'bg-color': '#050505',
@@ -85,7 +85,12 @@ export default {
             height: '0',
           },
         },
-        "blinker": { "50%": { opacity: "0" } },
+        "blinker": { 
+          "50%": { 
+            opacity: "0",
+            "background-color": "hsl(var(--primary))"
+          } 
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
