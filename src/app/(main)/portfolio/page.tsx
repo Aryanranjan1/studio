@@ -1,3 +1,4 @@
+
 'use client';
 
 import { getProjects } from '@/lib/data';
@@ -5,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { MoveRight, Search } from 'lucide-react';
 import { Footer } from '@/components/footer';
-import { Badge } from '@/components/ui/badge';
 import { CtaSection } from '@/components/cta-section';
 import { useState, useMemo, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
@@ -79,6 +79,7 @@ export default function PortfolioPage() {
   };
 
   const handleCategoryToggle = (category: string) => {
+    setCurrentPage(1); // Reset page on filter change
     if (category === 'All') {
       setSelectedCategories(['All']);
     } else {
@@ -92,7 +93,6 @@ export default function PortfolioPage() {
         }
       });
     }
-    setCurrentPage(1);
   };
 
 
