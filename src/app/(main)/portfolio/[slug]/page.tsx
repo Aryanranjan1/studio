@@ -52,8 +52,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 
-export default async function ProjectDetailsPage({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default async function ProjectDetailsPage(props: { params: { slug: string } }) {
+  const { slug } = props.params;
   console.log(`[ProjectDetailsPage] Rendering page for slug: "${slug}"`);
 
   const projects = getProjects();
