@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     const project = projects.find((p) => p.id === params.slug);
 
     if (!project) {
+        console.warn(`[generateMetadata] Project with slug "${params.slug}" not found.`);
         return {
             title: 'Project Not Found',
         };
@@ -46,14 +47,21 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 
-export default function ProjectDetailsPage({ params }: { params: { slug: string } }) {
-  const projects = getProjects();
-  const project = projects.find((p) => p.id === params.slug);
-  const otherProjects = projects.filter(p => p.id !== params.slug).slice(0, 2);
+export default async function ProjectDetailsPage({ params }: { params: { slug: string } }) {
+  const { slug } = params;
+  console.log(`[ProjectDetailsPage] Rendering page for slug: "${slug}"`);
 
+  const projects = getProjects();
+  const project = projects.find((p) => p.id === slug);
+  
   if (!project) {
+    console.error(`[ProjectDetailsPage] Project data not found for slug: "${slug}". Triggering 404.`);
     notFound();
   }
+
+  const otherProjects = projects.filter(p => p.id !== slug).slice(0, 2);
+  
+  console.log(`[ProjectDetailsPage] Successfully found project: "${project.title}"`);
 
   return (
     <div className="project-detail-page">
