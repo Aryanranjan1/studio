@@ -209,12 +209,16 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* Hover Effect: Invert */
 .article-card:hover {
-    background: #fff;
-    color: #000;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
 }
 
-.article-card:hover .art-meta { color: #555; border-color: #eee; }
+.article-card:hover .art-meta { color: hsl(var(--primary-foreground), 0.7); border-color: hsl(var(--primary-foreground), 0.2); }
 .article-card:hover .art-img { filter: grayscale(0%); }
+.article-card:hover .art-desc {
+    opacity: 0.8;
+}
+
 
 .art-img-wrapper {
     height: 250px;
