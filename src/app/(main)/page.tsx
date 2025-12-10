@@ -10,6 +10,7 @@ import { Manifesto } from '@/components/manifesto';
 import { HorizontalServices } from '@/components/horizontal-services';
 import { PricingSection } from '@/components/pricing-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
+import { Crown } from 'lucide-react';
 
 const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   return (
@@ -52,7 +53,13 @@ const HudHeader = () => {
 
   return (
     <div className="hud-header absolute top-0 left-0 w-full flex justify-between px-10 py-7 z-10 text-sm text-neutral-400 pointer-events-none">
-      <div className="hud-left font-bold text-white tracking-widest">AMPIRE_SYSTEM_V.2.0</div>
+      <div>
+        <div className="hud-left font-bold text-white tracking-widest flex items-center">
+            <Crown className="h-4 w-4 mr-2" />
+            <span>AMPIRE STUDIO</span>
+        </div>
+        <div className="text-neutral-500 mt-1">// DIGITAL ARCHITECTS</div>
+      </div>
       <div className="hud-right font-tech">{time}</div>
     </div>
   );
