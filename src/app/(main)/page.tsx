@@ -9,7 +9,6 @@ import { getProjects } from '@/lib/data';
 import { Manifesto } from '@/components/manifesto';
 import { PricingSection } from '@/components/pricing-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
-import { Crown } from 'lucide-react';
 import { Footer } from '@/components/footer';
 
 // --- HUD HEADER COMPONENT ---
@@ -32,12 +31,11 @@ const HudHeader = () => {
   }, []);
 
   return (
-    <div className="hud-header absolute top-0 left-0 right-0 mt-7 z-20 pointer-events-none select-none">
+    <div className="hud-header absolute top-0 left-0 right-0 mt-7 z-20 pointer-events-none select-none hidden md:block">
       <div className="mx-6 md:mx-10">
         <div className="flex justify-between items-start text-xs md:text-sm text-neutral-400 pb-4">
             <div>
             <div className="hud-left font-bold text-white tracking-widest flex items-center pointer-events-auto">
-                <Crown className="h-4 w-4 mr-2 text-primary" />
                 <span>AMPIRE STUDIO</span>
             </div>
             <div className="text-neutral-500 mt-1 hidden md:block">// DIGITAL ARCHITECTS</div>
