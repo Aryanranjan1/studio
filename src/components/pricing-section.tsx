@@ -36,6 +36,7 @@ const pricingTiers = [
       '3 Months Maintenance',
       'Free Domain (< RM50)',
       '1 Year Basic Hosting Included',
+      'No extra charges',
     ],
     isFeatured: true,
     badge: 'Most Popular',
