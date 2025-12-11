@@ -1,13 +1,16 @@
 
+
 import Link from 'next/link';
 import { Button } from './ui/button';
 import Image from 'next/image';
 import { socialLinks } from '@/lib/social-links';
+import { getContactDetails } from '@/lib/data';
 
 const footerSocials = socialLinks;
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const contactDetails = getContactDetails();
 
   return (
     <footer className="w-full border-t border-border bg-background text-foreground">
@@ -34,9 +37,9 @@ export function Footer() {
               <div>
                 <h3 className="font-semibold text-muted-foreground">Location</h3>
                 <p className="mt-2 text-sm">
-                  1330 Huffman Rd, Anchorage,
+                  {contactDetails.address.line1}
                   <br />
-                  Alask, United States
+                  {contactDetails.address.line2}
                 </p>
               </div>
                <div>
@@ -56,8 +59,8 @@ export function Footer() {
                   <div>
                     <h3 className="font-semibold text-muted-foreground">Contact</h3>
                     <ul className="mt-2 space-y-1 text-sm">
-                      <li><a href="tel:+6612058698720" className="hover:text-primary">+661 2058 6987 20</a></li>
-                      <li><a href="mailto:Hello@Studio.com" className="hover:text-primary">Hello@Studio.com</a></li>
+                      <li><a href={`tel:${contactDetails.phone}`} className="hover:text-primary">{contactDetails.phone}</a></li>
+                      <li><a href={`mailto:${contactDetails.email}`} className="hover:text-primary">{contactDetails.email}</a></li>
                     </ul>
                   </div>
                   <div>

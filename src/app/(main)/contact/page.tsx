@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState } from 'react';
@@ -31,6 +32,7 @@ import { Badge } from '@/components/ui/badge';
 import { Footer } from '@/components/footer';
 import { useEffect } from 'react';
 import { contactSocials } from '@/lib/social-links';
+import { getContactDetails } from '@/lib/data';
 
 const inquiryTypes = [
   'New Project',
@@ -65,6 +67,7 @@ const faqItems = [
 
 export default function ContactPage() {
   const [inquiryType, setInquiryType] = useState('New Project');
+  const contactDetails = getContactDetails();
 
   useEffect(() => {
     document.title = "Contact — Ampire Studio";
@@ -175,7 +178,7 @@ export default function ContactPage() {
                     asChild
                     className="mt-6 w-full bg-foreground text-background hover:bg-foreground/90"
                   >
-                    <a href="https://wa.me/1234567890" target="_blank">
+                    <a href={contactDetails.whatsapp} target="_blank">
                       Chat on WhatsApp <ArrowRight className="ml-2 h-4 w-4" />
                     </a>
                   </Button>

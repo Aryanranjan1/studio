@@ -1,4 +1,5 @@
 
+
 export type Service = {
   id: string;
   title: string;
@@ -105,6 +106,16 @@ export type TeamMember = {
   icon: string;
 };
 
+export type ContactDetails = {
+  address: {
+    line1: string;
+    line2: string;
+  };
+  phone: string;
+  email: string;
+  whatsapp: string; // The URL for WhatsApp chat
+};
+
 
 export const getSiteSettings = (): SiteSettings => ({
   title: 'Dezine',
@@ -112,6 +123,16 @@ export const getSiteSettings = (): SiteSettings => ({
     'A digital design and development agency specializing in bespoke websites and applications.',
   founderName: 'Alex Doe',
   founderRole: 'Founder & Lead Designer',
+});
+
+export const getContactDetails = (): ContactDetails => ({
+  address: {
+    line1: '1330 Huffman Rd, Anchorage,',
+    line2: 'Alask, United States',
+  },
+  phone: '+661 2058 6987 20',
+  email: 'Hello@Studio.com',
+  whatsapp: 'https://wa.me/1234567890',
 });
 
 export const getServices = (): Service[] => [
