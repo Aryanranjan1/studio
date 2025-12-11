@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Link from 'next/link';
@@ -19,18 +18,20 @@ import { MoveRight } from 'lucide-react';
 // --- PROJECT CARD COMPONENT ---
 const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   return (
-    <Link href={`/portfolio/${project.id}`} className="project-card block group mb-8 last:mb-0">
+    <div className="project-card group mb-8 last:mb-0">
       <div className="img-wrapper overflow-hidden border border-border mb-5 relative h-[300px] md:h-[450px]">
-        <Image
-          src={project.image}
-          alt={project.imageAlt}
-          fill
-          className="object-contain transition-all duration-700 ease-out group-hover:scale-105"
-          loading="lazy"
-        />
+        <Link href={`/portfolio/${project.id}`}>
+          <Image
+            src={project.image}
+            alt={project.imageAlt}
+            fill
+            className="object-contain transition-all duration-700 ease-out group-hover:scale-105"
+            loading="lazy"
+          />
+        </Link>
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
             <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-foreground hover:text-background scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 delay-100">
-                <a href={project.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                <a href={project.url} target="_blank" rel="noopener noreferrer">
                     Live Preview <MoveRight className="w-4 h-4 ml-2" />
                 </a>
             </Button>
@@ -38,12 +39,14 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
       </div>
       <div className="project-meta flex justify-between items-end pb-2.5 border-b border-border">
         <div>
-          <h3 className="p-name text-2xl md:text-3xl uppercase font-display">{project.title}</h3>
+          <Link href={`/portfolio/${project.id}`}>
+            <h3 className="p-name text-2xl md:text-3xl uppercase font-display hover:text-primary transition-colors">{project.title}</h3>
+          </Link>
           <span className="p-cat font-tech text-muted-foreground text-sm">{project.category}</span>
         </div>
         <span className="p-num text-xl font-tech">({String(index + 1).padStart(2, '0')})</span>
       </div>
-    </Link>
+    </div>
   );
 };
 
