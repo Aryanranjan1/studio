@@ -31,6 +31,8 @@ import {
   SheetDescription,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { socialLinks } from '@/lib/social-links';
+import { Separator } from './ui/separator';
 
 
 const mainNavLinks = [
@@ -95,7 +97,20 @@ export function Header() {
               ))}
             </nav>
           </div>
-          <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-col items-center gap-4">
+            <Separator className="w-1/2" />
+             {socialLinks.slice(0, 3).map((link) => (
+                <Tooltip key={link.name}>
+                    <TooltipTrigger asChild>
+                        <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                            <link.Icon className="h-5 w-5" />
+                        </a>
+                    </TooltipTrigger>
+                    <TooltipContent side="right">
+                        <p>{link.name}</p>
+                    </TooltipContent>
+                </Tooltip>
+             ))}
           </div>
         </header>
       </TooltipProvider>
