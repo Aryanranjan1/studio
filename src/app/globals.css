@@ -5,23 +5,23 @@
 
 @layer base {
   :root {
-    --background: 220 40% 5%; /* Charcoal Black */
-    --foreground: 210 40% 98%; /* Greyish White */
+    --background: 211 100% 15%; /* #002a4d */
+    --foreground: 0 0% 100%; /* white */
 
-    --card: 220 40% 8%;
-    --card-foreground: 210 40% 98%;
+    --card: 211 100% 18%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 220 40% 5%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 211 100% 15%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 0 84% 60%; /* Strawberry Red */
+    --primary: 356 90% 42%; /* #c60c18 */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 91% 60%; /* Vibrant Blue */
+    --secondary: 217 91% 60%; /* Vibrant Blue (kept for other elements) */
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 220 40% 15%;
-    --muted-foreground: 220 40% 60%;
+    --muted: 211 100% 25%;
+    --muted-foreground: 211 40% 70%;
 
     --accent: 217 91% 60%;
     --accent-foreground: 210 40% 98%;
@@ -29,9 +29,9 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 40% 12%;
-    --input: 220 40% 12%;
-    --ring: 0 84% 60%;
+    --border: 211 100% 20%;
+    --input: 211 100% 20%;
+    --ring: 356 90% 42%;
   }
 
   .dark {
@@ -47,21 +47,6 @@
     /* Removed overflow-x-hidden to prevent breaking position: sticky */
   }
   body {
-    @apply bg-background text-foreground;
-  }
-
-  .light-section {
-    --background: 210 40% 98%; /* Greyish White */
-    --foreground: 220 40% 5%; /* Charcoal Black */
-    --card: 210 40% 96%;
-    --card-foreground: 220 40% 5%;
-    --popover: 210 40% 98%;
-    --popover-foreground: 220 40% 5%;
-    --muted: 220 40% 90%;
-    --muted-foreground: 220 40% 40%;
-    --border: 220 40% 85%;
-    --input: 220 40% 85%;
-
     @apply bg-background text-foreground;
   }
 }

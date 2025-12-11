@@ -65,12 +65,12 @@ const NavLink = ({
           href={href}
           className={cn(
             'relative flex h-12 w-12 items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/10 hover:text-white',
-            isActive && 'bg-white/20 text-white'
+            isActive && 'bg-primary/20 text-primary'
           )}
         >
           <Icon className="h-6 w-6" />
           {isActive && (
-            <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-white"></span>
+            <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-primary"></span>
           )}
         </Link>
       </TooltipTrigger>
@@ -86,9 +86,9 @@ export function Header() {
     <>
       {/* Desktop Sidebar */}
       <TooltipProvider>
-        <header className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center justify-between border-r border-neutral-800 bg-black py-6 md:flex">
+        <header className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center justify-between border-r border-border bg-black py-6 md:flex">
           <div className="flex flex-col items-center gap-8">
-            <Link href="/" className="font-headline text-xl font-bold text-white">
+            <Link href="/" className="font-headline text-xl font-bold text-primary">
               <Crown className="h-8 w-8" />
             </Link>
             <nav className="flex flex-col items-center gap-3">
@@ -115,8 +115,8 @@ export function Header() {
       </TooltipProvider>
 
       {/* Mobile Header */}
-      <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-neutral-800 bg-black px-4 md:hidden">
-         <Link href="/" className="font-headline text-xl font-bold text-white">
+      <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border bg-black px-4 md:hidden">
+         <Link href="/" className="font-headline text-xl font-bold text-primary">
             Ampire
          </Link>
          <Sheet>

@@ -20,8 +20,7 @@ import { cn } from '@/lib/utils';
 const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   return (
     <div className="project-card group mb-8 last:mb-0">
-      <div className="img-wrapper overflow-hidden border border-border mb-5 relative h-[300px] md:h-[450px]">
-        <Link href={`/portfolio/${project.id}`} className="block h-full w-full">
+      <Link href={`/portfolio/${project.id}`} className="img-wrapper overflow-hidden border border-border mb-5 relative h-[300px] md:h-[450px] block">
           <Image
             src={project.image}
             alt={project.imageAlt}
@@ -29,7 +28,6 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
             className="object-contain transition-all duration-700 ease-out group-hover:scale-105"
             loading="lazy"
           />
-        </Link>
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
             <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-foreground hover:text-background scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 delay-100">
                 <a href={project.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
@@ -37,7 +35,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
                 </a>
             </Button>
         </div>
-      </div>
+      </Link>
       <div className="project-meta flex justify-between items-end pb-2.5 border-b border-border">
         <div>
           <Link href={`/portfolio/${project.id}`}>
@@ -75,7 +73,7 @@ export default function Home() {
 
           {/* 4. Projects Section (Responsive Layout) */}
           {projects.length > 0 && (
-            <section className="projects-section relative w-full border-b border-border light-section">
+            <section className="projects-section relative w-full border-b border-border">
               <div className="container max-w-[1400px] mx-auto px-4 lg:px-0 lg:border-l lg:border-r border-border">
                 <div className="project-layout flex flex-col lg:flex-row">
                   
