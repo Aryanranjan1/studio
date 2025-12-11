@@ -55,7 +55,7 @@ export default function AboutPage() {
 
           <div className="col-span-12 md:col-span-5 bg-black relative min-h-[300px] border-b border-neutral-800">
             <Image 
-              src="https://picsum.photos/seed/teamwork/800/600"
+              src="https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxXT1JLfGVufDB8fHx8MTc2NTQ3NjAxNXww&ixlib=rb-4.1.0&q=80&w=1080"
               alt="A design team collaborating around a table with sticky notes and wireframes."
               fill
               loading="lazy"
