@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Code, Cpu, Database, Fingerprint, Framer, LucideIcon, Palette, Bot, Server, Sparkles, Wind } from 'lucide-react';
@@ -77,7 +78,7 @@ export function TechStack() {
           <div
             key={id}
             className={cn(
-              "tech-cell group relative flex h-[250px] cursor-crosshair flex-col justify-between border-neutral-700 bg-black p-8 transition-all duration-300 ease-in-out hover:bg-white hover:text-black border"
+              "tech-cell group relative flex h-[250px] cursor-crosshair flex-col justify-between border-white/20 bg-black p-8 transition-all duration-300 ease-in-out hover:bg-white hover:text-black border"
             )}
           >
             <div className="tech-header flex justify-between items-start">
