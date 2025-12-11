@@ -88,9 +88,7 @@ export default function BlogPage() {
           <span>LOGS: {articles.length}</span>
         </div>
         <h1 className="blog-title">
-          Transmission
-          <br />
-          Log.
+          Blog.
         </h1>
       </header>
 
@@ -192,19 +190,19 @@ export default function BlogPage() {
 
       <section className="newsletter-section">
         <div className="nl-text">
-          <h3>Subscribe to Signals</h3>
+          <h3>Join Our Newsletter</h3>
           <p style={{ color: '#888', fontSize: '0.9rem' }}>
-            // GET_WEEKLY_UPDATES // NO_SPAM
+            Get weekly updates, tips, and insights. No spam.
           </p>
         </div>
         <form className="nl-form">
           <input
             type="email"
             className="nl-input"
-            placeholder="INPUT_EMAIL_ADDRESS"
+            placeholder="Enter your email address"
           />
           <button type="submit" className="nl-btn">
-            INIT
+            Subscribe
           </button>
         </form>
       </section>
