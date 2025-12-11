@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -9,37 +9,15 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowRight } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Footer } from '@/components/footer';
-import { useEffect } from 'react';
 import { contactSocials } from '@/lib/social-links';
 import { getContactDetails } from '@/lib/data';
-
-const inquiryTypes = [
-  'New Project',
-  'Template Support',
-  'General Question',
-  'Collaboration',
-  'Other',
-];
 
 const faqItems = [
   {
@@ -57,15 +35,10 @@ const faqItems = [
     answer:
       'We offer various pricing tiers and can often tailor a project scope to fit a specific budget. Let us know your budget, and we can propose a solution.',
   },
-  {
-    question: 'What’s included in a project estimate?',
-    answer:
-      'Our project estimates include a detailed breakdown of all phases: discovery, design, development, testing, and deployment, with clear deliverables for each.',
-  },
 ];
 
 export default function ContactPage() {
-  const [inquiryType, setInquiryType] = useState('New Project');
+  const [contactMethod, setContactMethod] = useState('email');
   const contactDetails = getContactDetails();
 
   useEffect(() => {
@@ -73,79 +46,77 @@ export default function ContactPage() {
   }, []);
 
   return (
-    <div className="w-full bg-background text-foreground">
+    <div className="w-full bg-black text-white min-h-screen">
       <main>
         <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
-          <div className="col-span-12 bg-black py-12">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-               {/* Hero Section */}
-               <div className="col-span-12 lg:col-span-7 bg-black p-8">
-                <h1 className="font-headline text-7xl md:text-9xl font-bold">Contact <span className="text-primary">Us</span></h1>
+          
+          {/* Hero Header */}
+          <div className="col-span-12 bg-black p-8 border-b border-neutral-800 relative overflow-hidden">
+             <div className="flex flex-col md:flex-row justify-between md:items-end gap-8 py-12">
+              <h1 className="font-headline text-7xl md:text-9xl font-bold">Start a<br/>Project<span className="text-primary">.</span></h1>
+               <div className='max-w-md'>
+                <p className="mt-4 md:mt-0 text-neutral-400">
+                  Have an idea? Let's turn it into a reality. Fill out the form, and we'll be in touch to discuss your project in detail.
+                </p>
               </div>
             </div>
+            <div className="absolute top-1/2 right-0 w-72 h-72 border-t-2 border-r-2 border-primary/20 rounded-full -translate-y-1/2 translate-x-1/2 opacity-50" />
           </div>
-          
+
           {/* Main Content Area */}
-          <div className="grid grid-cols-12 col-span-12 gap-px bg-neutral-800">
+          <div className="col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-px bg-neutral-800">
+            {/* Form Section */}
             <div className="col-span-12 lg:col-span-7 bg-black p-4 md:p-8">
-              <Card className="h-full border border-border bg-transparent shadow-none rounded-none">
+              <Card className="bg-neutral-900/50 border border-neutral-800 shadow-none rounded-none">
                 <CardHeader>
-                  <CardTitle className="font-headline text-2xl">
-                    Get in Touch
-                  </CardTitle>
-                  <CardDescription>
-                    Please provide as much detail as possible.
-                  </CardDescription>
+                  <CardTitle className="font-headline text-3xl text-white">Project Brief</CardTitle>
+                  <CardDescription className="text-neutral-400">Tell us about your vision.</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form className="space-y-6">
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="name">Name</Label>
-                        <Input id="name" placeholder="John Doe" />
+                        <Label htmlFor="name">Full Name</Label>
+                        <Input id="name" placeholder="John Doe" className="bg-black border-neutral-700 h-12" />
                       </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="john.doe@example.com"
-                        />
+                       <div className="space-y-2">
+                        <Label htmlFor="company">Company (Optional)</Label>
+                        <Input id="company" placeholder="Acme Inc." className="bg-black border-neutral-700 h-12"/>
                       </div>
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="inquiry-type">What can we help you with?</Label>
-                      <Select
-                        value={inquiryType}
-                        onValueChange={setInquiryType}
-                      >
-                        <SelectTrigger id="inquiry-type">
-                          <SelectValue placeholder="Select a reason" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {inquiryTypes.map(type => (
-                            <SelectItem key={type} value={type}>
-                              {type}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                     <div className="space-y-4">
+                        <Label>How should we contact you?</Label>
+                        <RadioGroup defaultValue="email" value={contactMethod} onValueChange={setContactMethod} className="flex gap-x-8">
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="email" id="r-email" />
+                                <Label htmlFor="r-email">Email</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="phone" id="r-phone" />
+                                <Label htmlFor="r-phone">Phone</Label>
+                            </div>
+                        </RadioGroup>
+                        <div>
+                        {contactMethod === 'email' ? (
+                            <Input id="email" type="email" placeholder="you@example.com" className="bg-black border-neutral-700 h-12"/>
+                        ) : (
+                            <Input id="phone" type="tel" placeholder="+1 (555) 123-4567" className="bg-black border-neutral-700 h-12"/>
+                        )}
+                        </div>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="message">Message</Label>
+                      <Label htmlFor="message">Project Description</Label>
                       <Textarea
                         id="message"
-                        placeholder="Tell us about your project, goals, and timeline..."
-                        rows={8}
+                        placeholder="Tell us about your project, goals, timeline, and budget..."
+                        rows={6}
+                         className="bg-black border-neutral-700"
                       />
                     </div>
-                    <div className="flex flex-col items-center gap-4 pt-4">
-                      <Button type="submit" size="lg" className="w-full md:w-auto">
-                        Send Message <ArrowRight className="ml-2 h-4 w-4" />
+                    <div className="pt-4">
+                      <Button type="submit" size="lg" className="w-full h-14 text-lg">
+                        Send Project Brief <ArrowRight className="ml-2 h-5 w-5" />
                       </Button>
-                      <p className="text-center text-sm text-muted-foreground">
-                        We typically respond within 12–24 hours.
-                      </p>
                     </div>
                   </form>
                 </CardContent>
@@ -154,14 +125,15 @@ export default function ContactPage() {
 
             {/* Sidebar */}
             <aside className="col-span-12 lg:col-span-5 bg-black p-4 md:p-8 space-y-8">
-              <Card className='bg-transparent border border-border shadow-none rounded-none'>
+              <Card className='bg-neutral-900/50 border border-neutral-800 shadow-none rounded-none'>
                 <CardHeader>
-                  <CardTitle className="font-headline text-xl">
-                    Connect with us
-                  </CardTitle>
+                  <CardTitle className="font-headline text-xl">Other Ways to Connect</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center space-x-4 text-muted-foreground">
+                   <p className="text-neutral-400 mb-6">
+                    Follow our journey, chat with us directly, or explore our work on other platforms.
+                  </p>
+                  <div className="flex items-center space-x-6 text-neutral-300">
                     {contactSocials.map(social => (
                       <a
                         key={social.name}
@@ -175,7 +147,8 @@ export default function ContactPage() {
                   </div>
                   <Button
                     asChild
-                    className="mt-6 w-full bg-foreground text-background hover:bg-foreground/90"
+                    variant="outline"
+                    className="mt-6 w-full bg-transparent border-neutral-700 hover:bg-white hover:text-black"
                   >
                     <a href={contactDetails.whatsapp} target="_blank">
                       Chat on WhatsApp <ArrowRight className="ml-2 h-4 w-4" />
@@ -185,11 +158,9 @@ export default function ContactPage() {
               </Card>
 
               {/* Mini FAQ */}
-              <Card className='bg-transparent border border-border shadow-none rounded-none'>
+              <Card className='bg-neutral-900/50 border border-neutral-800 shadow-none rounded-none'>
                 <CardHeader>
-                  <CardTitle className="font-headline text-xl">
-                    Frequently Asked
-                  </CardTitle>
+                  <CardTitle className="font-headline text-xl">Quick Questions</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Accordion type="single" collapsible className="w-full">
@@ -197,12 +168,12 @@ export default function ContactPage() {
                       <AccordionItem
                         key={index}
                         value={`item-${index}`}
-                        className="border-b border-b-border/50"
+                        className="border-b border-neutral-800 last:border-b-0"
                       >
-                        <AccordionTrigger className="text-left font-semibold text-foreground/80 no-underline hover:no-underline">
+                        <AccordionTrigger className="text-left font-medium text-neutral-200 hover:text-primary no-underline hover:no-underline">
                           {faq.question}
                         </AccordionTrigger>
-                        <AccordionContent className="text-muted-foreground">
+                        <AccordionContent className="text-neutral-400">
                           {faq.answer}
                         </AccordionContent>
                       </AccordionItem>
@@ -221,3 +192,5 @@ export default function ContactPage() {
     </div>
   );
 }
+
+    
