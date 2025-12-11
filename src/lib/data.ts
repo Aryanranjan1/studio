@@ -127,12 +127,12 @@ export const getSiteSettings = (): SiteSettings => ({
 
 export const getContactDetails = (): ContactDetails => ({
   address: {
-    line1: '1330 Huffman Rd, Anchorage,',
-    line2: 'Alask, United States',
+    line1: 'Kuala Lumpur,',
+    line2: 'Malaysia',
   },
-  phone: '+661 2058 6987 20',
-  email: 'Hello@Studio.com',
-  whatsapp: 'https://wa.me/1234567890',
+  phone: '+60 11-1092 8735',
+  email: 'contactampirestudios@gmail.com',
+  whatsapp: 'https://wa.me/601110928735',
 });
 
 export const getServices = (): Service[] => [
