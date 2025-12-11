@@ -137,7 +137,10 @@ export default function StorePage() {
                     </div>
                     
                     <div className="flex flex-col md:flex-row gap-2 mt-auto">
-                         <Button asChild className="w-full uppercase rounded-none flex items-center justify-center gap-2 text-xs md:text-sm h-10 md:h-auto">
+                        <Button asChild variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-2 text-xs md:text-sm h-10 md:h-auto">
+                            <Link href={`/store/${template.id}`}>View Details</Link>
+                        </Button>
+                        <Button asChild className="w-full uppercase rounded-none flex items-center justify-center gap-2 text-xs md:text-sm h-10 md:h-auto">
                            <a href={template.url} target="_blank" rel="noopener noreferrer">
                             Buy Now <ArrowRight className="w-4 h-4 hidden md:inline-block" />
                            </a>
