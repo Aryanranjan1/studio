@@ -64,8 +64,8 @@ const NavLink = ({
         <Link
           href={href}
           className={cn(
-            'relative flex h-12 w-12 items-center justify-center rounded-lg text-primary-foreground/70 transition-colors hover:bg-white/10 hover:text-primary-foreground',
-            isActive && 'bg-white/10 text-primary-foreground'
+            'relative flex h-12 w-12 items-center justify-center rounded-lg text-primary-foreground/70 transition-colors hover:bg-black/20 hover:text-primary-foreground',
+            isActive && 'bg-black/20 text-primary-foreground'
           )}
         >
           <Icon className="h-6 w-6" />
@@ -121,7 +121,7 @@ export function Header() {
          </Link>
          <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className='text-primary-foreground hover:bg-white/10 hover:text-primary-foreground'>
+              <Button variant="ghost" size="icon" className='text-primary-foreground hover:bg-black/20 hover:text-primary-foreground'>
                 <PanelLeft className="h-6 w-6" />
                 <span className="sr-only">Toggle Menu</span>
               </Button>

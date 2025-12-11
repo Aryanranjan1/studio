@@ -20,7 +20,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   return (
     <div className="project-card group mb-8 last:mb-0">
       <div className="img-wrapper overflow-hidden border border-border mb-5 relative h-[300px] md:h-[450px]">
-        <Link href={`/portfolio/${project.id}`}>
+        <Link href={`/portfolio/${project.id}`} className="block h-full w-full">
           <Image
             src={project.image}
             alt={project.imageAlt}
@@ -65,7 +65,7 @@ export default function Home() {
       <WireframeHero />
 
       {/* The rest of the page content */}
-      <main className="bg-background text-foreground font-tech selection:bg-primary selection:text-black">
+      <main className="bg-background text-foreground font-tech selection:bg-primary selection:text-primary-foreground">
           {/* 2. Manifesto Section */}
           <Manifesto />
           
@@ -81,7 +81,7 @@ export default function Home() {
                   {/* Left Panel (Sticky on Desktop) */}
                   <div className="left-panel w-full lg:w-2/5 lg:h-screen relative lg:sticky top-0 flex flex-col justify-center py-16 px-6 border-b lg:border-b-0 lg:border-r border-border bg-background z-10">
                     <h2 className="section-title text-5xl md:text-6xl uppercase mb-5 font-display leading-[0.9]">Selected<br />Works</h2>
-                    <p className="hero-label text-primary tracking-widest font-tech">// 2024 - 2025</p>
+                    <p className="hero-label text-accent tracking-widest font-tech">// 2024 - 2025</p>
                   </div>
 
                   {/* Right Panel (Grid on Tablet/Mobile, Scroll on Desktop) */}

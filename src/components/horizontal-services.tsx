@@ -74,7 +74,7 @@ const IntroCard = () => (
 );
 
 const CtaCard = () => (
-    <div className="w-full md:w-[50vw] h-[75vh] flex-shrink-0 flex flex-col items-center justify-center p-8 border-b md:border-b-0 md:border-r border-border bg-primary text-primary-foreground text-center">
+    <div className="w-full md:w-[50vw] h-[75vh] flex-shrink-0 flex flex-col items-center justify-center p-8 border-b md:border-b-0 md:border-r border-border bg-accent text-accent-foreground text-center">
       <h3 className="font-headline text-5xl font-bold tracking-tight">
         Have a project<br />in mind?
       </h3>
