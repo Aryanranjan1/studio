@@ -21,7 +21,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
           src={project.image}
           alt={project.imageAlt}
           fill
-          className="object-cover transition-all duration-700 ease-out group-hover:scale-105"
+          className="object-contain transition-all duration-700 ease-out group-hover:scale-105"
           loading="lazy"
         />
       </div>
@@ -72,7 +72,7 @@ export default function Home() {
 
                   {/* Right Panel (Grid on Tablet/Mobile, Scroll on Desktop) */}
                   <div className="right-panel w-full lg:w-3/5 p-6 lg:pl-10 lg:py-16">
-                    <div className="project-list grid grid-cols-1 lg:block gap-x-8">
+                    <div className="project-list grid grid-cols-1 gap-x-8">
                       {projects.map((p, i) => (
                         <ProjectCard key={p.id} project={p} index={i} />
                       ))}
