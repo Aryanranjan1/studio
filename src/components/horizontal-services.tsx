@@ -103,7 +103,13 @@ export function HorizontalServices() {
     enabled: !isMobile,
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ['0%', `-${100 - (100 / (services.length + 2))}%`]);
+  // Total cards = intro (1) + services (5) + cta (1) = 7
+  const numCards = services.length + 2; 
+  // Calculate the total width that will be scrolled horizontally
+  // We want to scroll until the last card is fully visible, so we subtract one screen width
+  const scrollableWidth = (numCards * 50) - 100; // 50vw per card
+
+  const x = useTransform(scrollYProgress, [0, 1], ['0%', `-${scrollableWidth}vw`]);
 
 
   if (isMobile) {
@@ -150,7 +156,7 @@ export function HorizontalServices() {
   }
 
   return (
-    <section ref={targetRef} className="relative h-[500vh] bg-black text-white border-y border-white/20">
+    <section ref={targetRef} style={{height: `${scrollableWidth}vw`}} className="relative bg-black text-white border-y border-white/20">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div style={{ x }} className="flex">
           <IntroCard />
