@@ -50,9 +50,8 @@ export default function Home() {
       {/* 1. Hero Section - Full width */}
       <WireframeHero />
 
-      {/* The rest of the page content with padding */}
-      <div className="md:pl-20">
-        <main className="bg-black text-white font-tech selection:bg-primary selection:text-black">
+      {/* The rest of the page content */}
+      <main className="bg-black text-white font-tech selection:bg-primary selection:text-black">
           {/* 2. Manifesto Section */}
           <Manifesto />
           
@@ -94,7 +93,6 @@ export default function Home() {
           {/* 7. Footer Section */}
           <Footer />
         </main>
-      </div>
     </>
   );
 }
