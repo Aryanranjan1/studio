@@ -147,16 +147,6 @@ export function Footer3d() {
     <>
       <div id="canvas-container" ref={canvasRef}></div>
 
-      <section className="marquee-section">
-          <div className="marquee-content">
-              {[...Array(2)].map((_, i) => (
-                  <span key={i}>
-                      /// WEB DEVELOPMENT /// UI/UX DESIGN /// 3D INTERACTION /// BRAND IDENTITY /// DIGITAL STRATEGY 
-                  </span>
-              ))}
-          </div>
-      </section>
-
       <footer className="footer-main">
           <div className="footer-cta">
               <div className="cta-label">01 // INITIATE PROTOCOL</div>
@@ -208,27 +198,6 @@ export function Footer3d() {
             height: 100vh;
             z-index: -1;
             pointer-events: none;
-        }
-        .marquee-section {
-            background: var(--foreground-hsl);
-            color: var(--background-hsl);
-            padding: 1.5rem 0;
-            overflow: hidden;
-            white-space: nowrap;
-            position: relative;
-            z-index: 2;
-            border-bottom: 1px solid var(--grid-color);
-        }
-        .marquee-content {
-            display: inline-block;
-            font-size: 2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            animation: scroll 40s linear infinite;
-        }
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
         }
         .footer-main {
             position: relative;
