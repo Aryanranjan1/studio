@@ -11,6 +11,7 @@ import { Footer } from '@/components/footer';
 import { HorizontalServices } from '@/components/horizontal-services';
 import { useLenis } from '@studio-freight/react-lenis';
 import { WireframeHero } from '@/components/wireframe-hero';
+import { CtaSection } from '@/components/cta-section';
 
 // --- PROJECT CARD COMPONENT ---
 const ProjectCard = ({ project, index }: { project: any; index: number }) => {
@@ -90,6 +91,9 @@ export default function Home() {
 
           {/* 6. Testimonials Section */}
           <TestimonialsSection />
+
+          {/* CTA Section */}
+          <CtaSection />
 
           {/* 7. Footer Section */}
           <Footer />
