@@ -107,8 +107,11 @@ export default function StorePage() {
             {paginatedTemplates.map((template) => (
               <div key={template.id} className="group product-card block border-b border-r border-white/20">
                 <div className="relative">
-                    {template.bestSeller && <div className="absolute top-2 left-2 z-10 bg-black border border-white text-white px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">BEST SELLER</div>}
-                    {template.isNew && <div className="absolute top-2 left-2 z-10 bg-black border border-white text-white px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">NEW</div>}
+                    {template.bestSeller ? (
+                      <div className="absolute top-2 left-2 z-10 bg-black border border-white text-white px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">BEST SELLER</div>
+                    ) : template.isNew && (
+                      <div className="absolute top-2 left-2 z-10 bg-black border border-white text-white px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">NEW</div>
+                    )}
                     <div className="h-48 md:h-72 overflow-hidden relative border-b border-white/20">
                         <Image
                             src={template.image}
@@ -124,7 +127,7 @@ export default function StorePage() {
                             <div>
                                 <h3 className="font-display text-lg md:text-2xl font-bold uppercase">{template.title}</h3>
                             </div>
-                            <span className="text-base md:text-xl font-bold">${template.price}</span>
+                            <span className="text-base md:text-xl font-bold">RM{template.price}</span>
                         </div>
                         <p className="text-xs md:text-sm text-[#888] leading-relaxed mb-4 md:mb-8 max-w-[90%] line-clamp-2 md:line-clamp-none">{template.description}</p>
                         
