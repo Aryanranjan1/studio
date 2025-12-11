@@ -72,7 +72,7 @@ export default function Home() {
 
                   {/* Right Panel (Grid on Tablet/Mobile, Scroll on Desktop) */}
                   <div className="right-panel w-full lg:w-3/5 p-6 lg:pl-10 lg:py-16">
-                    <div className="project-list grid grid-cols-1 md:grid-cols-2 lg:block gap-x-8">
+                    <div className="project-list grid grid-cols-1 lg:block gap-x-8">
                       {projects.map((p, i) => (
                         <ProjectCard key={p.id} project={p} index={i} />
                       ))}
