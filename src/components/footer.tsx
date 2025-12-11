@@ -17,15 +17,15 @@ export function Footer() {
   ]
 
   return (
-      <footer className="footer-main bg-nav-footer border-t border-border">
-          <div className="footer-cta p-8 md:p-12 border-b border-border">
+      <footer className="footer-main bg-nav-footer border-t border-white/20">
+          <div className="footer-cta p-8 md:p-12 border-b border-white/20">
               <h2 className="font-headline text-4xl md:text-5xl font-bold">Have a project?<br/>Let's talk.</h2>
               <Button asChild size="lg" className="mt-8 w-full md:w-auto">
                 <Link href="/contact">Get In Touch <ArrowRight className="ml-2 w-5 h-5"/></Link>
               </Button>
           </div>
 
-          <div className="footer-grid grid grid-cols-2 md:grid-cols-4 gap-px bg-border border-b border-border">
+          <div className="footer-grid grid grid-cols-2 md:grid-cols-4 gap-px bg-white/20 border-b border-white/20">
               <div className="grid-item bg-nav-footer p-8">
                   <div className="grid-label text-muted-foreground text-sm uppercase">Location</div>
                   <div className="grid-content mt-4">
