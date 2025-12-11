@@ -1,58 +1,82 @@
 /**
- * Core Philosophy: This ruleset enforces a strict public read-only model.
- * All data within the `portfolio_projects` and `cms_content` collections
- * is considered public and can be read by any client, authenticated or not.
- * To protect data integrity, all write operations (create, update, delete)
- * from the client-side are explicitly disabled. It is assumed that data
- * modifications are handled exclusively by a trusted backend server environment
- * using the Firebase Admin SDK.
+ * Core Philosophy: This ruleset implements a hybrid security model. It enforces strict
+ * user-ownership for personal data while using a role-based system for administrative
+ * privileges. The core principle is that users have complete control over their own data,
+ * and administrative capabilities are explicitly granted and managed separately.
  *
- * Data Structure: The data is organized into two independent, top-level
- * collections: `/portfolio_projects` and `/cms_content`. There are no user-
- * specific subcollections or hierarchical relationships that would require
- * complex authorization checks.
+ * Data Structure:
+ * - /users/{userId}: Stores private user profile information. Access is restricted to the
+ *   document owner.
+ * - /admin_profiles/{userId}: A separate collection that grants administrative rights. The
+ *   existence of a document here, with the document ID matching a user's UID, elevates
+ *   that user to an admin.
  *
  * Key Security Decisions:
- * - Public Read Access: All documents are publicly readable to support the
- *   website's portfolio showcase functionality without requiring user login.
- * - Client-Side Writes Disabled: All write operations are denied as a security
- *   precaution. This prevents unauthorized modification of public-facing content.
- * - No Ownership Model: Since the data is for public display and managed
- *   externally (likely via a CMS), there is no concept of document ownership
- *   within the security rules.
+ * - User Isolation: Users can only read and write to their own document within the `/users`
+ *   collection. Listing all users is explicitly disallowed to protect user privacy.
+ * - Admin by Existence: A user is considered an administrator if, and only if, a
+ *   document exists for them in the `/admin_profiles` collection where the document ID
+ *   matches their authentication UID.
+ * - Admin Self-Management: Only existing administrators can view, create, edit, or remove
+ *   other administrator profiles. The initial admin must be created via the Firebase Console
+ *   or a trusted server environment.
+ * - Immutable Ownership: Critical relational fields, such as a user's own ID within their
+ *   document, are enforced as immutable after creation to maintain data integrity.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /**
-     * @description Allows public, read-only access to all portfolio projects.
-     * @path /portfolio_projects/{projectId}
-     * @allow Anyone, signed-in or not, can read a project. (e.g., `(get) /portfolio_projects/some_project_id`)
-     * @deny No one can create a new project from the client. (e.g., `(create) /portfolio_projects/new_project` is denied)
-     * @principle Data is public read-only. Writes must be performed by a trusted backend service using the Admin SDK.
-     */
-    match /portfolio_projects/{projectId} {
-      allow get: if true;
-      allow list: if true;
-      allow create: if false;
-      allow update: if false;
-      allow delete: if false;
+    // Helper functions for reusable logic
+    function isSignedIn() {
+      return request.auth != null;
     }
 
     /**
-     * @description Allows public, read-only access to all CMS content.
-     * @path /cms_content/{contentId}
-     * @allow Anyone can list all CMS content. (e.g., `(list) /cms_content`)
-     * @deny No one can update existing CMS content from the client. (e.g., `(update) /cms_content/some_id` is denied)
-     * @principle Data is public read-only. Writes must be performed by a trusted backend service using the Admin SDK.
+     * Checks if the currently authenticated user is the owner of a document.
+     * Compares the request's auth UID with the provided userId from the path.
      */
-    match /cms_content/{contentId} {
-      allow get: if true;
-      allow list: if true;
-      allow create: if false;
-      allow update: if false;
-      allow delete: if false;
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /**
+     * Checks if the currently authenticated user has an admin profile.
+     * This is the foundation of the Role-Based Access Control (RBAC) system.
+     * CRITICAL: This requires that the document ID in 'admin_profiles' IS the user's UID.
+     */
+    function isAdmin() {
+      return isSignedIn() && exists(/databases/$(database)/documents/admin_profiles/$(request.auth.uid));
+    }
+
+    /**
+     * @description Rules for individual user profile documents.
+     * @path /users/{userId}
+     * @allow (create) An authenticated user creating their own user profile document for the first time.
+     * @deny (get) An authenticated user trying to read another user's profile.
+     * @principle Restricts access to a user's own data tree, enforcing strict data privacy.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false; // Disallow listing users to protect privacy.
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isOwner(userId) && resource != null && request.resource.data.id == resource.data.id;
+      allow delete: if isOwner(userId) && resource != null;
+    }
+
+    /**
+     * @description Rules for administrator profiles. The existence of a document grants admin rights.
+     * @path /admin_profiles/{adminProfileId}
+     * @allow (create) An existing admin creating a new admin profile for another user.
+     * @deny (update) A non-admin user trying to modify an admin profile to elevate their own privileges.
+     * @principle Implements Role-Based Access Control (RBAC) where only admins can manage other admins.
+     */
+    match /admin_profiles/{adminProfileId} {
+      allow get: if isAdmin();
+      allow list: if isAdmin();
+      allow create: if isAdmin() && request.resource.data.userId == adminProfileId && request.resource.data.id == adminProfileId;
+      allow update: if isAdmin() && resource != null && request.resource.data.userId == resource.data.userId && request.resource.data.id == resource.data.id;
+      allow delete: if isAdmin() && resource != null;
     }
   }
 }

@@ -1,74 +1,75 @@
 {
   "entities": {
-    "PortfolioProject": {
+    "User": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "PortfolioProject",
+      "title": "User",
       "type": "object",
-      "description": "Represents a portfolio project showcased by AMpire Studio.",
+      "description": "Represents a user of the AMpire Studio platform.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the PortfolioProject entity."
+          "description": "Unique identifier for the user."
         },
-        "title": {
+        "email": {
           "type": "string",
-          "description": "Title of the portfolio project."
+          "description": "User's email address.",
+          "format": "email"
         },
-        "description": {
+        "displayName": {
           "type": "string",
-          "description": "Detailed description of the project."
+          "description": "User's display name."
         },
-        "imageUrl": {
+        "photoURL": {
           "type": "string",
-          "description": "URL of the project's image.",
+          "description": "URL of the user's profile photo.",
           "format": "uri"
         },
-        "serviceType": {
+        "creationTime": {
           "type": "string",
-          "description": "Type of service provided in the project (e.g., Web Design, Animation)."
+          "description": "Timestamp indicating when the user was created.",
+          "format": "date-time"
         },
-        "projectHighlights": {
+        "lastSignInTime": {
           "type": "string",
-          "description": "AI-generated highlights summarizing the project's key value points."
-        },
-        "cmsId": {
-          "type": "string",
-          "description": "Reference to CMS content. (Relationship: CMS 1:1 PortfolioProject)"
-        }
-      },
-      "required": [
-        "id",
-        "title",
-        "description",
-        "imageUrl",
-        "serviceType",
-        "projectHighlights"
-      ]
-    },
-    "CMSContent": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "CMSContent",
-      "type": "object",
-      "description": "Represents content managed by the Sanity CMS.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the CMSContent entity."
-        },
-        "content": {
-          "type": "string",
-          "description": "The actual content managed by the CMS, stored as a string (e.g., JSON, Markdown)."
-        },
-        "lastUpdated": {
-          "type": "string",
-          "description": "Timestamp of the last content update.",
+          "description": "Timestamp indicating when the user last signed in.",
           "format": "date-time"
         }
       },
       "required": [
         "id",
-        "content",
-        "lastUpdated"
+        "email"
+      ]
+    },
+    "AdminProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AdminProfile",
+      "type": "object",
+      "description": "Represents the profile of an administrator user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the admin profile."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:1 AdminProfile)"
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the administrator (e.g., superAdmin, editor)."
+        },
+        "permissions": {
+          "type": "array",
+          "description": "List of permissions granted to the administrator.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "role"
       ]
     }
   },
@@ -81,38 +82,38 @@
   "firestore": {
     "structure": [
       {
-        "path": "/portfolio_projects/{projectId}",
+        "path": "/users/{userId}",
         "definition": {
-          "entityName": "PortfolioProject",
+          "entityName": "User",
           "schema": {
-            "$ref": "#/backend/entities/PortfolioProject"
+            "$ref": "#/backend/entities/User"
           },
-          "description": "Stores portfolio project data.  No denormalized fields needed, as authorization is open. `{projectId}` corresponds to the 'id' field in the PortfolioProject schema.",
+          "description": "Stores user profiles. Uses path-based ownership for private user data.",
           "params": [
             {
-              "name": "projectId",
-              "description": "Unique identifier for the portfolio project."
+              "name": "userId",
+              "description": "The unique identifier of the user, matching the Firebase Auth UID."
             }
           ]
         }
       },
       {
-        "path": "/cms_content/{contentId}",
+        "path": "/admin_profiles/{adminProfileId}",
         "definition": {
-          "entityName": "CMSContent",
+          "entityName": "AdminProfile",
           "schema": {
-            "$ref": "#/backend/entities/CMSContent"
+            "$ref": "#/backend/entities/AdminProfile"
           },
-          "description": "Stores CMS content. No denormalized fields needed, as authorization is open. `{contentId}` corresponds to the 'id' field in the CMSContent schema.",
+          "description": "Stores admin profiles. Includes a userId to reference the associated user. The existence of a document in this collection grants admin privileges.",
           "params": [
             {
-              "name": "contentId",
-              "description": "Unique identifier for the CMS content."
+              "name": "adminProfileId",
+              "description": "The unique identifier of the admin profile."
             }
           ]
         }
       }
     ],
-    "reasoning": "The Firestore structure is designed to manage portfolio projects and associated CMS content for AMpire Studio. It prioritizes authorization independence and simplifies security rules.\n\n`/portfolio_projects`: This collection stores the main portfolio project data.  It supports QAPs because listing all projects requires no authorization checks (the data is assumed to be public).  The schema for `PortfolioProject` ensures a predictable data structure.\n\n`/cms_content`:  This collection stores the CMS content, and is related to the `PortfolioProject` data through the `cmsId` field. Like projects, this collection is designed for public access.\n\nAuthorization Independence: Both collections are designed to avoid hierarchical authorization. Since there are no ownership or role-based restrictions, every document can be accessed by anyone.\n"
+    "reasoning": "This Firestore data structure is designed to support the AMpire Studio Dynamic Showcase application, focusing on user authentication, admin profiles, and future content management needs. It prioritizes security, scalability, and debuggability following the core design principles. Path-based ownership is used for user data, and a dedicated collection is used for admin profiles. The structure is designed to enable simple and robust security rules and facilitate listing operations (QAPs). This design avoids hierarchical authorization dependencies."
   }
 }
