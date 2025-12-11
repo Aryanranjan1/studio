@@ -1,3 +1,4 @@
+
 'use client';
 
 import { getProjects } from '@/lib/data';
@@ -10,6 +11,9 @@ import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { PricingSection } from '@/components/pricing-section';
+import { TestimonialsSection } from '@/components/testimonials-section';
+import { CtaSection } from '@/components/cta-section';
 
 const ITEMS_PER_PAGE = 9;
 
@@ -143,6 +147,9 @@ export default function PortfolioPage() {
         </div>
       )}
 
+      <PricingSection />
+      <TestimonialsSection />
+      <CtaSection />
       <Footer />
     </>
   );
