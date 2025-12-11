@@ -241,24 +241,6 @@ const projects: Project[] = [
         isNew: true,
     },
     {
-        id: 'kbs-bikes',
-        title: 'KBS - Kedai Basikal Seng',
-        description: 'A digital catalog for a KL bicycle store, designed to attract local customers and enable future online sales.',
-        longDescription: 'For a local bike shop in Kuala Lumpur, the goal is to get people into the store. This website acts as a digital window display, showcasing their latest bikes and gear in a beautiful online catalog. It helps people discover products before they even visit. More importantly, we built it so that with a few adjustments, the owner can easily switch on e-commerce features and start selling online, turning their local shop into a nationwide business.',
-        price: 299,
-        image: 'https://image2url.com/images/1765438739229-c1f5ca85-291e-47ce-9722-f8827fefb85c.png',
-        imageAlt: 'A sleek and modern bicycle store website for KBS',
-        url: 'https://example.com/kbs-bikes',
-        tags: ['E-commerce', 'Local Business', 'Catalog'],
-        technologies: ['Next.js', 'Tailwind CSS', 'Firebase'],
-        category: 'E-commerce',
-        specs: { stack: 'Next.js', css: 'Tailwind CSS', cms: 'Firebase (Custom)', type: 'E-commerce' },
-        images: [
-            { src: 'https://image2url.com/images/1765438739229-c1f5ca85-291e-47ce-9722-f8827fefb85c.png', alt: 'KBS Bikes product catalog page' },
-        ],
-        features: ['Product Catalog System', 'E-commerce Ready', 'Local Store Locator'],
-    },
-    {
         id: 'ffm-music',
         title: 'Fahmie Farham Music',
         description: 'A personal website for a YouTuber, designed to increase view-per-visit and showcase their work professionally.',
@@ -350,24 +332,6 @@ const projects: Project[] = [
             { src: 'https://image2url.com/images/1765439910143-6b9a8a95-bf8f-4ef3-8ac6-ce5012c76b4b.png', alt: 'CWT Hair Salon image gallery' },
         ],
         features: ['Appointment Booking System', 'Service & Price Listing', 'Visual Work Showcase'],
-    },
-    {
-        id: 'aprema-co-law',
-        title: 'A. Prema & Co.',
-        description: 'A professional and authoritative website for a law firm, designed to build trust and showcase legal services.',
-        longDescription: 'A law firm\'s website needs to project authority and trust. This design is clean, professional, and serious, without being intimidating. It clearly outlines the firm\'s areas of legal practice, introduces the lawyers with professional profiles, and provides helpful articles to demonstrate expertise. The goal is to make a potential client feel they have found a knowledgeable and reliable partner, encouraging them to make contact for a consultation.',
-        price: 219,
-        image: 'https://image2url.com/images/1765440011896-6beb8044-d945-4375-9df0-f6533a6057b0.png',
-        imageAlt: 'A professional website for A. Prema & Co. law firm',
-        url: 'https://example.com/aprema-co',
-        tags: ['Corporate', 'Law Firm', 'Professional Services'],
-        technologies: ['Next.js', 'Tailwind CSS', 'Firebase'],
-        category: 'Corporate',
-        specs: { stack: 'Next.js', css: 'Tailwind CSS', cms: 'Firebase (Custom)', type: 'Corporate' },
-        images: [
-            { src: 'https://image2url.com/images/1765440011896-6beb8044-d945-4375-9df0-f6533a6057b0.png', alt: 'A. Prema & Co. practice areas overview' },
-        ],
-        features: ['Professional & Trustworthy Design', 'Clear Service Outlines', 'Expertise Showcase'],
     }
 ];
 
