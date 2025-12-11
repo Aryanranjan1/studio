@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -13,15 +14,12 @@ import {
   Home,
   User,
   Briefcase,
-  LayoutGrid,
   Book,
   Mail,
   PanelLeft,
   ShoppingBag,
-  ShoppingCart,
   HelpCircle,
   Crown,
-  LogIn,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -38,16 +36,11 @@ const mainNavLinks = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/about', label: 'About', icon: User },
   { href: '/services', label: 'Services', icon: Briefcase },
-  { href: '/portfolio', label: 'Portfolio', icon: LayoutGrid },
   { href: '/blog', label: 'Blog', icon: Book },
   { href: '/store', label: 'Store', icon: ShoppingBag },
   { href: '/faq', label: 'FAQ', icon: HelpCircle },
   { href: '/contact', label: 'Contact', icon: Mail },
 ];
-
-const secondaryNavLinks = [
-    { href: '/cart', label: 'Cart', icon: ShoppingCart },
-]
 
 const NavLink = ({
   href,
@@ -101,11 +94,6 @@ export function Header() {
             </nav>
           </div>
           <div className="flex flex-col items-center gap-3">
-             {secondaryNavLinks.map(link => (
-                <NavLink key={link.href} {...link} />
-              ))}
-            <div className='w-full h-px bg-border my-2' />
-            <NavLink href="/login" label="Login" icon={LogIn} />
           </div>
         </header>
       </TooltipProvider>
@@ -134,7 +122,7 @@ export function Header() {
                 </SheetDescription>
               </SheetHeader>
               <nav className="flex flex-col gap-4 mt-8">
-                {[...mainNavLinks, ...secondaryNavLinks].map((link) => (
+                {mainNavLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
@@ -145,14 +133,6 @@ export function Header() {
                   </Link>
                 ))}
               </nav>
-              <div className="absolute bottom-6 left-6 right-6">
-                 <Button asChild className="w-full">
-                    <Link href="/login">
-                        <LogIn className="mr-2 h-5 w-5" />
-                        Login
-                    </Link>
-                 </Button>
-              </div>
             </SheetContent>
           </Sheet>
       </header>

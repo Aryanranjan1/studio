@@ -1,15 +1,15 @@
 
-import { getArticles, getProjects, getTemplates } from '@/lib/data';
+
+import { getArticles, getTemplates } from '@/lib/data';
 import { SearchResults } from '@/components/search-results';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
     title: 'Search',
-    description: 'Search for projects, articles, and templates from Ampire Studio.',
+    description: 'Search for articles, and templates from Ampire Studio.',
 };
 
 export default function SearchPage() {
-  const projects = getProjects();
   const articles = getArticles();
   const templates = getTemplates();
 
@@ -19,7 +19,6 @@ export default function SearchPage() {
          <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
             <div className="col-span-12 bg-black">
                 <SearchResults
-                    projects={projects}
                     articles={articles}
                     templates={templates}
                 />

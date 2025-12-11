@@ -117,28 +117,30 @@ export default function Home() {
       <HorizontalServices />
 
       {/* 4. Projects Section (Sticky Layout) */}
-      <section className="projects-section relative w-full bg-[#050505] border-b border-white/20">
-        <div className="container max-w-[1400px] mx-auto px-0 md:px-5 md:border-l md:border-r border-neutral-800">
-          <div className="project-layout flex flex-col md:flex-row">
-            
-            {/* Left Sticky Panel */}
-            <div className="left-panel w-full md:w-2/5 md:h-screen relative md:sticky top-0 flex flex-col justify-center py-16 px-6 md:px-10 border-b md:border-b-0 md:border-r border-neutral-800 bg-[#050505] z-10">
-              <h2 className="section-title text-5xl md:text-6xl uppercase mb-5 font-display leading-[0.9]">Selected<br />Works</h2>
-              <p className="hero-label text-primary tracking-widest font-tech">// 2024 - 2025</p>
-            </div>
-
-            {/* Right Scrolling Panel */}
-            <div className="right-panel w-full md:w-3/5 px-6 md:pl-10 py-16">
-              <div className="project-list flex flex-col">
-                {projects.map((p, i) => (
-                  <ProjectCard key={p.id} project={p} index={i} />
-                ))}
+      {projects.length > 0 && (
+        <section className="projects-section relative w-full bg-[#050505] border-b border-white/20">
+          <div className="container max-w-[1400px] mx-auto px-0 md:px-5 md:border-l md:border-r border-neutral-800">
+            <div className="project-layout flex flex-col md:flex-row">
+              
+              {/* Left Sticky Panel */}
+              <div className="left-panel w-full md:w-2/5 md:h-screen relative md:sticky top-0 flex flex-col justify-center py-16 px-6 md:px-10 border-b md:border-b-0 md:border-r border-neutral-800 bg-[#050505] z-10">
+                <h2 className="section-title text-5xl md:text-6xl uppercase mb-5 font-display leading-[0.9]">Selected<br />Works</h2>
+                <p className="hero-label text-primary tracking-widest font-tech">// 2024 - 2025</p>
               </div>
-            </div>
 
+              {/* Right Scrolling Panel */}
+              <div className="right-panel w-full md:w-3/5 px-6 md:pl-10 py-16">
+                <div className="project-list flex flex-col">
+                  {projects.map((p, i) => (
+                    <ProjectCard key={p.id} project={p} index={i} />
+                  ))}
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* 5. Pricing Section */}
       <PricingSection />

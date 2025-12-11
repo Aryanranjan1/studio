@@ -135,9 +135,6 @@ export function HorizontalServices() {
                                 </span>
                             ))}
                         </div>
-                         <Link href={`/portfolio?category=${encodeURIComponent(service.title)}`} className="mt-8 inline-flex items-center text-primary font-semibold group-hover:underline">
-                            View Projects <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                        </Link>
                     </div>
                 </div>
             </div>
@@ -183,9 +180,6 @@ export function HorizontalServices() {
                                 </span>
                             ))}
                         </div>
-                         <Link href={`/portfolio?category=${encodeURIComponent(service.title)}`} className="mt-8 inline-flex items-center text-primary font-semibold group-hover:underline">
-                            View Projects <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                        </Link>
                     </div>
                 </div>
             </div>

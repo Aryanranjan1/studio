@@ -1,3 +1,4 @@
+
 'use client';
 
 import { getTemplates } from '@/lib/data';
@@ -7,12 +8,11 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import type { Template } from '@/lib/data';
 import { useEffect, useState, useCallback, useRef } from 'react';
-import { ShoppingCart, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PricingSection } from '@/components/pricing-section';
 import { CtaSection } from '@/components/cta-section';
 import { Footer } from '@/components/footer';
-import { Card, CardContent } from '@/components/ui/card';
 
 export default function TemplateDetailsPage() {
   const params = useParams();
@@ -20,7 +20,6 @@ export default function TemplateDetailsPage() {
 
   const [template, setTemplate] = useState<Template | null>(null);
   const [otherTemplates, setOtherTemplates] = useState<Template[]>([]);
-  const [cartCount, setCartCount] = useState(0);
   const sliderRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -38,10 +37,6 @@ export default function TemplateDetailsPage() {
     }
   }, [id]);
 
-  const handleAddToCart = () => {
-    setCartCount(prev => prev + 1);
-  };
-  
   const moveSlide = (direction: number) => {
     if (sliderRef.current) {
         const slideWidth = sliderRef.current.querySelector('.slide')?.clientWidth || 0;
@@ -65,7 +60,6 @@ export default function TemplateDetailsPage() {
         <div className="hidden md:block">
             {template.title.toUpperCase()}_V{template.version}
         </div>
-        <Link href="/cart">CART [{cartCount}]</Link>
       </nav>
 
       <main className="pt-[60px]">
@@ -107,12 +101,9 @@ export default function TemplateDetailsPage() {
                 </p>
 
                 <div className="action-group">
-                    <Button onClick={handleAddToCart} variant="outline" className="btn-main btn-cart rounded-none uppercase h-auto">
-                        Add to Cart
-                    </Button>
-                    <Button asChild className="btn-main btn-buy rounded-none uppercase h-auto">
+                    <Button asChild className="btn-main btn-buy rounded-none uppercase h-auto w-full">
                         <a href={template.url} target="_blank" rel="noopener noreferrer">
-                            <span>Purchase Now</span>
+                            <span>Buy Now</span>
                             <span>&rarr;</span>
                         </a>
                     </Button>
@@ -160,7 +151,7 @@ export default function TemplateDetailsPage() {
                             
                             <div className="flex gap-2 mt-auto">
                                 <Button asChild variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-300 flex items-center justify-center gap-2">
-                                   <span>View Details <ArrowRight className="w-4 h-4 hidden md:inline-block" /></span>
+                                   <Link href={`/store/${otherTemplate.id}`}>View Details <ArrowRight className="w-4 h-4 hidden md:inline-block" /></Link>
                                 </Button>
                             </div>
                         </div>
@@ -270,7 +261,7 @@ export default function TemplateDetailsPage() {
         }
         .action-group {
             display: grid;
-            grid-template-columns: 1fr 1.5fr;
+            grid-template-columns: 1fr;
             gap: 15px;
             margin-bottom: 40px;
         }
@@ -283,12 +274,6 @@ export default function TemplateDetailsPage() {
             transition: all 0.3s;
             display: flex; justify-content: center; align-items: center;
         }
-        .btn-cart {
-            background: transparent;
-            border: 1px solid var(--border-active);
-            color: var(--text-color);
-        }
-        .btn-cart:hover { background: #333; }
 
         .btn-buy {
             background: var(--text-color);
@@ -308,7 +293,6 @@ export default function TemplateDetailsPage() {
             color: #888;
             margin-top: auto; 
         }
-        .spec-item span { display: block; color: #fff; font-size: 0.85rem; margin-top: 5px; }
 
         @media (min-width: 769px) and (max-width: 1024px) {
             .main-grid { grid-template-columns: 50% 50%; } 

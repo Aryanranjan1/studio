@@ -1,9 +1,10 @@
+
 'use client';
 
 import { getTemplates } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, ShoppingCart } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useEffect, useState, useMemo } from 'react';
 import type { Template } from '@/lib/data';
 import { cn } from '@/lib/utils';
@@ -19,7 +20,6 @@ export default function StorePage() {
   const [templates, setTemplates] = useState<Template[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('all');
-  const [cartCount, setCartCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -56,12 +56,6 @@ export default function StorePage() {
   const handleFilterClick = (category: string) => {
     setActiveFilter(category);
     setCurrentPage(1);
-  };
-
-  const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault(); // Prevent link navigation
-    e.stopPropagation(); // Stop event from bubbling up to the link
-    setCartCount(prev => prev + 1);
   };
   
   const handleNextPage = () => {
@@ -107,14 +101,11 @@ export default function StorePage() {
                     </button>
                 ))}
             </div>
-            <div className="text-sm font-bold ml-4 flex-shrink-0">
-                <Link href="/cart">CART [{cartCount}]</Link>
-            </div>
         </nav>
         
         <section className="grid grid-cols-2 lg:grid-cols-3 w-full">
             {paginatedTemplates.map((template) => (
-              <Link href={`/store/${template.id}`} key={template.id} className="group product-card block border-b border-r border-white/20">
+              <div key={template.id} className="group product-card block border-b border-r border-white/20">
                 <div className="relative">
                     {template.bestSeller && <div className="absolute top-2 left-2 z-10 bg-black border border-white text-white px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">BEST SELLER</div>}
                     {template.isNew && <div className="absolute top-2 left-2 z-10 bg-black border border-white text-white px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">NEW</div>}
@@ -146,15 +137,14 @@ export default function StorePage() {
                     </div>
                     
                     <div className="flex flex-col md:flex-row gap-2 mt-auto">
-                         <Button asChild variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-300 flex items-center justify-center gap-2 text-xs md:text-sm h-10 md:h-auto">
-                           <span>View Details <ArrowRight className="w-4 h-4 hidden md:inline-block" /></span>
-                        </Button>
-                        <Button onClick={handleAddToCart} variant="outline" size="icon" className="uppercase rounded-none bg-transparent text-white border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-300 h-10 w-full md:w-10">
-                            <ShoppingCart className="w-4 h-4" />
+                         <Button asChild className="w-full uppercase rounded-none flex items-center justify-center gap-2 text-xs md:text-sm h-10 md:h-auto">
+                           <a href={template.url} target="_blank" rel="noopener noreferrer">
+                            Buy Now <ArrowRight className="w-4 h-4 hidden md:inline-block" />
+                           </a>
                         </Button>
                     </div>
                 </div>
-            </Link>
+              </div>
             ))}
         </section>
 
