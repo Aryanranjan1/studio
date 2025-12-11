@@ -79,7 +79,7 @@ const CtaCard = () => (
         Have a project<br />in mind?
       </h3>
       <p className="text-lg mt-4 max-w-xs">Let's build something great together.</p>
-      <Link href="/contact" className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-primary-foreground text-primary font-bold transition-transform hover:scale-105">
+      <Link href="/contact" className="mt-8 inline-flex items-center gap-2 px-8 py-4 bg-background text-foreground font-bold transition-transform hover:scale-105">
           Get in Touch <ArrowRight className="w-5 h-5"/>
       </Link>
   </div>
@@ -132,7 +132,7 @@ export function HorizontalServices() {
                 <div className="relative z-20 flex flex-col justify-between h-full p-8 text-foreground bg-background">
                     <div className="flex justify-between items-start">
                         <div className="p-3 border border-border bg-background/50 backdrop-blur-sm">
-                            <service.icon className="w-6 h-6" />
+                            <service.icon className="w-6 h-6 text-primary" />
                         </div>
                     </div>
 
@@ -174,7 +174,7 @@ export function HorizontalServices() {
                 <div className="relative z-20 flex flex-col justify-between h-full p-8 text-foreground">
                     <div className="flex justify-between items-start">
                         <div className="p-3 border border-border bg-black/50 backdrop-blur-sm">
-                            <service.icon className="w-6 h-6" />
+                            <service.icon className="w-6 h-6 text-primary" />
                         </div>
                         <span className="font-headline text-8xl font-bold text-white/10">
                            0{index + 1}
