@@ -30,8 +30,8 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
       className={cn(
         "absolute left-1/2 top-1/2 cursor-pointer border-2 p-8 transition-all duration-500 ease-in-out",
         isCenter 
-          ? "z-10 bg-card text-card-foreground border-card" 
-          : "z-0 bg-secondary text-secondary-foreground border-secondary hover:border-border"
+          ? "z-10 bg-secondary text-secondary-foreground border-secondary" 
+          : "z-0 bg-primary text-primary-foreground border-primary hover:border-border"
       )}
       style={{
         width: cardSize,
@@ -57,13 +57,13 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
       />
       <h3 className={cn(
         "text-base sm:text-xl font-medium",
-        isCenter ? "text-card-foreground" : "text-secondary-foreground"
+        isCenter ? "text-secondary-foreground" : "text-primary-foreground"
       )}>
         "{testimonial.quote}"
       </h3>
       <p className={cn(
         "absolute bottom-8 left-8 right-8 mt-2 text-sm italic",
-        isCenter ? "text-muted-foreground" : "text-secondary-foreground/80"
+        isCenter ? "text-secondary-foreground/80" : "text-primary-foreground/80"
       )}>
         - {testimonial.name}, {testimonial.role} at {testimonial.company}
       </p>
