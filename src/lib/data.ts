@@ -1,5 +1,6 @@
 
 
+
 export type Service = {
   id: string;
   title: string;
@@ -19,6 +20,7 @@ export type Testimonial = {
   role: string;
   company: string;
   image: string;
+  projectId: string;
 };
 
 export type Founder = {
@@ -399,22 +401,77 @@ export const getTeam = (): TeamMember[] => capabilities;
 
 export const getTestimonials = (): Testimonial[] => [
   {
-    quote:
-      'Working with them was a game-changer for our business. Their attention to detail and creative vision is unparalleled.',
-    name: 'Jane Smith',
+    quote: 'The multi-outlet system they built for us was a game-changer. Our local SEO has skyrocketed, and foot traffic is up across all 50 locations. A truly brilliant solution.',
+    name: 'Ahmad Faisal',
     role: 'CEO',
-    company: 'SaaS Corp.',
+    company: 'Kopi Dua Darjat',
     image: 'https://picsum.photos/seed/testimonial1/100/100',
+    projectId: 'kopi-dua-darjat',
   },
   {
-    quote:
-      'The team is incredibly talented and professional. They delivered a product that exceeded all our expectations and our revenue proves it.',
-    name: 'John Johnson',
-    role: 'Marketing Director',
-    company: 'Fintech Co.',
+    quote: 'They didn\'t just build a website; they built the foundation for our entire digital fitness platform. The scalability is exactly what we needed.',
+    name: 'Sarah Chen',
+    role: 'Founder',
+    company: 'BFG Gym',
     image: 'https://picsum.photos/seed/testimonial2/100/100',
+    projectId: 'bfg-gym',
   },
-  // Add more testimonials
+  {
+    quote: 'Our online catalog is stunning and easy to manage. It has drawn in so many new local customers, and we\'re ready to launch online sales next quarter thanks to their forward-thinking build.',
+    name: 'Mr. Seng',
+    role: 'Owner',
+    company: 'KBS Bikes',
+    image: 'https://picsum.photos/seed/testimonial3/100/100',
+    projectId: 'kbs-bikes',
+  },
+  {
+    quote: 'My personal website has become the central hub for my community. The design increased my views-per-visit and made my brand look incredibly professional.',
+    name: 'Fahmie Farham',
+    role: 'Musician & YouTuber',
+    company: 'Fahmie Farham Music',
+    image: 'https://picsum.photos/seed/testimonial4/100/100',
+    projectId: 'ffm-music',
+  },
+  {
+    quote: 'Their portfolio showcases their skills perfectly. It\'s clean, converts well, and is exactly what we wanted for our own agency site.',
+    name: 'Emily Carter',
+    role: 'Partner',
+    company: 'Ampire Studio',
+    image: 'https://picsum.photos/seed/testimonial5/100/100',
+    projectId: 'ampire-studio-concept',
+  },
+  {
+    quote: 'The website exudes luxury and elegance. It has elevated our brand perception and provided a beautiful platform to showcase our finest jewelry pieces.',
+    name: 'Isabelle Dubois',
+    role: 'Creative Director',
+    company: 'Jewelwet Bear',
+    image: 'https://picsum.photos/seed/testimonial6/100/100',
+    projectId: 'jewelwet-bear',
+  },
+  {
+    quote: 'The marketing site for Finanseer is simple, trustworthy, and incredibly effective at explaining our complex AI product. Our trial sign-ups have increased by 40%.',
+    name: 'David Lee',
+    role: 'CEO',
+    company: 'Finanseer',
+    image: 'https://picsum.photos/seed/testimonial7/100/100',
+    projectId: 'finanseer-saas',
+  },
+  {
+    quote: 'Our clients love the new website. The booking system is seamless, and our stylists\' work is beautifully showcased. It has streamlined our entire appointment process.',
+    name: 'Chloe Tan',
+    role: 'Owner',
+    company: 'CWT Hair Salon',
+    image: 'https://picsum.photos/seed/testimonial8/100/100',
+    projectId: 'cwt-salon',
+  },
+  {
+    quote: 'The new website projects the exact authority and professionalism our law firm needed. It has helped us build trust with potential clients before they even walk through our door.',
+    name: 'A. Prema',
+    role: 'Senior Partner',
+    company: 'A. Prema & Co.',
+    image: 'https://picsum.photos/seed/testimonial9/100/100',
+    projectId: 'aprema-co-law',
+  },
 ];
 
 
