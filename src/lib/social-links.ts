@@ -1,6 +1,6 @@
 
-import { Instagram, Linkedin, Twitter, Youtube, Gitlab } from 'lucide-react';
-import { FaInstagram, FaLinkedin, FaDribbble, FaBehance } from 'react-icons/fa6';
+import { Instagram, Linkedin } from 'lucide-react';
+import { FaInstagram, FaLinkedin, FaDribbble, FaPinterest } from 'react-icons/fa6';
 
 export type SocialLink = {
   name: string;
@@ -10,18 +10,15 @@ export type SocialLink = {
 };
 
 export const socialLinks: SocialLink[] = [
-  { name: 'Instagram', href: '#', Icon: Instagram },
-  { name: 'LinkedIn', href: '#', Icon: Linkedin },
-  { name: 'Dribbble', href: '#', Icon: FaDribbble, isReactIcon: true },
-  { name: 'Behance', href: '#', Icon: FaBehance, isReactIcon: true },
-  { name: 'Twitter/X', href: '#', Icon: Twitter },
-  { name: 'YouTube', href: '#', Icon: Youtube },
-  { name: 'Gitlab', href: '#', Icon: Gitlab },
+  { name: 'Instagram', href: 'https://instagram.com', Icon: Instagram },
+  { name: 'LinkedIn', href: 'https://linkedin.com', Icon: Linkedin },
+  { name: 'Dribbble', href: 'https://dribbble.com', Icon: FaDribbble, isReactIcon: true },
+  { name: 'Pinterest', href: 'https://pinterest.com', Icon: FaPinterest, isReactIcon: true },
 ];
 
 export const contactSocials: SocialLink[] = [
-  { name: 'Instagram', href: '#', Icon: FaInstagram, isReactIcon: true },
-  { name: 'LinkedIn', href: '#', Icon: FaLinkedin, isReactIcon: true },
-  { name: 'Dribbble', href: '#', Icon: FaDribbble, isReactIcon: true },
-  { name: 'Behance', href: '#', Icon: FaBehance, isReactIcon: true },
+    { name: 'Instagram', href: 'https://instagram.com', Icon: FaInstagram, isReactIcon: true },
+    { name: 'LinkedIn', href: 'https://linkedin.com', Icon: FaLinkedin, isReactIcon: true },
+    { name: 'Dribbble', href: 'https://dribbble.com', Icon: FaDribbble, isReactIcon: true },
+    { name: 'Pinterest', href: 'https://pinterest.com', Icon: FaPinterest, isReactIcon: true },
 ];

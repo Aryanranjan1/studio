@@ -3,11 +3,8 @@ import Link from 'next/link';
 import { Button } from './ui/button';
 import Image from 'next/image';
 import { socialLinks } from '@/lib/social-links';
-import { Instagram, Twitter, Youtube, Gitlab } from 'lucide-react';
 
-const footerSocials = socialLinks.filter(
-    (link) => ['Instagram', 'Twitter/X', 'YouTube', 'Gitlab'].includes(link.name)
-);
+const footerSocials = socialLinks;
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -19,7 +16,7 @@ export function Footer() {
           {/* CTA Section */}
           <div className="md:col-span-5 lg:col-span-4">
             <h2 className="font-headline text-3xl md:text-4xl font-bold">
-              Have a Cool Idea? Let&apos;s Collaborate.
+              Have a Cool Idea? Let's Collaborate.
             </h2>
             <Button asChild variant="outline" className="mt-6 rounded-full border-primary/50 text-primary hover:bg-primary/10 hover:text-primary">
               <Link href="/contact">
@@ -46,7 +43,7 @@ export function Footer() {
                  <h3 className="font-semibold text-muted-foreground">Social</h3>
                   <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
                     {footerSocials.map(link => (
-                        <a href={link.href} key={link.name} className="flex items-center gap-2 hover:text-primary">
+                        <a href={link.href} key={link.name} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-primary">
                           <span className='text-primary'>•</span> {link.name}
                         </a>
                     ))}

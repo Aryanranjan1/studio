@@ -1,7 +1,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, MoveRight, Instagram, Linkedin } from 'lucide-react';
+import { ArrowRight, MoveRight } from 'lucide-react';
 import { getTeam } from '@/lib/data';
 import { TeamMemberCard } from '@/components/team-member-card';
 import { Button } from '@/components/ui/button';
@@ -169,10 +169,8 @@ export default function AboutPage() {
           {/* Contact */}
           <div className="col-span-12 md:col-span-4 bg-black p-8 border-b border-neutral-800 flex flex-col justify-end items-center text-center">
             <div className="mb-8 flex gap-4">
-              <a href="#" className="hover:text-primary">Be</a>
-              <a href="#" className="hover:text-primary">Clutch</a>
-              {socialLinks.filter(l => l.name === 'LinkedIn' || l.name === 'Instagram').map(link => (
-                <a href={link.href} key={link.name} className="hover:text-primary">
+              {socialLinks.map(link => (
+                <a href={link.href} key={link.name} target="_blank" rel="noopener noreferrer" className="hover:text-primary">
                   <link.Icon className="h-5 w-5"/>
                 </a>
               ))}
