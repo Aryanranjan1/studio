@@ -105,7 +105,7 @@ export default function StorePage() {
         
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
             {paginatedTemplates.map((template) => (
-              <Link key={template.id} href={`/store/${template.id}`} className="group product-card block border-b border-r border-white/20">
+              <div key={template.id} className="group product-card block border-b border-r border-white/20">
                 <div className="relative">
                     {template.bestSeller && (
                       <div className="absolute top-2 left-2 z-10 bg-black border border-white text-white px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">BEST SELLER</div>
@@ -113,21 +113,23 @@ export default function StorePage() {
                     {!template.bestSeller && template.isNew && (
                       <div className="absolute top-2 left-2 z-10 bg-black border border-white text-white px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">NEW</div>
                     )}
-                    <div className="h-72 overflow-hidden relative border-b border-white/20">
-                        <Image
-                            src={template.image}
-                            alt={template.imageAlt}
-                            fill
-                            className="w-full h-full object-cover grayscale transition-all duration-500 ease-in-out group-hover:grayscale-0 group-hover:scale-105"
-                        />
-                    </div>
+                    <Link href={`/store/${template.id}`} className='block'>
+                        <div className="h-72 overflow-hidden relative border-b border-white/20">
+                            <Image
+                                src={template.image}
+                                alt={template.imageAlt}
+                                fill
+                                className="w-full h-full object-cover grayscale transition-all duration-500 ease-in-out group-hover:grayscale-0 group-hover:scale-105"
+                            />
+                        </div>
+                    </Link>
                 </div>
                 <div className="p-4 md:p-8 flex flex-col justify-between flex-grow">
                     <div>
                         <div className="flex justify-between items-start mb-3 md:mb-5">
-                            <div>
-                                <h3 className="font-display text-lg md:text-2xl font-bold uppercase">{template.title}</h3>
-                            </div>
+                            <Link href={`/store/${template.id}`} className='block'>
+                                <h3 className="font-display text-lg md:text-2xl font-bold uppercase group-hover:text-primary transition-colors">{template.title}</h3>
+                            </Link>
                             <span className="text-base md:text-xl font-bold">RM{template.price}</span>
                         </div>
                         <p className="text-xs md:text-sm text-[#888] leading-relaxed mb-4 md:mb-8 max-w-[90%] line-clamp-2 md:line-clamp-none">{template.description}</p>
@@ -141,17 +143,19 @@ export default function StorePage() {
                     </div>
                     
                     <div className="flex flex-col md:flex-row gap-2 mt-auto">
-                        <Button variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-2 text-xs md:text-sm h-10 md:h-auto">
-                            View Details
-                        </Button>
+                        <Link href={`/store/${template.id}`} className="w-full">
+                            <Button variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-2 text-xs md:text-sm h-10 md:h-auto">
+                                View Details
+                            </Button>
+                        </Link>
                         <Button asChild className="w-full uppercase rounded-none flex items-center justify-center gap-2 text-xs md:text-sm h-10 md:h-auto">
-                           <a href={template.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                           <a href={template.url} target="_blank" rel="noopener noreferrer">
                             Buy Now <ArrowRight className="w-4 h-4 hidden md:inline-block" />
                            </a>
                         </Button>
                     </div>
                 </div>
-              </Link>
+              </div>
             ))}
         </section>
 

@@ -142,45 +142,49 @@ export default function TemplateDetailsPage() {
                 <h2 className="font-display text-4xl font-bold uppercase mb-12">Recommended for you</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/20 border-l border-r border-white/20">
                     {otherTemplates.map((otherTemplate) => (
-                      <Link href={`/store/${otherTemplate.id}`} key={otherTemplate.id} className="group product-card block border-b border-t border-white/20 bg-black">
+                      <div key={otherTemplate.id} className="group product-card block border-b border-t border-white/20 bg-black">
                         <div className="relative">
                             {otherTemplate.bestSeller ? (
                               <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">BEST SELLER</div>
                             ) : otherTemplate.isNew && (
                               <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">NEW</div>
                             )}
-                            <div className="h-72 overflow-hidden relative border-b border-white/20">
-                                <Image
-                                    src={otherTemplate.image}
-                                    alt={otherTemplate.imageAlt}
-                                    fill
-                                    className="w-full h-full object-cover grayscale transition-all duration-500 ease-in-out group-hover:grayscale-0 group-hover:scale-105"
-                                />
-                            </div>
+                            <Link href={`/store/${otherTemplate.id}`} className='block'>
+                                <div className="h-72 overflow-hidden relative border-b border-white/20">
+                                    <Image
+                                        src={otherTemplate.image}
+                                        alt={otherTemplate.imageAlt}
+                                        fill
+                                        className="w-full h-full object-cover grayscale transition-all duration-500 ease-in-out group-hover:grayscale-0 group-hover:scale-105"
+                                    />
+                                </div>
+                            </Link>
                         </div>
                         <div className="p-8 flex flex-col justify-between flex-grow">
                             <div>
                                 <div className="flex justify-between items-start mb-5">
-                                    <div>
-                                        <h3 className="font-display text-2xl font-bold uppercase">{otherTemplate.title}</h3>
-                                    </div>
+                                    <Link href={`/store/${otherTemplate.id}`} className='block'>
+                                        <h3 className="font-display text-2xl font-bold uppercase group-hover:text-primary transition-colors">{otherTemplate.title}</h3>
+                                    </Link>
                                     <span className="text-xl font-bold">RM{otherTemplate.price}</span>
                                 </div>
                                 <p className="text-sm text-[#888] leading-relaxed mb-8 max-w-[90%] line-clamp-2">{otherTemplate.description}</p>
                             </div>
                             
                             <div className="flex flex-col md:flex-row gap-2 mt-auto">
-                                <Button variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-300 flex items-center justify-center gap-2">
-                                   View Details <ArrowRight className="w-4 h-4 hidden md:inline-block" />
-                                </Button>
+                                <Link href={`/store/${otherTemplate.id}`} className='w-full'>
+                                    <Button variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-300 flex items-center justify-center gap-2">
+                                    View Details <ArrowRight className="w-4 h-4 hidden md:inline-block" />
+                                    </Button>
+                                </Link>
                                 <Button asChild className="w-full uppercase rounded-none flex items-center justify-center gap-2">
-                                   <a href={otherTemplate.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                   <a href={otherTemplate.url} target="_blank" rel="noopener noreferrer">
                                     Buy Now <ArrowRight className="w-4 h-4 hidden md:inline-block" />
                                    </a>
                                 </Button>
                             </div>
                         </div>
-                      </Link>
+                      </div>
                     ))}
                 </div>
             </div>
