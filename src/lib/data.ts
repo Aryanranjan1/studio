@@ -1,5 +1,4 @@
 
-
 export type Service = {
   id: string;
   title: string;
@@ -66,7 +65,7 @@ export type Article = {
   popular?: boolean;
 };
 
-export type Template = {
+export type Project = {
   id: string;
   title: string;
   description: string;
@@ -86,13 +85,18 @@ export type Template = {
     css: string;
     cms: string;
     type: string;
-    [key: string]: string; // Allow other string keys
+    [key: string]: string; 
   };
   bestSeller?: boolean;
   isNew?: boolean;
   version?: string;
-  fileTree?: { name: string; indent: boolean }[];
+  category?: string;
+  technologies: string[];
+  featured?: boolean;
 };
+
+export type Template = Project;
+
 
 export type TeamMember = {
   id: string;
@@ -173,9 +177,194 @@ export const getServices = (): Service[] => [
   },
 ];
 
-export const getProjects = (): any[] => {
-    // Empty array as requested
-    return [];
+const projects: Project[] = [
+    {
+        id: 'kopi-dua-darjat',
+        title: 'Kopi Dua Darjat',
+        description: 'A multi-outlet website solution for a major Malaysian coffee brand, boosting local SEO for 50+ locations.',
+        longDescription: 'For a coffee company with over 50 outlets, a single website isn\'t enough. People search for "coffee near me," not just the main brand. Our solution gives each of the 50+ outlets its own unique webpage, managed from one central place. This is a "parent-child" setup: the main website is the parent, and each outlet is a child. When someone searches locally, the specific outlet\'s page shows up, dramatically improving their search engine ranking (SEO) and drawing in more local customers.',
+        price: 149,
+        image: 'https://picsum.photos/seed/kopi/1200/800',
+        imageAlt: 'A modern coffee shop website design',
+        url: 'https://example.com/kopi-dua-darjat',
+        tags: ['Web Development', 'Multi-location', 'SEO'],
+        technologies: ['Next.js', 'Sanity CMS', 'Vercel'],
+        featured: true,
+        category: 'Corporate',
+        specs: { stack: 'Next.js', css: 'Tailwind CSS', cms: 'Sanity', type: 'Corporate' },
+        images: [
+            { src: 'https://picsum.photos/seed/kopi1/1200/800', alt: 'Main franchise portal page' },
+            { src: 'https://picsum.photos/seed/kopi2/1200/800', alt: 'Individual outlet page with local map' },
+            { src: 'https://picsum.photos/seed/kopi3/1200/800', alt: 'CMS backend for managing outlets' },
+        ],
+        features: ['Individual Outlet Pages', 'Centralized Management', 'Local SEO Optimization'],
+    },
+    {
+        id: 'bfg-gym',
+        title: 'BFG - Big Friendly Gym',
+        description: 'A concept website for a gym, engineered to support a full-scale fitness web application.',
+        longDescription: 'This isn\'t just a pretty brochure website for a gym. We designed it from the ground up to be the foundation for a complete fitness web app. Think of it as the lobby to a much bigger building. Users can sign up, view class schedules, and see gym info. But behind the scenes, it’s ready to plug in features like workout trackers, personal training dashboards, and member-only content without needing a complete rebuild. It’s built for growth.',
+        price: 79,
+        image: 'https://picsum.photos/seed/gym/1200/800',
+        imageAlt: 'A dynamic and energetic gym website',
+        url: 'https://example.com/bfg-gym',
+        tags: ['Web App', 'Fitness', 'Concept'],
+        technologies: ['React', 'Firebase', 'Node.js'],
+        category: 'Web App',
+        specs: { stack: 'React', css: 'Tailwind CSS', cms: 'Firebase', type: 'Web App' },
+        images: [
+            { src: 'https://picsum.photos/seed/gym1/1200/800', alt: 'Class schedule and booking interface' },
+            { src: 'https://picsum.photos/seed/gym2/1200/800', alt: 'User profile and progress tracking dashboard' },
+            { src: 'https://picsum.photos/seed/gym3/1200/800', alt: 'Admin panel for managing classes and members' },
+        ],
+        features: ['Scalable Architecture', 'User Authentication Ready', 'Class Schedule System'],
+    },
+    {
+        id: 'kbs-bikes',
+        title: 'KBS - Kedai Basikal Seng',
+        description: 'A digital catalog for a KL bicycle store, designed to attract local customers and enable future online sales.',
+        longDescription: 'For a local bike shop in Kuala Lumpur, the goal is to get people into the store. This website acts as a digital window display, showcasing their latest bikes and gear in a beautiful online catalog. It helps people discover products before they even visit. More importantly, we built it so that with a few adjustments, the owner can easily switch on e-commerce features and start selling online, turning their local shop into a nationwide business.',
+        price: 99,
+        image: 'https://picsum.photos/seed/bike/1200/800',
+        imageAlt: 'A sleek and modern bicycle store website',
+        url: 'https://example.com/kbs-bikes',
+        tags: ['E-commerce', 'Local Business', 'Catalog'],
+        technologies: ['Shopify', 'Liquid', 'Headless'],
+        category: 'E-commerce',
+        specs: { stack: 'Shopify', css: 'CSS3', cms: 'Shopify', type: 'E-commerce' },
+        images: [
+            { src: 'https://picsum.photos/seed/bike1/1200/800', alt: 'Product catalog page with filtering' },
+            { src: 'https://picsum.photos/seed/bike2/1200/800', alt: 'Detailed product page for a bicycle' },
+            { src: 'https://picsum.photos/seed/bike3/1200/800', alt: 'Mobile view of the store' },
+        ],
+        features: ['Product Catalog System', 'E-commerce Ready', 'Local Store Locator'],
+    },
+    {
+        id: 'ffm-music',
+        title: 'Fahmie Farham Music',
+        description: 'A personal website for a YouTuber, designed to increase view-per-visit and showcase their work professionally.',
+        longDescription: 'A YouTube channel is great, but a personal website makes you look like a pro. For this musician YouTuber, we created a central hub for all their content. The site is designed to keep visitors engaged, encouraging them to watch more than one video (increasing "views per visit"). It beautifully organizes their music videos, tutorials, and behind-the-scenes content, strengthening their brand and creating a direct connection with their audience away from the noise of the YouTube platform.',
+        price: 69,
+        image: 'https://picsum.photos/seed/music/1200/800',
+        imageAlt: 'A personal website for a musician and YouTuber',
+        url: 'https://example.com/ffm-music',
+        tags: ['Personal', 'YouTuber', 'Portfolio'],
+        technologies: ['Framer', 'Webflow', 'React'],
+        featured: true,
+        category: 'Portfolio',
+        specs: { stack: 'Framer', css: 'CSS3', cms: 'Framer', type: 'Portfolio' },
+        images: [
+            { src: 'https://picsum.photos/seed/music1/1200/800', alt: 'Video gallery page' },
+            { src: 'https://picsum.photos/seed/music2/1200/800', alt: 'About the artist page' },
+            { src: 'https://picsum.photos/seed/music3/1200/800', alt: 'Embedded YouTube player and playlist' },
+        ],
+        features: ['Video Showcase', 'Increased Visitor Engagement', 'Professional Branding'],
+    },
+    {
+        id: 'ampire-studio-concept',
+        title: 'Ampire Studio',
+        description: 'Our own agency website concept, focused on showcasing our work and converting visitors into clients.',
+        longDescription: 'We practice what we preach. This website is our own concept for a digital agency, built with two main goals: to be a stunning showcase of our capabilities and to be a machine for turning visitors into clients. Every element, from the project case studies to the contact form, is designed to be clear, persuasive, and easy to use. It’s our philosophy of design and business strategy made interactive.',
+        price: 199,
+        image: 'https://picsum.photos/seed/ampire/1200/800',
+        imageAlt: 'A website for a digital design agency',
+        url: 'https://example.com/ampire-studio',
+        tags: ['Agency', 'Portfolio', 'Conversion'],
+        technologies: ['Next.js', 'Framer Motion', 'Sanity'],
+        category: 'Corporate',
+        specs: { stack: 'Next.js', css: 'Tailwind CSS', cms: 'Sanity', type: 'Corporate' },
+        images: [
+            { src: 'https://picsum.photos/seed/ampire1/1200/800', alt: 'Showcase of portfolio projects' },
+            { src: 'https://picsum.photos/seed/ampire2/1200/800', alt: 'Services and pricing page' },
+            { src: 'https://picsum.photos/seed/ampire3/1200/800', alt: 'Contact form and lead capture' },
+        ],
+        features: ['High-Conversion Design', 'Work Showcase', 'Service Explanations'],
+    },
+    {
+        id: 'jewelwet-bear',
+        title: 'Jewelwet Bear',
+        description: 'A website concept for a jewelry brand, designed to convey luxury, elegance, and exclusivity.',
+        longDescription: 'Selling high-end jewelry online requires a website that feels as luxurious as the products themselves. This concept is all about creating an atmosphere of elegance and exclusivity. We used a clean, sophisticated design, high-resolution imagery, and smooth animations to make browsing feel like a premium boutique experience. The focus is on telling the story behind each piece and making the customer feel special.',
+        price: 89,
+        image: 'https://picsum.photos/seed/jewel/1200/800',
+        imageAlt: 'A luxurious jewelry brand website',
+        url: 'https://example.com/jewelwet-bear',
+        tags: ['Luxury', 'E-commerce', 'Branding'],
+        technologies: ['Shopify', 'GSAP', 'Headless'],
+        category: 'E-commerce',
+        specs: { stack: 'Shopify', css: 'Styled Components', cms: 'Contentful', type: 'E-commerce' },
+        images: [
+            { src: 'https://picsum.photos/seed/jewel1/1200/800', alt: 'Product display with elegant typography' },
+            { src: 'https://picsum.photos/seed/jewel2/1200/800', alt: 'Storytelling page about a collection' },
+            { src: 'https://picsum.photos/seed/jewel3/1200/800', alt: 'Close-up detail shot of a jewelry piece' },
+        ],
+        features: ['Luxury Brand Experience', 'High-Resolution Imagery', 'Story-Driven Product Pages'],
+    },
+    {
+        id: 'finanseer-saas',
+        title: 'Finanseer',
+        description: 'The marketing website for a financial SaaS web app that helps users manage their finances with AI.',
+        longDescription: 'How do you sell a complex financial tool? You make the website simple, trustworthy, and focused on benefits. This site is the front door for a SaaS (Software as a Service) product that uses AI to manage finances. The design is clean and professional, explaining exactly how the app helps users save money and invest smarter. It builds confidence and guides the user to sign up for a trial, acting as the primary marketing tool for the application.',
+        price: 129,
+        image: 'https://picsum.photos/seed/finance/1200/800',
+        imageAlt: 'A website for a financial SaaS application',
+        url: 'https://example.com/finanseer',
+        tags: ['SaaS', 'Finance', 'AI'],
+        technologies: ['Next.js', 'Stripe', 'Firebase'],
+        featured: true,
+        category: 'SaaS',
+        specs: { stack: 'Next.js', css: 'Tailwind CSS', cms: 'None', type: 'SaaS' },
+        images: [
+            { src: 'https://picsum.photos/seed/finance1/1200/800', alt: 'Features and benefits section' },
+            { src: 'https://picsum.photos/seed/finance2/1200/800', alt: 'Pricing and subscription tiers' },
+            { src: 'https://picsum.photos/seed/finance3/1200/800', alt: 'Sign-up flow for the web app' },
+        ],
+        features: ['SaaS Marketing Funnel', 'Clear Value Proposition', 'AI Feature Showcase'],
+    },
+    {
+        id: 'cwt-salon',
+        title: 'CWT Hair Salon',
+        description: 'A stylish website for a hair salon to showcase their work, list services, and book appointments.',
+        longDescription: 'For a hair salon, image is everything. This website serves as a visual portfolio, showcasing the salon\'s best work with a gallery of styles. It clearly lists all services and prices, and most importantly, includes an easy-to-use booking system. This allows clients to schedule appointments directly through the site, reducing phone calls for the salon and making booking effortless for the customer.',
+        price: 79,
+        image: 'https://picsum.photos/seed/salon/1200/800',
+        imageAlt: 'A stylish website for a hair salon',
+        url: 'https://example.com/cwt-salon',
+        tags: ['Local Business', 'Booking', 'Portfolio'],
+        technologies: ['Webflow', 'Calendly', 'Acuity'],
+        category: 'Local Business',
+        specs: { stack: 'Webflow', css: 'CSS3', cms: 'Webflow', type: 'Local Business' },
+        images: [
+            { src: 'https://picsum.photos/seed/salon1/1200/800', alt: 'Image gallery of hairstyles' },
+            { src: 'https://picsum.photos/seed/salon2/1200/800', alt: 'Services and pricing list' },
+            { src: 'https://picsum.photos/seed/salon3/1200/800', alt: 'Appointment booking calendar' },
+        ],
+        features: ['Appointment Booking System', 'Service & Price Listing', 'Visual Work Showcase'],
+    },
+    {
+        id: 'aprema-co-law',
+        title: 'A. Prema & Co.',
+        description: 'A professional and authoritative website for a law firm, designed to build trust and showcase legal services.',
+        longDescription: 'A law firm\'s website needs to project authority and trust. This design is clean, professional, and serious, without being intimidating. It clearly outlines the firm\'s areas of legal practice, introduces the lawyers with professional profiles, and provides helpful articles to demonstrate expertise. The goal is to make a potential client feel they have found a knowledgeable and reliable partner, encouraging them to make contact for a consultation.',
+        price: 119,
+        image: 'https://picsum.photos/seed/law/1200/800',
+        imageAlt: 'A professional website for a law firm',
+        url: 'https://example.com/aprema-co',
+        tags: ['Corporate', 'Law Firm', 'Professional Services'],
+        technologies: ['Next.js', 'Contentful', 'React'],
+        category: 'Corporate',
+        specs: { stack: 'Next.js', css: 'Tailwind CSS', cms: 'Contentful', type: 'Corporate' },
+        images: [
+            { src: 'https://picsum.photos/seed/law1/1200/800', alt: 'Practice areas overview page' },
+            { src: 'https://picsum.photos/seed/law2/1200/800', alt: 'Attorney profile pages' },
+            { src: 'https://picsum.photos/seed/law3/1200/800', alt: 'Contact page for consultations' },
+        ],
+        features: ['Professional & Trustworthy Design', 'Clear Service Outlines', 'Expertise Showcase'],
+    }
+];
+
+export const getProjects = (): Project[] => {
+    return projects;
 };
 
 export const getFounder = (): Founder => ({
@@ -413,62 +602,16 @@ export const getArticles = (): Article[] => Array.from({ length: 21 }, (_, i) =>
     popular: i < 5,
 }));
 
-
-export const getTemplates = (): Template[] => Array.from({ length: 20 }, (_, i) => ({
-    id: `template-${i + 1}`,
-    title: `Obsidian ${i + 1}`,
-    description: `A high-quality, professional template for ${['agencies', 'SaaS companies', 'portfolios'][i % 3]}.`,
-    longDescription: `This is a comprehensive description for Pro Template ${i + 1}. It is designed to be fully responsive, highly customizable, and optimized for performance. It comes with a variety of pre-built pages and components to help you launch your website quickly and efficiently.`,
-    price: 49 + (i * 5),
-    image: `https://picsum.photos/seed/t-cover-${i + 1}/1200/800`,
-    imageAlt: `Cover image for Pro Template ${i + 1}`,
-    url: 'https://gumroad.com/',
-    tags: [['Webflow', 'Agency'], ['Next.js', 'SaaS'], ['Framer', 'Portfolio']][i % 3],
-    version: `2.1.${i}`,
-    specs: {
-        stack: ['Next.js 14 (App Router)', 'React', 'Astro', 'Vue 3'][i % 4],
-        css: ['Tailwind CSS', 'Styled Components'][i % 2],
-        animation: ['Framer Motion', 'GSAP'][i % 2],
-        cms: ['Sanity.io (Headless)', 'Contentful', 'MDX', 'Strapi'][i % 4],
-        deploy: ['Vercel Ready', 'Netlify Ready'][i % 2],
-        type: ['Agency', 'SaaS', 'Portfolio', 'Blog'][i % 4]
-    },
-    fileTree: [
-        { name: '/app', indent: false },
-        { name: 'layout.tsx', indent: true },
-        { name: 'page.tsx', indent: true },
-        { name: '/projects', indent: true },
-        { name: '/components', indent: false },
-        { name: 'Hero.tsx', indent: true },
-        { name: 'Navbar.tsx', indent: true },
-        { name: 'Footer.tsx', indent: true },
-        { name: '/lib', indent: false },
-        { name: 'sanity.ts', indent: true },
-    ],
-    images: [
-      {
-        src: `https://picsum.photos/seed/t-img1-${i + 1}/1200/800`,
-        alt: `HOME_PAGE_HERO_SECTION`,
-      },
-      {
-        src: `https://picsum.photos/seed/t-img2-${i + 1}/1200/800`,
-        alt: `MOBILE_RESPONSIVE_MENU`,
-      },
-      {
-        src: `https://picsum.photos/seed/t-img3-${i + 1}/1200/800`,
-        alt: `PROJECT_GRID_LAYOUT`,
-      },
-    ],
-    features: [
-      'Fully Responsive Design',
-      `CMS for ${['Projects', 'Features', 'Showcase'][i % 3]}`,
-      'Advanced Animations',
-      'Global Style Guide',
-      'Contact & Subscribe Forms',
-      'Lifetime Updates',
-    ],
-    bestSeller: i === 0,
-    isNew: i > 0 && i < 3,
-}));
+export const getTemplates = (): Template[] => {
+    // We map the projects to templates, but adjust the price and a few other details
+    return projects.map((p, i) => ({
+        ...p, // Spread all properties from the project
+        id: `template-${p.id}`, // Create a unique template ID
+        price: [79, 129, 89, 69, 149, 99, 119, 59, 139][i % 9], // Assign different prices
+        description: `A professionally designed template based on the ${p.title} project.`,
+        isNew: i < 2, // Mark the first two as "New"
+        bestSeller: i === 0 || i === 3, // Mark a couple as best-sellers
+    }));
+};
 
 export const allCategories = articleCategories;
