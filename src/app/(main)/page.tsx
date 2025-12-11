@@ -189,7 +189,7 @@ export default function Home() {
            background-image: 
             radial-gradient(
               circle at var(--mouse-x) var(--mouse-y),
-              rgba(12, 255, 66, 0.15),
+              rgba(255, 255, 255, 0.08),
               transparent 20vw
             ),
             linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
