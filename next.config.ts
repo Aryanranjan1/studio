@@ -46,6 +46,12 @@ const nextConfig: NextConfig = {
         hostname: 'cdn.simpleicons.org',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'image2url.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

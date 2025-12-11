@@ -66,23 +66,40 @@ export default function TemplateDetailsPage() {
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-3 h-auto md:h-[calc(100vh-60px)] w-full">
             {/* --- LEFT: IMAGE SLIDER --- */}
             <div className="relative border-r border-white/20 h-[50vh] md:h-full overflow-hidden bg-black md:col-span-3 lg:col-span-2">
-                <button className="slider-btn prev-btn" onClick={() => moveSlide(-1)}>&lt;</button>
-                <div className="slider-track" ref={sliderRef}>
-                    {template.images.map((img, index) => (
-                        <div className="slide group" key={index}>
-                            <Image src={img.src} alt={img.alt} fill priority={index === 0} />
-                            <div className="slide-caption">[FIG {index + 1}.0] {img.alt}</div>
-                            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                               <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-white hover:text-black scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
-                                    <a href={template.url} target="_blank" rel="noopener noreferrer">
-                                        Live Preview
-                                    </a>
-                               </Button>
-                            </div>
+                {template.images.length > 1 && (
+                    <>
+                        <button className="slider-btn prev-btn" onClick={() => moveSlide(-1)}>&lt;</button>
+                        <div className="slider-track" ref={sliderRef}>
+                            {template.images.map((img, index) => (
+                                <div className="slide group" key={index}>
+                                    <Image src={img.src} alt={img.alt} fill priority={index === 0} />
+                                    <div className="slide-caption">[FIG {index + 1}.0] {img.alt}</div>
+                                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                    <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-white hover:text-black scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
+                                            <a href={template.url} target="_blank" rel="noopener noreferrer">
+                                                Live Preview
+                                            </a>
+                                    </Button>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-                <button className="slider-btn next-btn" onClick={() => moveSlide(1)}>&gt;</button>
+                        <button className="slider-btn next-btn" onClick={() => moveSlide(1)}>&gt;</button>
+                    </>
+                )}
+                 {template.images.length === 1 && (
+                    <div className="slide group h-full w-full">
+                         <Image src={template.images[0].src} alt={template.images[0].alt} fill priority />
+                         <div className="slide-caption">[FIG 1.0] {template.images[0].alt}</div>
+                         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                           <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-white hover:text-black scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
+                                <a href={template.url} target="_blank" rel="noopener noreferrer">
+                                    Live Preview
+                                </a>
+                           </Button>
+                         </div>
+                    </div>
+                )}
             </div>
 
             {/* --- RIGHT: INFO PANEL --- */}
