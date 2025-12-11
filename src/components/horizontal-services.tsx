@@ -60,7 +60,7 @@ const services = [
 ];
 
 const IntroCard = () => (
-  <div className="w-full md:w-[50vw] h-auto md:h-[75vh] flex-shrink-0 flex flex-col justify-between p-8 border-b md:border-b-0 md:border-r border-primary bg-background">
+  <div className="w-full md:w-[50vw] h-auto md:h-[75vh] flex-shrink-0 flex flex-col justify-between p-8 border-b md:border-b-0 md:border-r border-primary bg-black text-white">
      <h3 className="font-headline text-5xl font-bold text-foreground tracking-tight">
         A full-service<br />design &<br />development<br />agency.
       </h3>
@@ -108,7 +108,7 @@ export function HorizontalServices() {
 
   if (isMobile) {
     return (
-       <section className="bg-background border-y border-neutral-800">
+       <section className="bg-black text-white border-y border-neutral-800">
          <IntroCard />
           {services.map((service, index) => (
             <div key={index} className="w-full h-auto flex-shrink-0 relative border-b border-primary overflow-hidden group">
@@ -118,13 +118,14 @@ export function HorizontalServices() {
                       alt={service.title}
                       fill
                       className="object-cover"
+                      data-ai-hint={service.imageHint}
                   />
-                  <div className="absolute inset-0 bg-background/70 z-10"/>
+                  <div className="absolute inset-0 bg-black/70 z-10"/>
                 </div>
 
-                <div className="relative z-20 flex flex-col justify-between h-full p-8 text-foreground bg-background">
+                <div className="relative z-20 flex flex-col justify-between h-full p-8 text-foreground bg-black">
                     <div className="flex justify-between items-start">
-                        <div className="p-3 border border-border bg-background/50 backdrop-blur-sm">
+                        <div className="p-3 border border-border bg-black/50 backdrop-blur-sm">
                             <service.icon className="w-6 h-6" />
                         </div>
                     </div>
@@ -134,7 +135,7 @@ export function HorizontalServices() {
                         <p className="mt-2 text-muted-foreground max-w-sm">{service.description}</p>
                         <div className="flex flex-wrap gap-2 mt-6">
                             {service.tags.map(tag => (
-                                <span key={tag} className="px-3 py-1 border border-border bg-background/50 text-sm text-foreground">
+                                <span key={tag} className="px-3 py-1 border border-border bg-black/50 text-sm text-foreground">
                                     {tag}
                                 </span>
                             ))}
@@ -149,7 +150,7 @@ export function HorizontalServices() {
   }
 
   return (
-    <section ref={targetRef} className="relative h-[500vh] bg-background border-y border-primary">
+    <section ref={targetRef} className="relative h-[500vh] bg-black text-white border-y border-primary">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div style={{ x }} className="flex">
           <IntroCard />
@@ -162,14 +163,14 @@ export function HorizontalServices() {
                     className="object-cover absolute inset-0 z-0 transition-all duration-500"
                     data-ai-hint={service.imageHint}
                 />
-                <div className="absolute inset-0 bg-background/70 z-10"/>
+                <div className="absolute inset-0 bg-black/70 z-10"/>
 
                 <div className="relative z-20 flex flex-col justify-between h-full p-8 text-foreground">
                     <div className="flex justify-between items-start">
-                        <div className="p-3 border border-border bg-background/50 backdrop-blur-sm">
+                        <div className="p-3 border border-border bg-black/50 backdrop-blur-sm">
                             <service.icon className="w-6 h-6" />
                         </div>
-                        <span className="font-headline text-8xl font-bold text-foreground/10">
+                        <span className="font-headline text-8xl font-bold text-white/10">
                            0{index + 1}
                         </span>
                     </div>
@@ -179,7 +180,7 @@ export function HorizontalServices() {
                         <p className="mt-2 text-muted-foreground max-w-sm">{service.description}</p>
                         <div className="flex flex-wrap gap-2 mt-6">
                             {service.tags.map(tag => (
-                                <span key={tag} className="px-3 py-1 border border-border bg-background/50 text-sm text-foreground">
+                                <span key={tag} className="px-3 py-1 border border-border bg-black/50 text-sm text-foreground">
                                     {tag}
                                 </span>
                             ))}

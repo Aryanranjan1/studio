@@ -83,7 +83,7 @@ export default function Home() {
   })
 
   return (
-    <main className="bg-background text-foreground font-tech selection:bg-primary selection:text-black">
+    <main className="bg-black text-white font-tech selection:bg-primary selection:text-black">
       
       {/* 1. Hero Section */}
       <header className="hero-section h-screen w-full relative flex flex-col justify-center overflow-hidden border-b border-primary">
@@ -118,12 +118,12 @@ export default function Home() {
 
       {/* 4. Projects Section (Sticky Layout) */}
       {projects.length > 0 && (
-        <section className="projects-section relative w-full bg-background border-b border-primary">
+        <section className="projects-section relative w-full bg-black border-b border-primary">
           <div className="container max-w-[1400px] mx-auto px-0 md:px-5 md:border-l md:border-r border-neutral-800">
             <div className="project-layout flex flex-col md:flex-row">
               
               {/* Left Sticky Panel */}
-              <div className="left-panel w-full md:w-2/5 md:h-screen relative md:sticky top-0 flex flex-col justify-center py-16 px-6 md:px-10 border-b md:border-b-0 md:border-r border-neutral-800 bg-background z-10">
+              <div className="left-panel w-full md:w-2/5 md:h-screen relative md:sticky top-0 flex flex-col justify-center py-16 px-6 md:px-10 border-b md:border-b-0 md:border-r border-neutral-800 bg-black z-10">
                 <h2 className="section-title text-5xl md:text-6xl uppercase mb-5 font-display leading-[0.9]">Selected<br />Works</h2>
                 <p className="hero-label text-primary tracking-widest font-tech">// 2024 - 2025</p>
               </div>
@@ -149,10 +149,10 @@ export default function Home() {
       <TestimonialsSection />
 
       {/* 7. Footer Section */}
-      <footer className="footer-simple text-center py-24 px-6 md:px-10 border-b border-primary relative overflow-hidden">
-        <div className="absolute inset-0 bg-foreground/5 skew-y-12 scale-150 pointer-events-none"></div>
+      <footer className="footer-simple text-center py-24 px-6 md:px-10 border-b border-primary relative overflow-hidden bg-black text-white">
+        <div className="absolute inset-0 bg-white/5 skew-y-12 scale-150 pointer-events-none"></div>
         <h2 className="relative text-[8vw] md:text-[4vw] uppercase mb-10 font-display leading-none">Ready to Initiate?</h2>
-        <Button asChild variant="outline" className="relative footer-btn px-12 py-8 text-lg uppercase bg-transparent text-foreground border-foreground rounded-none hover:bg-primary hover:border-primary hover:text-primary-foreground transition-all duration-300">
+        <Button asChild variant="outline" className="relative footer-btn px-12 py-8 text-lg uppercase bg-transparent text-white border-white rounded-none hover:bg-primary hover:border-primary hover:text-primary-foreground transition-all duration-300">
             <Link href="/contact">Start Project</Link>
         </Button>
         <p className="relative mt-20 text-muted-foreground text-xs font-tech uppercase tracking-widest">&copy; {new Date().getFullYear()} Ampire Studio. Malaysia.</p>

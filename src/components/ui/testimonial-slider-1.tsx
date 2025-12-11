@@ -90,7 +90,7 @@ export const TestimonialSlider = ({
   return (
     <div
       className={cn(
-        'relative w-full min-h-[750px] md:min-h-[700px] overflow-hidden bg-bg-color text-text-color p-8 md:p-12 border-y border-border-active',
+        'relative w-full min-h-[750px] md:min-h-[700px] overflow-hidden bg-black text-white p-8 md:p-12 border-y border-border-active',
         className
       )}
     >
@@ -118,7 +118,7 @@ export const TestimonialSlider = ({
                 <button
                   key={review.id}
                   onClick={() => handleThumbnailClick(originalIndex)}
-                  className="overflow-hidden w-16 h-20 md:w-20 md:h-24 opacity-70 hover:opacity-100 transition-opacity duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black border border-border-color hover:border-border-active"
+                  className="overflow-hidden w-16 h-20 md:w-20 md:h-24 opacity-70 hover:opacity-100 transition-opacity duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black border border-neutral-700 hover:border-primary"
                   aria-label={`View review from ${review.name}`}
                 >
                   <img
@@ -133,7 +133,7 @@ export const TestimonialSlider = ({
         </div>
 
         {/* === Center Column: Main Image === */}
-        <div className="md:col-span-4 relative h-80 min-h-[400px] md:min-h-[500px] order-1 md:order-2 border border-border-active">
+        <div className="md:col-span-4 relative h-80 min-h-[400px] md:min-h-[500px] order-1 md:order-2 border border-primary">
           <AnimatePresence initial={false} custom={direction}>
             <motion.img
               key={currentIndex}
@@ -182,7 +182,7 @@ export const TestimonialSlider = ({
             <Button
               variant="outline"
               size="icon"
-              className="rounded-none w-12 h-12 border-border-color text-foreground hover:bg-foreground hover:text-background"
+              className="rounded-none w-12 h-12 border-neutral-700 text-white hover:bg-white hover:text-black"
               onClick={handlePrev}
               aria-label="Previous review"
             >
@@ -191,7 +191,7 @@ export const TestimonialSlider = ({
             <Button
               variant="outline"
               size="icon"
-              className="rounded-none w-12 h-12 border-border-color text-background bg-foreground hover:bg-neutral-200"
+              className="rounded-none w-12 h-12 border-neutral-700 text-black bg-white hover:bg-neutral-200"
               onClick={handleNext}
               aria-label="Next review"
             >

@@ -66,7 +66,7 @@ const pricingTiers = [
 
 export function PricingSection() {
   return (
-    <section className="bg-bg-color py-24 sm:py-32 border-b border-border-active">
+    <section className="bg-black text-white py-24 sm:py-32 border-b border-border-active">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <h2 className="font-headline text-5xl md:text-6xl font-bold">Pricing</h2>
@@ -76,13 +76,13 @@ export function PricingSection() {
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-px border border-border-color bg-border-color">
+        <div className="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-px border border-neutral-700 bg-neutral-700">
           {pricingTiers.map(tier => (
             <div
               key={tier.name}
               className={cn(
-                'flex flex-col p-8 bg-bg-color relative',
-                tier.isFeatured && 'border-2 border-border-active'
+                'flex flex-col p-8 bg-black relative',
+                tier.isFeatured && 'border-2 border-primary'
               )}
             >
               {tier.isFeatured && tier.badge && (
@@ -97,7 +97,7 @@ export function PricingSection() {
               <ul className="space-y-3 mt-8 mb-10 flex-grow">
                 {tier.features.map(feature => (
                   <li key={feature} className="flex items-center gap-3">
-                    <Check className="h-5 w-5 flex-shrink-0 text-white" />
+                    <Check className="h-5 w-5 flex-shrink-0 text-primary" />
                     <span className="text-neutral-400">{feature}</span>
                   </li>
                 ))}
