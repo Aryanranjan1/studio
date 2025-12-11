@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { getTemplates } from '@/lib/data';
@@ -118,7 +119,7 @@ export default function TemplateDetailsPage() {
                 </p>
 
                 <div className="action-group">
-                    <Button asChild className="btn-main btn-buy rounded-none uppercase h-auto w-full">
+                    <Button asChild className="btn-main btn-buy rounded-none uppercase h-16 w-full">
                         <a href={template.url} target="_blank" rel="noopener noreferrer">
                             <span>Buy Now</span>
                             <span>&rarr;</span>
@@ -144,20 +145,19 @@ export default function TemplateDetailsPage() {
                     {otherTemplates.map((otherTemplate) => (
                       <div key={otherTemplate.id} className="group product-card block border-b border-t border-white/20 bg-black">
                         <div className="relative">
-                            {otherTemplate.bestSeller ? (
+                            {otherTemplate.bestSeller && (
                               <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">BEST SELLER</div>
-                            ) : otherTemplate.isNew && (
+                            )}
+                            {!otherTemplate.bestSeller && otherTemplate.isNew && (
                               <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">NEW</div>
                             )}
-                            <Link href={`/store/${otherTemplate.id}`} className='block'>
-                                <div className="h-72 overflow-hidden relative border-b border-white/20">
-                                    <Image
-                                        src={otherTemplate.image}
-                                        alt={otherTemplate.imageAlt}
-                                        fill
-                                        className="w-full h-full object-cover grayscale transition-all duration-500 ease-in-out group-hover:grayscale-0 group-hover:scale-105"
-                                    />
-                                </div>
+                             <Link href={`/store/${otherTemplate.id}`} className="block h-72 overflow-hidden relative border-b border-white/20">
+                                <Image
+                                    src={otherTemplate.image}
+                                    alt={otherTemplate.imageAlt}
+                                    fill
+                                    className="w-full h-full object-cover grayscale transition-all duration-500 ease-in-out group-hover:grayscale-0 group-hover:scale-105"
+                                />
                             </Link>
                         </div>
                         <div className="p-8 flex flex-col justify-between flex-grow">
@@ -172,13 +172,13 @@ export default function TemplateDetailsPage() {
                             </div>
                             
                             <div className="flex flex-col md:flex-row gap-2 mt-auto">
-                                <Link href={`/store/${otherTemplate.id}`} className='w-full'>
-                                    <Button variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-300 flex items-center justify-center gap-2">
-                                    View Details <ArrowRight className="w-4 h-4 hidden md:inline-block" />
-                                    </Button>
-                                </Link>
+                                <Button asChild variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-2">
+                                     <Link href={`/store/${otherTemplate.id}`}>
+                                        View Details <ArrowRight className="w-4 h-4 hidden md:inline-block" />
+                                     </Link>
+                                </Button>
                                 <Button asChild className="w-full uppercase rounded-none flex items-center justify-center gap-2">
-                                   <a href={otherTemplate.url} target="_blank" rel="noopener noreferrer">
+                                   <a href={otherTemplate.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                                     Buy Now <ArrowRight className="w-4 h-4 hidden md:inline-block" />
                                    </a>
                                 </Button>
@@ -345,3 +345,5 @@ export default function TemplateDetailsPage() {
     </div>
   );
 }
+
+    
