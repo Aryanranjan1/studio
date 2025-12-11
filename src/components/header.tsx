@@ -86,9 +86,9 @@ export function Header() {
     <>
       {/* Desktop Sidebar */}
       <TooltipProvider>
-        <header className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center justify-between border-r border-border bg-primary py-6 md:flex">
+        <header className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center justify-between border-r border-border bg-foreground py-6 md:flex">
           <div className="flex flex-col items-center gap-8">
-            <Link href="/" className="font-headline text-xl font-bold text-primary-foreground">
+            <Link href="/" className="font-headline text-xl font-bold text-background">
               <Crown className="h-8 w-8" />
             </Link>
             <nav className="flex flex-col items-center gap-3">
@@ -115,13 +115,13 @@ export function Header() {
       </TooltipProvider>
 
       {/* Mobile Header */}
-      <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b bg-primary px-4 md:hidden">
-         <Link href="/" className="font-headline text-xl font-bold text-primary-foreground">
+      <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b bg-foreground px-4 md:hidden">
+         <Link href="/" className="font-headline text-xl font-bold text-background">
             Ampire
          </Link>
          <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className='text-primary-foreground hover:bg-black/20 hover:text-primary-foreground'>
+              <Button variant="ghost" size="icon" className='text-background hover:bg-black/20 hover:text-background'>
                 <PanelLeft className="h-6 w-6" />
                 <span className="sr-only">Toggle Menu</span>
               </Button>

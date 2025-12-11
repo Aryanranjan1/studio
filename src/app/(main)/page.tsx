@@ -31,7 +31,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
         </Link>
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
             <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-foreground hover:text-background scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 delay-100">
-                <a href={project.url} target="_blank" rel="noopener noreferrer">
+                <a href={project.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                     Live Preview <MoveRight className="w-4 h-4 ml-2" />
                 </a>
             </Button>

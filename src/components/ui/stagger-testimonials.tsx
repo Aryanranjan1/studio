@@ -31,7 +31,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
         "absolute left-1/2 top-1/2 cursor-pointer border-2 p-8 transition-all duration-500 ease-in-out",
         isCenter 
           ? "z-10 bg-primary text-primary-foreground border-primary" 
-          : "z-0 bg-secondary text-secondary-foreground border-secondary hover:border-border"
+          : "z-0 bg-card text-card-foreground border-border hover:border-muted-foreground"
       )}
       style={{
         width: cardSize,
@@ -57,13 +57,13 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
       />
       <h3 className={cn(
         "text-base sm:text-xl font-medium",
-        isCenter ? "text-primary-foreground" : "text-secondary-foreground"
+        isCenter ? "text-primary-foreground" : "text-card-foreground"
       )}>
         "{testimonial.quote}"
       </h3>
       <p className={cn(
         "absolute bottom-8 left-8 right-8 mt-2 text-sm italic",
-        isCenter ? "text-primary-foreground/80" : "text-secondary-foreground/80"
+        isCenter ? "text-primary-foreground/80" : "text-muted-foreground"
       )}>
         - {testimonial.name}, {testimonial.role} at {testimonial.company}
       </p>
@@ -110,12 +110,12 @@ export const StaggerTestimonials: React.FC = () => {
   }, []);
   
   if (testimonialsList.length === 0) {
-      return <div className="relative w-full overflow-hidden bg-black" style={{ height: 600 }}></div>;
+      return <div className="relative w-full overflow-hidden bg-background" style={{ height: 600 }}></div>;
   }
 
   return (
     <div
-      className="relative w-full overflow-hidden bg-black"
+      className="relative w-full overflow-hidden bg-background"
       style={{ height: 600 }}
     >
       {testimonialsList.map((testimonial, index) => {
@@ -137,7 +137,7 @@ export const StaggerTestimonials: React.FC = () => {
           onClick={() => handleMove(-1)}
           className={cn(
             "flex h-14 w-14 items-center justify-center text-2xl transition-colors",
-            "bg-card text-foreground border-2 border-border hover:bg-secondary hover:text-secondary-foreground",
+            "bg-card text-foreground border-2 border-border hover:bg-muted",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           )}
           aria-label="Previous testimonial"
@@ -148,7 +148,7 @@ export const StaggerTestimonials: React.FC = () => {
           onClick={() => handleMove(1)}
           className={cn(
             "flex h-14 w-14 items-center justify-center text-2xl transition-colors",
-            "bg-card text-foreground border-2 border-border hover:bg-secondary hover:text-secondary-foreground",
+            "bg-card text-foreground border-2 border-border hover:bg-muted",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           )}
           aria-label="Next testimonial"
