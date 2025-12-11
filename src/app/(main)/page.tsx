@@ -20,7 +20,8 @@ import { cn } from '@/lib/utils';
 const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   return (
     <div className="project-card group mb-8 last:mb-0">
-      <Link href={`/portfolio/${project.id}`} className="img-wrapper overflow-hidden border border-border mb-5 relative h-[300px] md:h-[450px] block">
+      <div className="img-wrapper overflow-hidden border border-border mb-5 relative h-[300px] md:h-[450px] block">
+        <Link href={`/portfolio/${project.id}`}>
           <Image
             src={project.image}
             alt={project.imageAlt}
@@ -28,14 +29,15 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
             className="object-contain transition-all duration-700 ease-out group-hover:scale-105"
             loading="lazy"
           />
+        </Link>
         <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
             <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-foreground hover:text-background scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 delay-100">
-                <a href={project.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                <a href={project.url} target="_blank" rel="noopener noreferrer">
                     Live Preview <MoveRight className="w-4 h-4 ml-2" />
                 </a>
             </Button>
         </div>
-      </Link>
+      </div>
       <div className="project-meta flex justify-between items-end pb-2.5 border-b border-border">
         <div>
           <Link href={`/portfolio/${project.id}`}>
