@@ -1,16 +1,17 @@
+
 'use client';
 
-import { getProjects } from '@/lib/data';
+import { getProjects, getTemplates } from '@/lib/data';
 import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
-import type { Project } from '@/lib/data';
+import type { Project, Template } from '@/lib/data';
 import './page.css';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight, Check, ShoppingCart } from 'lucide-react';
 
 export default function ProjectDetailPage() {
   const params = useParams();
@@ -18,6 +19,7 @@ export default function ProjectDetailPage() {
   
   const [project, setProject] = useState<Project | null>(null);
   const [otherProjects, setOtherProjects] = useState<Project[]>([]);
+  const [matchingTemplate, setMatchingTemplate] = useState<Template | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,6 +35,11 @@ export default function ProjectDetailPage() {
       setOtherProjects(
         allProjects.filter(p => p.id !== currentProject.id).slice(0, 2)
       );
+
+      const allTemplates = getTemplates();
+      const template = allTemplates.find(t => t.id === `template-${currentProject.id}`);
+      setMatchingTemplate(template || null);
+
 
     } else {
       notFound();
@@ -64,11 +71,20 @@ export default function ProjectDetailPage() {
                 </div>
                 <h1 className="project-title">{project.title}</h1>
                  <p className="project-subtitle">{project.description}</p>
-                 <Button asChild size="lg" className="mt-8 rounded-none">
-                    <a href={project.url} target="_blank" rel="noopener noreferrer">
-                        View Live Project <ArrowRight className="ml-2 h-5 w-5" />
-                    </a>
-                 </Button>
+                 <div className="flex flex-wrap gap-4 mt-8">
+                    <Button asChild size="lg" className="rounded-none">
+                        <a href={project.url} target="_blank" rel="noopener noreferrer">
+                            View Live Project <ArrowRight className="ml-2 h-5 w-5" />
+                        </a>
+                    </Button>
+                    {matchingTemplate && (
+                       <Button asChild size="lg" variant="secondary" className="rounded-none">
+                            <Link href={`/store/${matchingTemplate.id}`}>
+                                Go to Store <ShoppingCart className="ml-2 h-5 w-5" />
+                            </Link>
+                       </Button>
+                    )}
+                 </div>
             </div>
             <div className="hero-image-wrapper">
                  <Image src={project.image} alt={project.imageAlt} fill className="hero-image" priority/>
@@ -143,4 +159,3 @@ export default function ProjectDetailPage() {
     </>
   );
 }
-
