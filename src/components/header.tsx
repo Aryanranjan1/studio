@@ -98,7 +98,7 @@ export function Header() {
             </nav>
           </div>
           <div className="flex flex-col items-center gap-4">
-            <Separator className="w-1/2" />
+            <Separator className="w-2/3" />
              {socialLinks.slice(0, 3).map((link) => (
                 <Tooltip key={link.name}>
                     <TooltipTrigger asChild>

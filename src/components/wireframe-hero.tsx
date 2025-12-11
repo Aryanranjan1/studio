@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -12,15 +13,16 @@ export function WireframeHero() {
     if (typeof window === 'undefined' || !canvasRef.current) return;
 
     const container = canvasRef.current;
+    const { clientWidth: width, clientHeight: height } = container;
 
     // --- SCENE SETUP ---
     const scene = new THREE.Scene();
     scene.fog = new THREE.FogExp2(0x000000, 0.05);
 
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
@@ -126,9 +128,11 @@ export function WireframeHero() {
 
     // --- RESIZE HANDLER ---
     const handleResize = () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
+        if (!container) return;
+        const { clientWidth: newWidth, clientHeight: newHeight } = container;
+        camera.aspect = newWidth / newHeight;
         camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setSize(newWidth, newHeight);
     };
     window.addEventListener('resize', handleResize);
 
@@ -145,6 +149,7 @@ export function WireframeHero() {
       material.dispose();
       shapeGeometry.dispose();
       shapeMaterial.dispose();
+      (shape2.material as THREE.Material).dispose();
       starsGeometry.dispose();
       starsMaterial.dispose();
       scene.remove(terrain, shape1, shape2, starsMesh);
@@ -168,7 +173,7 @@ export function WireframeHero() {
                 <Button
                     size="lg"
                     variant="outline"
-                    className="btn-outline-animated px-10 py-6 uppercase font-bold text-base border-white"
+                    className="btn-outline-animated px-10 py-6 uppercase font-bold text-base"
                 >
                     Get Started
                 </Button>
