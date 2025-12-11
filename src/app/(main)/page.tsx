@@ -20,7 +20,7 @@ import { MoveRight } from 'lucide-react';
 const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   return (
     <Link href={`/portfolio/${project.id}`} className="project-card block group mb-8 last:mb-0">
-      <div className="img-wrapper overflow-hidden border border-neutral-800 mb-5 relative h-[300px] md:h-[450px]">
+      <div className="img-wrapper overflow-hidden border border-border mb-5 relative h-[300px] md:h-[450px]">
         <Image
           src={project.image}
           alt={project.imageAlt}
@@ -36,10 +36,10 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
             </Button>
         </div>
       </div>
-      <div className="project-meta flex justify-between items-end pb-2.5 border-b border-neutral-800">
+      <div className="project-meta flex justify-between items-end pb-2.5 border-b border-border">
         <div>
           <h3 className="p-name text-2xl md:text-3xl uppercase font-display">{project.title}</h3>
-          <span className="p-cat font-tech text-neutral-400 text-sm">{project.category}</span>
+          <span className="p-cat font-tech text-muted-foreground text-sm">{project.category}</span>
         </div>
         <span className="p-num text-xl font-tech">({String(index + 1).padStart(2, '0')})</span>
       </div>
@@ -62,7 +62,7 @@ export default function Home() {
       <WireframeHero />
 
       {/* The rest of the page content */}
-      <main className="bg-black text-white font-tech selection:bg-primary selection:text-black">
+      <main className="bg-background text-foreground font-tech selection:bg-primary selection:text-black">
           {/* 2. Manifesto Section */}
           <Manifesto />
           
@@ -71,12 +71,12 @@ export default function Home() {
 
           {/* 4. Projects Section (Responsive Layout) */}
           {projects.length > 0 && (
-            <section className="projects-section relative w-full bg-black border-b border-white/20">
-              <div className="container max-w-[1400px] mx-auto px-4 lg:px-0 lg:border-l lg:border-r border-neutral-800">
+            <section className="projects-section relative w-full bg-background border-b border-border">
+              <div className="container max-w-[1400px] mx-auto px-4 lg:px-0 lg:border-l lg:border-r border-border">
                 <div className="project-layout flex flex-col lg:flex-row">
                   
                   {/* Left Panel (Sticky on Desktop) */}
-                  <div className="left-panel w-full lg:w-2/5 lg:h-screen relative lg:sticky top-0 flex flex-col justify-center py-16 px-6 border-b lg:border-b-0 lg:border-r border-neutral-800 bg-black z-10">
+                  <div className="left-panel w-full lg:w-2/5 lg:h-screen relative lg:sticky top-0 flex flex-col justify-center py-16 px-6 border-b lg:border-b-0 lg:border-r border-border bg-background z-10">
                     <h2 className="section-title text-5xl md:text-6xl uppercase mb-5 font-display leading-[0.9]">Selected<br />Works</h2>
                     <p className="hero-label text-primary tracking-widest font-tech">// 2024 - 2025</p>
                   </div>

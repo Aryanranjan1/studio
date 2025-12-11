@@ -11,47 +11,64 @@
     --border-active: #ffffff;
     --accent-color: #00ff00;
 
-    --background: 207 100% 15%; /* #003049 */
-    --foreground: 38 92% 92%; /* #fdf0d5 */
-    --card: 207 100% 15%;
-    --card-foreground: 38 92% 92%;
-    --popover: 207 100% 15%;
-    --popover-foreground: 38 92% 92%;
+    --background: 0 0% 5%; /* Charcoal Black */
+    --foreground: 0 0% 95%; /* Off-white */
+    
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 95%;
+    
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 95%;
+    
     --primary: 356 89% 41%; /* #c1121f */
-    --primary-foreground: 38 92% 92%;
-    --secondary: 207 33% 47%; /* #669bbc */
-    --secondary-foreground: 38 92% 92%;
-    --muted: 207 33% 37%;
-    --muted-foreground: 207 15% 65%;
-    --accent: 207 33% 47%; /* #669bbc */
-    --accent-foreground: 38 92% 92%;
-    --destructive: 0 100% 23%; /* #780000 */
-    --destructive-foreground: 38 92% 92%;
-    --border: 207 33% 47% / 0.4;
-    --input: 207 33% 37%;
+    --primary-foreground: 0 0% 98%;
+    
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+    
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 98%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
     --ring: 356 89% 41%;
+    
     --radius: 0rem;
   }
 
   .dark {
-    --background: 207 100% 15%; /* #003049 */
-    --foreground: 38 92% 92%; /* #fdf0d5 */
-    --card: 207 100% 15%;
-    --card-foreground: 38 92% 92%;
-    --popover: 207 100% 15%;
-    --popover-foreground: 38 92% 92%;
+    --background: 0 0% 5%; /* Charcoal Black */
+    --foreground: 0 0% 95%; /* Off-white */
+    
+    --card: 0 0% 8%;
+    --card-foreground: 0 0% 95%;
+    
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 95%;
+    
     --primary: 356 89% 41%; /* #c1121f */
-    --primary-foreground: 38 92% 92%;
-    --secondary: 207 33% 47%; /* #669bbc */
-    --secondary-foreground: 38 92% 92%;
-    --muted: 207 33% 37%;
-    --muted-foreground: 207 15% 65%;
-    --accent: 207 33% 47%; /* #669bbc */
-    --accent-foreground: 38 92% 92%;
-    --destructive: 0 100% 23%; /* #780000 */
-    --destructive-foreground: 38 92% 92%;
-    --border: 207 33% 47% / 0.4;
-    --input: 207 33% 37%;
+    --primary-foreground: 0 0% 98%;
+    
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%;
+    
+    --accent: 0 0% 15%;
+    --accent-foreground: 0 0% 98%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
     --ring: 356 89% 41%;
   }
 }
@@ -71,7 +88,7 @@
 
 @layer components {
     .btn-outline-white {
-        @apply border border-white bg-transparent text-white hover:bg-white hover:text-black;
+        @apply border border-foreground bg-transparent text-foreground hover:bg-foreground hover:text-background;
     }
 
     /* Custom outline text style */
@@ -87,7 +104,7 @@
     
     /* Custom button with animated fill */
     .btn-outline-animated {
-        @apply relative z-10 overflow-hidden border-white bg-transparent text-white transition-colors duration-300;
+        @apply relative z-10 overflow-hidden border-foreground bg-transparent text-foreground transition-colors duration-300;
         @apply hover:text-primary-foreground;
     }
     .btn-outline-animated::before {
@@ -112,7 +129,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-color);
+  background: hsl(var(--background));
 }
 
 ::-webkit-scrollbar-thumb {

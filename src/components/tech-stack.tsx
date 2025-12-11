@@ -62,8 +62,8 @@ const technologies: {
 
 export function TechStack() {
   return (
-    <section className="tech-section relative w-full overflow-hidden border-b border-white/20 bg-black">
-      <div className="tech-marquee overflow-hidden whitespace-nowrap border-t border-b border-white/20 bg-black py-4">
+    <section className="tech-section relative w-full overflow-hidden border-b border-border bg-background">
+      <div className="tech-marquee overflow-hidden whitespace-nowrap border-t border-b border-border bg-background py-4">
         <div className="marquee-track inline-block animate-scroll">
           {[...Array(4)].map((_, i) => (
             <span key={i} className="marquee-content mx-4 font-headline text-lg font-bold uppercase tracking-wider">
@@ -78,18 +78,18 @@ export function TechStack() {
           <div
             key={id}
             className={cn(
-              "tech-cell group relative flex h-[250px] cursor-crosshair flex-col justify-between border-white/20 bg-black p-8 transition-all duration-300 ease-in-out hover:bg-white hover:text-black border"
+              "tech-cell group relative flex h-[250px] cursor-crosshair flex-col justify-between border-border bg-background p-8 transition-all duration-300 ease-in-out hover:bg-foreground hover:text-background border"
             )}
           >
             <div className="tech-header flex justify-between items-start">
-              <span className="tech-id rounded-full border border-neutral-700 px-3 py-1 text-xs transition-colors duration-300 group-hover:border-black">
+              <span className="tech-id rounded-full border border-muted-foreground px-3 py-1 text-xs transition-colors duration-300 group-hover:border-background">
                 {id}
               </span>
-              <Icon className="tech-icon h-6 w-6 text-neutral-500 transition-colors duration-300 group-hover:text-black" />
+              <Icon className="tech-icon h-6 w-6 text-muted-foreground transition-colors duration-300 group-hover:text-background" />
             </div>
             <div className="tech-info">
               <h3 className="mb-2 font-headline text-2xl font-bold uppercase">{name}</h3>
-              <p className="whitespace-pre-line text-xs leading-snug text-neutral-400 transition-colors duration-300 group-hover:text-neutral-600">
+              <p className="whitespace-pre-line text-xs leading-snug text-muted-foreground transition-colors duration-300 group-hover:text-muted-foreground">
                 {description}
               </p>
             </div>

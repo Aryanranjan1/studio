@@ -13,6 +13,8 @@ export function WireframeHero() {
     if (typeof window === 'undefined' || !canvasRef.current) return;
 
     const container = canvasRef.current;
+    if (container.querySelector('canvas')) return; // Prevent multiple renderers
+
     const { clientWidth: width, clientHeight: height } = container;
 
     // --- SCENE SETUP ---
@@ -157,16 +159,16 @@ export function WireframeHero() {
   }, []);
 
   return (
-    <header className="h-screen w-full relative bg-black text-white font-tech selection:bg-primary selection:text-black">
+    <header className="h-screen w-full relative bg-background text-foreground font-tech selection:bg-primary selection:text-black">
       <div ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0" />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/50 to-transparent z-10" />
       <div id="ui-layer" className="relative z-20 w-full h-full flex flex-col items-center justify-center text-center p-4">
         <div className="max-w-4xl">
-            <p className="text-neutral-400 tracking-[0.2em] text-xs uppercase">Est. 2025 // Ampire Studio</p>
+            <p className="text-muted-foreground tracking-[0.2em] text-xs uppercase">Est. 2025 // Ampire Studio</p>
             <h1 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold my-4 uppercase">
                 <span className="text-outline">Digital</span> Dominance
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-neutral-300 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
                 We architect high-performance digital experiences that convert passive visitors into obsessed customers.
             </p>
             <Link href="/contact" className="pointer-events-auto mt-8 inline-block">

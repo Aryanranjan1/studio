@@ -51,7 +51,7 @@ export default function ProjectDetailPage() {
 
   if (loading || !project) {
     return (
-      <div className="w-full min-h-screen bg-bg-color text-text-color flex items-center justify-center">
+      <div className="w-full min-h-screen bg-background text-foreground flex items-center justify-center">
         Loading Project Details...
       </div>
     );
@@ -64,7 +64,7 @@ export default function ProjectDetailPage() {
         <span>PROJECT_ID: {project.id}</span>
       </nav>
 
-      <div className='mt-[60px] bg-black text-white'>
+      <div className='mt-[60px] bg-background text-foreground'>
         <header className="project-hero">
             <div className="hero-content">
                 <div className="hero-meta">

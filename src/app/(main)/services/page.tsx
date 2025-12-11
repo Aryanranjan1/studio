@@ -70,16 +70,16 @@ export default function ServicesPage() {
     }, []);
 
   return (
-    <div className="w-full bg-black text-white min-h-screen">
+    <div className="w-full bg-background text-foreground min-h-screen">
       <main>
-        <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
+        <div className="grid grid-cols-12 gap-px border-l border-r border-border bg-background">
           
           {/* Hero Header */}
-          <div className="col-span-12 bg-black p-8 border-b border-neutral-800">
+          <div className="col-span-12 bg-background p-8 border-b border-border">
              <div className="flex flex-col md:flex-row justify-between md:items-end gap-8">
               <h1 className="font-headline text-7xl md:text-9xl font-bold">Services</h1>
                <div className='max-w-md'>
-                <p className="mt-4 md:mt-0 text-neutral-400">
+                <p className="mt-4 md:mt-0 text-muted-foreground">
                   From foundational branding to complex web applications, we provide the expertise to elevate your business in the digital landscape.
                 </p>
                 <div className="flex flex-wrap gap-2 mt-4">
@@ -93,53 +93,53 @@ export default function ServicesPage() {
           </div>
 
           {/* 1. HORIZONTAL SCROLL SERVICES */}
-          <div className="col-span-12 bg-black">
+          <div className="col-span-12 bg-background">
              <HorizontalServices />
           </div>
           
           {/* 4. TECH STACK */}
-          <div className="col-span-12 bg-black">
+          <div className="col-span-12 bg-background">
             <TechStack />
           </div>
 
 
           {/* 2. PRICING */}
-          <div className="col-span-12 bg-black">
+          <div className="col-span-12 bg-background">
             <PricingSection />
           </div>
           
           {/* 3. PROCESS */}
-           <div className="col-span-12 bg-black p-8 md:p-16 border-b border-neutral-800">
+           <div className="col-span-12 bg-background p-8 md:p-16 border-b border-border">
               <div className="mb-12">
                   <h2 className="font-headline text-5xl md:text-6xl font-bold">Our Process</h2>
-                  <p className="mt-6 max-w-2xl text-lg text-neutral-400">We follow a structured four-step process to ensure clarity, efficiency, and exceptional results from start to finish.</p>
+                  <p className="mt-6 max-w-2xl text-lg text-muted-foreground">We follow a structured four-step process to ensure clarity, efficiency, and exceptional results from start to finish.</p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-800 border border-neutral-800">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border border border-border">
                 {processSteps.map((item) => (
-                  <div key={item.step} className="bg-black p-8">
+                  <div key={item.step} className="bg-background p-8">
                     <span className="text-primary font-headline text-lg">{item.step}</span>
                     <h3 className="font-headline text-2xl font-bold mt-2">{item.title}</h3>
-                    <p className="text-neutral-400 mt-4">{item.description}</p>
+                    <p className="text-muted-foreground mt-4">{item.description}</p>
                   </div>
                 ))}
               </div>
           </div>
 
             {/* 5. FAQ & Contact */}
-            <div className="col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-px bg-neutral-800 border-b border-neutral-800">
-                <div className="col-span-12 lg:col-span-6 bg-black p-8 md:p-16">
+            <div className="col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-px bg-border border-b border-border">
+                <div className="col-span-12 lg:col-span-6 bg-background p-8 md:p-16">
                     <h2 className="font-headline text-5xl font-bold mb-12">FAQ</h2>
                     <Accordion type="single" collapsible className="w-full">
                         {faqItems.map((faq, index) => (
                         <AccordionItem
                             key={index}
                             value={`item-${index}`}
-                            className="border-b border-white/10 last:border-0"
+                            className="border-b border-border last:border-0"
                         >
                             <AccordionTrigger className="text-left text-xl font-medium py-6 hover:text-primary transition-colors">
                             {faq.question}
                             </AccordionTrigger>
-                            <AccordionContent className="text-neutral-400 text-lg leading-relaxed pb-6">
+                            <AccordionContent className="text-muted-foreground text-lg leading-relaxed pb-6">
                             {faq.answer}
                             </AccordionContent>
                         </AccordionItem>
@@ -147,13 +147,13 @@ export default function ServicesPage() {
                     </Accordion>
                 </div>
                 
-                <div className="col-span-12 lg:col-span-6 bg-black p-8 md:p-16">
+                <div className="col-span-12 lg:col-span-6 bg-background p-8 md:p-16">
                     <div className="h-full flex flex-col justify-center">
                         <h2 className="font-headline text-4xl font-bold mb-8">Start a Project</h2>
                         <form className="space-y-6">
                             <div className="space-y-2">
                                 <Label htmlFor="name-service" className="text-base">Name</Label>
-                                <Input id="name-service" placeholder="John Doe" className="bg-neutral-900 border-neutral-800 h-12" />
+                                <Input id="name-service" placeholder="John Doe" className="bg-card border-input h-12" />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="email-service" className="text-base">Email</Label>
@@ -161,7 +161,7 @@ export default function ServicesPage() {
                                 id="email-service"
                                 type="email"
                                 placeholder="john@company.com"
-                                className="bg-neutral-900 border-neutral-800 h-12"
+                                className="bg-card border-input h-12"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -170,7 +170,7 @@ export default function ServicesPage() {
                                     id="message-service"
                                     placeholder="Tell us about your project..."
                                     rows={4}
-                                    className="bg-neutral-900 border-neutral-800 resize-none"
+                                    className="bg-card border-input resize-none"
                                 />
                             </div>
                             <Button type="submit" size="lg" className="w-full h-14 text-lg mt-4">
@@ -182,11 +182,11 @@ export default function ServicesPage() {
             </div>
 
 
-          <div className="col-span-12 bg-black">
+          <div className="col-span-12 bg-background">
              <CtaSection />
           </div>
           
-          <div className="col-span-12 bg-black">
+          <div className="col-span-12 bg-background">
             <Footer />
           </div>
         </div>

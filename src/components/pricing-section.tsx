@@ -66,39 +66,39 @@ const pricingTiers = [
 
 export function PricingSection() {
   return (
-    <section className="bg-black text-white py-24 sm:py-32 border-b border-white/20">
+    <section className="bg-background text-foreground py-24 sm:py-32 border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <h2 className="font-headline text-5xl md:text-6xl font-bold">Pricing</h2>
-          <p className="mt-6 max-w-2xl text-lg text-neutral-400">
+          <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
             Choose the perfect plan to kickstart your project and grow your
             business.
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-px border border-neutral-700 bg-neutral-700">
+        <div className="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-px border border-border bg-border">
           {pricingTiers.map(tier => (
             <div
               key={tier.name}
               className={cn(
-                'flex flex-col p-8 bg-black relative',
+                'flex flex-col p-8 bg-background relative',
                 tier.isFeatured && 'border-2 border-primary'
               )}
             >
               {tier.isFeatured && tier.badge && (
                 <div className="absolute top-0 right-6 -translate-y-1/2">
-                  <Badge className='bg-white text-black hover:bg-neutral-200'>{tier.badge}</Badge>
+                  <Badge variant="default" className='bg-foreground text-background hover:bg-foreground/80'>{tier.badge}</Badge>
                 </div>
               )}
               <h3 className="font-display text-2xl">{tier.name}</h3>
               <p className="text-4xl font-bold mt-4">{tier.price}</p>
-              <p className="text-sm text-neutral-400 mt-2">{tier.description}</p>
+              <p className="text-sm text-muted-foreground mt-2">{tier.description}</p>
               
               <ul className="space-y-3 mt-8 mb-10 flex-grow">
                 {tier.features.map(feature => (
                   <li key={feature} className="flex items-center gap-3">
                     <Check className="h-5 w-5 flex-shrink-0 text-primary" />
-                    <span className="text-neutral-400">{feature}</span>
+                    <span className="text-muted-foreground">{feature}</span>
                   </li>
                 ))}
               </ul>

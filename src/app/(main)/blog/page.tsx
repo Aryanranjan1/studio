@@ -73,15 +73,15 @@ export default function BlogPage() {
 
 
   if (loading) {
-    return <div className="bg-black text-white min-h-screen flex items-center justify-center">Loading Transmission Log...</div>;
+    return <div className="bg-background text-foreground min-h-screen flex items-center justify-center">Loading Transmission Log...</div>;
   }
   
   if (!featuredArticle) {
-      return <div className="bg-black text-white min-h-screen flex items-center justify-center">No articles found.</div>;
+      return <div className="bg-background text-foreground min-h-screen flex items-center justify-center">No articles found.</div>;
   }
 
   return (
-    <div className='bg-black text-white'>
+    <div className='bg-background text-foreground'>
       <header className="blog-header">
         <div className="header-meta">
           <span>// DATABASE ACCESS</span>
@@ -191,7 +191,7 @@ export default function BlogPage() {
       <section className="newsletter-section">
         <div className="nl-text">
           <h3>Join Our Newsletter</h3>
-          <p style={{ color: '#888', fontSize: '0.9rem' }}>
+          <p style={{ color: 'hsl(var(--muted-foreground))', fontSize: '0.9rem' }}>
             Get weekly updates, tips, and insights. No spam.
           </p>
         </div>

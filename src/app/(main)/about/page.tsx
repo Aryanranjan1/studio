@@ -29,31 +29,31 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="w-full bg-black text-white min-h-screen">
+    <div className="w-full bg-background text-foreground min-h-screen">
       <main>
-        <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
+        <div className="grid grid-cols-12 gap-px border-l border-r border-border bg-background">
           
           {/* About Header */}
-          <div className="col-span-12 bg-black p-8 border-b border-neutral-800">
+          <div className="col-span-12 bg-background p-8 border-b border-border">
             <div className="md:flex justify-between items-end">
               <h1 className="font-headline text-7xl md:text-9xl font-bold">About</h1>
-              <p className="mt-4 md:mt-0 max-w-sm text-neutral-400">
+              <p className="mt-4 md:mt-0 max-w-sm text-muted-foreground">
                 We build digital experiences that stay clear, fast, and focused on delivering real value for your business and your users.
               </p>
             </div>
           </div>
 
           {/* How we work and Image */}
-          <div className="col-span-12 md:col-span-7 bg-black p-8 border-b border-neutral-800">
+          <div className="col-span-12 md:col-span-7 bg-background p-8 border-b border-border">
             <h2 className="font-headline text-5xl md:text-6xl font-bold">
               How We <span className="text-primary">Work</span>
             </h2>
-            <p className="mt-4 max-w-lg text-neutral-400">
+            <p className="mt-4 max-w-lg text-muted-foreground">
               We keep the workflow simple and structured. Every project moves in short, focused cycles where you see progress early, understand each decision, and stay aligned with the outcome. No clutter, no slow loops — just clear steps and steady forward motion.
             </p>
           </div>
 
-          <div className="col-span-12 md:col-span-5 bg-black relative min-h-[300px] border-b border-neutral-800">
+          <div className="col-span-12 md:col-span-5 bg-background relative min-h-[300px] border-b border-border">
             <Image 
               src="https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxXT1JLfGVufDB8fHx8MTc2NTQ3NjAxNXww&ixlib=rb-4.1.0&q=80&w=1080"
               alt="A design team collaborating around a table with sticky notes and wireframes."
@@ -65,14 +65,14 @@ export default function AboutPage() {
           </div>
 
           {/* Design Process & Principles */}
-          <div className="col-span-12 bg-black grid grid-cols-1 md:grid-cols-2 gap-px bg-neutral-800 border-b border-neutral-800">
+          <div className="col-span-12 bg-background grid grid-cols-1 md:grid-cols-2 gap-px bg-border border-b border-border">
              <div className="col-span-1 grid grid-rows-2">
-                <div className="row-span-1 bg-black p-8 flex items-center">
+                <div className="row-span-1 bg-background p-8 flex items-center">
                     <p className="font-headline text-3xl md:text-4xl font-bold max-w-md">
                         THE BEST PRODUCTS COME FROM CLARITY. THE WORK FLOWS BETTER WHEN THE PROCESS STAYS CLEAN AND FOCUSED.
                     </p>
                 </div>
-                <div className="row-span-1 bg-black p-8 relative min-h-[250px]">
+                <div className="row-span-1 bg-background p-8 relative min-h-[250px]">
                     <Image 
                       src="https://images.unsplash.com/photo-1518135714426-c18f5ffb6f4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Q0xJRU5UJTIwfGVufDB8fHx8MTc2NTQ3NjEwN3ww&ixlib=rb-4.1.0&q=80&w=1080"
                       alt="Abstract design process visualization"
@@ -83,26 +83,26 @@ export default function AboutPage() {
                     />
                 </div>
              </div>
-             <div className="col-span-1 grid grid-rows-2 gap-px bg-neutral-800">
-                <div className="row-span-1 bg-black p-8 border-b border-neutral-800">
+             <div className="col-span-1 grid grid-rows-2 gap-px bg-border">
+                <div className="row-span-1 bg-background p-8 border-b border-border">
                     <h3 className="font-headline text-2xl text-primary font-bold">{principles[0].title}</h3>
-                    <p className="mt-2 text-neutral-400 text-sm">{principles[0].description}</p>
+                    <p className="mt-2 text-muted-foreground text-sm">{principles[0].description}</p>
                 </div>
-                <div className="row-span-1 bg-black p-8">
+                <div className="row-span-1 bg-background p-8">
                     <h3 className="font-headline text-2xl text-primary font-bold">{principles[1].title}</h3>
-                    <p className="mt-2 text-neutral-400 text-sm">{principles[1].description}</p>
+                    <p className="mt-2 text-muted-foreground text-sm">{principles[1].description}</p>
                 </div>
              </div>
           </div>
           
           {/* Geometric Section */}
-          <div className="col-span-12 md:col-span-7 bg-black p-8 relative min-h-[300px] border-b border-neutral-800">
+          <div className="col-span-12 md:col-span-7 bg-background p-8 relative min-h-[300px] border-b border-border">
             <div className="absolute inset-0 grid grid-cols-2">
-                <div className="border-r border-neutral-800"></div>
+                <div className="border-r border-border"></div>
                 <div></div>
             </div>
             <div className="absolute inset-0 grid grid-rows-2">
-                <div className="border-b border-neutral-800"></div>
+                <div className="border-b border-border"></div>
                 <div></div>
             </div>
              <div className="absolute top-1/2 left-1/2 w-48 h-48 -translate-x-1/2 -translate-y-1/2">
@@ -114,14 +114,14 @@ export default function AboutPage() {
             <div className="absolute bottom-8 left-1/2 w-32 h-32 bg-primary/70 -translate-x-1/2 rounded-tl-3xl"></div>
           </div>
 
-          <div className="col-span-12 md:col-span-5 bg-primary text-primary-foreground p-8 flex items-center border-b border-neutral-800">
+          <div className="col-span-12 md:col-span-5 bg-primary text-primary-foreground p-8 flex items-center border-b border-border">
             <p className="font-headline text-2xl md:text-3xl font-bold">
               WE BUILD WITH PURPOSE, FOCUSING ON FAST, EFFICIENT SYSTEMS THAT STILL DELIVER A STRONG AND RECOGNIZABLE VISUAL IMPACT.
             </p>
           </div>
 
           {/* Capabilities Header */}
-          <div className="col-span-12 bg-black p-8 border-b border-neutral-800">
+          <div className="col-span-12 bg-background p-8 border-b border-border">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <h2 className="font-headline text-5xl md:text-6xl font-bold">
                 Capabilities
@@ -130,18 +130,18 @@ export default function AboutPage() {
           </div>
 
           {/* Capabilities Grid */}
-          <div className="col-span-12 bg-black">
+          <div className="col-span-12 bg-background">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 -mx-6">
                 {team.map((member) => (
-                    <div key={member.id} className="bg-black p-6 border border-neutral-800 flex items-center gap-6">
+                    <div key={member.id} className="bg-background p-6 border border-border flex items-center gap-6">
                     <TeamMemberCard 
                         icon={member.icon}
                         className="w-24 h-24 flex-shrink-0" 
                     />
                     <div>
                         <p className="font-bold text-lg">{member.name}</p>
-                        <p className="text-neutral-400 text-sm">{member.role}</p>
+                        <p className="text-muted-foreground text-sm">{member.role}</p>
                     </div>
                     </div>
                 ))}
@@ -151,10 +151,10 @@ export default function AboutPage() {
           
 
           {/* Let's Work */}
-          <div className="col-span-12 md:col-span-8 bg-black p-8 border-b border-neutral-800 flex flex-col justify-between min-h-[300px]">
+          <div className="col-span-12 md:col-span-8 bg-background p-8 border-b border-border flex flex-col justify-between min-h-[300px]">
             <div>
               <h2 className="font-headline text-5xl md:text-6xl font-bold">Let's Work</h2>
-              <p className="text-neutral-400 mt-2">Your brand here</p>
+              <p className="text-muted-foreground mt-2">Your brand here</p>
             </div>
             <div className="flex gap-4">
               <Button asChild className="flex-1">
@@ -167,7 +167,7 @@ export default function AboutPage() {
           </div>
           
           {/* Contact */}
-          <div className="col-span-12 md:col-span-4 bg-black p-8 border-b border-neutral-800 flex flex-col justify-end items-center text-center">
+          <div className="col-span-12 md:col-span-4 bg-background p-8 border-b border-border flex flex-col justify-end items-center text-center">
             <div className="mb-8 flex gap-4">
               {socialLinks.map(link => (
                 <a href={link.href} key={link.name} target="_blank" rel="noopener noreferrer" className="hover:text-primary">
@@ -183,7 +183,7 @@ export default function AboutPage() {
             </div>
             
           </div>
-           <div className="col-span-12 bg-black">
+           <div className="col-span-12 bg-background">
             <Footer />
           </div>
         </div>

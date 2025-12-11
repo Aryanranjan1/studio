@@ -67,11 +67,11 @@ export default function PortfolioPage() {
 
 
   if (loading) {
-    return <div className="bg-black text-white min-h-screen flex items-center justify-center">Loading Projects...</div>;
+    return <div className="bg-background text-foreground min-h-screen flex items-center justify-center">Loading Projects...</div>;
   }
   
   return (
-    <div className='bg-black text-white'>
+    <div className='bg-background text-foreground'>
       <header className="portfolio-header">
         <div className="header-meta">
           <span>// OUR WORK</span>
@@ -154,5 +154,3 @@ export default function PortfolioPage() {
     </div>
   );
 }
-
-    

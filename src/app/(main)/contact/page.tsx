@@ -46,16 +46,16 @@ export default function ContactPage() {
   }, []);
 
   return (
-    <div className="w-full bg-black text-white min-h-screen">
+    <div className="w-full bg-background text-foreground min-h-screen">
       <main>
-        <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
+        <div className="grid grid-cols-12 gap-px border-l border-r border-border bg-background">
           
           {/* Hero Header */}
-          <div className="col-span-12 bg-black p-8 border-b border-neutral-800 relative overflow-hidden">
+          <div className="col-span-12 bg-background p-8 border-b border-border relative overflow-hidden">
              <div className="flex flex-col md:flex-row justify-between md:items-end gap-8 py-12">
               <h1 className="font-headline text-7xl md:text-9xl font-bold">Start a<br/>Project<span className="text-primary">.</span></h1>
                <div className='max-w-md'>
-                <p className="mt-4 md:mt-0 text-neutral-400">
+                <p className="mt-4 md:mt-0 text-muted-foreground">
                   Have an idea? Let's turn it into a reality. Fill out the form, and we'll be in touch to discuss your project in detail.
                 </p>
               </div>
@@ -64,24 +64,24 @@ export default function ContactPage() {
           </div>
 
           {/* Main Content Area */}
-          <div className="col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-px bg-neutral-800">
+          <div className="col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-px bg-border">
             {/* Form Section */}
-            <div className="col-span-12 lg:col-span-7 bg-black p-4 md:p-8">
-              <Card className="bg-neutral-900/50 border border-neutral-800 shadow-none rounded-none">
+            <div className="col-span-12 lg:col-span-7 bg-background p-4 md:p-8">
+              <Card className="bg-card border-border shadow-none rounded-none">
                 <CardHeader>
-                  <CardTitle className="font-headline text-3xl text-white">Project Brief</CardTitle>
-                  <CardDescription className="text-neutral-400">Tell us about your vision.</CardDescription>
+                  <CardTitle className="font-headline text-3xl text-foreground">Project Brief</CardTitle>
+                  <CardDescription className="text-muted-foreground">Tell us about your vision.</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form className="space-y-6">
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                       <div className="space-y-2">
                         <Label htmlFor="name">Full Name</Label>
-                        <Input id="name" placeholder="John Doe" className="bg-black border-neutral-700 h-12" />
+                        <Input id="name" placeholder="John Doe" className="bg-background border-input h-12" />
                       </div>
                        <div className="space-y-2">
                         <Label htmlFor="company">Company (Optional)</Label>
-                        <Input id="company" placeholder="Acme Inc." className="bg-black border-neutral-700 h-12"/>
+                        <Input id="company" placeholder="Acme Inc." className="bg-background border-input h-12"/>
                       </div>
                     </div>
                      <div className="space-y-4">
@@ -98,9 +98,9 @@ export default function ContactPage() {
                         </RadioGroup>
                         <div>
                         {contactMethod === 'email' ? (
-                            <Input id="email" type="email" placeholder="you@example.com" className="bg-black border-neutral-700 h-12"/>
+                            <Input id="email" type="email" placeholder="you@example.com" className="bg-background border-input h-12"/>
                         ) : (
-                            <Input id="phone" type="tel" placeholder="+1 (555) 123-4567" className="bg-black border-neutral-700 h-12"/>
+                            <Input id="phone" type="tel" placeholder="+1 (555) 123-4567" className="bg-background border-input h-12"/>
                         )}
                         </div>
                     </div>
@@ -110,7 +110,7 @@ export default function ContactPage() {
                         id="message"
                         placeholder="Tell us about your project, goals, timeline, and budget..."
                         rows={6}
-                         className="bg-black border-neutral-700"
+                         className="bg-background border-input"
                       />
                     </div>
                     <div className="pt-4">
@@ -124,16 +124,16 @@ export default function ContactPage() {
             </div>
 
             {/* Sidebar */}
-            <aside className="col-span-12 lg:col-span-5 bg-black p-4 md:p-8 space-y-8">
-              <Card className='bg-neutral-900/50 border border-neutral-800 shadow-none rounded-none'>
+            <aside className="col-span-12 lg:col-span-5 bg-background p-4 md:p-8 space-y-8">
+              <Card className='bg-card border-border shadow-none rounded-none'>
                 <CardHeader>
                   <CardTitle className="font-headline text-xl">Other Ways to Connect</CardTitle>
                 </CardHeader>
                 <CardContent>
-                   <p className="text-neutral-400 mb-6">
+                   <p className="text-muted-foreground mb-6">
                     Follow our journey, chat with us directly, or explore our work on other platforms.
                   </p>
-                  <div className="flex items-center space-x-6 text-neutral-300">
+                  <div className="flex items-center space-x-6 text-muted-foreground">
                     {contactSocials.map(social => (
                       <a
                         key={social.name}
@@ -148,7 +148,7 @@ export default function ContactPage() {
                   <Button
                     asChild
                     variant="outline"
-                    className="mt-6 w-full bg-transparent border-neutral-700 hover:bg-white hover:text-black"
+                    className="mt-6 w-full bg-transparent border-input hover:bg-foreground hover:text-background"
                   >
                     <a href={contactDetails.whatsapp} target="_blank">
                       Chat on WhatsApp <ArrowRight className="ml-2 h-4 w-4" />
@@ -158,7 +158,7 @@ export default function ContactPage() {
               </Card>
 
               {/* Mini FAQ */}
-              <Card className='bg-neutral-900/50 border border-neutral-800 shadow-none rounded-none'>
+              <Card className='bg-card border-border shadow-none rounded-none'>
                 <CardHeader>
                   <CardTitle className="font-headline text-xl">Quick Questions</CardTitle>
                 </CardHeader>
@@ -168,12 +168,12 @@ export default function ContactPage() {
                       <AccordionItem
                         key={index}
                         value={`item-${index}`}
-                        className="border-b border-neutral-800 last:border-b-0"
+                        className="border-b border-border last:border-b-0"
                       >
-                        <AccordionTrigger className="text-left font-medium text-neutral-200 hover:text-primary no-underline hover:no-underline">
+                        <AccordionTrigger className="text-left font-medium text-foreground hover:text-primary no-underline hover:no-underline">
                           {faq.question}
                         </AccordionTrigger>
-                        <AccordionContent className="text-neutral-400">
+                        <AccordionContent className="text-muted-foreground">
                           {faq.answer}
                         </AccordionContent>
                       </AccordionItem>
@@ -184,7 +184,7 @@ export default function ContactPage() {
             </aside>
           </div>
 
-          <div className="col-span-12 bg-black">
+          <div className="col-span-12 bg-background">
             <Footer />
           </div>
         </div>
@@ -192,5 +192,3 @@ export default function ContactPage() {
     </div>
   );
 }
-
-    

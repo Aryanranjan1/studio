@@ -103,7 +103,7 @@ export default function ArticlePage() {
 
   if (loading || !article) {
     return (
-      <div className="w-full min-h-screen bg-bg-color text-text-color flex items-center justify-center">
+      <div className="w-full min-h-screen bg-background text-foreground flex items-center justify-center">
         Accessing Transmission Log...
       </div>
     );
@@ -120,7 +120,7 @@ export default function ArticlePage() {
         <span>LOG_ID: {article.id.replace('article-', '')}</span>
       </nav>
 
-      <div className='mt-[64px]'>
+      <div className='mt-[64px] bg-background text-foreground'>
         <header className="article-hero">
             <div className="hero-meta">{article.category.toUpperCase()} // ANALYSIS</div>
             <h1 className="article-title">{article.title}</h1>

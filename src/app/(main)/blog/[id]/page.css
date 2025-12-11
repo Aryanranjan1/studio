@@ -1,11 +1,11 @@
 
 /* --- 1. RESET & VARIABLES --- */
 :root {
-    --bg-color: #f1faee;
-    --text-color: #1d3557;
-    --border-color: rgba(29, 53, 87, 0.2);
-    --border-active: #e63946;
-    --code-bg: #e0e8e2;
+    --bg-color: hsl(var(--background));
+    --text-color: hsl(var(--foreground));
+    --border-color: hsl(var(--border));
+    --border-active: hsl(var(--primary));
+    --code-bg: hsl(var(--muted));
     --font-tech: var(--font-body);
     --font-body: var(--font-body);
     --font-display: var(--font-headline);
@@ -28,9 +28,9 @@
     border-bottom: 1px solid var(--border-color);
     font-family: var(--font-tech);
     font-size: 0.8rem;
-    color: #888;
+    color: hsl(var(--muted-foreground));
     position: fixed; top: 4px; left: 0; width: 100%;
-    background: rgba(241, 250, 238, 0.95); backdrop-filter: blur(5px);
+    background: hsla(var(--background), 0.95); backdrop-filter: blur(5px);
     z-index: 1000;
     display: flex; justify-content: space-between; align-items: center;
 }
@@ -68,7 +68,7 @@
     padding-top: 20px;
     font-family: var(--font-tech);
     font-size: 0.8rem;
-    color: #888;
+    color: hsl(var(--muted-foreground));
 }
 .meta-item strong { display: block; color: var(--text-color); margin-bottom: 5px; text-transform: uppercase; }
 
@@ -91,11 +91,11 @@
 }
 
 .toc-title {
-    font-size: 0.8rem; color: #666; margin-bottom: 20px; text-transform: uppercase;
+    font-size: 0.8rem; color: hsl(var(--muted-foreground)); margin-bottom: 20px; text-transform: uppercase;
 }
 
 .toc-list li { margin-bottom: 15px; }
-.toc-list a { font-size: 0.85rem; color: #888; display: block; transition: color 0.2s; }
+.toc-list a { font-size: 0.85rem; color: hsl(var(--muted-foreground)); display: block; transition: color 0.2s; }
 .toc-list a:hover { color: var(--text-color); }
 .toc-list a.active { color: var(--border-active); font-weight: bold; }
 
@@ -103,7 +103,7 @@
     padding: 60px 80px;
     max-width: 900px; /* Optimal reading width */
     font-size: 1.1rem;
-    color: #455a73;
+    color: hsl(var(--muted-foreground));
 }
 
 /* Typography Styles */
@@ -144,10 +144,10 @@
 }
 .code-header {
     position: absolute; top: 0; left: 0; width: 100%;
-    background: #d4ddd9; padding: 5px 10px; font-size: 0.7rem; color: #888;
-    border-bottom: 1px solid #c8d2cc;
+    background: hsl(var(--muted)); padding: 5px 10px; font-size: 0.7rem; color: hsl(var(--muted-foreground));
+    border-bottom: 1px solid var(--border-color);
 }
-.code-content { margin-top: 15px; color: #455a73; }
+.code-content { margin-top: 15px; color: hsl(var(--card-foreground)); }
 .kw { color: #c1121f; } 
 .str { color: #007f5f; }
 .func { color: #003049; }
@@ -175,9 +175,9 @@
 .next-post {
     padding: 100px 40px;
 }
-.next-label { font-family: var(--font-tech); color: #888; margin-bottom: 20px; display: block; text-align: center;}
+.next-label { font-family: var(--font-tech); color: hsl(var(--muted-foreground)); margin-bottom: 20px; display: block; text-align: center;}
 .next-title { font-size: 3rem; font-weight: bold; text-transform: uppercase; transition: 0.3s; display: block; text-align: center; }
-.next-title:hover { color: #888; }
+.next-title:hover { color: hsl(var(--muted-foreground)); }
 
 /* --- 7. RE-USABLE CARD STYLE (FROM BLOG INDEX) --- */
 .article-card {
@@ -193,7 +193,7 @@
     background: hsl(var(--primary));
     color: hsl(var(--primary-foreground));
 }
-.article-card:hover .art-meta { color: hsl(var(--primary-foreground), 0.7); }
+.article-card:hover .art-meta { color: hsla(var(--primary-foreground), 0.7); }
 
 .art-img-wrapper {
     height: 250px;
@@ -213,9 +213,9 @@
 .art-meta {
     display: flex;
     justify-content: space-between;
-    font-size: 0.7rem; color: #666;
+    font-size: 0.7rem; color: hsl(var(--muted-foreground));
     margin-bottom: 15px; padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid var(--border-color);
     transition: all 0.3s;
 }
 .art-title {
