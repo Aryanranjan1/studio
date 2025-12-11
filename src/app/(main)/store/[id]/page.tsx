@@ -140,9 +140,9 @@ export default function TemplateDetailsPage() {
         <section className="py-24 border-t border-b border-primary bg-black">
             <div className="container mx-auto px-5 md:px-10">
                 <h2 className="font-display text-4xl font-bold uppercase mb-12">Recommended for you</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-primary border-l border-r border-primary">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {otherTemplates.map((otherTemplate) => (
-                      <div key={otherTemplate.id} className="group product-card block border-b border-t border-primary bg-black">
+                      <div key={otherTemplate.id} className="group product-card block border border-border bg-black transition-all duration-300 hover:border-primary">
                         <div className="relative">
                             {otherTemplate.bestSeller && (
                               <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">BEST SELLER</div>
@@ -150,7 +150,7 @@ export default function TemplateDetailsPage() {
                             {!otherTemplate.bestSeller && otherTemplate.isNew && (
                               <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">NEW</div>
                             )}
-                             <Link href={`/store/${otherTemplate.id}`} className="block h-72 overflow-hidden relative border-b border-primary">
+                             <Link href={`/store/${otherTemplate.id}`} className="block h-72 overflow-hidden relative border-b border-border">
                                 <Image
                                     src={otherTemplate.image}
                                     alt={otherTemplate.imageAlt}
