@@ -1,3 +1,4 @@
+
 'use client';
 
 import { getArticles } from '@/lib/data';
@@ -72,15 +73,15 @@ export default function BlogPage() {
 
 
   if (loading) {
-    return <div className="bg-bg-color text-text-color min-h-screen flex items-center justify-center">Loading Transmission Log...</div>;
+    return <div className="bg-black text-white min-h-screen flex items-center justify-center">Loading Transmission Log...</div>;
   }
   
   if (!featuredArticle) {
-      return <div className="bg-bg-color text-text-color min-h-screen flex items-center justify-center">No articles found.</div>;
+      return <div className="bg-black text-white min-h-screen flex items-center justify-center">No articles found.</div>;
   }
 
   return (
-    <>
+    <div className='bg-black text-white'>
       <header className="blog-header">
         <div className="header-meta">
           <span>// DATABASE ACCESS</span>
@@ -208,6 +209,8 @@ export default function BlogPage() {
         </form>
       </section>
       <Footer />
-    </>
+    </div>
   );
 }
+
+    
