@@ -60,7 +60,7 @@ const services = [
 ];
 
 const IntroCard = () => (
-  <div className="w-full md:w-[50vw] h-auto md:h-[75vh] flex-shrink-0 flex flex-col justify-between p-8 border-b md:border-b-0 md:border-r border-primary bg-black text-white">
+  <div className="w-full md:w-[50vw] h-auto md:h-[75vh] flex-shrink-0 flex flex-col justify-between p-8 border-b md:border-b-0 md:border-r border-white/20 bg-black text-white">
      <h3 className="font-headline text-5xl font-bold text-foreground tracking-tight">
         A full-service<br />design &<br />development<br />agency.
       </h3>
@@ -74,7 +74,7 @@ const IntroCard = () => (
 );
 
 const CtaCard = () => (
-    <div className="w-full md:w-[50vw] h-[75vh] flex-shrink-0 flex flex-col items-center justify-center p-8 border-b md:border-b-0 md:border-r border-primary bg-primary text-primary-foreground text-center">
+    <div className="w-full md:w-[50vw] h-[75vh] flex-shrink-0 flex flex-col items-center justify-center p-8 border-b md:border-b-0 md:border-r border-white/20 bg-primary text-primary-foreground text-center">
       <h3 className="font-headline text-5xl font-bold tracking-tight">
         Have a project<br />in mind?
       </h3>
@@ -111,7 +111,7 @@ export function HorizontalServices() {
        <section className="bg-black text-white border-y border-neutral-800">
          <IntroCard />
           {services.map((service, index) => (
-            <div key={index} className="w-full h-auto flex-shrink-0 relative border-b border-primary overflow-hidden group">
+            <div key={index} className="w-full h-auto flex-shrink-0 relative border-b border-white/20 overflow-hidden group">
                 <div className="relative h-64">
                   <Image 
                       src={service.image}
@@ -150,12 +150,12 @@ export function HorizontalServices() {
   }
 
   return (
-    <section ref={targetRef} className="relative h-[500vh] bg-black text-white border-y border-primary">
+    <section ref={targetRef} className="relative h-[500vh] bg-black text-white border-y border-white/20">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div style={{ x }} className="flex">
           <IntroCard />
           {services.map((service, index) => (
-            <div key={index} className="w-screen md:w-[50vw] h-[75vh] flex-shrink-0 relative border-r border-primary overflow-hidden group">
+            <div key={index} className="w-screen md:w-[50vw] h-[75vh] flex-shrink-0 relative border-r border-white/20 overflow-hidden group">
                 <Image 
                     src={service.image}
                     alt={service.title}

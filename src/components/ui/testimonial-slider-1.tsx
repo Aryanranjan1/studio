@@ -90,7 +90,7 @@ export const TestimonialSlider = ({
   return (
     <div
       className={cn(
-        'relative w-full min-h-[750px] md:min-h-[700px] overflow-hidden bg-black text-white p-8 md:p-12 border-y border-border-active',
+        'relative w-full min-h-[750px] md:min-h-[700px] overflow-hidden bg-black text-white p-8 md:p-12 border-y border-white/20',
         className
       )}
     >

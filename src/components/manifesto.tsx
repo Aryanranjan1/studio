@@ -40,7 +40,7 @@ export function Manifesto() {
   }
 
   return (
-    <section ref={ref} className="manifesto-section flex items-center min-h-[80vh] py-36 px-10 border-b border-border-active bg-black text-white">
+    <section ref={ref} className="manifesto-section flex items-center min-h-[80vh] py-36 px-10 border-b border-white/20 bg-black text-white">
       <div className="manifesto-container max-w-6xl mx-auto">
         <motion.p
           className="manifesto-text font-display text-4xl md:text-5xl leading-tight uppercase font-normal"
