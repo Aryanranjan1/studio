@@ -7,6 +7,7 @@ import { TeamMemberCard } from '@/components/team-member-card';
 import { Button } from '@/components/ui/button';
 import { Footer } from '@/components/footer';
 import type { Metadata } from 'next';
+import { socialLinks } from '@/lib/social-links';
 
 export const metadata: Metadata = {
     title: 'About',
@@ -170,12 +171,11 @@ export default function AboutPage() {
             <div className="mb-8 flex gap-4">
               <a href="#" className="hover:text-primary">Be</a>
               <a href="#" className="hover:text-primary">Clutch</a>
-              <a href="#" className="hover:text-primary">
-                <Linkedin className="h-5 w-5"/>
-              </a>
-               <a href="#" className="hover:text-primary">
-                <Instagram className="h-5 w-5"/>
-              </a>
+              {socialLinks.filter(l => l.name === 'LinkedIn' || l.name === 'Instagram').map(link => (
+                <a href={link.href} key={link.name} className="hover:text-primary">
+                  <link.Icon className="h-5 w-5"/>
+                </a>
+              ))}
             </div>
             <div className="relative w-full max-w-[200px] aspect-square">
                  <div className="absolute inset-0 border-t border-l border-r border-neutral-700 rounded-t-full"></div>

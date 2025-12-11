@@ -27,10 +27,10 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowRight } from 'lucide-react';
-import { FaInstagram, FaLinkedin, FaDribbble, FaBehance } from 'react-icons/fa6';
 import { Badge } from '@/components/ui/badge';
 import { Footer } from '@/components/footer';
 import { useEffect } from 'react';
+import { contactSocials } from '@/lib/social-links';
 
 const inquiryTypes = [
   'New Project',
@@ -160,34 +160,16 @@ export default function ContactPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center space-x-4 text-muted-foreground">
-                    <a
-                      href="#"
-                      className="transition-colors hover:text-primary"
-                      aria-label="Instagram"
-                    >
-                      <FaInstagram className="h-6 w-6" />
-                    </a>
-                    <a
-                      href="#"
-                      className="transition-colors hover:text-primary"
-                      aria-label="LinkedIn"
-                    >
-                      <FaLinkedin className="h-6 w-6" />
-                    </a>
-                    <a
-                      href="#"
-                      className="transition-colors hover:text-primary"
-                      aria-label="Dribbble"
-                    >
-                      <FaDribbble className="h-6 w-6" />
-                    </a>
-                    <a
-                      href="#"
-                      className="transition-colors hover:text-primary"
-                      aria-label="Behance"
-                    >
-                      <FaBehance className="h-6 w-6" />
-                    </a>
+                    {contactSocials.map(social => (
+                      <a
+                        key={social.name}
+                        href={social.href}
+                        className="transition-colors hover:text-primary"
+                        aria-label={social.name}
+                      >
+                        <social.Icon className="h-6 w-6" />
+                      </a>
+                    ))}
                   </div>
                   <Button
                     asChild

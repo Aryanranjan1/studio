@@ -1,15 +1,13 @@
 
 import Link from 'next/link';
 import { Button } from './ui/button';
-import { ArrowRight, Instagram, Twitter, Youtube, Gitlab } from 'lucide-react';
 import Image from 'next/image';
+import { socialLinks } from '@/lib/social-links';
+import { Instagram, Twitter, Youtube, Gitlab } from 'lucide-react';
 
-const socialLinks = [
-  { href: '#', name: 'Instagram', icon: <Instagram className="h-4 w-4" /> },
-  { href: '#', name: 'Twitter/X', icon: <Twitter className="h-4 w-4" /> },
-  { href: '#', name: 'YouTube', icon: <Youtube className="h-4 w-4" /> },
-  { href: '#', name: 'Pinterest', icon: <Gitlab className="h-4 w-4" /> },
-];
+const footerSocials = socialLinks.filter(
+    (link) => ['Instagram', 'Twitter/X', 'YouTube', 'Gitlab'].includes(link.name)
+);
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -47,7 +45,7 @@ export function Footer() {
                <div>
                  <h3 className="font-semibold text-muted-foreground">Social</h3>
                   <div className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
-                    {socialLinks.map(link => (
+                    {footerSocials.map(link => (
                         <a href={link.href} key={link.name} className="flex items-center gap-2 hover:text-primary">
                           <span className='text-primary'>•</span> {link.name}
                         </a>
