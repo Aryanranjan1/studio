@@ -159,7 +159,7 @@
 
 
 .specs-card {
-    background: #050505;
+    background: #000;
     border: 1px solid var(--border-color);
     padding: 30px;
     position: sticky;
@@ -246,7 +246,7 @@
     border: none;
     display: flex;
     flex-direction: column;
-    background: #050505;
+    background: #000;
     transition: all 0.3s;
     position: relative;
 }
