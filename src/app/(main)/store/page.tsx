@@ -103,7 +103,7 @@ export default function StorePage() {
             </div>
         </nav>
         
-        <section className="grid grid-cols-2 lg:grid-cols-3 w-full">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
             {paginatedTemplates.map((template) => (
               <div key={template.id} className="group product-card block border-b border-r border-white/20">
                 <div className="relative">
@@ -112,7 +112,7 @@ export default function StorePage() {
                     ) : template.isNew && (
                       <div className="absolute top-2 left-2 z-10 bg-black border border-white text-white px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">NEW</div>
                     )}
-                    <div className="h-48 md:h-72 overflow-hidden relative border-b border-white/20">
+                    <div className="h-72 overflow-hidden relative border-b border-white/20">
                         <Image
                             src={template.image}
                             alt={template.imageAlt}

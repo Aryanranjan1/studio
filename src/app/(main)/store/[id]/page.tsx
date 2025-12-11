@@ -108,7 +108,7 @@ export default function TemplateDetailsPage() {
                     <div className="status-badge">● INSTANT DOWNLOAD</div>
                     <h1 className="p-title">{template.title}</h1>
                     <div className="price-block">
-                        <span className="p-price">${template.price.toFixed(2)}</span>
+                        <span className="p-price">RM{template.price.toFixed(2)}</span>
                         <span className="p-license">[ STANDARD LICENSE ]</span>
                     </div>
                 </div>
@@ -144,8 +144,11 @@ export default function TemplateDetailsPage() {
                     {otherTemplates.map((otherTemplate) => (
                       <Link href={`/store/${otherTemplate.id}`} key={otherTemplate.id} className="group product-card block border-b border-t border-white/20 bg-black">
                         <div className="relative">
-                            {otherTemplate.bestSeller && <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">BEST SELLER</div>}
-                            {otherTemplate.isNew && <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">NEW</div>}
+                            {otherTemplate.bestSeller ? (
+                              <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">BEST SELLER</div>
+                            ) : otherTemplate.isNew && (
+                              <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">NEW</div>
+                            )}
                             <div className="h-72 overflow-hidden relative border-b border-white/20">
                                 <Image
                                     src={otherTemplate.image}
@@ -161,18 +164,23 @@ export default function TemplateDetailsPage() {
                                     <div>
                                         <h3 className="font-display text-2xl font-bold uppercase">{otherTemplate.title}</h3>
                                     </div>
-                                    <span className="text-xl font-bold">${otherTemplate.price}</span>
+                                    <span className="text-xl font-bold">RM{otherTemplate.price}</span>
                                 </div>
                                 <p className="text-sm text-[#888] leading-relaxed mb-8 max-w-[90%] line-clamp-2">{otherTemplate.description}</p>
                             </div>
                             
-                            <div className="flex gap-2 mt-auto">
-                                <Button asChild variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-300 flex items-center justify-center gap-2">
-                                   <Link href={`/store/${otherTemplate.id}`}>View Details <ArrowRight className="w-4 h-4 hidden md:inline-block" /></Link>
+                            <div className="flex flex-col md:flex-row gap-2 mt-auto">
+                                <Button variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 group-hover:bg-white group-hover:text-black transition-all duration-300 flex items-center justify-center gap-2">
+                                   View Details <ArrowRight className="w-4 h-4 hidden md:inline-block" />
+                                </Button>
+                                <Button asChild className="w-full uppercase rounded-none flex items-center justify-center gap-2">
+                                   <a href={otherTemplate.url} target="_blank" rel="noopener noreferrer">
+                                    Buy Now <ArrowRight className="w-4 h-4 hidden md:inline-block" />
+                                   </a>
                                 </Button>
                             </div>
                         </div>
-                    </Link>
+                      </Link>
                     ))}
                 </div>
             </div>
