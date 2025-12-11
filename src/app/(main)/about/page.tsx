@@ -74,7 +74,7 @@ export default function AboutPage() {
                 </div>
                 <div className="row-span-1 bg-black p-8 relative min-h-[250px]">
                     <Image 
-                      src="https://picsum.photos/seed/process/800/600"
+                      src="https://images.unsplash.com/photo-1518135714426-c18f5ffb6f4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Q0xJRU5UJTIwfGVufDB8fHx8MTc2NTQ3NjEwN3ww&ixlib=rb-4.1.0&q=80&w=1080"
                       alt="Abstract design process visualization"
                       fill
                       loading="lazy"
