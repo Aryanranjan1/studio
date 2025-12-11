@@ -34,7 +34,7 @@ export function WireframeHero() {
         color: 0xffffff, 
         wireframe: true,
         transparent: true,
-        opacity: 0.3 
+        opacity: 0.8 
     });
     const terrain = new THREE.Mesh(geometry, material);
     terrain.rotation.x = -Math.PI / 2;
