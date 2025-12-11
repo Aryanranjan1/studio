@@ -48,16 +48,16 @@ export default function TemplateDetailsPage() {
 
   if (!template) {
     return (
-      <div className="w-full bg-black text-white min-h-screen flex items-center justify-center">
+      <div className="w-full bg-background text-foreground min-h-screen flex items-center justify-center">
         <p>Loading Template...</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full bg-[#050505] text-white font-tech">
-      <nav className="h-[60px] px-5 md:px-10 border-b border-white/20 text-xs text-[#888] fixed top-0 left-0 w-full bg-[#050505] z-50 flex justify-between items-center">
-        <div><Link href="/store" className="hover:text-white">&lt; STORE</Link></div>
+    <div className="w-full bg-background text-foreground font-tech">
+      <nav className="h-[60px] px-5 md:px-10 border-b border-primary text-xs text-muted-foreground fixed top-0 left-0 w-full bg-background z-50 flex justify-between items-center">
+        <div><Link href="/store" className="hover:text-foreground">&lt; STORE</Link></div>
         <div className="hidden md:block">
             {template.title.toUpperCase()}_V{template.version}
         </div>
@@ -66,7 +66,7 @@ export default function TemplateDetailsPage() {
       <main className="pt-[60px]">
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-3 h-auto md:h-[calc(100vh-60px)] w-full">
             {/* --- LEFT: IMAGE SLIDER --- */}
-            <div className="relative border-r border-white/20 h-[50vh] md:h-full overflow-hidden bg-black md:col-span-3 lg:col-span-2">
+            <div className="relative border-r border-primary h-[50vh] md:h-full overflow-hidden bg-background md:col-span-3 lg:col-span-2">
                 {template.images.length > 1 && (
                     <>
                         <button className="slider-btn prev-btn" onClick={() => moveSlide(-1)}>&lt;</button>
@@ -75,8 +75,8 @@ export default function TemplateDetailsPage() {
                                 <div className="slide group" key={index}>
                                     <Image src={img.src} alt={img.alt} fill priority={index === 0} className="object-contain" />
                                     <div className="slide-caption">[FIG {index + 1}.0] {img.alt}</div>
-                                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                    <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-white hover:text-black scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
+                                    <div className="absolute inset-0 bg-background/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                    <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-foreground hover:text-background scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
                                             <a href={template.url} target="_blank" rel="noopener noreferrer">
                                                 Live Preview
                                             </a>
@@ -92,8 +92,8 @@ export default function TemplateDetailsPage() {
                     <div className="slide group h-full w-full">
                          <Image src={template.images[0].src} alt={template.images[0].alt} fill priority className="object-contain" />
                          <div className="slide-caption">[FIG 1.0] {template.images[0].alt}</div>
-                         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                           <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-white hover:text-black scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
+                         <div className="absolute inset-0 bg-background/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                           <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-foreground hover:text-background scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
                                 <a href={template.url} target="_blank" rel="noopener noreferrer">
                                     Live Preview
                                 </a>
@@ -138,25 +138,25 @@ export default function TemplateDetailsPage() {
         </div>
 
         {/* Recommendations Section */}
-        <section className="py-24 border-t border-b border-white/20">
+        <section className="py-24 border-t border-b border-primary">
             <div className="container mx-auto px-5 md:px-10">
                 <h2 className="font-display text-4xl font-bold uppercase mb-12">Recommended for you</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/20 border-l border-r border-white/20">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-primary border-l border-r border-primary">
                     {otherTemplates.map((otherTemplate) => (
-                      <div key={otherTemplate.id} className="group product-card block border-b border-t border-white/20 bg-black">
+                      <div key={otherTemplate.id} className="group product-card block border-b border-t border-primary bg-background">
                         <div className="relative">
                             {otherTemplate.bestSeller && (
-                              <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">BEST SELLER</div>
+                              <div className="absolute top-4 left-4 z-10 bg-background border border-foreground text-foreground px-2.5 py-1 text-xs">BEST SELLER</div>
                             )}
                             {!otherTemplate.bestSeller && otherTemplate.isNew && (
-                              <div className="absolute top-4 left-4 z-10 bg-black border border-white text-white px-2.5 py-1 text-xs">NEW</div>
+                              <div className="absolute top-4 left-4 z-10 bg-background border border-foreground text-foreground px-2.5 py-1 text-xs">NEW</div>
                             )}
-                             <Link href={`/store/${otherTemplate.id}`} className="block h-72 overflow-hidden relative border-b border-white/20">
+                             <Link href={`/store/${otherTemplate.id}`} className="block h-72 overflow-hidden relative border-b border-primary">
                                 <Image
                                     src={otherTemplate.image}
                                     alt={otherTemplate.imageAlt}
                                     fill
-                                    className="w-full h-full object-cover grayscale transition-all duration-500 ease-in-out group-hover:grayscale-0 group-hover:scale-105"
+                                    className="w-full h-full object-cover transition-all duration-500 ease-in-out group-hover:scale-105"
                                 />
                             </Link>
                         </div>
@@ -168,11 +168,11 @@ export default function TemplateDetailsPage() {
                                     </Link>
                                     <span className="text-xl font-bold">RM{otherTemplate.price}</span>
                                 </div>
-                                <p className="text-sm text-[#888] leading-relaxed mb-8 max-w-[90%] line-clamp-2">{otherTemplate.description}</p>
+                                <p className="text-sm text-muted-foreground leading-relaxed mb-8 max-w-[90%] line-clamp-2">{otherTemplate.description}</p>
                             </div>
                             
                             <div className="flex flex-col md:flex-row gap-2 mt-auto">
-                                <Button asChild variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-2">
+                                <Button asChild variant="outline" className="w-full uppercase rounded-none bg-transparent text-foreground border-border hover:bg-foreground hover:text-background transition-all duration-300 flex items-center justify-center gap-2">
                                      <Link href={`/store/${otherTemplate.id}`}>
                                         View Details <ArrowRight className="w-4 h-4 hidden md:inline-block" />
                                      </Link>
@@ -224,7 +224,7 @@ export default function TemplateDetailsPage() {
         .slide-caption {
             position: absolute;
             bottom: 20px; right: 20px;
-            background: rgba(0,0,0,0.8);
+            background: rgba(29, 53, 87, 0.8);
             padding: 5px 10px;
             font-size: 0.7rem;
             border: 1px solid var(--border-color);
@@ -234,7 +234,7 @@ export default function TemplateDetailsPage() {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0,0,0,0.5);
+            background: rgba(29, 53, 87, 0.5);
             color: #fff;
             border: 1px solid var(--border-color);
             width: 40px; height: 40px;
@@ -243,7 +243,7 @@ export default function TemplateDetailsPage() {
             transition: 0.3s;
             display: flex; align-items: center; justify-content: center;
         }
-        .slider-btn:hover { background: #fff; color: #000; }
+        .slider-btn:hover { background: var(--text-color); color: var(--bg-color); }
         .prev-btn { left: 20px; }
         .next-btn { right: 20px; }
 
@@ -284,7 +284,7 @@ export default function TemplateDetailsPage() {
         .p-description {
             font-size: 0.9rem;
             line-height: 1.5;
-            color: #ccc;
+            color: hsl(var(--muted-foreground));
             margin-bottom: 30px;
             flex-grow: 0; 
         }
@@ -313,7 +313,7 @@ export default function TemplateDetailsPage() {
         .btn-buy:hover { background: hsl(var(--primary)); border-color: hsl(var(--primary)); }
 
         .compact-specs {
-            border-top: 1px solid #333;
+            border-top: 1px solid #d4ddd9;
             padding-top: 25px;
             display: grid;
             grid-template-columns: 1fr 1fr;

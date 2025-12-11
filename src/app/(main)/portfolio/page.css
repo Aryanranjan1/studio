@@ -1,9 +1,9 @@
 /* --- 1. RESET & VARIABLES --- */
 :root {
-    --bg-color: #050505;
-    --text-color: #ffffff;
-    --border-color: rgba(255, 255, 255, 0.2);
-    --border-active: #ffffff;
+    --bg-color: #f1faee;
+    --text-color: #1d3557;
+    --border-color: rgba(29, 53, 87, 0.2);
+    --border-active: #e63946;
     --accent-color: hsl(var(--primary));
     --font-tech: var(--font-body);
     --font-display: var(--font-headline);
@@ -50,7 +50,7 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(5, 5, 5, 0.95);
+    background: rgba(241, 250, 238, 0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color);
     display: flex;
@@ -87,8 +87,8 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
 }
 
 .cat-btn:hover, .cat-btn.active {
-    color: #000;
-    background: #fff;
+    color: #fff;
+    background: var(--text-color);
 }
 
 
@@ -119,7 +119,7 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
 }
 
 .project-card:hover .art-meta { color: hsl(var(--primary-foreground), 0.7); border-color: hsl(var(--primary-foreground), 0.2); }
-.project-card:hover .art-img { filter: grayscale(0%); transform: scale(1.05); }
+.project-card:hover .art-img { transform: scale(1.05); }
 .project-card:hover .art-desc {
     opacity: 0.8;
 }
@@ -132,7 +132,6 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
 }
 
 .art-img {
-    filter: grayscale(100%);
     transition: 0.5s;
 }
 
@@ -150,7 +149,7 @@ img { width: 100%; height: 100%; object-fit: cover; display: block; }
     color: #666;
     margin-bottom: 15px;
     padding-bottom: 15px;
-    border-bottom: 1px solid #222;
+    border-bottom: 1px solid #eee;
     transition: all 0.3s;
     text-transform: uppercase;
 }

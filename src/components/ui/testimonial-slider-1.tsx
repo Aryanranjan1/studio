@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -123,7 +124,7 @@ export const TestimonialSlider = ({
                   <img
                     src={review.thumbnailSrc}
                     alt={review.name}
-                    className="w-full h-full object-cover grayscale"
+                    className="w-full h-full object-cover"
                   />
                 </button>
               );
@@ -144,7 +145,7 @@ export const TestimonialSlider = ({
               animate="center"
               exit="exit"
               transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-              className="absolute inset-0 w-full h-full object-cover grayscale"
+              className="absolute inset-0 w-full h-full object-cover"
             />
           </AnimatePresence>
         </div>
@@ -181,7 +182,7 @@ export const TestimonialSlider = ({
             <Button
               variant="outline"
               size="icon"
-              className="rounded-none w-12 h-12 border-border-color text-white hover:bg-white hover:text-black"
+              className="rounded-none w-12 h-12 border-border-color text-foreground hover:bg-foreground hover:text-background"
               onClick={handlePrev}
               aria-label="Previous review"
             >
@@ -190,7 +191,7 @@ export const TestimonialSlider = ({
             <Button
               variant="outline"
               size="icon"
-              className="rounded-none w-12 h-12 border-border-color text-white bg-white text-black hover:bg-neutral-200"
+              className="rounded-none w-12 h-12 border-border-color text-background bg-foreground hover:bg-neutral-200"
               onClick={handleNext}
               aria-label="Next review"
             >

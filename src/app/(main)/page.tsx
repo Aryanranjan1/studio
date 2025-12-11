@@ -45,7 +45,7 @@ const HudHeader = () => {
             <div className="hud-right font-tech text-primary">{time}</div>
         </div>
       </div>
-      <div className="w-full h-px bg-white/20"></div>
+      <div className="w-full h-px bg-primary"></div>
     </div>
   );
 };
@@ -54,12 +54,12 @@ const HudHeader = () => {
 const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   return (
     <Link href={`/portfolio/${project.id}`} className="project-card block group mb-20 last:mb-0">
-      <div className="img-wrapper overflow-hidden border border-white/20 mb-5 relative h-[300px] md:h-[450px]">
+      <div className="img-wrapper overflow-hidden border border-primary mb-5 relative h-[300px] md:h-[450px]">
         <Image
           src={project.image}
           alt={project.imageAlt}
           fill
-          className="object-cover grayscale transition-all duration-700 ease-out group-hover:scale-105 group-hover:grayscale-0"
+          className="object-cover transition-all duration-700 ease-out group-hover:scale-105"
           loading="lazy"
         />
       </div>
@@ -83,23 +83,23 @@ export default function Home() {
   })
 
   return (
-    <main className="bg-[#050505] text-white font-tech selection:bg-primary selection:text-black">
+    <main className="bg-background text-foreground font-tech selection:bg-primary selection:text-black">
       
       {/* 1. Hero Section */}
-      <header className="hero-section h-screen w-full relative flex flex-col justify-center overflow-hidden border-b border-white/20">
-        <div className="hero-grid absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
+      <header className="hero-section h-screen w-full relative flex flex-col justify-center overflow-hidden border-b border-primary">
+        <div className="hero-grid absolute inset-0 bg-[linear-gradient(hsla(var(--primary)/0.03)_1px,transparent_1px),linear-gradient(90deg,hsla(var(--primary)/0.03)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none"></div>
         
         <HudHeader />
 
         <div className="hero-content z-10 px-6 md:px-10">
-          <div className="hero-label text-neutral-400 mb-5 tracking-widest text-xs md:text-sm">// EST. 2025 // MALAYSIA</div>
+          <div className="hero-label text-muted-foreground mb-5 tracking-widest text-xs md:text-sm">// EST. 2025 // MALAYSIA</div>
           <h1 className="hero-title font-display text-[12vw] md:text-[8vw] font-bold leading-[0.85] uppercase tracking-[-2px]">
             <span className="block animate-in fade-in slide-in-from-bottom-4 duration-1000">DIGITAL</span>
-            <span className="block text-transparent animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200" style={{ WebkitTextStroke: '1px #fff' }}>ARCHITECTS</span>
+            <span className="block text-transparent animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200" style={{ WebkitTextStroke: '1px hsl(var(--foreground))' }}>ARCHITECTS</span>
           </h1>
         </div>
 
-        <div className="hero-footer absolute bottom-0 w-full flex justify-between items-end px-6 md:px-10 py-7 border-t border-white/20 z-10 text-xs md:text-sm text-neutral-400">
+        <div className="hero-footer absolute bottom-0 w-full flex justify-between items-end px-6 md:px-10 py-7 border-t border-primary z-10 text-xs md:text-sm text-muted-foreground">
           <div className="coord-box">
             <span>LAT: 03.14N</span><br />
             <span>LON: 101.69E</span>
@@ -118,12 +118,12 @@ export default function Home() {
 
       {/* 4. Projects Section (Sticky Layout) */}
       {projects.length > 0 && (
-        <section className="projects-section relative w-full bg-[#050505] border-b border-white/20">
+        <section className="projects-section relative w-full bg-background border-b border-primary">
           <div className="container max-w-[1400px] mx-auto px-0 md:px-5 md:border-l md:border-r border-neutral-800">
             <div className="project-layout flex flex-col md:flex-row">
               
               {/* Left Sticky Panel */}
-              <div className="left-panel w-full md:w-2/5 md:h-screen relative md:sticky top-0 flex flex-col justify-center py-16 px-6 md:px-10 border-b md:border-b-0 md:border-r border-neutral-800 bg-[#050505] z-10">
+              <div className="left-panel w-full md:w-2/5 md:h-screen relative md:sticky top-0 flex flex-col justify-center py-16 px-6 md:px-10 border-b md:border-b-0 md:border-r border-neutral-800 bg-background z-10">
                 <h2 className="section-title text-5xl md:text-6xl uppercase mb-5 font-display leading-[0.9]">Selected<br />Works</h2>
                 <p className="hero-label text-primary tracking-widest font-tech">// 2024 - 2025</p>
               </div>
@@ -149,13 +149,13 @@ export default function Home() {
       <TestimonialsSection />
 
       {/* 7. Footer Section */}
-      <footer className="footer-simple text-center py-24 px-6 md:px-10 border-b border-white/20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-white/5 skew-y-12 scale-150 pointer-events-none"></div>
+      <footer className="footer-simple text-center py-24 px-6 md:px-10 border-b border-primary relative overflow-hidden">
+        <div className="absolute inset-0 bg-foreground/5 skew-y-12 scale-150 pointer-events-none"></div>
         <h2 className="relative text-[8vw] md:text-[4vw] uppercase mb-10 font-display leading-none">Ready to Initiate?</h2>
-        <Button asChild variant="outline" className="relative footer-btn px-12 py-8 text-lg uppercase bg-transparent text-white border-white rounded-none hover:bg-primary hover:border-primary hover:text-black transition-all duration-300">
+        <Button asChild variant="outline" className="relative footer-btn px-12 py-8 text-lg uppercase bg-transparent text-foreground border-foreground rounded-none hover:bg-primary hover:border-primary hover:text-primary-foreground transition-all duration-300">
             <Link href="/contact">Start Project</Link>
         </Button>
-        <p className="relative mt-20 text-neutral-500 text-xs font-tech uppercase tracking-widest">&copy; {new Date().getFullYear()} Ampire Studio. Malaysia.</p>
+        <p className="relative mt-20 text-muted-foreground text-xs font-tech uppercase tracking-widest">&copy; {new Date().getFullYear()} Ampire Studio. Malaysia.</p>
       </footer>
       <Footer />
     </main>

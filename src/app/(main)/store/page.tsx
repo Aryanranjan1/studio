@@ -69,32 +69,32 @@ export default function StorePage() {
 
   if (loading) {
     return (
-        <div className="w-full bg-black text-white min-h-screen flex items-center justify-center">
+        <div className="w-full bg-background text-foreground min-h-screen flex items-center justify-center">
             <p>Loading Store...</p>
         </div>
     )
   }
 
   return (
-    <div className="w-full bg-[#050505] text-white font-tech">
+    <div className="w-full bg-background text-foreground font-tech">
       <main>
-        <header className="px-5 md:px-10 py-16 md:py-28 border-b border-white/20 relative">
-            <div className="text-xs text-[#888] mb-5 tracking-wider flex gap-5">
+        <header className="px-5 md:px-10 py-16 md:py-28 border-b border-primary relative">
+            <div className="text-xs text-muted-foreground mb-5 tracking-wider flex gap-5">
                 <span><span className="inline-block w-2 h-2 bg-primary rounded-full mr-2 shadow-[0_0_10px_var(--primary-DEFAULT-hsl))]"></span>SYSTEM ONLINE</span>
                 <span>// DIGITAL ASSETS // V.2.0</span>
             </div>
             <h1 className="font-display text-5xl md:text-7xl font-bold uppercase leading-none tracking-tight">Template<br/>Store.</h1>
         </header>
 
-        <nav className="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/20 flex justify-between items-center h-16 px-5 md:px-10">
+        <nav className="sticky top-0 z-50 bg-background/90 backdrop-blur-md border-b border-primary flex justify-between items-center h-16 px-5 md:px-10">
             <div className="flex h-full overflow-x-auto whitespace-nowrap scrollbar-hide">
                 {categories.map(cat => (
                     <button 
                         key={cat}
                         onClick={() => handleFilterClick(cat)}
                         className={cn(
-                            "bg-transparent border-r border-white/20 text-[#888] font-tech text-sm px-4 md:px-8 h-full uppercase transition-all duration-200 hover:text-white hover:bg-white/5 flex-shrink-0",
-                            activeFilter === cat && "text-black bg-white font-bold"
+                            "bg-transparent border-r border-primary text-muted-foreground font-tech text-sm px-4 md:px-8 h-full uppercase transition-all duration-200 hover:text-foreground hover:bg-foreground/5 flex-shrink-0",
+                            activeFilter === cat && "text-background bg-foreground font-bold"
                         )}
                     >
                        [ {cat === 'all' ? 'ALL_ASSETS' : cat} ]
@@ -105,21 +105,21 @@ export default function StorePage() {
         
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
             {paginatedTemplates.map((template) => (
-              <div key={template.id} className="group product-card block border-b border-r border-white/20">
+              <div key={template.id} className="group product-card block border-b border-r border-primary">
                 <div className="relative">
                     {template.bestSeller && (
-                      <div className="absolute top-2 left-2 z-10 bg-black border border-white text-white px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">BEST SELLER</div>
+                      <div className="absolute top-2 left-2 z-10 bg-background border border-foreground text-foreground px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">BEST SELLER</div>
                     )}
                     {!template.bestSeller && template.isNew && (
-                      <div className="absolute top-2 left-2 z-10 bg-black border border-white text-white px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">NEW</div>
+                      <div className="absolute top-2 left-2 z-10 bg-background border border-foreground text-foreground px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">NEW</div>
                     )}
                     <Link href={`/store/${template.id}`} className='block'>
-                        <div className="h-72 overflow-hidden relative border-b border-white/20">
+                        <div className="h-72 overflow-hidden relative border-b border-primary">
                             <Image
                                 src={template.image}
                                 alt={template.imageAlt}
                                 fill
-                                className="w-full h-full object-cover grayscale transition-all duration-500 ease-in-out group-hover:grayscale-0 group-hover:scale-105"
+                                className="w-full h-full object-cover transition-all duration-500 ease-in-out group-hover:scale-105"
                             />
                         </div>
                     </Link>
@@ -132,19 +132,19 @@ export default function StorePage() {
                             </Link>
                             <span className="text-base md:text-xl font-bold">RM{template.price}</span>
                         </div>
-                        <p className="text-xs md:text-sm text-[#888] leading-relaxed mb-4 md:mb-8 max-w-[90%] line-clamp-2 md:line-clamp-none">{template.description}</p>
+                        <p className="text-xs md:text-sm text-muted-foreground leading-relaxed mb-4 md:mb-8 max-w-[90%] line-clamp-2 md:line-clamp-none">{template.description}</p>
                         
-                        <div className="hidden md:grid grid-cols-2 gap-x-4 gap-y-2 mb-8 text-xs text-[#666] border-t border-[#222] pt-4">
-                            <div className="spec-item">STACK: <span className="text-white">{template.specs.stack}</span></div>
-                            <div className="spec-item">CSS: <span className="text-white">{template.specs.css}</span></div>
-                            <div className="spec-item">CMS: <span className="text-white">{template.specs.cms}</span></div>
-                            <div className="spec-item">TYPE: <span className="text-white">{template.specs.type}</span></div>
+                        <div className="hidden md:grid grid-cols-2 gap-x-4 gap-y-2 mb-8 text-xs text-muted-foreground border-t border-border pt-4">
+                            <div className="spec-item">STACK: <span className="text-foreground">{template.specs.stack}</span></div>
+                            <div className="spec-item">CSS: <span className="text-foreground">{template.specs.css}</span></div>
+                            <div className="spec-item">CMS: <span className="text-foreground">{template.specs.cms}</span></div>
+                            <div className="spec-item">TYPE: <span className="text-foreground">{template.specs.type}</span></div>
                         </div>
                     </div>
                     
                     <div className="flex flex-col md:flex-row gap-2 mt-auto">
                         <Link href={`/store/${template.id}`} className="w-full">
-                            <Button variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-2 text-xs md:text-sm h-10 md:h-auto">
+                            <Button variant="outline" className="w-full uppercase rounded-none bg-transparent text-foreground border-border hover:bg-foreground hover:text-background transition-all duration-300 flex items-center justify-center gap-2 text-xs md:text-sm h-10 md:h-auto">
                                 View Details
                             </Button>
                         </Link>
@@ -160,7 +160,7 @@ export default function StorePage() {
         </section>
 
         {totalPages > 1 && (
-            <div className="col-span-12 bg-black p-8 flex justify-center items-center gap-4 border-b border-white/20">
+            <div className="col-span-12 bg-background p-8 flex justify-center items-center gap-4 border-b border-primary">
                 <Button 
                     onClick={handlePrevPage} 
                     disabled={currentPage === 1}
