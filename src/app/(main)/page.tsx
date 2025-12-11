@@ -14,6 +14,7 @@ import { WireframeHero } from '@/components/wireframe-hero';
 import { CtaSection } from '@/components/cta-section';
 import { Button } from '@/components/ui/button';
 import { MoveRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 // --- PROJECT CARD COMPONENT ---
 const ProjectCard = ({ project, index }: { project: any; index: number }) => {
@@ -74,7 +75,7 @@ export default function Home() {
 
           {/* 4. Projects Section (Responsive Layout) */}
           {projects.length > 0 && (
-            <section className="projects-section relative w-full bg-background border-b border-border">
+            <section className="projects-section relative w-full border-b border-border light-section">
               <div className="container max-w-[1400px] mx-auto px-4 lg:px-0 lg:border-l lg:border-r border-border">
                 <div className="project-layout flex flex-col lg:flex-row">
                   

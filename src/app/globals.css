@@ -5,38 +5,8 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%; /* Greyish White */
-    --foreground: 220 40% 5%; /* Charcoal Black */
-
-    --card: 210 40% 96%;
-    --card-foreground: 220 40% 5%;
-
-    --popover: 210 40% 98%;
-    --popover-foreground: 220 40% 5%;
-
-    --primary: 0 84% 60%; /* Strawberry Red */
-    --primary-foreground: 0 0% 100%; /* White */
-
-    --secondary: 217 91% 60%; /* Vibrant Blue */
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 220 40% 90%;
-    --muted-foreground: 220 40% 40%;
-
-    --accent: 217 91% 60%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 220 40% 85%;
-    --input: 220 40% 85%;
-    --ring: 0 84% 60%;
-  }
-
-  .dark {
-    --background: 220 40% 5%;
-    --foreground: 210 40% 98%;
+    --background: 220 40% 5%; /* Charcoal Black */
+    --foreground: 210 40% 98%; /* Greyish White */
 
     --card: 220 40% 8%;
     --card-foreground: 210 40% 98%;
@@ -44,10 +14,10 @@
     --popover: 220 40% 5%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 0 84% 60%;
+    --primary: 0 84% 60%; /* Strawberry Red */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 91% 60%;
+    --secondary: 217 91% 60%; /* Vibrant Blue */
     --secondary-foreground: 210 40% 98%;
 
     --muted: 220 40% 15%;
@@ -63,6 +33,10 @@
     --input: 220 40% 12%;
     --ring: 0 84% 60%;
   }
+
+  .dark {
+    /* This can be kept for future toggling, but the root is now dark by default */
+  }
 }
 
 @layer base {
@@ -73,8 +47,22 @@
     /* Removed overflow-x-hidden to prevent breaking position: sticky */
   }
   body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    @apply bg-background text-foreground;
+  }
+
+  .light-section {
+    --background: 210 40% 98%; /* Greyish White */
+    --foreground: 220 40% 5%; /* Charcoal Black */
+    --card: 210 40% 96%;
+    --card-foreground: 220 40% 5%;
+    --popover: 210 40% 98%;
+    --popover-foreground: 220 40% 5%;
+    --muted: 220 40% 90%;
+    --muted-foreground: 220 40% 40%;
+    --border: 220 40% 85%;
+    --input: 220 40% 85%;
+
+    @apply bg-background text-foreground;
   }
 }
 
