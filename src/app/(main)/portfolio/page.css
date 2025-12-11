@@ -1,0 +1,226 @@
+/* --- 1. RESET & VARIABLES --- */
+:root {
+    --bg-color: #050505;
+    --text-color: #ffffff;
+    --border-color: rgba(255, 255, 255, 0.2);
+    --border-active: #ffffff;
+    --accent-color: hsl(var(--primary));
+    --font-tech: var(--font-body);
+    --font-display: var(--font-headline);
+}
+
+a { 
+    text-decoration: none; 
+    color: inherit; 
+    transition: 0.3s; 
+}
+ul { list-style: none; }
+img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* --- 2. HEADER SECTION --- */
+.portfolio-header {
+    padding: 120px 40px 60px;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.header-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: var(--font-tech);
+}
+
+.portfolio-title {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 0.9;
+}
+
+/* --- 3. CONTROLS (FILTER) --- */
+.controls-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(5, 5, 5, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0;
+    height: 60px;
+}
+
+.categories {
+    display: flex;
+    height: 100%;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.categories::-webkit-scrollbar {
+    display: none;
+}
+
+.cat-btn {
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--border-color);
+    color: #888;
+    font-family: var(--font-tech);
+    font-size: 0.85rem;
+    padding: 0 25px;
+    cursor: pointer;
+    height: 100%;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.cat-btn:hover, .cat-btn.active {
+    color: #000;
+    background: #fff;
+}
+
+
+/* --- 4. PROJECT GRID --- */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    background-color: var(--border-color);
+    border-top: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+}
+
+.project-card {
+    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-color);
+    transition: all 0.3s;
+    position: relative;
+    font-family: var(--font-tech);
+}
+
+.project-card:hover {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+}
+
+.project-card:hover .art-meta { color: hsl(var(--primary-foreground), 0.7); border-color: hsl(var(--primary-foreground), 0.2); }
+.project-card:hover .art-img { filter: grayscale(0%); transform: scale(1.05); }
+.project-card:hover .art-desc {
+    opacity: 0.8;
+}
+
+.art-img-wrapper {
+    height: 250px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+}
+
+.art-img {
+    filter: grayscale(100%);
+    transition: 0.5s;
+}
+
+.art-body {
+    padding: 30px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.art-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: #666;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #222;
+    transition: all 0.3s;
+    text-transform: uppercase;
+}
+
+.art-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.art-desc {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    opacity: 0.7;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.art-footer {
+    margin-top: auto;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* --- 5. PAGINATION --- */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 40px;
+    border-bottom: 1px solid var(--border-color);
+    font-family: var(--font-tech);
+    text-transform: uppercase;
+}
+
+.pagination-btn {
+    border-radius: 0;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-color);
+}
+.pagination-btn:hover {
+    background: var(--text-color);
+    color: var(--bg-color);
+}
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-status {
+    color: #888;
+    font-size: 0.85rem;
+}
+
+/* --- 6. RESPONSIVE --- */
+@media (max-width: 1200px) {
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+    .portfolio-title { font-size: 3rem; }
+    .portfolio-header { padding: 80px 20px 40px; }
+    
+    .portfolio-grid { grid-template-columns: 1fr; }
+    
+    .pagination-controls { padding: 30px 20px; }
+    .pagination-status { display: none; }
+}

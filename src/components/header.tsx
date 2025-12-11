@@ -20,6 +20,7 @@ import {
   ShoppingBag,
   HelpCircle,
   Crown,
+  AppWindow,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -36,6 +37,7 @@ const mainNavLinks = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/about', label: 'About', icon: User },
   { href: '/services', label: 'Services', icon: Briefcase },
+  { href: '/portfolio', label: 'Work', icon: AppWindow },
   { href: '/blog', label: 'Blog', icon: Book },
   { href: '/store', label: 'Store', icon: ShoppingBag },
   { href: '/faq', label: 'FAQ', icon: HelpCircle },
