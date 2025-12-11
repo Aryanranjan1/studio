@@ -60,7 +60,7 @@ const services = [
 ];
 
 const IntroCard = () => (
-  <div className="w-full md:w-[50vw] h-auto md:h-[75vh] flex-shrink-0 flex flex-col justify-between p-8 border-b md:border-b-0 md:border-r border-border bg-background text-foreground">
+  <div className="dark w-full md:w-[50vw] h-auto md:h-[75vh] flex-shrink-0 flex flex-col justify-between p-8 border-b md:border-b-0 md:border-r border-border bg-background text-foreground">
      <h3 className="font-headline text-5xl font-bold text-foreground tracking-tight">
         A full-service<br />design &<br />development<br />agency.
       </h3>
@@ -74,7 +74,7 @@ const IntroCard = () => (
 );
 
 const CtaCard = () => (
-    <div className="w-full md:w-[50vw] h-[75vh] flex-shrink-0 flex flex-col items-center justify-center p-8 border-b md:border-b-0 md:border-r border-border bg-accent text-accent-foreground text-center">
+    <div className="dark w-full md:w-[50vw] h-[75vh] flex-shrink-0 flex flex-col items-center justify-center p-8 border-b md:border-b-0 md:border-r border-border bg-accent text-accent-foreground text-center">
       <h3 className="font-headline text-5xl font-bold tracking-tight">
         Have a project<br />in mind?
       </h3>
@@ -114,7 +114,7 @@ export function HorizontalServices() {
 
   if (isMobile) {
     return (
-       <section className="bg-background text-foreground border-y border-border">
+       <section className="dark bg-background text-foreground border-y border-border">
          <IntroCard />
           {services.map((service, index) => (
             <div key={index} className="w-full h-auto flex-shrink-0 relative border-b border-border overflow-hidden group">
@@ -156,7 +156,7 @@ export function HorizontalServices() {
   }
 
   return (
-    <section ref={targetRef} style={{height: `${scrollableWidth}vw`}} className="relative bg-background text-foreground border-y border-border">
+    <section ref={targetRef} style={{height: `${scrollableWidth}vw`}} className="dark relative bg-background text-foreground border-y border-border">
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div style={{ x }} className="flex">
           <IntroCard />

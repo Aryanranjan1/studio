@@ -1,10 +1,11 @@
+
 import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 
 export function CtaSection() {
   return (
-    <section className="relative w-full py-24 sm:py-32">
+    <section className="dark relative w-full py-24 sm:py-32 bg-background border-b border-border">
       <div className="absolute inset-0">
         <Image
           src="https://picsum.photos/seed/cta-bg/1920/1080"

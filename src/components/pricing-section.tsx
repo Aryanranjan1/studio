@@ -66,7 +66,7 @@ const pricingTiers = [
 
 export function PricingSection() {
   return (
-    <section className="bg-background text-foreground py-24 sm:py-32 border-b border-border">
+    <section className="dark bg-background text-foreground py-24 sm:py-32 border-b border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <h2 className="font-headline text-5xl md:text-6xl font-bold">Pricing</h2>

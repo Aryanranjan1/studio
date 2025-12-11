@@ -65,7 +65,7 @@ export default function Home() {
       <WireframeHero />
 
       {/* The rest of the page content */}
-      <main className="bg-background text-foreground font-tech selection:bg-primary selection:text-primary-foreground">
+      <main className="font-tech selection:bg-primary selection:text-primary-foreground">
           {/* 2. Manifesto Section */}
           <Manifesto />
           
