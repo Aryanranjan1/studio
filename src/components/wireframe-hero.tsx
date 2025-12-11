@@ -152,26 +152,25 @@ export function WireframeHero() {
   return (
     <header className="h-screen w-full relative bg-black text-white font-tech selection:bg-primary selection:text-black">
       <div ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0" />
-      <div id="ui-layer" className="relative z-10 w-full h-full flex flex-col items-center justify-center pointer-events-none text-center">
-        <div className="hero-title group pointer-events-auto">
-          <span className="outline-text block text-transparent text-[8rem] font-black leading-none transition-transform duration-300 ease-in-out group-hover:scale-105" style={{ WebkitTextStroke: '2px white' }}>
-            AMPIRE
-          </span>
-          <span className="subtitle-text block text-white/50 text-[2rem] font-light mt-2.5 transition-colors duration-300 group-hover:text-primary">
-            STUDIO
-          </span>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent z-10" />
+      <div id="ui-layer" className="relative z-20 w-full h-full flex flex-col items-center justify-center text-center p-4">
+        <div className="max-w-4xl">
+            <p className="text-neutral-400 tracking-[0.2em] text-xs uppercase">Est. 2025 // Ampire Studio</p>
+            <h1 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold my-4 uppercase">
+                Digital Dominance
+            </h1>
+            <p className="text-base sm:text-lg md:text-xl text-neutral-300 max-w-2xl mx-auto">
+                We architect high-performance digital experiences that convert passive visitors into obsessed customers.
+            </p>
+            <Link href="/contact" className="pointer-events-auto mt-8 inline-block">
+                <Button
+                    size="lg"
+                    className="px-10 py-6 uppercase font-bold text-base bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-[0_0_20px_hsl(var(--primary)_/_0.5)] transition-all duration-300"
+                >
+                    Get Started
+                </Button>
+            </Link>
         </div>
-        <div className="meta-text mt-8 text-neutral-500 tracking-[0.3em] text-xs uppercase">
-          Est. 2025 // Digital Architecture
-        </div>
-        <Link href="/contact" className="pointer-events-auto">
-            <Button
-                variant="outline"
-                className="btn-enter mt-12 px-10 py-7 uppercase font-bold text-base bg-transparent border-white text-white hover:bg-white hover:text-black hover:shadow-[0_0_20px_rgba(255,255,255,0.5)] transition-all duration-300"
-            >
-                Enter System
-            </Button>
-        </Link>
       </div>
     </header>
   );
