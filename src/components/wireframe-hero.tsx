@@ -168,7 +168,7 @@ export function WireframeHero() {
                 <Button
                     size="lg"
                     variant="outline"
-                    className="btn-outline-animated px-10 py-6 uppercase font-bold text-base transition-all duration-300"
+                    className="btn-outline-animated px-10 py-6 uppercase font-bold text-base border-white"
                 >
                     Get Started
                 </Button>
