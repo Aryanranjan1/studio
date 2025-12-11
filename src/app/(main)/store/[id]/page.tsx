@@ -174,7 +174,7 @@ export default function TemplateDetailsPage() {
                                    View Details <ArrowRight className="w-4 h-4 hidden md:inline-block" />
                                 </Button>
                                 <Button asChild className="w-full uppercase rounded-none flex items-center justify-center gap-2">
-                                   <a href={otherTemplate.url} target="_blank" rel="noopener noreferrer">
+                                   <a href={otherTemplate.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                                     Buy Now <ArrowRight className="w-4 h-4 hidden md:inline-block" />
                                    </a>
                                 </Button>

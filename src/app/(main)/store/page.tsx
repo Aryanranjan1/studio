@@ -105,11 +105,12 @@ export default function StorePage() {
         
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full">
             {paginatedTemplates.map((template) => (
-              <div key={template.id} className="group product-card block border-b border-r border-white/20">
+              <Link key={template.id} href={`/store/${template.id}`} className="group product-card block border-b border-r border-white/20">
                 <div className="relative">
-                    {template.bestSeller ? (
+                    {template.bestSeller && (
                       <div className="absolute top-2 left-2 z-10 bg-black border border-white text-white px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">BEST SELLER</div>
-                    ) : template.isNew && (
+                    )}
+                    {!template.bestSeller && template.isNew && (
                       <div className="absolute top-2 left-2 z-10 bg-black border border-white text-white px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">NEW</div>
                     )}
                     <div className="h-72 overflow-hidden relative border-b border-white/20">
@@ -140,17 +141,17 @@ export default function StorePage() {
                     </div>
                     
                     <div className="flex flex-col md:flex-row gap-2 mt-auto">
-                        <Button asChild variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-2 text-xs md:text-sm h-10 md:h-auto">
-                            <Link href={`/store/${template.id}`}>View Details</Link>
+                        <Button variant="outline" className="w-full uppercase rounded-none bg-transparent text-white border-white/20 hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center gap-2 text-xs md:text-sm h-10 md:h-auto">
+                            View Details
                         </Button>
                         <Button asChild className="w-full uppercase rounded-none flex items-center justify-center gap-2 text-xs md:text-sm h-10 md:h-auto">
-                           <a href={template.url} target="_blank" rel="noopener noreferrer">
+                           <a href={template.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                             Buy Now <ArrowRight className="w-4 h-4 hidden md:inline-block" />
                            </a>
                         </Button>
                     </div>
                 </div>
-              </div>
+              </Link>
             ))}
         </section>
 
