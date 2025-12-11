@@ -64,13 +64,13 @@ const NavLink = ({
         <Link
           href={href}
           className={cn(
-            'relative flex h-12 w-12 items-center justify-center rounded-lg text-primary-foreground/70 transition-colors hover:bg-black/20 hover:text-primary-foreground',
-            isActive && 'bg-black/20 text-primary-foreground'
+            'relative flex h-12 w-12 items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/10 hover:text-white',
+            isActive && 'bg-white/20 text-white'
           )}
         >
           <Icon className="h-6 w-6" />
           {isActive && (
-            <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-primary-foreground"></span>
+            <span className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-r-full bg-white"></span>
           )}
         </Link>
       </TooltipTrigger>
@@ -86,9 +86,9 @@ export function Header() {
     <>
       {/* Desktop Sidebar */}
       <TooltipProvider>
-        <header className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center justify-between border-r border-border bg-foreground py-6 md:flex">
+        <header className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center justify-between border-r border-neutral-800 bg-black py-6 md:flex">
           <div className="flex flex-col items-center gap-8">
-            <Link href="/" className="font-headline text-xl font-bold text-background">
+            <Link href="/" className="font-headline text-xl font-bold text-white">
               <Crown className="h-8 w-8" />
             </Link>
             <nav className="flex flex-col items-center gap-3">
@@ -101,7 +101,7 @@ export function Header() {
              {socialLinks.slice(0, 3).map((link) => (
                 <Tooltip key={link.name}>
                     <TooltipTrigger asChild>
-                        <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-primary-foreground/70 hover:text-primary-foreground transition-colors">
+                        <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors">
                             <link.Icon className="h-5 w-5" />
                         </a>
                     </TooltipTrigger>
@@ -115,13 +115,13 @@ export function Header() {
       </TooltipProvider>
 
       {/* Mobile Header */}
-      <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b bg-foreground px-4 md:hidden">
-         <Link href="/" className="font-headline text-xl font-bold text-background">
+      <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-neutral-800 bg-black px-4 md:hidden">
+         <Link href="/" className="font-headline text-xl font-bold text-white">
             Ampire
          </Link>
          <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className='text-background hover:bg-black/20 hover:text-background'>
+              <Button variant="ghost" size="icon" className='text-white hover:bg-white/20 hover:text-white'>
                 <PanelLeft className="h-6 w-6" />
                 <span className="sr-only">Toggle Menu</span>
               </Button>
