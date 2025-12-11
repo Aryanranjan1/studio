@@ -87,7 +87,7 @@
     
     /* Custom button with animated fill */
     .btn-outline-animated {
-        @apply relative z-10 overflow-hidden border-primary text-primary;
+        @apply relative z-10 overflow-hidden border-white text-white;
         @apply hover:text-primary-foreground;
     }
     .btn-outline-animated::before {
@@ -100,9 +100,6 @@
         background-color: hsl(var(--primary));
         transition: width 0.4s ease-in-out;
         z-index: -1;
-    }
-    .btn-outline-animated:hover::before {
-        width: 100%;
     }
 }
 
