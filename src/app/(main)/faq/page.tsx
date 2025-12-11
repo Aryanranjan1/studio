@@ -42,7 +42,7 @@ export default function FaqPage() {
       <main>
         <div className="grid grid-cols-12 gap-px border-l border-r border-neutral-800 bg-black">
           {/* Hero Section */}
-          <section className="col-span-12 bg-black bg-primary text-primary-foreground">
+          <section className="col-span-12 bg-[#002a4d] text-primary-foreground">
             <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
                 <div className="max-w-3xl">
                   <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
