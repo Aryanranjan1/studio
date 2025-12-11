@@ -1,6 +1,5 @@
 
 
-
 export type Service = {
   id: string;
   title: string;
@@ -638,10 +637,10 @@ export const getFeaturedFaqs = (): FaqItem[] => {
     return getFaqs().filter(faq => faq.featured);
 }
 
-
-const articleCategories = ['Web Design', 'Development', 'Automation', 'Templates', 'Branding', 'Business Strategy', 'Case Studies'];
-
-export const getArticles = (): Article[] => Array.from({ length: 21 }, (_, i) => ({
+export const getArticles = (): Article[] => {
+  const articleCategories = ['Web Design', 'Development', 'Automation', 'Templates', 'Branding', 'Business Strategy', 'Case Studies'];
+  
+  return Array.from({ length: 21 }, (_, i) => ({
     id: `article-${i + 1}`,
     title: [
         'The 5 Pillars of a Successful Website Redesign',
@@ -664,16 +663,18 @@ export const getArticles = (): Article[] => Array.from({ length: 21 }, (_, i) =>
     readingTime: Math.floor(Math.random() * 10) + 3, // 3 to 12 minutes
     featured: i === 0, // Make the first article featured
     popular: i < 5,
-}));
-
-export const getTemplates = (): Template[] => {
-    // We map the projects to templates, but adjust the price and a few other details
-    return projects.map((p, i) => ({
-        ...p, // Spread all properties from the project
-        id: `template-${p.id}`, // Create a unique template ID
-        price: 200 + ((i * 11) % 100), // Assign prices between RM 200 and RM 299
-        description: `A professionally designed template based on the ${p.title} project.`,
-    }));
+  }));
 };
 
-export const allCategories = articleCategories;
+export const getTemplates = (): Template[] => {
+    const excludedIds = ['kopi-dua-darjat', 'ffm-music'];
+    // We map the projects to templates, but adjust the price and a few other details
+    return projects
+        .filter(p => !excludedIds.includes(p.id))
+        .map((p, i) => ({
+            ...p, // Spread all properties from the project
+            id: `template-${p.id}`, // Create a unique template ID
+            price: 200 + ((i * 11) % 100), // Assign prices between RM 200 and RM 299
+            description: `A professionally designed template based on the ${p.title} project.`,
+    }));
+};
