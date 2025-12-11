@@ -86,7 +86,7 @@ export function Header() {
     <>
       {/* Desktop Sidebar */}
       <TooltipProvider>
-        <header className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center justify-between border-r border-border bg-black py-6 md:flex">
+        <header className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center justify-between border-r border-border bg-nav-footer py-6 md:flex">
           <div className="flex flex-col items-center gap-8">
             <Link href="/" className="font-headline text-xl font-bold text-primary">
               <Crown className="h-8 w-8" />
@@ -115,7 +115,7 @@ export function Header() {
       </TooltipProvider>
 
       {/* Mobile Header */}
-      <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border bg-black px-4 md:hidden">
+      <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border bg-nav-footer px-4 md:hidden">
          <Link href="/" className="font-headline text-xl font-bold text-primary">
             Ampire
          </Link>
@@ -126,7 +126,7 @@ export function Header() {
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="w-64 bg-background">
+            <SheetContent side="left" className="w-64 bg-nav-footer">
               <SheetHeader>
                 <SheetTitle>
                    <Link href="/" className="font-headline text-xl font-bold text-primary">

@@ -17,7 +17,7 @@ export function Footer() {
   ]
 
   return (
-      <footer className="footer-main bg-background border-t border-border">
+      <footer className="footer-main bg-nav-footer border-t border-border">
           <div className="footer-cta p-8 md:p-12 border-b border-border">
               <h2 className="font-headline text-4xl md:text-5xl font-bold">Have a project?<br/>Let's talk.</h2>
               <Button asChild size="lg" className="mt-8 w-full md:w-auto">
@@ -26,13 +26,13 @@ export function Footer() {
           </div>
 
           <div className="footer-grid grid grid-cols-2 md:grid-cols-4 gap-px bg-border border-b border-border">
-              <div className="grid-item bg-background p-8">
+              <div className="grid-item bg-nav-footer p-8">
                   <div className="grid-label text-muted-foreground text-sm uppercase">Location</div>
                   <div className="grid-content mt-4">
                       {contactDetails.address.line1}<br/>{contactDetails.address.line2}
                   </div>
               </div>
-              <div className="grid-item bg-background p-8">
+              <div className="grid-item bg-nav-footer p-8">
                   <div className="grid-label text-muted-foreground text-sm uppercase">Social</div>
                   <div className="grid-content mt-4 space-y-2">
                       {socialLinks.map(link => (
@@ -40,14 +40,14 @@ export function Footer() {
                       ))}
                   </div>
               </div>
-              <div className="grid-item bg-background p-8">
+              <div className="grid-item bg-nav-footer p-8">
                   <div className="grid-label text-muted-foreground text-sm uppercase">Contact</div>
                   <div className="grid-content mt-4 space-y-2">
                       <a href={`tel:${contactDetails.phone}`} className="block hover:text-primary">{contactDetails.phone}</a>
                       <a href={`mailto:${contactDetails.email}`} className="block hover:text-primary text-sm break-all">{contactDetails.email}</a>
                   </div>
               </div>
-              <div className="grid-item bg-background p-8">
+              <div className="grid-item bg-nav-footer p-8">
                   <div className="grid-label text-muted-foreground text-sm uppercase">Navigate</div>
                   <div className="grid-content mt-4 space-y-2">
                       {footerLinks.map(link => (

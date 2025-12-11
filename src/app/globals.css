@@ -5,14 +5,14 @@
 
 @layer base {
   :root {
-    --background: 211 100% 15%; /* #002a4d */
+    --background: 0 0% 0%; /* black */
     --foreground: 0 0% 100%; /* white */
 
-    --card: 211 100% 18%;
-    --card-foreground: 0 0% 100%;
+    --card: 220 13% 9%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 211 100% 15%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 220 13% 9%;
+    --popover-foreground: 0 0% 98%;
 
     --primary: 356 90% 42%; /* #c60c18 */
     --primary-foreground: 0 0% 100%;
@@ -20,8 +20,8 @@
     --secondary: 217 91% 60%; /* Vibrant Blue (kept for other elements) */
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 211 100% 25%;
-    --muted-foreground: 211 40% 70%;
+    --muted: 220 9% 13%;
+    --muted-foreground: 220 9% 46%;
 
     --accent: 217 91% 60%;
     --accent-foreground: 210 40% 98%;
@@ -29,9 +29,11 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 211 100% 20%;
-    --input: 211 100% 20%;
+    --border: 220 13% 18%;
+    --input: 220 13% 18%;
     --ring: 356 90% 42%;
+
+    --nav-footer-bg: 211 100% 15%; /* #002a4d */
   }
 
   .dark {
@@ -85,6 +87,10 @@
     }
     .btn-outline-animated:hover::before {
         width: 100%;
+    }
+
+    .bg-nav-footer {
+        background-color: hsl(var(--nav-footer-bg));
     }
 }
 
