@@ -137,7 +137,9 @@ export function WireframeHero() {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('mousemove', onMouseMove);
-      container.removeChild(renderer.domElement);
+      if (container && renderer.domElement) {
+        container.removeChild(renderer.domElement);
+      }
       // Dispose of Three.js objects
       geometry.dispose();
       material.dispose();
@@ -157,7 +159,7 @@ export function WireframeHero() {
         <div className="max-w-4xl">
             <p className="text-neutral-400 tracking-[0.2em] text-xs uppercase">Est. 2025 // Ampire Studio</p>
             <h1 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold my-4 uppercase">
-                Digital Dominance
+                <span className="text-outline">Digital</span> Dominance
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-neutral-300 max-w-2xl mx-auto">
                 We architect high-performance digital experiences that convert passive visitors into obsessed customers.
@@ -165,7 +167,8 @@ export function WireframeHero() {
             <Link href="/contact" className="pointer-events-auto mt-8 inline-block">
                 <Button
                     size="lg"
-                    className="px-10 py-6 uppercase font-bold text-base bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-[0_0_20px_hsl(var(--primary)_/_0.5)] transition-all duration-300"
+                    variant="outline"
+                    className="btn-outline-animated px-10 py-6 uppercase font-bold text-base transition-all duration-300"
                 >
                     Get Started
                 </Button>

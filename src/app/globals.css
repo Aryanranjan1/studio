@@ -73,6 +73,37 @@
     .btn-outline-white {
         @apply border border-white bg-transparent text-white hover:bg-white hover:text-black;
     }
+
+    /* Custom outline text style */
+    .text-outline {
+        color: transparent;
+        -webkit-text-stroke: 1px hsl(var(--foreground));
+    }
+    @media (min-width: 768px) {
+      .text-outline {
+        -webkit-text-stroke: 2px hsl(var(--foreground));
+      }
+    }
+    
+    /* Custom button with animated fill */
+    .btn-outline-animated {
+        @apply relative z-10 overflow-hidden border-primary text-primary;
+        @apply hover:text-primary-foreground;
+    }
+    .btn-outline-animated::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 100%;
+        background-color: hsl(var(--primary));
+        transition: width 0.4s ease-in-out;
+        z-index: -1;
+    }
+    .btn-outline-animated:hover::before {
+        width: 100%;
+    }
 }
 
 /* Custom Scrollbar */
