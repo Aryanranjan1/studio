@@ -171,7 +171,7 @@ export function Footer3d() {
                   <div className="grid-label">Location (HQ)</div>
                   <div className="grid-content">
                       {contactDetails.address.line1}<br/>{contactDetails.address.line2}<br/><br/>
-                      <span style={{ fontSize: '0.8em', color: '#444' }}>LAT: 3.1412 N <br/> LON: 101.6869 E</span>
+                      <span style={{ fontSize: '0.8em', color: '#aaa' }}>LAT: 3.1412 N <br/> LON: 101.6869 E</span>
                   </div>
               </div>
               <div className="grid-item">
@@ -233,19 +233,20 @@ export function Footer3d() {
         .footer-main {
             position: relative;
             z-index: 2;
-            background-color: rgba(5, 5, 5, 0.9);
-            backdrop-filter: blur(5px);
+            background-color: #001f3f; /* Dark Blue */
+            color: white;
             display: flex;
             flex-direction: column;
         }
         .footer-cta {
             padding: 4rem 5vw;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid #003366;
             display: flex;
             flex-direction: column;
             gap: 20px;
+            background-color: #001a33;
         }
-        .cta-label { font-size: 1rem; color: #666; margin-bottom: 1rem; }
+        .cta-label { font-size: 1rem; color: #87ceeb; margin-bottom: 1rem; }
         .cta-heading {
             font-size: 4rem;
             line-height: 1.1;
@@ -267,18 +268,18 @@ export function Footer3d() {
             transition: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
         }
         .cta-button-large:hover {
-            background: hsl(var(--primary));
-            border-color: hsl(var(--primary));
+            background: hsl(var(--secondary));
+            border-color: hsl(var(--secondary));
             padding-left: 4rem;
         }
         .footer-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid #003366;
         }
         .grid-item {
             padding: 2rem;
-            border-right: 1px solid #333;
+            border-right: 1px solid #003366;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -286,19 +287,19 @@ export function Footer3d() {
             transition: background 0.3s;
         }
         .grid-item:last-child { border-right: none; }
-        .grid-item:hover { background: #111; }
-        .grid-label { font-size: 0.8rem; color: #666; margin-bottom: 1rem; text-transform: uppercase; }
+        .grid-item:hover { background: #001a33; }
+        .grid-label { font-size: 0.8rem; color: #87ceeb; margin-bottom: 1rem; text-transform: uppercase; }
         .grid-content { font-size: 1.1rem; line-height: 1.6; font-family: var(--font-body); }
         .grid-content a { color: white; text-decoration: none; display: block; margin-bottom: 0.5rem; transition: color 0.2s; }
-        .grid-content a:hover { color: hsl(var(--primary)); text-decoration: underline; }
+        .grid-content a:hover { color: hsl(var(--secondary)); text-decoration: underline; }
         @media (max-width: 1024px) {
             .footer-grid { grid-template-columns: 1fr 1fr; }
             .grid-item:nth-child(2) { border-right: none; }
-            .grid-item:nth-child(3), .grid-item:nth-child(4) { border-top: 1px solid #333; }
+            .grid-item:nth-child(3), .grid-item:nth-child(4) { border-top: 1px solid #003366; }
         }
         @media (max-width: 768px) {
             .footer-grid { grid-template-columns: 1fr; }
-            .grid-item { border-right: none; border-bottom: 1px solid #333; }
+            .grid-item { border-right: none; border-bottom: 1px solid #003366; }
             .cta-heading { font-size: 2.5rem; }
         }
       `}</style>
