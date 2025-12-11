@@ -15,7 +15,7 @@ import { WireframeHero } from '@/components/wireframe-hero';
 // --- PROJECT CARD COMPONENT ---
 const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   return (
-    <Link href={`/portfolio/${project.id}`} className="project-card block group mb-20 last:mb-0">
+    <Link href={`/portfolio/${project.id}`} className="project-card block group mb-8 last:mb-0">
       <div className="img-wrapper overflow-hidden border border-neutral-800 mb-5 relative h-[300px] md:h-[450px]">
         <Image
           src={project.image}
@@ -58,21 +58,21 @@ export default function Home() {
           {/* 3. Services Section */}
           <HorizontalServices />
 
-          {/* 4. Projects Section (Sticky Layout) */}
+          {/* 4. Projects Section (Responsive Layout) */}
           {projects.length > 0 && (
             <section className="projects-section relative w-full bg-black border-b border-white/20">
-              <div className="container max-w-[1400px] mx-auto px-0 md:px-5 md:border-l md:border-r border-neutral-800">
-                <div className="project-layout flex flex-col md:flex-row">
+              <div className="container max-w-[1400px] mx-auto px-4 lg:px-0 lg:border-l lg:border-r border-neutral-800">
+                <div className="project-layout flex flex-col lg:flex-row">
                   
-                  {/* Left Sticky Panel */}
-                  <div className="left-panel w-full md:w-2/5 md:h-screen relative md:sticky top-0 flex flex-col justify-center py-16 px-6 md:px-10 border-b md:border-b-0 md:border-r border-neutral-800 bg-black z-10">
+                  {/* Left Panel (Sticky on Desktop) */}
+                  <div className="left-panel w-full lg:w-2/5 lg:h-screen relative lg:sticky top-0 flex flex-col justify-center py-16 px-6 border-b lg:border-b-0 lg:border-r border-neutral-800 bg-black z-10">
                     <h2 className="section-title text-5xl md:text-6xl uppercase mb-5 font-display leading-[0.9]">Selected<br />Works</h2>
                     <p className="hero-label text-primary tracking-widest font-tech">// 2024 - 2025</p>
                   </div>
 
-                  {/* Right Scrolling Panel */}
-                  <div className="right-panel w-full md:w-3/5 px-6 md:pl-10 py-16">
-                    <div className="project-list flex flex-col">
+                  {/* Right Panel (Grid on Tablet/Mobile, Scroll on Desktop) */}
+                  <div className="right-panel w-full lg:w-3/5 p-6 lg:pl-10 lg:py-16">
+                    <div className="project-list grid grid-cols-1 md:grid-cols-2 lg:block gap-x-8">
                       {projects.map((p, i) => (
                         <ProjectCard key={p.id} project={p} index={i} />
                       ))}
@@ -83,6 +83,7 @@ export default function Home() {
               </div>
             </section>
           )}
+
 
           {/* 5. Pricing Section */}
           <PricingSection />
