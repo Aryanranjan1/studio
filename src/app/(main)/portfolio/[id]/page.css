@@ -1,4 +1,5 @@
 
+
 /* --- 1. VARIABLES & RESET --- */
 :root {
     --bg-color: #f1faee;
@@ -72,7 +73,7 @@
 
 .project-subtitle {
     font-size: 1.1rem;
-    color: #455a73;
+    color: #a1a1aa;
     max-width: 500px;
 }
 
@@ -132,7 +133,7 @@
 .project-long-description {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: #455a73;
+    color: #a1a1aa;
     margin-bottom: 60px;
 }
 
@@ -158,7 +159,7 @@
 
 
 .specs-card {
-    background: #f8fcf7;
+    background: #050505;
     border: 1px solid var(--border-color);
     padding: 30px;
     position: sticky;
@@ -169,7 +170,7 @@
     font-size: 1.5rem;
     margin-bottom: 20px;
     padding-bottom: 15px;
-    border-bottom: 1px solid #d4ddd9;
+    border-bottom: 1px solid var(--border-color);
 }
 .specs-grid {
     display: grid;
@@ -182,11 +183,11 @@
     justify-content: space-between;
     align-items: center;
     font-size: 0.9rem;
-    border-bottom: 1px solid #e0e8e2;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 10px;
 }
 .spec-key { color: #888; }
-.spec-value { font-weight: bold; }
+.spec-value { font-weight: bold; color: #fff; }
 
 /* --- 5. Gallery --- */
 .gallery-section {
@@ -245,7 +246,7 @@
     border: none;
     display: flex;
     flex-direction: column;
-    background: var(--bg-color);
+    background: #050505;
     transition: all 0.3s;
     position: relative;
 }
@@ -276,7 +277,7 @@
     justify-content: space-between;
     font-size: 0.7rem; color: #666;
     margin-bottom: 15px; padding-bottom: 15px;
-    border-bottom: 1px solid #d4ddd9;
+    border-bottom: 1px solid var(--border-color);
     transition: all 0.3s;
 }
 .art-title {
