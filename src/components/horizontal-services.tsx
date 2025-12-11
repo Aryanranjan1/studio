@@ -23,6 +23,7 @@ const services = [
     description: 'Bespoke, high-performance websites using Next.js. Every line of code is written for speed, SEO, and scalability.',
     tags: ['Next.js', 'React', 'Headless CMS', 'Vercel'],
     image: 'https://picsum.photos/seed/h-webdev/1200/800',
+    aiHint: 'code editor'
   },
   {
     icon: Palette,
@@ -30,6 +31,7 @@ const services = [
     description: 'User experience is our obsession. We create rigorous wireframes and high-fidelity prototypes in Figma to ensure your product feels intuitive.',
     tags: ['UI/UX', 'Figma', 'Design Systems', 'Prototyping'],
     image: 'https://picsum.photos/seed/h-design/1200/800',
+    aiHint: 'design wireframe'
   },
   {
     icon: Smartphone,
@@ -37,6 +39,7 @@ const services = [
     description: 'From iOS to Android, we build mobile apps that provide a seamless user experience, from concept to App Store deployment.',
     tags: ['React Native', 'Swift', 'Kotlin', 'Firebase'],
     image: 'https://picsum.photos/seed/h-mobile/1200/800',
+    aiHint: 'mobile app'
   },
   {
     icon: TrendingUp,
@@ -44,6 +47,7 @@ const services = [
     description: 'A beautiful site is useless if no one sees it. We bake technical SEO into the foundation for maximum discoverability.',
     tags: ['Technical SEO', 'Analytics', 'Performance', 'CRO'],
     image: 'https://picsum.photos/seed/h-growth/1200/800',
+    aiHint: 'analytics chart'
   },
   {
     icon: Bot,
@@ -51,6 +55,7 @@ const services = [
     description: 'Scale without hiring. We connect your apps (Airtable, Stripe, OpenAI) to automate busy work, so you can focus on strategy.',
     tags: ['Zapier', 'n8n', 'OpenAI', 'Workflows'],
     image: 'https://picsum.photos/seed/h-automation/1200/800',
+    aiHint: 'workflow automation'
   },
 ];
 
@@ -113,7 +118,7 @@ export function HorizontalServices() {
                       alt={service.title}
                       fill
                       className="object-cover"
-                      data-ai-hint="abstract technology dark"
+                      data-ai-hint={service.aiHint}
                   />
                   <div className="absolute inset-0 bg-black/70 z-10"/>
                 </div>
@@ -156,7 +161,7 @@ export function HorizontalServices() {
                     alt={service.title}
                     fill
                     className="object-cover absolute inset-0 z-0 grayscale group-hover:grayscale-0 transition-all duration-500"
-                    data-ai-hint="abstract technology dark"
+                    data-ai-hint={service.aiHint}
                 />
                 <div className="absolute inset-0 bg-black/70 z-10"/>
 
