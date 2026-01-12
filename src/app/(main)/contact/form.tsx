@@ -16,7 +16,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { Footer } from '@/components/footer';
-import { contactSocials } from '@/lib/social-links';
+import { socialLinks } from '@/lib/social-links';
 import { getContactDetails, getFaqs } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
 
@@ -180,7 +180,7 @@ export function ContactForm() {
                     Follow our journey, chat with us directly, or explore our work on other platforms.
                   </p>
                   <div className="flex items-center space-x-6 text-muted-foreground">
-                    {contactSocials.map(social => (
+                    {socialLinks.map(social => (
                       <a
                         key={social.name}
                         href={social.href}
