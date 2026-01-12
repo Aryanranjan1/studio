@@ -117,7 +117,7 @@ export function Header() {
 
       {/* Mobile Header */}
       <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border bg-nav-footer px-4 md:hidden">
-         <Link href="/" className="font-headline text-xl font-bold text-primary">
+         <Link href="/" className="font-headline text-xl font-bold text-white md:text-primary">
             Ampire
          </Link>
          <Sheet>
@@ -130,7 +130,7 @@ export function Header() {
             <SheetContent side="left" className="w-64 bg-nav-footer">
               <SheetHeader>
                 <SheetTitle>
-                   <Link href="/" className="font-headline text-xl font-bold text-primary">
+                   <Link href="/" className="font-headline text-xl font-bold text-white">
                       Ampire
                    </Link>
                 </SheetTitle>
