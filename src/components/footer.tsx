@@ -20,7 +20,7 @@ export function Footer() {
       <footer className="footer-main bg-nav-footer border-t border-white/20">
           <div className="footer-cta p-8 md:p-12 border-b border-white/20">
               <h2 className="font-headline text-4xl md:text-5xl font-bold">Let's build something great together.</h2>
-              <p class="text-lg mt-4 max-w-xs text-primary-foreground">
+              <p className="text-lg mt-4 max-w-xs text-primary-foreground">
                 Have a project in mind? Let's build something great together. Get in Touch
               </p>
               <Button asChild size="lg" className="mt-8 w-full md:w-auto">
