@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { getProjects } from '@/lib/data';
 import { Manifesto } from '@/components/manifesto';
 import { PricingSection } from '@/components/pricing-section';
@@ -10,11 +11,20 @@ import { TestimonialsSection } from '@/components/testimonials-section';
 import { Footer } from '@/components/footer';
 import { HorizontalServices } from '@/components/horizontal-services';
 import { useLenis } from '@studio-freight/react-lenis';
-import { WireframeHero } from '@/components/wireframe-hero';
 import { CtaSection } from '@/components/cta-section';
 import { Button } from '@/components/ui/button';
 import { MoveRight } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
+
+// Dynamically import the WireframeHero component
+const WireframeHero = dynamic(
+  () => import('@/components/wireframe-hero').then(mod => mod.WireframeHero),
+  {
+    loading: () => <Skeleton className="h-screen w-full" />,
+    ssr: false, // This component is client-side only
+  }
+);
+
 
 // --- PROJECT CARD COMPONENT ---
 const ProjectCard = ({ project, index }: { project: any; index: number }) => {
