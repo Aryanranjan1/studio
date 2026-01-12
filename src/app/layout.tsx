@@ -54,6 +54,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://ampire-studio-92664092-32a02.firebaseapp.com" />
+        <link rel="preconnect" href="https://www.googleapis.com" />
+      </head>
       <body className={cn('antialiased', inter.variable, spaceGrotesk.variable)} suppressHydrationWarning={true}>
         <LenisProvider>
           <FirebaseClientProvider>
