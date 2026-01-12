@@ -1,30 +1,17 @@
 
-'use client';
-
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import Image from 'next/image';
-
-// Components
+import { Metadata } from 'next';
 import { HorizontalServices } from '@/components/horizontal-services';
 import { PricingSection } from '@/components/pricing-section';
 import { CtaSection } from '@/components/cta-section';
 import { Footer } from '@/components/footer';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
-import { useEffect } from 'react';
 import { TechStack } from '@/components/tech-stack';
+import { Faq } from './faq';
 
+export const metadata: Metadata = {
+    title: 'Services',
+    description: 'From foundational branding to complex web applications, we provide the expertise to elevate your business in the digital landscape.',
+};
 
 const processSteps = [
     {
@@ -49,25 +36,7 @@ const processSteps = [
     },
 ];
 
-const faqItems = [
-    {
-        question: "What is your typical project timeline?",
-        answer: "A standard marketing site takes 4-8 weeks, while a complex web application can take 12+ weeks. We provide a detailed timeline in every proposal.",
-    },
-    {
-        question: "How do you handle revisions?",
-        answer: "We include one revision round on the prototype and one on the final build before launch. Additional revisions are billed at our standard hourly rate.",
-    },
-    {
-        question: "Do you offer support after the project is launched?",
-        answer: "Yes, we offer optional monthly support retainers to handle updates, security, and performance monitoring. We also include 5 minor bug fixes for free post-launch.",
-    },
-];
-
 export default function ServicesPage() {
-    useEffect(() => {
-        document.title = "Services — Ampire Studio";
-    }, []);
 
   return (
     <div className="w-full bg-background text-foreground min-h-screen">
@@ -84,7 +53,7 @@ export default function ServicesPage() {
                 </p>
                 <div className="flex flex-wrap gap-2 mt-4">
                     <Badge variant="secondary">Web Development</Badge>
-                    <Badge variant="secondary">Branding</Badge>
+                    <Badge variant="secondary">Brandimng</Badge>
                     <Badge variant="secondary">Automation</Badge>
                     <Badge variant="secondary">Mobile App</Badge>
                 </div>
@@ -125,61 +94,7 @@ export default function ServicesPage() {
               </div>
           </div>
 
-            {/* 5. FAQ & Contact */}
-            <div className="col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-px bg-border border-b border-border">
-                <div className="col-span-12 lg:col-span-6 bg-background p-8 md:p-16">
-                    <h2 className="font-headline text-5xl font-bold mb-12">FAQ</h2>
-                    <Accordion type="single" collapsible className="w-full">
-                        {faqItems.map((faq, index) => (
-                        <AccordionItem
-                            key={index}
-                            value={`item-${index}`}
-                            className="border-b border-border last:border-0"
-                        >
-                            <AccordionTrigger className="text-left text-xl font-medium py-6 hover:text-primary transition-colors">
-                            {faq.question}
-                            </AccordionTrigger>
-                            <AccordionContent className="text-muted-foreground text-lg leading-relaxed pb-6">
-                            {faq.answer}
-                            </AccordionContent>
-                        </AccordionItem>
-                        ))}
-                    </Accordion>
-                </div>
-                
-                <div className="col-span-12 lg:col-span-6 bg-background p-8 md:p-16">
-                    <div className="h-full flex flex-col justify-center">
-                        <h2 className="font-headline text-4xl font-bold mb-8">Start a Project</h2>
-                        <form className="space-y-6">
-                            <div className="space-y-2">
-                                <Label htmlFor="name-service" className="text-base">Name</Label>
-                                <Input id="name-service" placeholder="John Doe" className="bg-card border-input h-12" />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="email-service" className="text-base">Email</Label>
-                                <Input
-                                id="email-service"
-                                type="email"
-                                placeholder="john@company.com"
-                                className="bg-card border-input h-12"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="message-service" className="text-base">Message</Label>
-                                <Textarea
-                                    id="message-service"
-                                    placeholder="Tell us about your project..."
-                                    rows={4}
-                                    className="bg-card border-input resize-none"
-                                />
-                            </div>
-                            <Button type="submit" size="lg" className="w-full h-14 text-lg mt-4">
-                                Send Inquiry <ArrowRight className="ml-2 h-5 w-5" />
-                            </Button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+          <Faq />
 
 
           <div className="col-span-12 bg-background">

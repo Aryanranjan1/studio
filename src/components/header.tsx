@@ -101,7 +101,7 @@ export function Header() {
              {socialLinks.slice(0, 3).map((link) => (
                 <Tooltip key={link.name}>
                     <TooltipTrigger asChild>
-                        <a href={link.href} target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white transition-colors">
+                        <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.name} className="text-white/70 hover:text-white transition-colors">
                             <link.Icon className="h-5 w-5" />
                         </a>
                     </TooltipTrigger>

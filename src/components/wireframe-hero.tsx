@@ -165,9 +165,9 @@ export function WireframeHero() {
       <div id="ui-layer" className="relative z-20 w-full h-full flex flex-col items-center justify-center text-center p-4">
         <div className="max-w-4xl">
             <p className="text-muted-foreground tracking-[0.2em] text-xs uppercase">Est. 2025 // Ampire Studio</p>
-            <h1 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold my-4 uppercase">
+            <h2 className="font-headline text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold my-4 uppercase">
                 <span className="text-outline">Digital</span> Dominance
-            </h1>
+            </h2>
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
                 We architect high-performance digital experiences that convert passive visitors into obsessed customers.
             </p>
