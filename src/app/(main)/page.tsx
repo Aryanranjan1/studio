@@ -5,13 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { getProjects } from '@/lib/data';
-import { Manifesto } from '@/components/manifesto';
-import { PricingSection } from '@/components/pricing-section';
-import { TestimonialsSection } from '@/components/testimonials-section';
-import { Footer } from '@/components/footer';
-import { HorizontalServices } from '@/components/horizontal-services';
 import { useLenis } from '@studio-freight/react-lenis';
-import { CtaSection } from '@/components/cta-section';
 import { Button } from '@/components/ui/button';
 import { MoveRight } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -23,6 +17,37 @@ const WireframeHero = dynamic(
     loading: () => <Skeleton className="h-screen w-full" />,
     ssr: false, // This component is client-side only
   }
+);
+
+// Dynamically import below-the-fold components
+const Manifesto = dynamic(
+  () => import('@/components/manifesto').then(mod => mod.Manifesto),
+  { loading: () => <Skeleton className="h-48 w-full" /> }
+);
+
+const PricingSection = dynamic(
+  () => import('@/components/pricing-section').then(mod => mod.PricingSection),
+  { loading: () => <Skeleton className="h-96 w-full" /> }
+);
+
+const TestimonialsSection = dynamic(
+  () => import('@/components/testimonials-section').then(mod => mod.TestimonialsSection),
+  { loading: () => <Skeleton className="h-96 w-full" /> }
+);
+
+const Footer = dynamic(
+  () => import('@/components/footer').then(mod => mod.Footer),
+  { loading: () => <Skeleton className="h-64 w-full" /> }
+);
+
+const HorizontalServices = dynamic(
+  () => import('@/components/horizontal-services').then(mod => mod.HorizontalServices),
+  { loading: () => <Skeleton className="h-96 w-full" /> }
+);
+
+const CtaSection = dynamic(
+  () => import('@/components/cta-section').then(mod => mod.CtaSection),
+  { loading: () => <Skeleton className="h-64 w-full" /> }
 );
 
 
