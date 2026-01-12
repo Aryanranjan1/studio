@@ -153,8 +153,8 @@ export default function AboutPage() {
           {/* Let's Work */}
           <div className="col-span-12 md:col-span-8 bg-background p-8 border-b border-border flex flex-col justify-between min-h-[300px]">
             <div>
-              <h2 className="font-headline text-5xl md:text-6xl font-bold">Let's Work</h2>
-              <p className="text-muted-foreground mt-2">Your brand here</p>
+              <h2 className="font-headline text-5xl md:text-6xl font-bold">Let's build something great together.</h2>
+              <p className="text-foreground mt-2">Your brand here</p>
             </div>
             <div className="flex gap-4">
               <Button asChild className="flex-1">
