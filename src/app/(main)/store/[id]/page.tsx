@@ -76,7 +76,7 @@ export default function TemplateDetailsPage() {
                                     <div className="slide-caption">[FIG {index + 1}.0] {img.alt}</div>
                                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                     <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-foreground hover:text-background scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
-                                            <a href={template.url} target="_blank" rel="noopener noreferrer">
+                                            <a href={template.url} target="_blank" rel="noopener noreferrer" aria-label={`Live preview of ${template.title}`}>
                                                 Live Preview
                                             </a>
                                     </Button>
@@ -93,7 +93,7 @@ export default function TemplateDetailsPage() {
                          <div className="slide-caption">[FIG 1.0] {template.images[0].alt}</div>
                          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                            <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-foreground hover:text-background scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
-                                <a href={template.url} target="_blank" rel="noopener noreferrer">
+                                <a href={template.url} target="_blank" rel="noopener noreferrer" aria-label={`Live preview of ${template.title}`}>
                                     Live Preview
                                 </a>
                            </Button>

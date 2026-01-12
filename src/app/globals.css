@@ -14,14 +14,14 @@
     --popover: 220 13% 9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 356 90% 42%; /* #c60c18 */
+    --primary: 356 90% 52%; /* #e52431 */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 217 91% 60%; /* Vibrant Blue (kept for other elements) */
     --secondary-foreground: 210 40% 98%;
 
     --muted: 220 9% 13%;
-    --muted-foreground: 220 9% 55%;
+    --muted-foreground: 220 9% 45%;
 
     --accent: 217 91% 60%;
     --accent-foreground: 210 40% 98%;

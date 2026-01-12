@@ -8,7 +8,7 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import * as icons from 'lucide-react';
+import { IconComponent } from '@/components/icons';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,13 +34,6 @@ export function ServicesSection() {
     }, component);
     return () => ctx.revert();
   }, [services.length]);
-
-  const IconComponent = ({ iconName }: { iconName: string }) => {
-    // @ts-ignore
-    const Icon = icons[iconName];
-    if (!Icon) return null;
-    return <Icon className="w-10 h-10 text-primary" />;
-  };
 
   return (
     <div className="w-full" ref={component}>
@@ -88,7 +81,7 @@ export function ServicesSection() {
                 </span>
               </div>
               <div className="md:col-span-5 text-center md:text-left">
-                <IconComponent iconName={service.icon} />
+                <IconComponent iconName={service.icon} className="w-10 h-10 text-primary" />
                 <h3 className="font-headline text-5xl md:text-6xl font-bold mt-4">
                   {service.title}
                 </h3>

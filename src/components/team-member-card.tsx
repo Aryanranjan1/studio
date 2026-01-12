@@ -2,7 +2,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import * as icons from 'lucide-react';
+import { IconComponent } from '@/components/icons';
 
 interface TeamMemberCardProps {
   icon: string;
@@ -10,9 +10,6 @@ interface TeamMemberCardProps {
 }
 
 export function TeamMemberCard({ icon, className }: TeamMemberCardProps) {
-  // @ts-ignore
-  const IconComponent = icons[icon] as React.ElementType;
-
   return (
     <div
       className={cn(
@@ -20,9 +17,7 @@ export function TeamMemberCard({ icon, className }: TeamMemberCardProps) {
         className
       )}
     >
-      {IconComponent && (
-        <IconComponent className="h-10 w-10 text-primary" />
-      )}
+      <IconComponent iconName={icon} className="h-10 w-10 text-primary" />
     </div>
   );
 }

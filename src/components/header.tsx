@@ -63,6 +63,7 @@ const NavLink = ({
       <TooltipTrigger asChild>
         <Link
           href={href}
+          aria-label={label}
           className={cn(
             'relative flex h-12 w-12 items-center justify-center rounded-lg text-white/70 transition-colors hover:bg-white/10 hover:text-white',
             isActive && 'bg-primary/20 text-primary'
@@ -88,7 +89,7 @@ export function Header() {
       <TooltipProvider>
         <header className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center justify-between border-r border-border bg-nav-footer py-6 md:flex">
           <div className="flex flex-col items-center gap-8">
-            <Link href="/" className="font-headline text-xl font-bold text-primary">
+            <Link href="/" className="font-headline text-xl font-bold text-primary" aria-label="Ampire Studio">
               <Crown className="h-8 w-8" />
             </Link>
             <nav className="flex flex-col items-center gap-3">
