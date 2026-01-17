@@ -55,12 +55,12 @@ export default function AboutPage() {
 
           <div className="col-span-12 md:col-span-5 bg-background relative min-h-[300px] border-b border-border">
             <Image 
-              src="https://picsum.photos/seed/about-work/1080/720"
+              src="https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxsYXB0b3B8ZW58MHx8fHwxNzY4NjYwNzc2fDA&ixlib=rb-4.1.0&q=80&w=1080"
               alt="A design team collaborating around a table with sticky notes and wireframes."
               fill
               loading="lazy"
               className="object-cover"
-              data-ai-hint="team collaboration office"
+              data-ai-hint="laptop"
             />
           </div>
 
