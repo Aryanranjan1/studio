@@ -55,7 +55,7 @@ export default function AboutPage() {
 
           <div className="col-span-12 md:col-span-5 bg-background relative min-h-[300px] border-b border-border">
             <Image 
-              src="https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxXT1JLfGVufDB8fHx8MTc2NTQ3NjAxNXww&ixlib=rb-4.1.0&q=80&w=1080"
+              src="https://picsum.photos/seed/about-work/1080/720"
               alt="A design team collaborating around a table with sticky notes and wireframes."
               fill
               loading="lazy"
@@ -74,7 +74,7 @@ export default function AboutPage() {
                 </div>
                 <div className="row-span-1 bg-background p-8 relative min-h-[250px]">
                     <Image 
-                      src="https://images.unsplash.com/photo-1518135714426-c18f5ffb6f4d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Q0xJRU5UJTIwfGVufDB8fHx8MTc2NTQ3NjEwN3ww&ixlib=rb-4.1.0&q=80&w=1080"
+                      src="https://picsum.photos/seed/about-process/1080/720"
                       alt="Abstract design process visualization"
                       fill
                       loading="lazy"
