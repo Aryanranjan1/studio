@@ -72,13 +72,12 @@ export default function AboutPage() {
                     </p>
                 </div>
                 <div className="row-span-1 bg-background p-8 relative min-h-[250px]">
-                    <Image 
-                      src="https://picsum.photos/seed/about-process/1080/720"
+                    <img 
+                      src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3ZWJzaXRlfGVufDB8fHx8MTc2ODY2MTIyMHww&ixlib=rb-4.1.0&q=80&w=1080"
                       alt="Abstract design process visualization"
-                      fill
                       loading="lazy"
-                      className="object-cover"
-                      data-ai-hint="abstract design process"
+                      className="object-cover w-full h-full absolute inset-0"
+                      data-ai-hint="website"
                     />
                 </div>
              </div>
