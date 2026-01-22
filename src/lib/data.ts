@@ -633,39 +633,87 @@ export const getArticles = (): Article[] => {
 export const getTemplates = (): Template[] => {
     const excludedIds = ['kopi-dua-darjat', 'ffm-music'];
 
-    const templateDetails: Record<string, { price: number; description: string }> = {
+    const templateDetails: Record<string, { title: string; price: number; description: string; longDescription: string, features: string[], tags: string[] }> = {
         'bfg-gym': {
-            price: 149,
-            description: "A high-energy, fully-responsive Next.js template for gyms and fitness studios. Features a dynamic class schedule, trainer profiles, and membership tiers. Built with performance in mind to motivate and convert visitors."
+            title: 'Dynamic Website for Gyms & Fitness Brands',
+            price: 249,
+            description: "Built for gyms, fitness studios, and personal trainers who need a strong, energetic online presence.",
+            longDescription: "A high-energy, fully-responsive Next.js template for gyms and fitness studios. Features a dynamic class schedule, trainer profiles, and membership tiers. Built with performance in mind to motivate and convert visitors.",
+            features: [
+                'High-impact landing sections for memberships & classes',
+                'Clean layout focused on conversions (sign-ups & inquiries)',
+                'Easily editable content using a custom CMS',
+                'Mobile-first, fast-loading design'
+            ],
+            tags: ['Gyms', 'CrossFit boxes', 'Fitness Coaches']
         },
         'ampire-studio-concept': {
-            price: 129,
-            description: "The official Next.js template for our own agency website. Perfect for creative agencies, studios, and freelancers. Includes a stunning portfolio, detailed service pages, and a conversion-focused design to help you win clients."
+            title: 'Corporate Website for Digital Agencies & Startups',
+            price: 269,
+            description: "A professional, modern website template designed for agencies that want to look credible and premium.",
+            longDescription: "The official Next.js template for our own agency website. Perfect for creative agencies, studios, and freelancers. Includes a stunning portfolio, detailed service pages, and a conversion-focused design to help you win clients.",
+            features: [
+                'Strong homepage structure for services & portfolio',
+                'Clean typography and spacing for a premium feel',
+                'CMS-powered sections for easy updates',
+                'Built to scale as the business grows'
+            ],
+            tags: ['Design Studios', 'Marketing Agencies', 'Consultants']
         },
         'jewelwet-bear': {
-            price: 179,
-            description: "An elegant and luxurious e-commerce template for jewelry and high-end fashion brands. Features a clean design, beautiful product galleries, and a focus on visual storytelling to create a premium online shopping experience."
+            title: 'Luxury E-commerce Website for Jewelry Brands',
+            price: 299,
+            description: "Designed specifically for high-end jewelry and lifestyle brands that rely on visual appeal and trust.",
+            longDescription: "An elegant and luxurious e-commerce template for jewelry and high-end fashion brands. Features a clean design, beautiful product galleries, and a focus on visual storytelling to create a premium online shopping experience.",
+            features: [
+                'Product-focused layouts with clean visuals',
+                'E-commerce–ready structure',
+                'CMS to manage products, content, and images',
+                'Optimized for performance and mobile shopping'
+            ],
+            tags: ['Jewelry Brands', 'Luxury Product Stores']
         },
         'finanseer-saas': {
-            price: 159,
-            description: "A professional and trustworthy marketing website template for SaaS and FinTech startups. Designed to clearly communicate your product's value, build credibility, and drive user sign-ups for your application."
+            title: 'SaaS Website for Financial & Tech Products',
+            price: 279,
+            description: "A structured, conversion-focused template for SaaS products that need clarity and trust.",
+            longDescription: "A professional and trustworthy marketing website template for SaaS and FinTech startups. Designed to clearly communicate your product's value, build credibility, and drive user sign-ups for your application.",
+            features: [
+                'Clear feature breakdown sections',
+                'Pricing & onboarding-ready layout',
+                'CMS for content and updates',
+                'Built with scalability in mind'
+            ],
+            tags: ['SaaS Startups', 'Fintech Products', 'Tools']
         },
         'cwt-salon': {
-            price: 139,
-            description: "A stylish and practical template for salons, spas, and local service businesses. Comes with a visual service menu, stylist galleries, and is ready to integrate with your favorite booking system to streamline appointments."
+            title: 'Website for Local Businesses & Salons',
+            price: 249,
+            description: "A stylish, clean website template designed to help local businesses get more bookings and inquiries.",
+            longDescription: "A stylish and practical template for salons, spas, and local service businesses. Comes with a visual service menu, stylist galleries, and is ready to integrate with your favorite booking system to streamline appointments.",
+            features: [
+                'Service listing and gallery sections',
+                'Contact & booking-friendly layout',
+                'CMS for updating services and prices',
+                'Mobile-optimized for local customers'
+            ],
+            tags: ['Salons', 'Spas', 'Clinics', 'Local Services']
         }
     };
 
-    // We map the projects to templates, but adjust the price and a few other details
     return projects
         .filter(p => !excludedIds.includes(p.id) && templateDetails[p.id])
         .map((p) => {
             const details = templateDetails[p.id];
             return {
-                ...p, // Spread all properties from the project
-                id: `template-${p.id}`, // Create a unique template ID
-                price: details.price,
+                ...p,
+                id: `template-${p.id}`,
+                title: p.title, // Keep original project title
                 description: details.description,
+                longDescription: details.longDescription,
+                price: details.price,
+                features: details.features,
+                tags: details.tags,
             };
     });
 };
