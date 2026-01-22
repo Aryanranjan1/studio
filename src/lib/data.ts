@@ -632,13 +632,40 @@ export const getArticles = (): Article[] => {
 
 export const getTemplates = (): Template[] => {
     const excludedIds = ['kopi-dua-darjat', 'ffm-music'];
+
+    const templateDetails: Record<string, { price: number; description: string }> = {
+        'bfg-gym': {
+            price: 149,
+            description: "A high-energy, fully-responsive Next.js template for gyms and fitness studios. Features a dynamic class schedule, trainer profiles, and membership tiers. Built with performance in mind to motivate and convert visitors."
+        },
+        'ampire-studio-concept': {
+            price: 129,
+            description: "The official Next.js template for our own agency website. Perfect for creative agencies, studios, and freelancers. Includes a stunning portfolio, detailed service pages, and a conversion-focused design to help you win clients."
+        },
+        'jewelwet-bear': {
+            price: 179,
+            description: "An elegant and luxurious e-commerce template for jewelry and high-end fashion brands. Features a clean design, beautiful product galleries, and a focus on visual storytelling to create a premium online shopping experience."
+        },
+        'finanseer-saas': {
+            price: 159,
+            description: "A professional and trustworthy marketing website template for SaaS and FinTech startups. Designed to clearly communicate your product's value, build credibility, and drive user sign-ups for your application."
+        },
+        'cwt-salon': {
+            price: 139,
+            description: "A stylish and practical template for salons, spas, and local service businesses. Comes with a visual service menu, stylist galleries, and is ready to integrate with your favorite booking system to streamline appointments."
+        }
+    };
+
     // We map the projects to templates, but adjust the price and a few other details
     return projects
-        .filter(p => !excludedIds.includes(p.id))
-        .map((p, i) => ({
-            ...p, // Spread all properties from the project
-            id: `template-${p.id}`, // Create a unique template ID
-            price: 200 + ((i * 11) % 100), // Assign prices between RM 200 and RM 299
-            description: `A professionally designed template based on the ${p.title} project.`,
-    }));
+        .filter(p => !excludedIds.includes(p.id) && templateDetails[p.id])
+        .map((p) => {
+            const details = templateDetails[p.id];
+            return {
+                ...p, // Spread all properties from the project
+                id: `template-${p.id}`, // Create a unique template ID
+                price: details.price,
+                description: details.description,
+            };
+    });
 };
