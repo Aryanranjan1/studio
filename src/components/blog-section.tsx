@@ -1,14 +1,52 @@
+'use client';
 
-import { getArticles } from '@/lib/data';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, orderBy, limit } from 'firebase/firestore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { format } from 'date-fns';
+import type { Article } from '@/lib/data';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function BlogSection() {
-  const articles = getArticles();
+  const firestore = useFirestore();
+  
+  const articlesQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'blogs'), orderBy('date', 'desc'), limit(4));
+  }, [firestore]);
+
+  const { data: articles, isLoading } = useCollection<Article>(articlesQuery);
+
+  if (isLoading) {
+    return (
+      <section className="bg-background py-24 sm:py-32 border-t border-b border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <Skeleton className="h-10 w-64" />
+          <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-8">
+            <div>
+              <Skeleton className="w-full h-96" />
+              <Skeleton className="h-8 w-1/3 mt-6" />
+              <Skeleton className="h-6 w-2/3 mt-2" />
+            </div>
+            <div className="flex flex-col gap-8">
+              <div className="flex items-center gap-6"><Skeleton className="h-28 w-28 rounded-2xl" /><div className="w-full"><Skeleton className="h-6 w-full" /><Skeleton className="h-4 w-1/2 mt-2" /></div></div>
+              <div className="flex items-center gap-6"><Skeleton className="h-28 w-28 rounded-2xl" /><div className="w-full"><Skeleton className="h-6 w-full" /><Skeleton className="h-4 w-1/2 mt-2" /></div></div>
+              <div className="flex items-center gap-6"><Skeleton className="h-28 w-28 rounded-2xl" /><div className="w-full"><Skeleton className="h-6 w-full" /><Skeleton className="h-4 w-1/2 mt-2" /></div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!articles || articles.length === 0) {
+    return null; // Don't render section if no articles
+  }
+
   const latestArticle = articles[0];
   const otherArticles = articles.slice(1, 4);
 
@@ -31,30 +69,32 @@ export function BlogSection() {
 
         <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-8">
           {/* Featured Article */}
-          <Link href={`/blog/${latestArticle.id}`} className="group">
-            <div className="overflow-hidden rounded-2xl">
-              <Image
-                src={latestArticle.image}
-                alt={latestArticle.imageAlt}
-                width={800}
-                height={600}
-                loading="lazy"
-                className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-            <div className="mt-6">
-              <p className="font-semibold text-primary">{latestArticle.category}</p>
-              <h3 className="mt-2 font-headline text-2xl font-bold group-hover:text-primary">
-                {latestArticle.title}
-              </h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                {format(new Date(latestArticle.date), 'MMMM do, yyyy')} • by {latestArticle.author}
-              </p>
-              <p className="mt-4 text-muted-foreground">
-                {latestArticle.excerpt}
-              </p>
-            </div>
-          </Link>
+          {latestArticle && (
+            <Link href={`/blog/${latestArticle.id}`} className="group">
+              <div className="overflow-hidden rounded-2xl">
+                <Image
+                  src={latestArticle.featuredImage.url}
+                  alt={latestArticle.featuredImage.alt}
+                  width={800}
+                  height={600}
+                  loading="lazy"
+                  className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              </div>
+              <div className="mt-6">
+                <p className="font-semibold text-primary">{latestArticle.category}</p>
+                <h3 className="mt-2 font-headline text-2xl font-bold group-hover:text-primary">
+                  {latestArticle.title}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  {format(new Date(latestArticle.date), 'MMMM do, yyyy')} • by {latestArticle.author}
+                </p>
+                <p className="mt-4 text-muted-foreground">
+                  {latestArticle.excerpt}
+                </p>
+              </div>
+            </Link>
+          )}
 
           {/* Article List */}
           <div className="flex flex-col gap-8">
@@ -62,8 +102,8 @@ export function BlogSection() {
               <Link href={`/blog/${article.id}`} key={article.id} className="group flex items-center gap-6">
                  <div className="relative h-28 w-28 flex-shrink-0 overflow-hidden rounded-2xl">
                     <Image
-                      src={article.image}
-                      alt={article.imageAlt}
+                      src={article.cardImage.url}
+                      alt={article.cardImage.alt}
                       fill
                       loading="lazy"
                       className="object-cover transition-transform duration-300 group-hover:scale-105"
