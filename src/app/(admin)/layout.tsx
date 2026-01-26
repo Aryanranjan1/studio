@@ -13,7 +13,11 @@ import {
     LayoutTemplate,
     HelpCircle,
     Mails,
-    Settings
+    Settings,
+    FileText,
+    FileSignature,
+    GanttChartSquare,
+    Users
 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -26,6 +30,10 @@ const navItems = [
     { href: '/admin/templates', label: 'Templates', icon: LayoutTemplate },
     { href: '/admin/faq', label: 'FAQ', icon: HelpCircle },
     { href: '/admin/messages', label: 'Messages', icon: Mails },
+    { href: '/admin/offerletter', label: 'Offer Letter', icon: FileText },
+    { href: '/admin/contract', label: 'Contract', icon: FileSignature },
+    { href: '/admin/timeline', label: 'Timeline', icon: GanttChartSquare },
+    { href: '/admin/management', label: 'Management', icon: Users },
     { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
