@@ -71,6 +71,153 @@
         "userId",
         "role"
       ]
+    },
+    "BlogArticle": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Blog Article",
+      "type": "object",
+      "description": "Represents a single blog article with comprehensive metadata for content and SEO.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the blog article."
+        },
+        "title": {
+          "type": "string",
+          "description": "The main title of the article."
+        },
+        "slug": {
+          "type": "string",
+          "description": "URL-friendly slug for the article."
+        },
+        "category": {
+          "type": "string",
+          "description": "The primary category of the article."
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "An array of tags associated with the article."
+        },
+        "author": {
+          "type": "string",
+          "description": "Name of the article's author."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "published"
+          ],
+          "description": "The publishing status of the article."
+        },
+        "publishDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date when the article is published."
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date when the article was last updated."
+        },
+        "content": {
+          "type": "string",
+          "description": "The full content of the article in raw HTML format."
+        },
+        "metaTitle": {
+          "type": "string",
+          "description": "Custom title for SEO purposes (60 characters recommended)."
+        },
+        "metaDescription": {
+          "type": "string",
+          "description": "Custom description for SEO purposes (160 characters recommended)."
+        },
+        "focusKeyword": {
+          "type": "string",
+          "description": "The primary keyword the article is targeting for SEO."
+        },
+        "canonicalUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "The canonical URL for the article to prevent duplicate content issues."
+        },
+        "robotsMeta": {
+          "type": "string",
+          "enum": [
+            "index",
+            "noindex"
+          ],
+          "description": "Robots meta tag to control search engine indexing."
+        },
+        "featuredImage": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "alt": {
+              "type": "string"
+            },
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "url",
+            "alt"
+          ]
+        },
+        "cardImage": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "alt": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "url",
+            "alt"
+          ]
+        },
+        "ogImage": {
+          "type": "object",
+          "properties": {
+            "url": {
+              "type": "string",
+              "format": "uri"
+            },
+            "alt": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "url",
+            "alt"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "slug",
+        "author",
+        "status",
+        "publishDate",
+        "content",
+        "metaTitle",
+        "metaDescription"
+      ]
     }
   },
   "auth": {
@@ -112,8 +259,25 @@
             }
           ]
         }
+      },
+      {
+        "path": "/blogs/{blogId}",
+        "definition": {
+          "entityName": "BlogArticle",
+          "schema": {
+            "$ref": "#/backend/entities/BlogArticle"
+          },
+          "description": "Stores all blog articles for the CMS.",
+          "params": [
+            {
+              "name": "blogId",
+              "description": "The unique identifier for the blog post."
+            }
+          ]
+        }
       }
     ],
     "reasoning": "This Firestore data structure is designed to support the AMpire Studio Dynamic Showcase application, focusing on user authentication, admin profiles, and future content management needs. It prioritizes security, scalability, and debuggability following the core design principles. Path-based ownership is used for user data, and a dedicated collection is used for admin profiles. The structure is designed to enable simple and robust security rules and facilitate listing operations (QAPs). This design avoids hierarchical authorization dependencies."
   }
 }
+    
