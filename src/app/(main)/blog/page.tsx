@@ -19,6 +19,7 @@ export default function BlogPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('ALL_LOGS');
   const [currentPage, setCurrentPage] = useState(1);
+  const [featuredArticle, setFeaturedArticle] = useState<Article | null>(null);
 
   const articlesQuery = useMemoFirebase(() => {
     if (!firestore) return null;
@@ -26,10 +27,18 @@ export default function BlogPage() {
   }, [firestore]);
 
   const { data: articles, isLoading: articlesLoading } = useCollection<Article>(articlesQuery);
-
-  const featuredArticle = useMemo(() => {
-    if (!articles) return null;
-    return articles.find(a => a.featured) || articles[0];
+  
+  useEffect(() => {
+    if (articles && articles.length > 0) {
+      const featured = articles.filter(a => a.featured);
+      if (featured.length > 0) {
+        const randomIndex = Math.floor(Math.random() * featured.length);
+        setFeaturedArticle(featured[randomIndex]);
+      } else {
+        const randomIndex = Math.floor(Math.random() * articles.length);
+        setFeaturedArticle(articles[randomIndex]);
+      }
+    }
   }, [articles]);
 
   const categories = useMemo(() => {
@@ -40,11 +49,11 @@ export default function BlogPage() {
   }, [articles]);
 
   const filteredArticles = useMemo(() => {
-    if (!articles) return [];
+    if (!articles || !featuredArticle) return [];
     const term = searchTerm.toLowerCase();
     return articles.filter(
       article =>
-        article.id !== featuredArticle?.id &&
+        article.id !== featuredArticle.id &&
         (activeCategory === 'ALL_LOGS' || article.category.toUpperCase() === activeCategory) &&
         (article.title.toLowerCase().includes(term) ||
           article.excerpt.toLowerCase().includes(term) ||
@@ -76,16 +85,12 @@ export default function BlogPage() {
     document.title = 'Ampire Studio // Transmission Log';
   }, []);
 
-  if (articlesLoading) {
+  if (articlesLoading || !featuredArticle) {
     return <div className="bg-background text-foreground min-h-screen flex items-center justify-center">Loading Transmission Log...</div>;
   }
 
   if (!articles || articles.length === 0) {
     return <div className="bg-background text-foreground min-h-screen flex items-center justify-center">No articles found. Try seeding data in the admin panel.</div>;
-  }
-
-  if (!featuredArticle) {
-    return <div className="bg-background text-foreground min-h-screen flex items-center justify-center">No featured article found.</div>;
   }
 
   return (

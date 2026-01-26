@@ -158,7 +158,7 @@ export default function ArticlePage() {
                 </div>
                 <div className="meta-item">
                     <strong>STATUS</strong>
-                    <span>ARCHIVED</span>
+                    <span>{article.status?.toUpperCase() || 'DRAFT'}</span>
                 </div>
             </div>
         </header>
