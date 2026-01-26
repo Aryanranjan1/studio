@@ -4,24 +4,29 @@
 import { ReactNode, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/firebase/auth/use-user';
-import { Crown, Briefcase, Users, ShoppingBag, Settings, PanelLeft } from 'lucide-react';
+import { 
+    Crown, 
+    PanelLeft,
+    LayoutDashboard,
+    Newspaper,
+    Briefcase,
+    LayoutTemplate,
+    HelpCircle,
+    Mails,
+    Settings
+} from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from '@/components/ui/tooltip';
 
 const navItems = [
-    { href: '/admin/dashboard', label: 'Dashboard', icon: Briefcase },
-    // Add more admin links here as needed
-    // { href: '/admin/projects', label: 'Projects', icon: Briefcase },
-    // { href: '/admin/users', label: 'Users', icon: Users },
-    // { href: '/admin/products', label: 'Products', icon: ShoppingBag },
-    // { href: '/admin/settings', label: 'Settings', icon: Settings },
+    { href: '/admin/home', label: 'Dashboard', icon: LayoutDashboard },
+    { href: '/admin/blog', label: 'Blog', icon: Newspaper },
+    { href: '/admin/portfolio', label: 'Portfolio', icon: Briefcase },
+    { href: '/admin/templates', label: 'Templates', icon: LayoutTemplate },
+    { href: '/admin/faq', label: 'FAQ', icon: HelpCircle },
+    { href: '/admin/messages', label: 'Messages', icon: Mails },
+    { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
 
