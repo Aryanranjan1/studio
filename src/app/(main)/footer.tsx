@@ -119,7 +119,7 @@ export function SearchResults({
                         <Link href={`/blog/${article.id}`} className="group h-full block">
                             <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10 rounded-none border-transparent">
                                 <div className="relative aspect-video w-full">
-                                <Image src={article.image} alt={article.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
+                                <Image src={article.cardImage.url} alt={article.cardImage.alt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
                                 </div>
                                 <CardContent className="p-6">
                                 <Badge variant="outline" className="border-primary/50 text-primary">{article.category}</Badge>
