@@ -30,17 +30,8 @@ export default function BlogPage() {
   
   useEffect(() => {
     if (articles && articles.length > 0) {
-      // Prioritize randomly selecting from articles marked as featured
-      const featuredPool = articles.filter(a => a.featured);
-
-      if (featuredPool.length > 0) {
-        const randomIndex = Math.floor(Math.random() * featuredPool.length);
-        setFeaturedArticle(featuredPool[randomIndex]);
-      } else {
-        // Fallback: if no articles are featured, select a random one from all
-        const randomIndex = Math.floor(Math.random() * articles.length);
-        setFeaturedArticle(articles[randomIndex]);
-      }
+      const randomIndex = Math.floor(Math.random() * articles.length);
+      setFeaturedArticle(articles[randomIndex]);
     }
   }, [articles]);
 

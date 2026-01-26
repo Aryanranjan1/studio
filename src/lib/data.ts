@@ -232,7 +232,6 @@ const projects: Project[] = [
         url: 'https://example.com/kopi-dua-darjat',
         tags: ['Web Development', 'Multi-location', 'SEO'],
         technologies: ['Next.js', 'Tailwind CSS', 'Firebase'],
-        featured: true,
         category: 'Corporate',
         specs: { stack: 'Next.js', css: 'Tailwind CSS', cms: 'Firebase (Custom)', type: 'Corporate' },
         images: [
@@ -272,7 +271,6 @@ const projects: Project[] = [
         url: 'https://example.com/ffm-music',
         tags: ['Personal', 'YouTuber', 'Portfolio'],
         technologies: ['Next.js', 'Tailwind CSS', 'Firebase'],
-        featured: true,
         category: 'Portfolio',
         specs: { stack: 'Next.js', css: 'Tailwind CSS', cms: 'Firebase (Custom)', type: 'Portfolio' },
         images: [
@@ -328,7 +326,6 @@ const projects: Project[] = [
         url: 'https://example.com/finanseer',
         tags: ['SaaS', 'Finance', 'AI'],
         technologies: ['Next.js', 'Tailwind CSS', 'Firebase'],
-        featured: true,
         category: 'SaaS',
         specs: { stack: 'Next.js', css: 'Tailwind CSS', cms: 'Firebase (Custom)', type: 'SaaS' },
         images: [
@@ -466,7 +463,6 @@ const faqItems: FaqItem[] = [
       question: 'What services does Ampire Studio offer?',
       preview: 'We specialize in website design, development, and automation.',
       answer: 'Ampire Studio offers a suite of digital services, including bespoke website design and development, UI/UX design, business process automation, and CMS/CRM integrations. We create high-performance digital experiences tailored to your business goals.',
-      featured: true,
     },
     {
       id: 'gen-2',
@@ -496,7 +492,6 @@ const faqItems: FaqItem[] = [
         question: 'Do you display pricing publicly?',
         preview: 'We provide custom quotes after an initial consultation.',
         answer: 'We do not display fixed prices because every project is unique. After an initial discovery call where we assess your needs, we provide a detailed, fixed-price proposal. This ensures you only pay for what you need.',
-        featured: true,
         link: { href: '/services', text: 'View Pricing Tiers' },
     },
     {
@@ -562,7 +557,6 @@ const faqItems: FaqItem[] = [
         question: 'Can you build custom features or logic?',
         preview: 'Yes, we specialize in building bespoke functionalities.',
         answer: 'Building custom features is our specialty. Whether it\'s a unique user dashboard, a complex calculator, or a specific API integration, our team can design and develop the functionality your business needs to stand out.',
-        featured: true,
     },
     {
         id: 'onboard-1',
@@ -616,10 +610,6 @@ export const getFaqs = (): FaqItem[] => {
     ];
 
     return [...faqItems, ...additionalFaqs];
-}
-
-export const getFeaturedFaqs = (): FaqItem[] => {
-    return getFaqs().filter(faq => faq.featured);
 }
 
 export const getTemplates = (): Template[] => {

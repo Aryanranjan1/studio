@@ -6,7 +6,6 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { FaqSearch } from '@/components/faq-search';
 import { FaqSidebar } from '@/components/faq-sidebar';
-import { getFeaturedFaqs } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import { Footer } from '@/components/footer';
 import type { Metadata } from 'next';
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function FaqPage() {
   const faqs = getFaqs();
-  const featuredFaqs = getFeaturedFaqs();
+  const featuredFaqs = faqs.filter(faq => ['gen-1', 'price-1', 'dev-2'].includes(faq.id));
 
   const jsonLd = {
     '@context': 'https://schema.org',
