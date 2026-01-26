@@ -29,12 +29,14 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Save } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
 
 const formSchema = z.object({
   title: z.string().min(1, 'Title is required.'),
   slug: z.string().min(1, 'Slug is required.'),
   content: z.string().min(1, 'Content is required.'),
   status: z.enum(['draft', 'published']),
+  featured: z.boolean().default(false),
   category: z.string().min(1, 'Category is required.'),
   tags: z.string().transform(val => val.split(',').map(tag => tag.trim()).filter(Boolean)),
   author: z.string().min(1, "Author is required."),
@@ -66,13 +68,16 @@ export function BlogForm({ defaultValues, onSubmit, isSubmitting }: BlogFormProp
   const mappedDefaultValues = defaultValues ? {
     ...defaultValues,
     tags: defaultValues.tags?.join(', '),
+    featured: defaultValues.featured || false,
     featuredImageUrl: defaultValues.featuredImage?.url,
     featuredImageAlt: defaultValues.featuredImage?.alt,
     cardImageUrl: defaultValues.cardImage?.url,
     cardImageAlt: defaultValues.cardImage?.alt,
     ogImageUrl: defaultValues.ogImage?.url,
     ogImageAlt: defaultValues.ogImage?.alt,
-  } : {};
+  } : {
+    featured: false, // Default for new posts
+  };
 
   const {
     register,
@@ -97,7 +102,6 @@ export function BlogForm({ defaultValues, onSubmit, isSubmitting }: BlogFormProp
   }, [titleValue, setValue]);
 
   const processSubmit = (data: BlogFormValues) => {
-    // Destructure the form data to separate the image URLs/alt text from the rest.
     const {
       featuredImageUrl,
       featuredImageAlt,
@@ -107,17 +111,17 @@ export function BlogForm({ defaultValues, onSubmit, isSubmitting }: BlogFormProp
       ogImageAlt,
       ...restOfData
     } = data;
-
-    // Construct the final data object for Firestore, creating the nested image objects
-    // and ensuring the flat image properties are not included.
+    
     const finalData = {
       ...restOfData,
       date: defaultValues?.date || new Date().toISOString(),
+      lastUpdated: new Date().toISOString(),
       featuredImage: { url: featuredImageUrl, alt: featuredImageAlt },
       cardImage: { url: cardImageUrl, alt: cardImageAlt },
       ogImage: { url: ogImageUrl, alt: ogImageAlt },
-      readingTime: defaultValues?.readingTime || 5,
+      readingTime: defaultValues?.readingTime || Math.floor(Math.random() * 10) + 3,
       authorImage: defaultValues?.authorImage || 'https://picsum.photos/seed/author-img-default/40/40',
+      popular: defaultValues?.popular || false,
     };
     
     onSubmit(finalData);
@@ -204,6 +208,23 @@ export function BlogForm({ defaultValues, onSubmit, isSubmitting }: BlogFormProp
               <div>
                 <Label htmlFor="tags">Tags (comma-separated)</Label>
                 <Input id="tags" {...register('tags')} />
+              </div>
+               <div className="flex items-center space-x-2 pt-4">
+                 <Controller
+                    name="featured"
+                    control={control}
+                    render={({ field }) => (
+                        <Switch
+                            id="featured"
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            aria-label="Featured Post"
+                        />
+                    )}
+                  />
+                  <Label htmlFor="featured" className="cursor-pointer">
+                    Mark as Featured Post
+                  </Label>
               </div>
             </CardContent>
           </Card>

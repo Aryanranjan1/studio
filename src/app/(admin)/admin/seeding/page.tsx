@@ -2,11 +2,29 @@
 
 import { useState } from 'react';
 import { useFirestore } from '@/firebase';
-import { collection, writeBatch, doc } from 'firebase/firestore';
+import { collection, writeBatch, doc, getDocs } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Database } from 'lucide-react';
+import { Loader2, Database, Trash2 } from 'lucide-react';
 import type { Article } from '@/lib/data';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 function generateSampleArticles(): Omit<Article, 'id'>[] {
     const articles: Omit<Article, 'id'>[] = [];
@@ -41,7 +59,7 @@ function generateSampleArticles(): Omit<Article, 'id'>[] {
             category: articleCategories[i % articleCategories.length],
             status: 'published',
             readingTime: Math.floor(Math.random() * 10) + 3,
-            featured: i === 0,
+            featured: i < 3, // Make first 3 articles featured
             popular: i < 3,
             metaTitle: `${title} | Ampire Studio`,
             metaDescription: `A brief look into article number ${i + 1}. This piece explores key concepts and provides actionable advice.`,
@@ -68,16 +86,13 @@ function generateSampleArticles(): Omit<Article, 'id'>[] {
 
 export default function SeedingPage() {
     const [isSeeding, setIsSeeding] = useState(false);
+    const [isClearing, setIsClearing] = useState(false);
     const firestore = useFirestore();
     const { toast } = useToast();
 
     const handleSeedData = async () => {
         if (!firestore) {
-            toast({
-                title: "Error",
-                description: "Firestore not available.",
-                variant: "destructive",
-            });
+            toast({ title: "Error", description: "Firestore not available.", variant: "destructive" });
             return;
         }
 
@@ -88,7 +103,7 @@ export default function SeedingPage() {
             const articlesCollection = collection(firestore, 'blogs');
 
             articlesToSeed.forEach(article => {
-                const docRef = doc(articlesCollection); // Firestore will generate an ID
+                const docRef = doc(articlesCollection);
                 batch.set(docRef, article);
             });
 
@@ -100,7 +115,6 @@ export default function SeedingPage() {
             });
         } catch (error: any) {
             console.error("Error seeding data: ", error);
-            
             if (error.code === 'permission-denied') {
                 toast({
                     variant: "destructive",
@@ -109,38 +123,115 @@ export default function SeedingPage() {
                     duration: 9000,
                 });
             } else {
-                 toast({
-                    variant: "destructive",
-                    title: "Uh oh! Something went wrong.",
-                    description: "Could not seed data. Check the console for more details.",
-                });
+                 toast({ variant: "destructive", title: "Uh oh! Something went wrong.", description: "Could not seed data. Check the console for more details." });
             }
-
         } finally {
             setIsSeeding(false);
+        }
+    };
+    
+    const handleClearData = async () => {
+        if (!firestore) {
+            toast({ title: "Error", description: "Firestore not available.", variant: "destructive" });
+            return;
+        }
+
+        setIsClearing(true);
+        try {
+            const blogsCollection = collection(firestore, 'blogs');
+            const blogsSnapshot = await getDocs(blogsCollection);
+            
+            if (blogsSnapshot.empty) {
+                toast({ title: "Info", description: "Blog collection is already empty." });
+                setIsClearing(false);
+                return;
+            }
+
+            const batch = writeBatch(firestore);
+            blogsSnapshot.forEach(doc => {
+                batch.delete(doc.ref);
+            });
+            await batch.commit();
+
+            toast({
+                title: "Success!",
+                description: `Cleared ${blogsSnapshot.size} blog posts.`,
+            });
+
+        } catch (error: any) {
+            console.error("Error clearing data: ", error);
+             if (error.code === 'permission-denied') {
+                toast({
+                    variant: "destructive",
+                    title: "Authorization Error",
+                    description: "You do not have permission to perform this action. Ensure you are an admin.",
+                    duration: 9000,
+                });
+            } else {
+                 toast({ variant: "destructive", title: "Uh oh! Something went wrong.", description: "Could not clear data. Check the console." });
+            }
+        } finally {
+            setIsClearing(false);
         }
     };
 
     return (
         <>
             <div className="flex items-center justify-between">
-                <h1 className="text-lg font-semibold md:text-2xl">Data Seeding</h1>
+                <h1 className="text-lg font-semibold md:text-2xl">Data Management</h1>
             </div>
 
-            <div className="mt-6 rounded-lg border border-dashed shadow-sm p-8 flex flex-col items-center gap-4 text-center">
-                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-                    <Database className="h-8 w-8 text-muted-foreground" />
-                </div>
-                <h3 className="text-2xl font-bold tracking-tight">
-                    Seed Sample Data
-                </h3>
-                <p className="text-sm text-muted-foreground max-w-md">
-                    This action will add 10 sample blog posts to your Firestore database. This is useful for development and testing the blog functionality.
-                </p>
-                <Button onClick={handleSeedData} disabled={isSeeding} size="lg">
-                    {isSeeding ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Database className="mr-2 h-4 w-4" />}
-                    {isSeeding ? 'Seeding Data...' : 'Seed 10 Blog Posts'}
-                </Button>
+            <div className="grid md:grid-cols-2 gap-8 mt-6">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Seed Sample Data</CardTitle>
+                        <CardDescription>
+                        This will add 10 sample blog posts to your Firestore database. Useful for development and testing.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Button onClick={handleSeedData} disabled={isSeeding || isClearing} className="w-full">
+                        {isSeeding ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Database className="mr-2 h-4 w-4" />}
+                        {isSeeding ? 'Seeding...' : 'Seed 10 Blog Posts'}
+                        </Button>
+                    </CardContent>
+                </Card>
+
+                <Card className="border-destructive">
+                    <CardHeader>
+                        <CardTitle className="text-destructive">Clear Blog Data</CardTitle>
+                        <CardDescription>
+                        This will permanently delete all blog posts from your database. This action cannot be undone.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button variant="destructive" className="w-full" disabled={isClearing || isSeeding}>
+                                {isClearing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
+                                Clear All Posts
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This action cannot be undone. This will permanently delete all {`blog`} posts from the database.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                                onClick={handleClearData}
+                                className="bg-destructive hover:bg-destructive/90"
+                            >
+                                Yes, delete everything
+                            </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                        </AlertDialog>
+                    </CardContent>
+                </Card>
             </div>
         </>
     );
