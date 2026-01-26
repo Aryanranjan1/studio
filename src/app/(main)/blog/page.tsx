@@ -1,7 +1,8 @@
 
 'use client';
 
-import { getArticles } from '@/lib/data';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, orderBy } from 'firebase/firestore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, useMemo } from 'react';
@@ -9,48 +10,48 @@ import type { Article } from '@/lib/data';
 import './page.css';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const ITEMS_PER_PAGE = 12;
 
 export default function BlogPage() {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
+  const firestore = useFirestore();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState('ALL_LOGS');
   const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
-    document.title = 'Ampire Studio // Transmission Log';
-    const data = getArticles();
-    setArticles(data);
-    setLoading(false);
-  }, []);
+  const articlesQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'blogs'), orderBy('date', 'desc'));
+  }, [firestore]);
+
+  const { data: articles, isLoading: articlesLoading } = useCollection<Article>(articlesQuery);
 
   const featuredArticle = useMemo(() => {
+    if (!articles) return null;
     return articles.find(a => a.featured) || articles[0];
   }, [articles]);
 
   const categories = useMemo(() => {
+    if (!articles) return ['ALL_LOGS'];
     const all = ['ALL_LOGS'];
-    const unique = [
-      ...new Set(articles.map(a => a.category.toUpperCase())),
-    ];
+    const unique = [...new Set(articles.map(a => a.category.toUpperCase()))];
     return [...all, ...unique.filter(c => c !== 'ALL_LOGS')];
   }, [articles]);
 
   const filteredArticles = useMemo(() => {
+    if (!articles) return [];
     const term = searchTerm.toLowerCase();
     return articles.filter(
       article =>
         article.id !== featuredArticle?.id &&
-        (activeCategory === 'ALL_LOGS' ||
-          article.category.toUpperCase() === activeCategory) &&
+        (activeCategory === 'ALL_LOGS' || article.category.toUpperCase() === activeCategory) &&
         (article.title.toLowerCase().includes(term) ||
           article.excerpt.toLowerCase().includes(term) ||
           article.tags.some(t => t.toLowerCase().includes(term)))
     );
   }, [articles, featuredArticle, searchTerm, activeCategory]);
-  
+
   const totalPages = Math.ceil(filteredArticles.length / ITEMS_PER_PAGE);
 
   const paginatedArticles = useMemo(() => {
@@ -59,25 +60,32 @@ export default function BlogPage() {
   }, [filteredArticles, currentPage]);
 
   const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    setCurrentPage(prev => Math.min(prev + 1, totalPages));
   };
 
   const handlePrevPage = () => {
-    setCurrentPage((prev) => Math.max(prev - 1, 1));
+    setCurrentPage(prev => Math.max(prev - 1, 1));
   };
-  
+
   const handleCategoryClick = (category: string) => {
     setActiveCategory(category);
-    setCurrentPage(1); // Reset to first page on filter change
+    setCurrentPage(1);
   };
+  
+  useEffect(() => {
+    document.title = 'Ampire Studio // Transmission Log';
+  }, []);
 
-
-  if (loading) {
+  if (articlesLoading) {
     return <div className="bg-background text-foreground min-h-screen flex items-center justify-center">Loading Transmission Log...</div>;
   }
-  
+
+  if (!articles || articles.length === 0) {
+    return <div className="bg-background text-foreground min-h-screen flex items-center justify-center">No articles found. Try seeding data in the admin panel.</div>;
+  }
+
   if (!featuredArticle) {
-      return <div className="bg-background text-foreground min-h-screen flex items-center justify-center">No articles found.</div>;
+    return <div className="bg-background text-foreground min-h-screen flex items-center justify-center">No featured article found.</div>;
   }
 
   return (
@@ -119,8 +127,8 @@ export default function BlogPage() {
       <section className="featured-article">
         <div className="feat-img-wrapper">
           <Image
-            src={featuredArticle.image}
-            alt={featuredArticle.imageAlt}
+            src={featuredArticle.featuredImage.url}
+            alt={featuredArticle.featuredImage.alt}
             fill
             className="feat-img"
             priority
@@ -143,8 +151,8 @@ export default function BlogPage() {
           <Link href={`/blog/${article.id}`} className="article-card" key={article.id}>
             <div className="art-img-wrapper">
               <Image
-                src={article.image}
-                alt={article.imageAlt}
+                src={article.cardImage.url}
+                alt={article.cardImage.alt}
                 fill
                 className="art-img"
                 loading="lazy"
@@ -210,5 +218,3 @@ export default function BlogPage() {
     </div>
   );
 }
-
-    

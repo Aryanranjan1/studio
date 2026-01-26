@@ -622,59 +622,6 @@ export const getFeaturedFaqs = (): FaqItem[] => {
     return getFaqs().filter(faq => faq.featured);
 }
 
-export const getArticles = (): Article[] => {
-  const articleCategories = ['Web Design', 'Development', 'Automation', 'Templates', 'Branding', 'Business Strategy', 'Case Studies'];
-  
-  return Array.from({ length: 21 }, (_, i): Article => {
-    const title = [
-        'The 5 Pillars of a Successful Website Redesign',
-        'From Zero to Hero: A Guide to Business Automation',
-        'Why Your Brand Needs a Style Guide, Yesterday',
-        'Unlocking Growth: A Case Study in E-commerce SEO',
-        '10 Essential Tips for Aspiring Digital Creators',
-        'The Developer\'s Guide to Client Communication',
-        'Mastering Dark Mode: A Guide to Premium UI',
-    ][i % 7];
-    const slug = title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-    const date = new Date(2024, i % 12, (i % 28) + 1);
-
-    return {
-        id: `article-${i + 1}`,
-        title,
-        slug,
-        date: date.toISOString(),
-        lastUpdated: date.toISOString(),
-        author: ['Alex Doe', 'Jane Smith', 'Sam Wilson'][i % 3],
-        authorImage: `https://picsum.photos/seed/author-img${i % 3}/40/40`,
-        excerpt: `A brief look into article number ${i + 1}. This piece explores key concepts and provides actionable advice.`,
-        content: `<h1>${title}</h1><p>This is the full content for the article. It delves deep into the topics, supported by research and real-world examples to provide comprehensive insights.</p>`,
-        tags: [['Web Dev', 'Future Tech', 'AI'], ['JavaScript', 'React', 'Vue'], ['Performance', 'UX', 'Design']][i % 3],
-        category: articleCategories[i % articleCategories.length],
-        status: i % 4 === 0 ? 'draft' : 'published',
-        readingTime: Math.floor(Math.random() * 10) + 3,
-        featured: i === 0,
-        popular: i < 5,
-        metaTitle: `${title} | Ampire Studio`,
-        metaDescription: `A brief look into article number ${i + 1}. This piece explores key concepts and provides actionable advice.`,
-        focusKeyword: ['Redesign', 'Automation', 'Branding', 'SEO', 'Creators', 'Communication', 'UI'][i % 7],
-        canonicalUrl: `https://ampire.studio/blog/${slug}`,
-        robotsMeta: 'index',
-        featuredImage: {
-            url: `https://picsum.photos/seed/ablog-cover-${i + 1}/1200/800`,
-            alt: `Abstract image for article ${i + 1}`,
-        },
-        cardImage: {
-            url: `https://picsum.photos/seed/ablog-card-${i + 1}/600/400`,
-            alt: `Card image for article ${i + 1}`,
-        },
-        ogImage: {
-            url: `https://picsum.photos/seed/ablog-og-${i + 1}/1200/630`,
-            alt: `Open Graph image for article ${i + 1}`,
-        },
-    };
-  });
-};
-
 export const getTemplates = (): Template[] => {
     const excludedIds = ['kopi-dua-darjat', 'ffm-music'];
 
@@ -762,5 +709,3 @@ export const getTemplates = (): Template[] => {
             };
     });
 };
-
-    

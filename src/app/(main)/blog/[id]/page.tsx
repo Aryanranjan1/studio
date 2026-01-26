@@ -1,26 +1,70 @@
 
 'use client';
 
-import { getArticles } from '@/lib/data';
 import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import type { Article } from '@/lib/data';
 import './page.css';
 import { Footer } from '@/components/footer';
+import { useDoc, useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { doc, collection, query, orderBy } from 'firebase/firestore';
 
 export default function ArticlePage() {
   const params = useParams();
   const id = params.id as string;
+  const firestore = useFirestore();
   
-  const [article, setArticle] = useState<Article | null>(null);
+  // Fetch the current article
+  const articleRef = useMemoFirebase(() => {
+      if (!firestore || !id) return null;
+      return doc(firestore, 'blogs', id);
+  }, [firestore, id]);
+  const { data: article, isLoading: articleLoading } = useDoc<Article>(articleRef);
+  
+  // Fetch other articles for recommendations
+  const articlesQuery = useMemoFirebase(() => {
+      if (!firestore) return null;
+      return query(collection(firestore, 'blogs'), orderBy('date', 'desc'));
+  }, [firestore]);
+  const { data: allArticles } = useCollection<Article>(articlesQuery);
+
   const [nextArticle, setNextArticle] = useState<Article | null>(null);
   const [otherArticles, setOtherArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
   const [headings, setHeadings] = useState<{ id: string; text: string | null }[]>([]);
   const [activeId, setActiveId] = useState('');
   const contentRef = useRef<HTMLElement>(null);
+  
+  // Find next and other articles once all articles are loaded
+  useEffect(() => {
+    if (article && allArticles) {
+        document.title = `Ampire Log // ${article.title}`;
+        const currentArticleIndex = allArticles.findIndex(a => a.id === article.id);
+
+        if (currentArticleIndex !== -1) {
+            const next = allArticles[currentArticleIndex + 1] || allArticles[0];
+            setNextArticle(next);
+
+            setOtherArticles(
+                allArticles.filter(a => a.id !== article.id && a.id !== next?.id).slice(0, 2)
+            );
+        }
+        
+        // TOC generation
+        setTimeout(() => {
+            if (!contentRef.current) return;
+            const headingElements = Array.from(contentRef.current.querySelectorAll('h2'));
+            const foundHeadings = headingElements.map((h, index) => {
+                const text = h.textContent || `section-${index + 1}`;
+                const id = h.id || text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+                h.id = id; // Ensure the element has an ID
+                return { id, text };
+            });
+            setHeadings(foundHeadings);
+        }, 100);
+    }
+  }, [article, allArticles]);
 
   // Scroll and progress bar effect
   useEffect(() => {
@@ -67,46 +111,20 @@ export default function ArticlePage() {
   }, [headings]);
 
 
-  useEffect(() => {
-    if (!id) return;
-    
-    const allArticles = getArticles();
-    const currentArticleIndex = allArticles.findIndex(a => a.id === id);
-    const currentArticle = allArticles[currentArticleIndex];
-
-    if (currentArticle) {
-      setArticle(currentArticle);
-      document.title = `Ampire Log // ${currentArticle.title}`;
-      
-      const next = allArticles[currentArticleIndex + 1] || allArticles[0];
-      setNextArticle(next);
-
-      setOtherArticles(
-        allArticles.filter(a => a.id !== currentArticle.id && a.id !== next.id).slice(0, 2)
-      );
-
-      // Simulate TOC generation after render
-      setTimeout(() => {
-          const foundHeadings = Array.from(contentRef.current?.querySelectorAll('h2') || []).map(h => ({
-              id: h.id,
-              text: h.textContent
-          }));
-          setHeadings(foundHeadings);
-      }, 100);
-
-    } else {
-      notFound();
-    }
-    setLoading(false);
-  }, [id]);
-
-
-  if (loading || !article) {
+  if (articleLoading) {
     return (
       <div className="w-full min-h-screen bg-background text-foreground flex items-center justify-center">
         Accessing Transmission Log...
       </div>
     );
+  }
+  
+  if (!article) {
+    return (
+       <div className="w-full min-h-screen bg-background text-foreground flex items-center justify-center">
+        Article not found. Has the data been seeded in the admin panel?
+      </div>
+    )
   }
 
   return (
@@ -117,7 +135,7 @@ export default function ArticlePage() {
 
       <nav className="nav-bread">
         <Link href="/blog">&lt; BACK_TO_LOGS</Link>
-        <span>LOG_ID: {article.id.replace('article-', '')}</span>
+        <span>LOG_ID: {article.id.slice(0, 8)}</span>
       </nav>
 
       <div className='mt-[64px] bg-background text-foreground'>
@@ -159,63 +177,31 @@ export default function ArticlePage() {
                 </ul>
             </aside>
 
-            <article className="article-body" ref={contentRef}>
-                <p id="intro" className="lead-text">{article.excerpt}</p>
-                <p>{article.content}</p>
-
-                <h2 id="section-1">The Monolith Problem</h2>
-                <p>The traditional CMS forces you to play by its rules. You want a custom interaction? You need a plugin. You want to optimize your Largest Contentful Paint (LCP)? Good luck fighting the 40 scripts the theme injected automatically.</p>
-                
-                <blockquote>
-                    "The web was never meant to be rendered by a PHP server in 2025. It was meant to be compiled at the edge."
-                </blockquote>
-
-                <p>This restriction of creativity and performance is why agencies like ours have moved entirely to the "Modern Stack"—Next.js, Tailwind, and a Headless CMS.</p>
-
-                <h2 id="section-2">The Headless Future</h2>
-                <p>A headless CMS separates the <strong>Body</strong> (the content repository) from the <strong>Head</strong> (the frontend display). This allows us to push content not just to a website, but to mobile apps, smartwatches, and even billboard displays from a single source of truth.</p>
-
-                <h2 id="section-3">Implementation</h2>
-                <p>Here is a simplified example of how we fetch data in this new world using a modern stack. Notice the lack of boilerplate.</p>
-
-                <div className="code-block">
-                    <div className="code-header">/lib/data.ts</div>
-                    <div className="code-content">
-                        <span className="kw">export async function</span> <span className="func">getPosts</span>() {'{'} <br/>
-                        {'  '}<span className="kw">const</span> query = <span className="str">`*[_type == "post"]`</span>; <br/>
-                        {'  '}<span className="kw">return</span> client.fetch(query); <br/>
-                        {'}'}
-                    </div>
-                </div>
-
-                <p>This level of control allows us to render exactly what we need, when we need it. No bloat. No compromise.</p>
-
-                <h2 id="conclusion">Conclusion</h2>
-                <p>The transition is painful for legacy developers, but essential. Speed is the currency of the modern web, and monoliths are bankrupt.</p>
-            </article>
+            <article className="article-body" ref={contentRef} dangerouslySetInnerHTML={{ __html: article.content }} />
         </div>
         
-        {/* Recommendation Section */}
-        <section className="recommendation-section">
-            <h2 className="rec-title">Further Reading</h2>
-            <div className="rec-grid">
-                {otherArticles.map(rec => (
-                    <Link href={`/blog/${rec.id}`} key={rec.id} className="article-card">
-                        <div className="art-img-wrapper">
-                            <Image src={rec.image} alt={rec.imageAlt} width={500} height={300} className="art-img" loading="lazy" />
-                        </div>
-                        <div className="art-body">
-                            <div className="art-meta">
-                                <span>{new Date(rec.date).toISOString().split('T')[0].replace(/-/g, '.')}</span>
-                                <span>[ READ: {String(rec.readingTime).padStart(2, '0')}m ]</span>
+        {otherArticles.length > 0 && (
+            <section className="recommendation-section">
+                <h2 className="rec-title">Further Reading</h2>
+                <div className="rec-grid">
+                    {otherArticles.map(rec => (
+                        <Link href={`/blog/${rec.id}`} key={rec.id} className="article-card">
+                            <div className="art-img-wrapper">
+                                <Image src={rec.cardImage.url} alt={rec.cardImage.alt} width={500} height={300} className="art-img" loading="lazy" />
                             </div>
-                            <h3 className="art-title">{rec.title}</h3>
-                            <div className="art-footer">READ_ENTRY &rarr;</div>
-                        </div>
-                    </Link>
-                ))}
-            </div>
-        </section>
+                            <div className="art-body">
+                                <div className="art-meta">
+                                    <span>{new Date(rec.date).toISOString().split('T')[0].replace(/-/g, '.')}</span>
+                                    <span>[ READ: {String(rec.readingTime).padStart(2, '0')}m ]</span>
+                                </div>
+                                <h3 className="art-title">{rec.title}</h3>
+                                <div className="art-footer">READ_ENTRY &rarr;</div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </section>
+        )}
 
 
         {nextArticle && (

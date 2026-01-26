@@ -17,7 +17,8 @@ import {
     FileText,
     FileSignature,
     GanttChartSquare,
-    Users
+    Users,
+    Database
 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -34,6 +35,7 @@ const navItems = [
     { href: '/admin/contract', label: 'Contract', icon: FileSignature },
     { href: '/admin/timeline', label: 'Timeline', icon: GanttChartSquare },
     { href: '/admin/management', label: 'Management', icon: Users },
+    { href: '/admin/seeding', label: 'Data Seeding', icon: Database },
     { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
