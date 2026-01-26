@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { BlogForm } from '@/components/admin/blog-form';
-import { useFirestore } from '@/firebase';
+import { useFirestore, useMemoFirebase } from '@/firebase';
 import { useDoc } from '@/firebase/firestore/use-doc';
 import { doc } from 'firebase/firestore';
 import { updateBlogPost } from '@/lib/firestore/blog';
@@ -16,9 +16,12 @@ export default function EditBlogPostPage() {
   const params = useParams();
   const id = params.id as string;
 
-  const { data: post, isLoading } = useDoc<Article>(
-    firestore && id ? doc(firestore, 'blogs', id) : null
-  );
+  const postRef = useMemoFirebase(() => {
+    if (!firestore || !id) return null;
+    return doc(firestore, 'blogs', id);
+  }, [firestore, id]);
+
+  const { data: post, isLoading } = useDoc<Article>(postRef);
 
   const handleSubmit = (data: Partial<Article>) => {
     if (!firestore || !id) return;
@@ -37,5 +40,3 @@ export default function EditBlogPostPage() {
 
   return <BlogForm defaultValues={post} onSubmit={handleSubmit} isSubmitting={isSubmitting} />;
 }
-
-    

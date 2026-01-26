@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useCollection } from '@/firebase/firestore/use-collection';
 import { collection, query, orderBy } from 'firebase/firestore';
-import { useFirestore } from '@/firebase';
+import { useFirestore, useMemoFirebase } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -64,9 +64,12 @@ function DeleteConfirmationDialog({ blogId, onConfirm }: { blogId: string, onCon
 
 export default function BlogManagementPage() {
   const firestore = useFirestore();
-  const { data: posts, isLoading, error } = useCollection<Article>(
-    query(collection(firestore, 'blogs'), orderBy('date', 'desc'))
-  );
+  const postsQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return query(collection(firestore, 'blogs'), orderBy('date', 'desc'))
+  }, [firestore]);
+  
+  const { data: posts, isLoading, error } = useCollection<Article>(postsQuery);
   const { toast } = useToast();
 
   const handleDelete = (id: string) => {
@@ -147,5 +150,3 @@ export default function BlogManagementPage() {
     </>
   );
 }
-
-    
