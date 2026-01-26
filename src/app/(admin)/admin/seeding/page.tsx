@@ -7,8 +7,6 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Database } from 'lucide-react';
 import type { Article } from '@/lib/data';
-import { errorEmitter } from '@/firebase/error-emitter';
-import { FirestorePermissionError } from '@/firebase/errors';
 
 function generateSampleArticles(): Omit<Article, 'id'>[] {
     const articles: Omit<Article, 'id'>[] = [];
@@ -103,16 +101,20 @@ export default function SeedingPage() {
         } catch (error: any) {
             console.error("Error seeding data: ", error);
             
-            // Create a detailed, contextual error log for debugging permissions.
-            const permissionError = new FirestorePermissionError({
-                path: 'blogs', // The collection path where the batch write occurs.
-                operation: 'write', // The operation is a batch write.
-                requestResourceData: { info: `Attempted to seed ${generateSampleArticles().length} articles.` }
-            });
-            
-            // Emit the error globally. This will be caught by the FirebaseErrorListener
-            // and displayed in the Next.js error overlay for clear debugging.
-            errorEmitter.emit('permission-error', permissionError);
+            if (error.code === 'permission-denied') {
+                toast({
+                    variant: "destructive",
+                    title: "Authorization Error",
+                    description: "You do not have permission to perform this action. Ensure your user account has an 'admin' role in the '/admin_profiles' collection in Firestore.",
+                    duration: 9000,
+                });
+            } else {
+                 toast({
+                    variant: "destructive",
+                    title: "Uh oh! Something went wrong.",
+                    description: "Could not seed data. Check the console for more details.",
+                });
+            }
 
         } finally {
             setIsSeeding(false);
