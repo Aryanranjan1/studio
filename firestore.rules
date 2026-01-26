@@ -72,7 +72,7 @@ service cloud.firestore {
      * @principle Implements Role-Based Access Control (RBAC) where only admins can manage other admins.
      */
     match /admin_profiles/{adminProfileId} {
-      allow get: if isAdmin();
+      allow get: if isOwner(adminProfileId);
       allow list: if isAdmin();
       allow create: if isAdmin() && request.resource.data.userId == adminProfileId && request.resource.data.id == adminProfileId;
       allow update: if isAdmin() && resource != null && request.resource.data.userId == resource.data.userId && request.resource.data.id == resource.data.id;
