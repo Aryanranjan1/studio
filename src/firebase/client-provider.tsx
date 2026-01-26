@@ -9,38 +9,30 @@ interface FirebaseClientProviderProps {
   children: ReactNode;
 }
 
-// A variable to hold the server-side initialized services.
-let serverInitializedServices: any = null;
+// A variable to hold the initialized services to prevent re-initialization.
+let servicesInstance: any = null;
 
 export function FirebaseClientProvider({ children }: FirebaseClientProviderProps) {
   const [services, setServices] = useState(() => {
-    // If we're on the server, initialize Firebase immediately.
-    if (typeof window === 'undefined') {
-      if (!serverInitializedServices) {
-        serverInitializedServices = initializeFirebase();
+    if (typeof window !== 'undefined') {
+      if (!servicesInstance) {
+        servicesInstance = initializeFirebase();
       }
-      return serverInitializedServices;
+      return servicesInstance;
     }
-    // On the client, we'll wait for the component to mount.
     return null;
   });
 
   useEffect(() => {
-    // This effect runs only on the client.
-    if (typeof window !== 'undefined' && !services) {
-        const loadFirebase = () => {
-            console.log("Window loaded, initializing Firebase on client...");
-            setServices(initializeFirebase());
-        };
-
-        if (document.readyState === 'complete') {
-            loadFirebase();
-        } else {
-            window.addEventListener('load', loadFirebase, { once: true });
-            return () => window.removeEventListener('load', loadFirebase);
-        }
+    // This effect handles the case where the component might be server-rendered
+    // initially and then hydrated on the client.
+    if (!services) {
+      if (!servicesInstance) {
+        servicesInstance = initializeFirebase();
+      }
+      setServices(servicesInstance);
     }
-  }, [services]); // Depend on services to avoid re-running.
+  }, [services]);
 
   return (
     <FirebaseProvider
