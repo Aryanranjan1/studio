@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Database } from 'lucide-react';
 import type { Article } from '@/lib/data';
+import { errorEmitter } from '@/firebase/error-emitter';
+import { FirestorePermissionError } from '@/firebase/errors';
 
 function generateSampleArticles(): Omit<Article, 'id'>[] {
     const articles: Omit<Article, 'id'>[] = [];
@@ -100,11 +102,18 @@ export default function SeedingPage() {
             });
         } catch (error: any) {
             console.error("Error seeding data: ", error);
-            toast({
-                title: "Seeding Failed",
-                description: error.message || "An unknown error occurred.",
-                variant: "destructive",
+            
+            // Create a detailed, contextual error log for debugging permissions.
+            const permissionError = new FirestorePermissionError({
+                path: 'blogs', // The collection path where the batch write occurs.
+                operation: 'write', // The operation is a batch write.
+                requestResourceData: { info: `Attempted to seed ${generateSampleArticles().length} articles.` }
             });
+            
+            // Emit the error globally. This will be caught by the FirebaseErrorListener
+            // and displayed in the Next.js error overlay for clear debugging.
+            errorEmitter.emit('permission-error', permissionError);
+
         } finally {
             setIsSeeding(false);
         }

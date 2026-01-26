@@ -78,5 +78,17 @@ service cloud.firestore {
       allow update: if isAdmin() && resource != null && request.resource.data.userId == resource.data.userId && request.resource.data.id == resource.data.id;
       allow delete: if isAdmin() && resource != null;
     }
+
+    /**
+     * @description Rules for the public blog collection.
+     * @path /blogs/{blogId}
+     * @allow (get, list) Public read access for all visitors.
+     * @deny (create, update, delete) Write access is denied to non-admins.
+     * @principle Content should be readable by everyone but managed only by authorized administrators.
+     */
+    match /blogs/{blogId} {
+        allow get, list: if true;
+        allow create, update, delete: if isAdmin();
+    }
   }
 }
