@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, type ReactNode } from 'react';
@@ -13,32 +12,31 @@ interface FirebaseClientProviderProps {
 let servicesInstance: any = null;
 
 export function FirebaseClientProvider({ children }: FirebaseClientProviderProps) {
-  const [services, setServices] = useState(() => {
-    if (typeof window !== 'undefined') {
-      if (!servicesInstance) {
-        servicesInstance = initializeFirebase();
-      }
-      return servicesInstance;
-    }
-    return null;
-  });
+  const [services, setServices] = useState<ReturnType<typeof initializeFirebase> | null>(null);
 
   useEffect(() => {
-    // This effect handles the case where the component might be server-rendered
-    // initially and then hydrated on the client.
-    if (!services) {
-      if (!servicesInstance) {
-        servicesInstance = initializeFirebase();
-      }
-      setServices(servicesInstance);
+    // This effect runs only on the client, after the component has mounted.
+    if (!servicesInstance) {
+      servicesInstance = initializeFirebase();
     }
-  }, [services]);
+    setServices(servicesInstance);
+  }, []); // Empty dependency array ensures this runs once on mount.
+
+  // If services are not yet initialized, show a loading state.
+  // This prevents children from trying to access Firebase before it's ready.
+  if (!services) {
+    return (
+        <div className="flex min-h-screen items-center justify-center bg-background">
+            <p>Loading...</p>
+        </div>
+    );
+  }
 
   return (
     <FirebaseProvider
-      firebaseApp={services?.firebaseApp}
-      auth={services?.auth}
-      firestore={services?.firestore}
+      firebaseApp={services.firebaseApp}
+      auth={services.auth}
+      firestore={services.firestore}
     >
       {children}
     </FirebaseProvider>
