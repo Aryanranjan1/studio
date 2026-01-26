@@ -29,15 +29,10 @@ export default function BlogPage() {
   const { data: articles, isLoading: articlesLoading } = useCollection<Article>(articlesQuery);
   
   useEffect(() => {
+    // Select a random featured article from all available articles
     if (articles && articles.length > 0) {
-      const featured = articles.filter(a => a.featured);
-      if (featured.length > 0) {
-        const randomIndex = Math.floor(Math.random() * featured.length);
-        setFeaturedArticle(featured[randomIndex]);
-      } else {
-        const randomIndex = Math.floor(Math.random() * articles.length);
-        setFeaturedArticle(articles[randomIndex]);
-      }
+      const randomIndex = Math.floor(Math.random() * articles.length);
+      setFeaturedArticle(articles[randomIndex]);
     }
   }, [articles]);
 
