@@ -97,22 +97,27 @@ export function BlogForm({ defaultValues, onSubmit, isSubmitting }: BlogFormProp
   }, [titleValue, setValue]);
 
   const processSubmit = (data: BlogFormValues) => {
+    // Destructure the form data to separate the image URLs/alt text from the rest.
+    const {
+      featuredImageUrl,
+      featuredImageAlt,
+      cardImageUrl,
+      cardImageAlt,
+      ogImageUrl,
+      ogImageAlt,
+      ...restOfData
+    } = data;
+
+    // Construct the final data object for Firestore, creating the nested image objects
+    // and ensuring the flat image properties are not included.
     const finalData = {
-      ...data,
+      ...restOfData,
       date: defaultValues?.date || new Date().toISOString(),
-      featuredImage: { url: data.featuredImageUrl, alt: data.featuredImageAlt },
-      cardImage: { url: data.cardImageUrl, alt: data.cardImageAlt },
-      ogImage: { url: data.ogImageUrl, alt: data.ogImageAlt },
-      // Fields to remove from the top-level object
-      featuredImageUrl: undefined,
-      featuredImageAlt: undefined,
-      cardImageUrl: undefined,
-      cardImageAlt: undefined,
-      ogImageUrl: undefined,
-      ogImageAlt: undefined,
-      // Default fields if not present
+      featuredImage: { url: featuredImageUrl, alt: featuredImageAlt },
+      cardImage: { url: cardImageUrl, alt: cardImageAlt },
+      ogImage: { url: ogImageUrl, alt: ogImageAlt },
       readingTime: defaultValues?.readingTime || 5,
-      authorImage: defaultValues?.authorImage || 'https://picsum.photos/seed/author-img-default/40/40'
+      authorImage: defaultValues?.authorImage || 'https://picsum.photos/seed/author-img-default/40/40',
     };
     
     onSubmit(finalData);
@@ -291,5 +296,3 @@ export function BlogForm({ defaultValues, onSubmit, isSubmitting }: BlogFormProp
     </form>
   );
 }
-
-    
