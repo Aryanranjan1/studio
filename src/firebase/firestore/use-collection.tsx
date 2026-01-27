@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Query,
   onSnapshot,
@@ -20,11 +20,43 @@ export interface UseCollectionResult<T> {
   error: FirestoreError | Error | null;
 }
 
+// Expanded internal type to inspect query properties
 export interface InternalQuery extends Query<DocumentData> {
   _query: {
     path: {
       canonicalString(): string;
       toString(): string;
+    };
+    filters?: {
+      field: { canonicalString: () => string };
+      op: string;
+      value: { booleanValue?: boolean };
+    }[];
+  };
+}
+
+/**
+ * A guard function to prevent unsafe queries on the 'projects' collection.
+ * It ensures that any non-admin query for projects must include a filter for published documents.
+ */
+function assertSafeQuery(ref: CollectionReference<DocumentData> | Query<DocumentData>) {
+  const internal = ref as unknown as InternalQuery;
+  const path = internal?._query?.path?.canonicalString?.();
+
+  // 🚫 Absolute ban on naked 'projects' list queries from this hook
+  if (path === 'projects') {
+    const hasPublishedFilter = internal?._query?.filters?.some(
+      (f: any) =>
+        f.field?.canonicalString() === 'published' &&
+        f.op === '==' &&
+        f.value?.booleanValue === true
+    );
+
+    if (!hasPublishedFilter) {
+      throw new Error(
+        '🔥 ILLEGAL QUERY BLOCKED: useCollection was called for "projects" without a where("published", "==", true) filter. ' +
+        'This query is only allowed for admins via the useAdminProjects hook.'
+      );
     }
   }
 }
@@ -36,7 +68,7 @@ export function useCollection<T = any>(
   type StateDataType = ResultItemType[] | null;
 
   const [data, setData] = useState<StateDataType>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<FirestoreError | Error | null>(null);
 
   useEffect(() => {
@@ -44,6 +76,15 @@ export function useCollection<T = any>(
       setData(null);
       setIsLoading(false);
       setError(null);
+      return;
+    }
+
+    // ⬅️ HARD GUARD
+    try {
+      assertSafeQuery(memoizedTargetRefOrQuery);
+    } catch (e) {
+      setError(e as Error);
+      setIsLoading(false);
       return;
     }
 
