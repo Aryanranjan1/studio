@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -31,6 +30,7 @@ import type { FaqItem } from '@/lib/data';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { updateFaq, deleteFaq } from '@/lib/firestore/faq';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
 
 function DeleteConfirmationDialog({ faqId, onConfirm }: { faqId: string, onConfirm: () => void }) {
   return (
@@ -64,13 +64,18 @@ function DeleteConfirmationDialog({ faqId, onConfirm }: { faqId: string, onConfi
 
 export default function FaqManagementPage() {
   const firestore = useFirestore();
+  const { isAdmin, isLoading: isAdminLoading } = useIsAdmin();
+
   const faqsQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
+    // Only construct the query if the user is an admin
+    if (!firestore || !isAdmin) return null;
     return query(collection(firestore, 'faqs'), orderBy('order', 'asc'))
-  }, [firestore]);
+  }, [firestore, isAdmin]);
   
-  const { data: faqs, isLoading, error } = useCollection<FaqItem>(faqsQuery);
+  const { data: faqs, isLoading: faqsLoading, error } = useCollection<FaqItem>(faqsQuery);
   const { toast } = useToast();
+
+  const isLoading = isAdminLoading || faqsLoading;
 
   const handleDelete = (id: string) => {
     if(!firestore) return;
@@ -90,6 +95,24 @@ export default function FaqManagementPage() {
           description: `The FAQ item is now ${!currentStatus ? 'visible' : 'hidden'} on the public site.`,
       })
   }
+  
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="text-center p-8">
+        <h2 className="text-xl font-bold">Access Denied</h2>
+        <p className="text-muted-foreground">You do not have permission to view this page.</p>
+      </div>
+    );
+  }
+
 
   return (
     <>
@@ -104,12 +127,6 @@ export default function FaqManagementPage() {
       </div>
 
       <div className="mt-6 rounded-lg border border-dashed shadow-sm overflow-hidden">
-        {isLoading && (
-          <div className="flex items-center justify-center p-8">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-            <p className="ml-2">Loading FAQs...</p>
-          </div>
-        )}
         {error && <p className="text-destructive p-8">Error loading FAQs: {error.message}</p>}
         {!isLoading && !error && faqs && (
           <Table>
