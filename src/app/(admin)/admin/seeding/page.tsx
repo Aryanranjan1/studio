@@ -314,7 +314,7 @@ export default function SeedingPage() {
         } else {
              toast({ variant: "destructive", title: "Uh oh! Something went wrong.", description: defaultMessage });
         }
-    }
+    };
     
     const isActionInProgress = isSeedingBlogs || isClearingBlogs || isSeedingProjects || isClearingProjects || isSeedingFaqs || isClearingFaqs;
 
@@ -484,5 +484,4 @@ export default function SeedingPage() {
             </div>
         </>
     );
-
-    
+}
