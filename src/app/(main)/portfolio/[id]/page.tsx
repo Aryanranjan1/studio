@@ -4,8 +4,8 @@ import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useDoc, useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { doc, collection, query, where, orderBy, limit } from 'firebase/firestore';
+import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
 import type { PortfolioProject, Template } from '@/lib/data';
 import './page.css';
 import { Footer } from '@/components/footer';
@@ -23,21 +23,7 @@ export default function ProjectDetailPage() {
     if (!firestore || !id) return null;
     return doc(firestore, 'projects', id);
   }, [firestore, id]);
-  const { data: project, isLoading: projectLoading } = useDoc<PortfolioProject>(projectRef);
-  
-  // Fetch other projects for recommendations
-  const otherProjectsQuery = useMemoFirebase(() => {
-    if (!firestore || !id) return null;
-    const coll = collection(firestore, 'projects');
-    return query(
-        coll, 
-        where('published', '==', true), 
-        where('__name__', '!=', id),
-        orderBy('__name__'),
-        limit(2)
-    );
-  }, [firestore, id]);
-  const { data: otherProjects } = useCollection<PortfolioProject>(otherProjectsQuery);
+  const { data: project, isLoading: projectLoading, error } = useDoc<PortfolioProject>(projectRef);
   
   const [matchingTemplate, setMatchingTemplate] = useState<Template | null>(null);
 
@@ -51,10 +37,10 @@ export default function ProjectDetailPage() {
   }, [project]);
 
   useEffect(() => {
-    if (!projectLoading && !project) {
+    if ((!projectLoading && !project) || error) {
       notFound();
     }
-  }, [project, projectLoading]);
+  }, [project, projectLoading, error]);
 
   if (projectLoading || !project) {
     return (
@@ -144,25 +130,6 @@ export default function ProjectDetailPage() {
                            <Image src={img.url} alt={img.alt} width={1200} height={800} className="gallery-image" loading="lazy" />
                            <div className="gallery-caption">{img.alt}</div>
                         </div>
-                    ))}
-                </div>
-            </section>
-        )}
-        
-        {otherProjects && otherProjects.length > 0 && (
-            <section className="recommendation-section">
-                <h2 className="rec-title">Other Projects</h2>
-                <div className="rec-grid">
-                    {otherProjects.map(rec => (
-                        <Link href={`/portfolio/${rec.id}`} key={rec.id} className="project-card">
-                            <div className="art-img-wrapper">
-                                <Image src={rec.cardImage.url} alt={rec.cardImage.alt} width={500} height={300} className="art-img" loading="lazy" />
-                            </div>
-                            <div className="art-body">
-                                <h3 className="art-title">{rec.title}</h3>
-                                <div className="art-footer">VIEW_PROJECT &rarr;</div>
-                            </div>
-                        </Link>
                     ))}
                 </div>
             </section>
