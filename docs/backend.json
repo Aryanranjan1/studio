@@ -377,6 +377,60 @@
         "order",
         "published"
       ]
+    },
+    "Template": {
+      "title": "Template",
+      "description": "Represents a website template available for purchase or use.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "shortDescription": { "type": "string" },
+        "longDescription": { "type": "string" },
+        "price": { "type": "number" },
+        "category": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "technologies": { "type": "array", "items": { "type": "string" } },
+        "specs": {
+          "type": "object",
+          "properties": {
+            "stack": { "type": "string" },
+            "css": { "type": "string" },
+            "cms": { "type": "string" },
+            "type": { "type": "string" }
+          }
+        },
+        "features": { "type": "array", "items": { "type": "string" } },
+        "previewUrl": { "type": "string", "format": "uri" },
+        "cardImage": {
+          "type": "object",
+          "properties": {
+            "url": { "type": "string", "format": "uri" },
+            "alt": { "type": "string" }
+          },
+          "required": ["url", "alt"]
+        },
+        "galleryImages": {
+          "type": "array",
+          "items": {
+             "type": "object",
+              "properties": {
+                "url": { "type": "string", "format": "uri" },
+                "alt": { "type": "string" }
+              },
+              "required": ["url", "alt"]
+          }
+        },
+        "bestSeller": { "type": "boolean" },
+        "isNew": { "type": "boolean" },
+        "version": { "type": "string" },
+        "published": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "metaTitle": { "type": "string" },
+        "metaDescription": { "type": "string" }
+      },
+      "required": ["title", "slug", "shortDescription", "price", "published"]
     }
   },
   "auth": {
@@ -466,10 +520,28 @@
             }
           ]
         }
+      },
+      {
+        "path": "/templates/{templateId}",
+        "definition": {
+          "entityName": "Template",
+          "schema": {
+            "$ref": "#/backend/entities/Template"
+          },
+          "description": "Stores all website templates for the store.",
+          "params": [
+            {
+              "name": "templateId",
+              "description": "The unique identifier for the template."
+            }
+          ]
+        }
       }
     ],
     "reasoning": "This Firestore data structure is designed to support the AMpire Studio Dynamic Showcase application, focusing on user authentication, admin profiles, and future content management needs. It prioritizes security, scalability, and debuggability following the core design principles. Path-based ownership is used for user data, and a dedicated collection is used for admin profiles. The structure is designed to enable simple and robust security rules and facilitate listing operations (QAPs). This design avoids hierarchical authorization dependencies."
   }
 }
     
+    
+
     

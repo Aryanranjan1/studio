@@ -1,20 +1,23 @@
+
 'use client';
 
-import { getTemplates } from '@/lib/data';
 import { SearchResults } from '@/components/search-results';
 import type { Article } from '@/lib/data';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, orderBy } from 'firebase/firestore';
+import { collection, query, orderBy, where } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
 
 
 export default function SearchPage() {
   const firestore = useFirestore();
-  const templates = getTemplates();
 
   const articlesQuery = useMemoFirebase(() => {
     if (!firestore) return null;
-    return query(collection(firestore, 'blogs'), orderBy('date', 'desc'));
+    return query(
+      collection(firestore, 'blogs'), 
+      where('status', '==', 'published'),
+      orderBy('date', 'desc')
+    );
   }, [firestore]);
 
   const { data: articles, isLoading } = useCollection<Article>(articlesQuery);
@@ -32,7 +35,6 @@ export default function SearchPage() {
                 ) : (
                   <SearchResults
                       articles={articles || []}
-                      templates={templates}
                   />
                 )}
             </div>
@@ -41,3 +43,5 @@ export default function SearchPage() {
     </div>
   );
 }
+
+    

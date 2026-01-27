@@ -78,6 +78,14 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
+    /* ========= TEMPLATES ========= */
+
+    match /templates/{templateId} {
+      allow get: if resource.data.published == true || isAdmin();
+      allow list: if request.query.where('published', '==', true) || isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+
     /* ========= USERS ========= */
 
     match /users/{userId} {
@@ -97,5 +105,7 @@ service cloud.firestore {
     }
   }
 }
+
+    
 
     

@@ -1,5 +1,6 @@
 
 
+
 export type Service = {
   id: string;
   title: string;
@@ -144,8 +145,35 @@ export type PortfolioProject = {
   robotsMeta: 'index' | 'noindex';
 }
 
-
-export type Template = Project;
+export type Template = {
+  id: string;
+  title: string;
+  slug: string;
+  shortDescription: string;
+  longDescription: string;
+  price: number;
+  category: string;
+  tags: string[];
+  technologies: string[];
+  specs: {
+    stack: string;
+    css: string;
+    cms: string;
+    type: string;
+  };
+  features: string[];
+  previewUrl: string;
+  cardImage: ImageObject;
+  galleryImages: ImageObject[];
+  bestSeller: boolean;
+  isNew: boolean;
+  version: string;
+  published: boolean;
+  createdAt: any; // Firestore Timestamp
+  updatedAt: any; // Firestore Timestamp
+  metaTitle?: string;
+  metaDescription?: string;
+};
 
 
 export type TeamMember = {
@@ -482,7 +510,7 @@ export const getTestimonials = (): Testimonial[] => [
   },
 ];
 
-export const getTemplates = (): Template[] => {
+export const getTemplates = (): (Project & { id: string })[] => {
     const excludedIds = ['kopi-dua-darjat', 'ffm-music'];
 
     const templateDetails: Record<string, { title: string; price: number; description: string; longDescription: string, features: string[], tags: string[] }> = {
@@ -569,5 +597,7 @@ export const getTemplates = (): Template[] => {
             };
     });
 };
+
+    
 
     

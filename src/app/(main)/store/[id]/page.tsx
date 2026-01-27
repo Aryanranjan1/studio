@@ -1,41 +1,59 @@
 
 'use client';
 
-import { getTemplates } from '@/lib/data';
 import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import type { Template } from '@/lib/data';
 import { useEffect, useState, useCallback, useRef } from 'react';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, where, limit } from 'firebase/firestore';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { PricingSection } from '@/components/pricing-section';
 import { CtaSection } from '@/components/cta-section';
 import { Footer } from '@/components/footer';
+import { usePublicTemplates } from '@/hooks/use-templates';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function TemplateDetailsPage() {
   const params = useParams();
-  const id = params.id as string;
+  const slug = params.id as string;
+  const firestore = useFirestore();
 
-  const [template, setTemplate] = useState<Template | null>(null);
   const [otherTemplates, setOtherTemplates] = useState<Template[]>([]);
   const sliderRef = useRef<HTMLDivElement>(null);
+  
+  const templateQuery = useMemoFirebase(() => {
+    if (!firestore || !slug) return null;
+    return query(
+      collection(firestore, 'templates'),
+      where('slug', '==', slug),
+      where('published', '==', true),
+      limit(1)
+    );
+  }, [firestore, slug]);
+
+  const { data: templates, isLoading: templateLoading } = useCollection<Template>(templateQuery);
+  const template = templates?.[0];
+  
+  const { data: allPublicTemplates } = usePublicTemplates();
 
   useEffect(() => {
-    if (!id) return;
-    const allTemplates = getTemplates();
-    const foundTemplate = allTemplates.find((p) => p.id === id);
-    if (foundTemplate) {
-      setTemplate(foundTemplate);
+    if (template && allPublicTemplates) {
+      document.title = `${template.title} — Ampire Assets`;
       setOtherTemplates(
-        allTemplates.filter(t => t.id !== id).slice(0, 3)
+        allPublicTemplates.filter(t => t.id !== template.id).slice(0, 3)
       );
-      document.title = `${foundTemplate.title} — Ampire Assets`;
-    } else {
-      notFound();
     }
-  }, [id]);
+  }, [template, allPublicTemplates]);
+  
+  useEffect(() => {
+      if (!templateLoading && !template) {
+          notFound();
+      }
+  }, [template, templateLoading])
 
   const moveSlide = (direction: number) => {
     if (sliderRef.current) {
@@ -45,7 +63,7 @@ export default function TemplateDetailsPage() {
   }
 
 
-  if (!template) {
+  if (templateLoading || !template) {
     return (
       <div className="w-full bg-background text-foreground min-h-screen flex items-center justify-center">
         <p>Loading Template...</p>
@@ -66,17 +84,17 @@ export default function TemplateDetailsPage() {
         <div className="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-3 h-auto md:h-[calc(100vh-60px)] w-full">
             {/* --- LEFT: IMAGE SLIDER --- */}
             <div className="relative border-r border-primary h-[50vh] md:h-full overflow-hidden bg-background md:col-span-3 lg:col-span-2">
-                {template.images.length > 1 && (
+                {template.galleryImages.length > 1 ? (
                     <>
                         <button className="slider-btn prev-btn" onClick={() => moveSlide(-1)}>&lt;</button>
                         <div className="slider-track" ref={sliderRef}>
-                            {template.images.map((img, index) => (
+                            {template.galleryImages.map((img, index) => (
                                 <div className="slide group" key={index}>
-                                    <Image src={img.src} alt={img.alt} fill priority={index === 0} className="object-contain" />
+                                    <Image src={img.url} alt={img.alt} fill priority={index === 0} className="object-contain" />
                                     <div className="slide-caption">[FIG {index + 1}.0] {img.alt}</div>
                                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                                     <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-foreground hover:text-background scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
-                                            <a href={template.url} target="_blank" rel="noopener noreferrer" aria-label={`Live preview of ${template.title}`}>
+                                            <a href={template.previewUrl} target="_blank" rel="noopener noreferrer" aria-label={`Live preview of ${template.title}`}>
                                                 Live Preview
                                             </a>
                                     </Button>
@@ -86,14 +104,13 @@ export default function TemplateDetailsPage() {
                         </div>
                         <button className="slider-btn next-btn" onClick={() => moveSlide(1)}>&gt;</button>
                     </>
-                )}
-                 {template.images.length === 1 && (
+                ) : (
                     <div className="slide group h-full w-full">
-                         <Image src={template.images[0].src} alt={template.images[0].alt} fill priority className="object-contain" />
-                         <div className="slide-caption">[FIG 1.0] {template.images[0].alt}</div>
+                         <Image src={template.cardImage.url} alt={template.cardImage.alt} fill priority className="object-contain" />
+                         <div className="slide-caption">[FIG 1.0] {template.cardImage.alt}</div>
                          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                            <Button asChild variant="outline" className="bg-background/80 backdrop-blur-md hover:bg-foreground hover:text-background scale-90 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
-                                <a href={template.url} target="_blank" rel="noopener noreferrer" aria-label={`Live preview of ${template.title}`}>
+                                <a href={template.previewUrl} target="_blank" rel="noopener noreferrer" aria-label={`Live preview of ${template.title}`}>
                                     Live Preview
                                 </a>
                            </Button>
@@ -119,7 +136,7 @@ export default function TemplateDetailsPage() {
 
                 <div className="action-group">
                     <Button asChild className="btn-main btn-buy rounded-none uppercase h-16 w-full">
-                        <a href={template.url} target="_blank" rel="noopener noreferrer">
+                        <a href={template.previewUrl} target="_blank" rel="noopener noreferrer">
                             <span>Buy Now</span>
                             <span>&rarr;</span>
                         </a>
@@ -150,10 +167,10 @@ export default function TemplateDetailsPage() {
                             {!otherTemplate.bestSeller && otherTemplate.isNew && (
                               <div className="absolute top-4 left-4 z-10 bg-background border border-foreground text-foreground px-2.5 py-1 text-xs">NEW</div>
                             )}
-                             <Link href={`/store/${otherTemplate.id}`} className="block h-72 overflow-hidden relative border-b border-border">
+                             <Link href={`/store/${otherTemplate.slug}`} className="block h-72 overflow-hidden relative border-b border-border">
                                 <Image
-                                    src={otherTemplate.image}
-                                    alt={otherTemplate.imageAlt}
+                                    src={otherTemplate.cardImage.url}
+                                    alt={otherTemplate.cardImage.alt}
                                     fill
                                     className="w-full h-full object-cover transition-all duration-500 ease-in-out group-hover:scale-105"
                                 />
@@ -162,22 +179,22 @@ export default function TemplateDetailsPage() {
                         <div className="p-8 flex flex-col justify-between flex-grow">
                             <div>
                                 <div className="flex justify-between items-start mb-5">
-                                    <Link href={`/store/${otherTemplate.id}`} className='block'>
+                                    <Link href={`/store/${otherTemplate.slug}`} className='block'>
                                         <h3 className="font-display text-2xl font-bold uppercase group-hover:text-primary transition-colors">{otherTemplate.title}</h3>
                                     </Link>
                                     <span className="text-xl font-bold">RM{otherTemplate.price}</span>
                                 </div>
-                                <p className="text-sm text-muted-foreground leading-relaxed mb-8 max-w-[90%] line-clamp-2">{otherTemplate.description}</p>
+                                <p className="text-sm text-muted-foreground leading-relaxed mb-8 max-w-[90%] line-clamp-2">{otherTemplate.shortDescription}</p>
                             </div>
                             
                             <div className="flex flex-col md:flex-row gap-2 mt-auto">
                                 <Button asChild variant="outline" className="w-full uppercase rounded-none bg-transparent text-foreground border-border hover:bg-foreground hover:text-background transition-all duration-300 flex items-center justify-center gap-2">
-                                     <Link href={`/store/${otherTemplate.id}`}>
+                                     <Link href={`/store/${otherTemplate.slug}`}>
                                         View Details <ArrowRight className="w-4 h-4 hidden md:inline-block" />
                                      </Link>
                                 </Button>
                                 <Button asChild className="w-full uppercase rounded-none flex items-center justify-center gap-2">
-                                   <a href={otherTemplate.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                   <a href={otherTemplate.previewUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                                     Buy Now <ArrowRight className="w-4 h-4 hidden md:inline-block" />
                                    </a>
                                 </Button>
@@ -350,3 +367,5 @@ export default function TemplateDetailsPage() {
     </div>
   );
 }
+
+    

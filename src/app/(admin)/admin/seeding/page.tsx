@@ -7,8 +7,8 @@ import { collection, writeBatch, doc, getDocs, serverTimestamp } from 'firebase/
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Database, Trash2 } from 'lucide-react';
-import type { Article, PortfolioProject, FaqItem } from '@/lib/data';
-import { getProjects } from '@/lib/data';
+import type { Article, PortfolioProject, FaqItem, Template } from '@/lib/data';
+import { getProjects, getTemplates } from '@/lib/data';
 import { slugify } from '@/lib/slugify';
 import {
   Card,
@@ -167,6 +167,34 @@ function generateSampleFaqs(): Omit<FaqItem, 'id' | 'createdAt' | 'updatedAt'>[]
     return faqs;
 }
 
+function generateSampleTemplates(): Omit<Template, 'id'>[] {
+    const templates = getTemplates(); // The original static data function
+
+    return templates.map(t => {
+        return {
+            title: t.title,
+            slug: slugify(t.title),
+            shortDescription: t.description,
+            longDescription: t.longDescription,
+            price: t.price,
+            category: t.category || 'uncategorized',
+            tags: t.tags,
+            technologies: t.technologies,
+            specs: t.specs,
+            features: t.features,
+            previewUrl: t.url,
+            cardImage: { url: t.image, alt: t.imageAlt },
+            galleryImages: t.images.map(img => ({ url: img.src, alt: img.alt })),
+            bestSeller: t.bestSeller || false,
+            isNew: t.isNew || false,
+            version: t.version || '1.0.0',
+            published: true,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp(),
+        }
+    });
+}
+
 
 export default function SeedingPage() {
     const [isSeedingBlogs, setIsSeedingBlogs] = useState(false);
@@ -175,6 +203,8 @@ export default function SeedingPage() {
     const [isClearingProjects, setIsClearingProjects] = useState(false);
     const [isSeedingFaqs, setIsSeedingFaqs] = useState(false);
     const [isClearingFaqs, setIsClearingFaqs] = useState(false);
+    const [isSeedingTemplates, setIsSeedingTemplates] = useState(false);
+    const [isClearingTemplates, setIsClearingTemplates] = useState(false);
     const firestore = useFirestore();
     const { toast } = useToast();
 
@@ -302,6 +332,45 @@ export default function SeedingPage() {
         }
     };
 
+    const handleSeedTemplates = async () => {
+        if (!firestore) return;
+        setIsSeedingTemplates(true);
+        try {
+            const batch = writeBatch(firestore);
+            const templatesToSeed = generateSampleTemplates();
+            const templatesCollection = collection(firestore, 'templates');
+            templatesToSeed.forEach(template => batch.set(doc(templatesCollection), template));
+            await batch.commit();
+            toast({ title: "Success!", description: `${templatesToSeed.length} sample templates seeded.` });
+        } catch (error: any) {
+            handleFirestoreError(error, "Could not seed template data.");
+        } finally {
+            setIsSeedingTemplates(false);
+        }
+    };
+
+    const handleClearTemplates = async () => {
+        if (!firestore) return;
+        setIsClearingTemplates(true);
+        try {
+            const templatesCollection = collection(firestore, 'templates');
+            const snapshot = await getDocs(templatesCollection);
+            if (snapshot.empty) {
+                toast({ title: "Info", description: "Templates collection is already empty." });
+                setIsClearingTemplates(false);
+                return;
+            }
+            const batch = writeBatch(firestore);
+            snapshot.forEach(doc => batch.delete(doc.ref));
+            await batch.commit();
+            toast({ title: "Success!", description: `Cleared ${snapshot.size} templates.` });
+        } catch (error: any) {
+            handleFirestoreError(error, "Could not clear template data.");
+        } finally {
+            setIsClearingTemplates(false);
+        }
+    };
+
     const handleFirestoreError = (error: any, defaultMessage: string) => {
         console.error("Firestore operation error: ", error);
         if (error.code === 'permission-denied') {
@@ -316,7 +385,7 @@ export default function SeedingPage() {
         }
     };
     
-    const isActionInProgress = isSeedingBlogs || isClearingBlogs || isSeedingProjects || isClearingProjects || isSeedingFaqs || isClearingFaqs;
+    const isActionInProgress = isSeedingBlogs || isClearingBlogs || isSeedingProjects || isClearingProjects || isSeedingFaqs || isClearingFaqs || isSeedingTemplates || isClearingTemplates;
 
     return (
         <>
@@ -482,6 +551,60 @@ export default function SeedingPage() {
                     </Card>
                 </div>
             </div>
+            <div className="mt-12 pt-8 border-t">
+                <h2 className="text-xl font-semibold mb-4">Templates</h2>
+                <div className="grid md:grid-cols-2 gap-8">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Seed Sample Templates</CardTitle>
+                            <CardDescription>
+                                Adds sample templates from your static data file to the 'templates' collection.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <Button onClick={handleSeedTemplates} disabled={isActionInProgress} className="w-full">
+                            {isSeedingTemplates ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Database className="mr-2 h-4 w-4" />}
+                            {isSeedingTemplates ? 'Seeding...' : 'Seed Sample Templates'}
+                            </Button>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="border-destructive">
+                        <CardHeader>
+                            <CardTitle className="text-destructive">Clear Template Data</CardTitle>
+                            <CardDescription>
+                            Permanently deletes all documents from the 'templates' collection. This cannot be undone.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button variant="destructive" className="w-full" disabled={isActionInProgress}>
+                                    {isClearingTemplates ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
+                                    Clear All Templates
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This will permanently delete all templates from the 'templates' collection.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleClearTemplates} className="bg-destructive hover:bg-destructive/90">
+                                    Yes, delete all templates
+                                </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                            </AlertDialog>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
         </>
     );
 }
+
+    

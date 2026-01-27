@@ -12,21 +12,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { BookOpen, ShoppingBag } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { usePublicTemplates } from '@/hooks/use-templates';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, orderBy } from 'firebase/firestore';
 
 type SearchResultsProps = {
   articles: Article[];
-  templates: Template[];
 };
 
 export function SearchResults({
   articles,
-  templates,
 }: SearchResultsProps) {
+  const { data: templates, isLoading: templatesLoading } = usePublicTemplates();
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredArticles, setFilteredArticles] = useState<Article[]>([]);
   const [filteredTemplates, setFilteredTemplates] = useState<Template[]>([]);
 
   useEffect(() => {
+    if (!templates) return;
+    
     const term = searchTerm.toLowerCase();
 
     if (term === '') {
@@ -40,7 +44,7 @@ export function SearchResults({
         a =>
           a.title.toLowerCase().includes(term) ||
           a.excerpt.toLowerCase().includes(term) ||
-          a.content.toLowerCase().includes(term) ||
+          (a.content && a.content.toLowerCase().includes(term)) ||
           a.tags.some(t => t.toLowerCase().includes(term))
       )
     );
@@ -49,7 +53,7 @@ export function SearchResults({
       templates.filter(
         t =>
           t.title.toLowerCase().includes(term) ||
-          t.description.toLowerCase().includes(term) ||
+          t.shortDescription.toLowerCase().includes(term) ||
           t.tags.some(t => t.toLowerCase().includes(term))
       )
     );
@@ -87,18 +91,18 @@ export function SearchResults({
                 </div>
                 {filteredTemplates.map(template => (
                     <div key={template.id} className="col-span-12 md:col-span-6 bg-black">
-                        <Link href={`/store/${template.id}`} className="group h-full block">
+                        <Link href={`/store/${template.slug}`} className="group h-full block">
                         <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10 rounded-none border-transparent">
                             <div className="relative aspect-video w-full">
-                            <Image src={template.image} alt={template.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
+                            <Image src={template.cardImage.url} alt={template.cardImage.alt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
                             </div>
                             <CardContent className="p-6">
                                 <div className="flex justify-between items-start">
                                     <Badge variant="secondary">{template.tags[0]}</Badge>
-                                    <p className="text-xl font-bold text-primary">${template.price}</p>
+                                    <p className="text-xl font-bold text-primary">RM{template.price}</p>
                                 </div>
                             <p className="font-headline text-xl font-bold mt-4 group-hover:text-primary">{template.title}</p>
-                            <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{template.description}</p>
+                            <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{template.shortDescription}</p>
                             </CardContent>
                         </Card>
                         </Link>
@@ -117,10 +121,10 @@ export function SearchResults({
                 </div>
                 {filteredArticles.map(article => (
                     <div key={article.id} className="col-span-12 md:col-span-6 bg-black">
-                        <Link href={`/blog/${article.id}`} className="group h-full block">
+                        <Link href={`/blog/${article.slug}`} className="group h-full block">
                             <Card className="h-full overflow-hidden transition-all duration-300 group-hover:border-primary/50 group-hover:shadow-primary/10 rounded-none border-transparent">
                                 <div className="relative aspect-video w-full">
-                                <Image src={article.image} alt={article.imageAlt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
+                                <Image src={article.cardImage.url} alt={article.cardImage.alt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy" />
                                 </div>
                                 <CardContent className="p-6">
                                 <Badge variant="outline" className="border-primary/50 text-primary">{article.category}</Badge>
@@ -136,3 +140,5 @@ export function SearchResults({
     </div>
   );
 }
+
+    
