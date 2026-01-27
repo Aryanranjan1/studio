@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -73,7 +74,6 @@ export default function BlogManagementPage() {
   const { toast } = useToast();
 
   const handleDelete = (id: string) => {
-    const firestore = useFirestore();
     if(!firestore) return;
 
     deleteBlogPost(firestore, id);
