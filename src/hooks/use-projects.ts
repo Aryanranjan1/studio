@@ -1,7 +1,7 @@
 'use client';
 
 import { useFirestore } from '@/firebase';
-import { collection, query, where, orderBy, onSnapshot, Unsubscribe, FirestoreError } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, Unsubscribe, FirestoreError, orderBy } from 'firebase/firestore';
 import type { PortfolioProject } from '@/lib/data';
 import { useState, useEffect } from 'react';
 import { errorEmitter } from '@/firebase/error-emitter';
@@ -24,16 +24,28 @@ export function usePublicProjects() {
     }
     
     setIsLoading(true);
+    // Removed orderBy from the query to avoid needing a composite index.
     const projectsQuery = query(
       collection(firestore, 'projects'),
-      where('published', '==', true),
-      orderBy('publishDate', 'desc')
+      where('published', '==', true)
     );
 
     const unsubscribe: Unsubscribe = onSnapshot(
       projectsQuery,
       (snapshot) => {
         const projectsData = snapshot.docs.map(doc => ({ ...doc.data() as PortfolioProject, id: doc.id }));
+
+        // Sort the data on the client side.
+        projectsData.sort((a, b) => {
+          const dateA = a.publishDate && typeof (a.publishDate as any).toDate === 'function' 
+            ? (a.publishDate as any).toDate() 
+            : new Date(a.publishDate);
+          const dateB = b.publishDate && typeof (b.publishDate as any).toDate === 'function' 
+            ? (b.publishDate as any).toDate() 
+            : new Date(b.publishDate);
+          return dateB.getTime() - dateA.getTime();
+        });
+
         setData(projectsData);
         setError(null);
         setIsLoading(false);
