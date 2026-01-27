@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -54,8 +53,8 @@ const CtaSection = dynamic(
 // --- PROJECT CARD COMPONENT ---
 const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   return (
-    <div className="project-card group mb-8 last:mb-0">
-      <div className="img-wrapper overflow-hidden border border-border mb-5 relative h-[300px] md:h-[450px] block">
+    <div className="project-card mb-8 last:mb-0">
+      <div className="img-wrapper group overflow-hidden border border-border mb-5 relative h-[300px] md:h-[450px] block">
         <Link href={`/portfolio/${project.slug}`} className="block h-full w-full">
           <Image
             src={project.image}
@@ -64,12 +63,16 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
             className="object-contain transition-all duration-700 ease-out group-hover:scale-105"
             loading="lazy"
           />
-           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <div className="border border-white text-white px-6 py-2 uppercase text-sm font-semibold backdrop-blur-sm">
-                    View Project
-                </div>
-            </div>
         </Link>
+        {project.url && (
+            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                <Button asChild variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-black backdrop-blur-sm pointer-events-auto">
+                    <a href={project.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                        View
+                    </a>
+                </Button>
+            </div>
+        )}
       </div>
       <div className="project-meta flex justify-between items-end pb-2.5 border-b border-border">
         <div>

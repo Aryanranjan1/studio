@@ -98,31 +98,41 @@ export default function PortfolioPage() {
 
       <section className="portfolio-grid">
         {paginatedProjects.map(project => (
-          <Link href={`/portfolio/${project.slug}`} className="project-card group" key={project.id}>
+          <div className="project-card group" key={project.id}>
             <div className="art-img-wrapper">
-              <Image
-                src={project.cardImage.url}
-                alt={project.cardImage.alt}
-                fill
-                className="art-img"
-                loading="lazy"
-              />
-               <Badge variant="secondary" className="absolute top-4 left-4 z-10">{project.category}</Badge>
-               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="border border-white text-white px-6 py-2 uppercase text-sm font-semibold">
-                        View Project
+                <Link href={`/portfolio/${project.slug}`} className="block h-full w-full">
+                    <Image
+                        src={project.cardImage.url}
+                        alt={project.cardImage.alt}
+                        fill
+                        className="art-img"
+                        loading="lazy"
+                    />
+                </Link>
+                <Badge variant="secondary" className="absolute top-4 left-4 z-10">{project.category}</Badge>
+                {project.projectUrl && (
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                        <Button asChild variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-black backdrop-blur-sm pointer-events-auto">
+                            <a href={project.projectUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                View
+                            </a>
+                        </Button>
                     </div>
-                </div>
+                )}
             </div>
             <div className="art-body">
-              <div className="art-meta">
-                <span>{project.technologies.slice(0,2).join(' / ')}</span>
-              </div>
-              <h3 className="art-title">{project.title}</h3>
-              <p className="art-desc">{project.summary}</p>
-              <div className="art-footer">VIEW_PROJECT &rarr;</div>
+                <div className="art-meta">
+                    <span>{project.technologies.slice(0,2).join(' / ')}</span>
+                </div>
+                <Link href={`/portfolio/${project.slug}`}>
+                    <h3 className="art-title">{project.title}</h3>
+                </Link>
+                <p className="art-desc">{project.summary}</p>
+                <Link href={`/portfolio/${project.slug}`} className="art-footer">
+                    VIEW_PROJECT &rarr;
+                </Link>
             </div>
-          </Link>
+          </div>
         ))}
       </section>
       
