@@ -1,10 +1,9 @@
-
 'use client';
 
-import { useFirestore } from '@/firebase';
+import { useFirestore, useCollection, useMemoFirebase } from '@/firebase';
 import { collection, query, where, onSnapshot, Unsubscribe, FirestoreError, orderBy } from 'firebase/firestore';
 import type { Template } from '@/lib/data';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
 
@@ -13,46 +12,30 @@ import { FirestorePermissionError } from '@/firebase/errors';
  */
 export function usePublicTemplates() {
   const firestore = useFirestore();
-  const [data, setData] = useState<Template[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
-
-  useEffect(() => {
-    if (!firestore) {
-      setIsLoading(false);
-      return;
-    }
-    
-    setIsLoading(true);
-    const templatesQuery = query(
-      collection(firestore, 'templates'),
-      where('published', '==', true),
-      orderBy('createdAt', 'desc')
+  
+  const templatesQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    // Query is simplified: only filter, no ordering on the backend.
+    return query(
+        collection(firestore, 'templates'),
+        where('published', '==', true)
     );
-
-    const unsubscribe: Unsubscribe = onSnapshot(
-      templatesQuery,
-      (snapshot) => {
-        const templatesData = snapshot.docs.map(doc => ({ ...doc.data() as Template, id: doc.id }));
-        setData(templatesData);
-        setError(null);
-        setIsLoading(false);
-      },
-      (firestoreError: FirestoreError) => {
-        console.error("Public template fetch error:", firestoreError);
-        const contextualError = new FirestorePermissionError({
-          path: 'templates',
-          operation: 'list',
-        });
-        setError(contextualError);
-        setData(null);
-        setIsLoading(false);
-        errorEmitter.emit('permission-error', contextualError);
-      }
-    );
-
-    return () => unsubscribe();
   }, [firestore]);
+
+  // useCollection will fetch the documents that match the query
+  const { data: unsortedData, isLoading, error } = useCollection<Template>(templatesQuery);
+
+  // useMemo will sort the data on the client-side, only when unsortedData changes
+  const data = useMemo(() => {
+    if (!unsortedData) return null;
+    // Perform client-side sorting
+    return [...unsortedData].sort((a, b) => {
+        // Handle Firestore Timestamps safely
+        const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(0);
+        const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(0);
+        return dateB.getTime() - dateA.getTime();
+    });
+  }, [unsortedData]);
   
   return { data, isLoading, error };
 }
@@ -104,5 +87,3 @@ export function useAdminTemplates(isAdmin: boolean) {
 
   return { data, isLoading, error };
 }
-
-    
