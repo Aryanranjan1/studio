@@ -2,18 +2,10 @@
 
 import React from 'react'
 import { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal, Edit, Trash2, Eye } from 'lucide-react'
+import { Eye, Edit, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import {
     AlertDialog,
     AlertDialogAction,
@@ -50,36 +42,23 @@ const CellActions: React.FC<{ project: PortfolioProject }> = ({ project }) => {
 
     return (
         <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                    <span className="sr-only">Open menu</span>
-                    <MoreHorizontal className="h-4 w-4" />
+            <div className="flex items-center justify-end gap-2">
+                <Button asChild variant="ghost" size="icon">
+                    <Link href={`/portfolio/${project.slug}`} target="_blank" aria-label="View Project">
+                        <Eye className="h-4 w-4" />
+                    </Link>
                 </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem asChild>
-                        <Link href={`/portfolio/${project.slug}`} target="_blank">
-                            <Eye className="mr-2 h-4 w-4" />
-                            View
-                        </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                        <Link href={`/admin/portfolio/edit/${project.id}`}>
-                            <Edit className="mr-2 h-4 w-4" />
-                            Edit
-                        </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <AlertDialogTrigger asChild>
-                        <DropdownMenuItem className="text-destructive focus:text-destructive focus:bg-destructive/10" onSelect={(e) => e.preventDefault()}>
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
-                        </DropdownMenuItem>
-                    </AlertDialogTrigger>
-                </DropdownMenuContent>
-            </DropdownMenu>
+                <Button asChild variant="ghost" size="icon">
+                    <Link href={`/admin/portfolio/edit/${project.id}`} aria-label="Edit Project">
+                        <Edit className="h-4 w-4" />
+                    </Link>
+                </Button>
+                <AlertDialogTrigger asChild>
+                    <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" aria-label="Delete Project">
+                        <Trash2 className="h-4 w-4" />
+                    </Button>
+                </AlertDialogTrigger>
+            </div>
             <AlertDialogContent>
                 <AlertDialogHeader>
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
@@ -143,6 +122,6 @@ export const columns: ColumnDef<PortfolioProject>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => <div className="text-right"><CellActions project={row.original} /></div>
+    cell: ({ row }) => <CellActions project={row.original} />
   },
 ]
