@@ -6,7 +6,9 @@ import { collection, writeBatch, doc, getDocs } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Database, Trash2 } from 'lucide-react';
-import type { Article } from '@/lib/data';
+import type { Article, PortfolioProject } from '@/lib/data';
+import { getProjects } from '@/lib/data';
+import { slugify } from '@/lib/slugify';
 import {
   Card,
   CardContent,
@@ -59,7 +61,7 @@ function generateSampleArticles(): Omit<Article, 'id'>[] {
             category: articleCategories[i % articleCategories.length],
             status: 'published',
             readingTime: Math.floor(Math.random() * 10) + 3,
-            featured: i < 3, // Make first 3 articles featured
+            featured: i < 3,
             popular: i < 3,
             metaTitle: `${title} | Ampire Studio`,
             metaDescription: `A brief look into article number ${i + 1}. This piece explores key concepts and provides actionable advice.`,
@@ -83,97 +85,141 @@ function generateSampleArticles(): Omit<Article, 'id'>[] {
     return articles;
 }
 
+function generateSampleProjects(): Omit<PortfolioProject, 'id'>[] {
+    const projects = getProjects();
+
+    return projects.map((p, i) => {
+        const now = new Date();
+        now.setDate(now.getDate() - (projects.length - i));
+
+        return {
+            title: p.title,
+            slug: slugify(p.title),
+            summary: p.description,
+            category: p.category || 'Uncategorized',
+            technologies: p.technologies,
+            projectYear: '2024',
+            projectUrl: p.url,
+            longDescription: p.longDescription,
+            featuredImage: {
+                url: p.image,
+                alt: p.imageAlt,
+            },
+            cardImage: {
+                url: p.image,
+                alt: p.imageAlt,
+            },
+            galleryImages: p.images.map(img => ({ url: img.src, alt: img.alt })),
+            published: true,
+            publishDate: now.toISOString(),
+            lastUpdated: now.toISOString(),
+            metaTitle: p.title,
+            metaDescription: p.description,
+            robotsMeta: 'index',
+        };
+    });
+}
+
 
 export default function SeedingPage() {
-    const [isSeeding, setIsSeeding] = useState(false);
-    const [isClearing, setIsClearing] = useState(false);
+    const [isSeedingBlogs, setIsSeedingBlogs] = useState(false);
+    const [isClearingBlogs, setIsClearingBlogs] = useState(false);
+    const [isSeedingProjects, setIsSeedingProjects] = useState(false);
+    const [isClearingProjects, setIsClearingProjects] = useState(false);
     const firestore = useFirestore();
     const { toast } = useToast();
 
-    const handleSeedData = async () => {
-        if (!firestore) {
-            toast({ title: "Error", description: "Firestore not available.", variant: "destructive" });
-            return;
-        }
-
-        setIsSeeding(true);
+    const handleSeedBlogs = async () => {
+        if (!firestore) return;
+        setIsSeedingBlogs(true);
         try {
             const batch = writeBatch(firestore);
             const articlesToSeed = generateSampleArticles();
             const articlesCollection = collection(firestore, 'blogs');
-
-            articlesToSeed.forEach(article => {
-                const docRef = doc(articlesCollection);
-                batch.set(docRef, article);
-            });
-
+            articlesToSeed.forEach(article => batch.set(doc(articlesCollection), article));
             await batch.commit();
-
-            toast({
-                title: "Success!",
-                description: `${articlesToSeed.length} sample blog posts have been seeded.`,
-            });
+            toast({ title: "Success!", description: `${articlesToSeed.length} sample blog posts seeded.` });
         } catch (error: any) {
-            console.error("Error seeding data: ", error);
-            if (error.code === 'permission-denied') {
-                toast({
-                    variant: "destructive",
-                    title: "Authorization Error",
-                    description: "You do not have permission to perform this action. Ensure your user account has an 'admin' role in the '/admin_profiles' collection in Firestore.",
-                    duration: 9000,
-                });
-            } else {
-                 toast({ variant: "destructive", title: "Uh oh! Something went wrong.", description: "Could not seed data. Check the console for more details." });
-            }
+            handleFirestoreError(error, "Could not seed blog data.");
         } finally {
-            setIsSeeding(false);
+            setIsSeedingBlogs(false);
         }
     };
     
-    const handleClearData = async () => {
-        if (!firestore) {
-            toast({ title: "Error", description: "Firestore not available.", variant: "destructive" });
-            return;
-        }
-
-        setIsClearing(true);
+    const handleClearBlogs = async () => {
+        if (!firestore) return;
+        setIsClearingBlogs(true);
         try {
             const blogsCollection = collection(firestore, 'blogs');
-            const blogsSnapshot = await getDocs(blogsCollection);
-            
-            if (blogsSnapshot.empty) {
+            const snapshot = await getDocs(blogsCollection);
+            if (snapshot.empty) {
                 toast({ title: "Info", description: "Blog collection is already empty." });
-                setIsClearing(false);
                 return;
             }
-
             const batch = writeBatch(firestore);
-            blogsSnapshot.forEach(doc => {
-                batch.delete(doc.ref);
-            });
+            snapshot.forEach(doc => batch.delete(doc.ref));
             await batch.commit();
-
-            toast({
-                title: "Success!",
-                description: `Cleared ${blogsSnapshot.size} blog posts.`,
-            });
-
+            toast({ title: "Success!", description: `Cleared ${snapshot.size} blog posts.` });
         } catch (error: any) {
-            console.error("Error clearing data: ", error);
-             if (error.code === 'permission-denied') {
-                toast({
-                    variant: "destructive",
-                    title: "Authorization Error",
-                    description: "You do not have permission to perform this action. Ensure you are an admin.",
-                    duration: 9000,
-                });
-            } else {
-                 toast({ variant: "destructive", title: "Uh oh! Something went wrong.", description: "Could not clear data. Check the console." });
-            }
+            handleFirestoreError(error, "Could not clear blog data.");
         } finally {
-            setIsClearing(false);
+            setIsClearingBlogs(false);
         }
     };
+    
+    const handleSeedProjects = async () => {
+        if (!firestore) return;
+        setIsSeedingProjects(true);
+        try {
+            const batch = writeBatch(firestore);
+            const projectsToSeed = generateSampleProjects();
+            const projectsCollection = collection(firestore, 'projects');
+            projectsToSeed.forEach(project => batch.set(doc(projectsCollection), project));
+            await batch.commit();
+            toast({ title: "Success!", description: `${projectsToSeed.length} sample projects seeded.` });
+        } catch (error: any) {
+            handleFirestoreError(error, "Could not seed project data.");
+        } finally {
+            setIsSeedingProjects(false);
+        }
+    };
+    
+    const handleClearProjects = async () => {
+        if (!firestore) return;
+        setIsClearingProjects(true);
+        try {
+            const projectsCollection = collection(firestore, 'projects');
+            const snapshot = await getDocs(projectsCollection);
+            if (snapshot.empty) {
+                toast({ title: "Info", description: "Projects collection is already empty." });
+                return;
+            }
+            const batch = writeBatch(firestore);
+            snapshot.forEach(doc => batch.delete(doc.ref));
+            await batch.commit();
+            toast({ title: "Success!", description: `Cleared ${snapshot.size} projects.` });
+        } catch (error: any) {
+            handleFirestoreError(error, "Could not clear project data.");
+        } finally {
+            setIsClearingProjects(false);
+        }
+    };
+
+    const handleFirestoreError = (error: any, defaultMessage: string) => {
+        console.error("Firestore operation error: ", error);
+        if (error.code === 'permission-denied') {
+            toast({
+                variant: "destructive",
+                title: "Authorization Error",
+                description: "You do not have permission to perform this action. Ensure you are an admin.",
+                duration: 9000,
+            });
+        } else {
+             toast({ variant: "destructive", title: "Uh oh! Something went wrong.", description: defaultMessage });
+        }
+    }
+    
+    const isActionInProgress = isSeedingBlogs || isClearingBlogs || isSeedingProjects || isClearingProjects;
 
     return (
         <>
@@ -181,57 +227,110 @@ export default function SeedingPage() {
                 <h1 className="text-lg font-semibold md:text-2xl">Data Management</h1>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8 mt-6">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Seed Sample Data</CardTitle>
-                        <CardDescription>
-                        This will add 10 sample blog posts to your Firestore database. Useful for development and testing.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <Button onClick={handleSeedData} disabled={isSeeding || isClearing} className="w-full">
-                        {isSeeding ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Database className="mr-2 h-4 w-4" />}
-                        {isSeeding ? 'Seeding...' : 'Seed 10 Blog Posts'}
-                        </Button>
-                    </CardContent>
-                </Card>
-
-                <Card className="border-destructive">
-                    <CardHeader>
-                        <CardTitle className="text-destructive">Clear Blog Data</CardTitle>
-                        <CardDescription>
-                        This will permanently delete all blog posts from your database. This action cannot be undone.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                            <Button variant="destructive" className="w-full" disabled={isClearing || isSeeding}>
-                                {isClearing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
-                                Clear All Posts
+            <div className="mt-6">
+                <h2 className="text-xl font-semibold mb-4">Blog Posts</h2>
+                <div className="grid md:grid-cols-2 gap-8">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Seed Sample Blog Posts</CardTitle>
+                            <CardDescription>
+                            Adds 10 sample posts to the 'blogs' collection. Useful for development and testing.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <Button onClick={handleSeedBlogs} disabled={isActionInProgress} className="w-full">
+                            {isSeedingBlogs ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Database className="mr-2 h-4 w-4" />}
+                            {isSeedingBlogs ? 'Seeding...' : 'Seed 10 Blog Posts'}
                             </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    This action cannot be undone. This will permanently delete all {`blog`} posts from the database.
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction
-                                onClick={handleClearData}
-                                className="bg-destructive hover:bg-destructive/90"
-                            >
-                                Yes, delete everything
-                            </AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                        </AlertDialog>
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="border-destructive">
+                        <CardHeader>
+                            <CardTitle className="text-destructive">Clear Blog Data</CardTitle>
+                            <CardDescription>
+                            Permanently deletes all documents from the 'blogs' collection. This cannot be undone.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button variant="destructive" className="w-full" disabled={isActionInProgress}>
+                                    {isClearingBlogs ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
+                                    Clear All Posts
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This will permanently delete all posts from the 'blogs' collection.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleClearBlogs} className="bg-destructive hover:bg-destructive/90">
+                                    Yes, delete all blog posts
+                                </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                            </AlertDialog>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+
+            <div className="mt-12 pt-8 border-t">
+                <h2 className="text-xl font-semibold mb-4">Portfolio Projects</h2>
+                <div className="grid md:grid-cols-2 gap-8">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Seed Sample Projects</CardTitle>
+                            <CardDescription>
+                                Adds sample projects from your static data file to the 'projects' collection.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <Button onClick={handleSeedProjects} disabled={isActionInProgress} className="w-full">
+                            {isSeedingProjects ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Database className="mr-2 h-4 w-4" />}
+                            {isSeedingProjects ? 'Seeding...' : 'Seed All Projects'}
+                            </Button>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="border-destructive">
+                        <CardHeader>
+                            <CardTitle className="text-destructive">Clear Project Data</CardTitle>
+                            <CardDescription>
+                            Permanently deletes all documents from the 'projects' collection. This cannot be undone.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button variant="destructive" className="w-full" disabled={isActionInProgress}>
+                                    {isClearingProjects ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
+                                    Clear All Projects
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This will permanently delete all projects from the 'projects' collection.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleClearProjects} className="bg-destructive hover:bg-destructive/90">
+                                    Yes, delete all projects
+                                </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                            </AlertDialog>
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
         </>
     );
