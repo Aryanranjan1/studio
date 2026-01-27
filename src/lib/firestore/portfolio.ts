@@ -23,8 +23,16 @@ export type UpdateProjectData = Partial<NewProjectData>;
  */
 export function addPortfolioProject(firestore: Firestore, data: NewProjectData): void {
   const collectionRef = collection(firestore, 'projects');
+
+  const sanitizedData = { ...data };
+  Object.keys(sanitizedData).forEach(key => {
+    if (sanitizedData[key as keyof typeof sanitizedData] === undefined) {
+      delete sanitizedData[key as keyof typeof sanitizedData];
+    }
+  });
+
   const enrichedData = {
-    ...data,
+    ...sanitizedData,
     publishDate: serverTimestamp(),
     lastUpdated: serverTimestamp(),
   };
@@ -47,8 +55,16 @@ export function addPortfolioProject(firestore: Firestore, data: NewProjectData):
  */
 export function updatePortfolioProject(firestore: Firestore, id: string, data: UpdateProjectData): void {
   const docRef = doc(firestore, 'projects', id);
+  
+  const sanitizedData = { ...data };
+  Object.keys(sanitizedData).forEach(key => {
+    if (sanitizedData[key as keyof typeof sanitizedData] === undefined) {
+      delete sanitizedData[key as keyof typeof sanitizedData];
+    }
+  });
+
   const enrichedData = {
-    ...data,
+    ...sanitizedData,
     lastUpdated: serverTimestamp(),
   };
   

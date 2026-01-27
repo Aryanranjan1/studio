@@ -28,8 +28,16 @@ export type UpdateBlogPostData = Partial<Omit<Article, 'id' | 'lastUpdated'>>;
  */
 export function addBlogPost(firestore: Firestore, data: NewBlogPostData): void {
   const collectionRef = collection(firestore, 'blogs');
+  
+  const sanitizedData = { ...data };
+  Object.keys(sanitizedData).forEach(key => {
+    if (sanitizedData[key as keyof typeof sanitizedData] === undefined) {
+      delete sanitizedData[key as keyof typeof sanitizedData];
+    }
+  });
+
   const enrichedData = {
-    ...data,
+    ...sanitizedData,
     lastUpdated: serverTimestamp(), // Let Firestore handle the timestamp
   };
 
@@ -54,8 +62,16 @@ export function addBlogPost(firestore: Firestore, data: NewBlogPostData): void {
  */
 export function updateBlogPost(firestore: Firestore, id: string, data: UpdateBlogPostData): void {
   const docRef = doc(firestore, 'blogs', id);
+  
+  const sanitizedData = { ...data };
+  Object.keys(sanitizedData).forEach(key => {
+    if (sanitizedData[key as keyof typeof sanitizedData] === undefined) {
+      delete sanitizedData[key as keyof typeof sanitizedData];
+    }
+  });
+
   const enrichedData = {
-    ...data,
+    ...sanitizedData,
     lastUpdated: serverTimestamp(),
   };
   
@@ -90,5 +106,3 @@ export function deleteBlogPost(firestore: Firestore, id: string): void {
       errorEmitter.emit('permission-error', permissionError);
     });
 }
-
-    
