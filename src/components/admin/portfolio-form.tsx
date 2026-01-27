@@ -29,7 +29,8 @@ import {
 } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, Save, Switch, PlusCircle, Trash2 } from 'lucide-react';
+import { Loader2, Save, PlusCircle, Trash2 } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
 
 const formSchema = z.object({
   title: z.string().min(1, 'Title is required.'),
@@ -323,3 +324,5 @@ export function PortfolioForm({ defaultValues, onSubmit, isSubmitting }: Portfol
     </form>
   );
 }
+
+    
