@@ -189,7 +189,7 @@ export function PortfolioForm({ defaultValues, onSubmit, isSubmitting }: Portfol
                <div className="grid grid-cols-2 gap-4">
                 <div>
                     <Label htmlFor="clientName">Client Name (Optional)</Label>
-                    <Input id="clientName" {...register('clientName')} />
+                    <Input id="clientName" type="text" {...register('clientName')} />
                 </div>
                 <div>
                     <Label htmlFor="projectUrl">Project URL (Optional)</Label>
@@ -324,5 +324,3 @@ export function PortfolioForm({ defaultValues, onSubmit, isSubmitting }: Portfol
     </form>
   );
 }
-
-    
