@@ -17,10 +17,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { Footer } from '@/components/footer';
 import { socialLinks } from '@/lib/social-links';
-import { getContactDetails, getFaqs } from '@/lib/data';
+import { getContactDetails } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
+import { usePublicFaqs } from '@/hooks/useFaqs';
 
-const faqItems = getFaqs().filter(faq => ['gen-2', 'dev-2', 'price-1'].includes(faq.id));
 
 export function ContactForm() {
   const [formData, setFormData] = useState({
@@ -34,7 +34,10 @@ export function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
+  const { data: allFaqs } = usePublicFaqs();
   const contactDetails = getContactDetails();
+
+  const faqItems = allFaqs?.filter(faq => ['gen-2', 'dev-2', 'price-1'].includes(faq.id)) || [];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -238,3 +241,5 @@ export function ContactForm() {
     </div>
   );
 }
+
+    

@@ -320,6 +320,63 @@
         "metaTitle",
         "metaDescription"
       ]
+    },
+    "FaqItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "FAQ Item",
+      "type": "object",
+      "description": "Represents a single Frequently Asked Question item.",
+      "properties": {
+        "question": {
+          "type": "string",
+          "description": "The question text."
+        },
+        "answer": {
+          "type": "string",
+          "description": "The answer text, which can include basic HTML."
+        },
+        "preview": {
+          "type": "string",
+          "description": "A short preview of the answer for list views."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category the FAQ belongs to (e.g., General, Pricing)."
+        },
+        "order": {
+            "type": "number",
+            "description": "A number to determine the display order."
+        },
+        "published": {
+          "type": "boolean",
+          "description": "The publishing status of the FAQ."
+        },
+        "link": {
+          "type": "object",
+          "properties": {
+            "href": { "type": "string", "format": "uri" },
+            "text": { "type": "string" }
+          }
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of when the FAQ was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of when the FAQ was last updated."
+        }
+      },
+      "required": [
+        "question",
+        "answer",
+        "preview",
+        "category",
+        "order",
+        "published"
+      ]
     }
   },
   "auth": {
@@ -393,9 +450,26 @@
             }
           ]
         }
+      },
+      {
+        "path": "/faqs/{faqId}",
+        "definition": {
+          "entityName": "FaqItem",
+          "schema": {
+            "$ref": "#/backend/entities/FaqItem"
+          },
+          "description": "Stores all FAQ items for the application.",
+          "params": [
+            {
+              "name": "faqId",
+              "description": "The unique identifier for the FAQ item."
+            }
+          ]
+        }
       }
     ],
     "reasoning": "This Firestore data structure is designed to support the AMpire Studio Dynamic Showcase application, focusing on user authentication, admin profiles, and future content management needs. It prioritizes security, scalability, and debuggability following the core design principles. Path-based ownership is used for user data, and a dedicated collection is used for admin profiles. The structure is designed to enable simple and robust security rules and facilitate listing operations (QAPs). This design avoids hierarchical authorization dependencies."
   }
 }
+    
     

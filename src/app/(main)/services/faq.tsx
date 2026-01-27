@@ -11,12 +11,13 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import { getFaqs } from '@/lib/data';
+import { usePublicFaqs } from '@/hooks/useFaqs';
 import { ArrowRight } from 'lucide-react';
 
-const faqItems = getFaqs().filter(faq => ['onboard-1', 'rev-1', 'rev-2'].includes(faq.id));
-
 export function Faq() {
+    const { data: allFaqs } = usePublicFaqs();
+    const faqItems = allFaqs?.filter(faq => ['onboard-1', 'rev-1', 'rev-2'].includes(faq.id)) || [];
+
     return (
         <div className="col-span-12 grid grid-cols-1 lg:grid-cols-12 gap-px bg-border border-b border-border">
             <div className="col-span-12 lg:col-span-6 bg-background p-8 md:p-16">
@@ -32,7 +33,7 @@ export function Faq() {
                         {faq.question}
                         </AccordionTrigger>
                         <AccordionContent className="text-muted-foreground text-lg leading-relaxed pb-6">
-                        {faq.answer}
+                          <div dangerouslySetInnerHTML={{ __html: faq.answer }} />
                         </AccordionContent>
                     </AccordionItem>
                     ))}
@@ -74,3 +75,5 @@ export function Faq() {
         </div>
     );
 }
+
+    

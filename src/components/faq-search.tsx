@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -118,7 +117,7 @@ export function FaqSearch({ faqs }: FaqSearchProps) {
                     </div>
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground">
-                    <p>{faq.answer}</p>
+                    <div dangerouslySetInnerHTML={{ __html: faq.answer }} />
                     {faq.link && (
                        <Button asChild variant="link" className="p-0 mt-2">
                             <Link href={faq.link.href}>
@@ -142,3 +141,5 @@ export function FaqSearch({ faqs }: FaqSearchProps) {
     </div>
   );
 }
+
+    
