@@ -43,7 +43,6 @@ export type FaqItem = {
   question: string;
   preview: string;
   answer: string;
-  featured?: boolean;
   link?: {
     href: string;
     text: string;
@@ -115,8 +114,32 @@ export type Project = {
   version?: string;
   category?: string;
   technologies: string[];
-  featured?: boolean;
 };
+
+export type PortfolioProject = {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  category: string;
+  technologies: string[];
+  clientName?: string;
+  projectYear: string;
+  projectUrl?: string;
+  longDescription: string; // Raw HTML
+  featuredImage: ImageObject;
+  cardImage: ImageObject;
+  galleryImages: ImageObject[];
+  published: boolean;
+  publishDate: string; // ISO string
+  lastUpdated: string; // ISO string
+  metaTitle: string;
+  metaDescription: string;
+  focusKeyword?: string;
+  canonicalUrl?: string;
+  robotsMeta: 'index' | 'noindex';
+}
+
 
 export type Template = Project;
 
@@ -591,7 +614,6 @@ const faqItems: FaqItem[] = [
 
 
 export const getFaqs = (): FaqItem[] => {
-    // Adding two more for a total of 20
     const additionalFaqs: FaqItem[] = [
       {
         id: 'gen-5',

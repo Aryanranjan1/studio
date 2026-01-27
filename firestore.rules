@@ -1,3 +1,4 @@
+
 /**
  * Core Philosophy: This ruleset implements a hybrid security model. It enforces strict
  * user-ownership for personal data while using a role-based system for administrative
@@ -89,6 +90,20 @@ service cloud.firestore {
     match /blogs/{blogId} {
         allow get, list: if true;
         allow create, update, delete: if isAdmin();
+    }
+
+     /**
+     * @description Rules for the portfolio projects collection.
+     * @path /projects/{projectId}
+     * @allow (list) Public can list only published projects.
+     * @allow (get) Public can read a single published project.
+     * @deny (create, update, delete) Write access is denied to non-admins.
+     * @principle Content should be readable by everyone but managed only by authorized administrators.
+     */
+    match /projects/{projectId} {
+      allow get: if resource.data.published == true || isAdmin();
+      allow list: if isAdmin(); // Public listing of projects will be handled by a function/denormalization
+      allow create, update, delete: if isAdmin();
     }
   }
 }

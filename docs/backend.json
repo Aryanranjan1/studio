@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "User": {
@@ -161,12 +162,6 @@
             },
             "alt": {
               "type": "string"
-            },
-            "width": {
-              "type": "number"
-            },
-            "height": {
-              "type": "number"
             }
           },
           "required": [
@@ -215,6 +210,113 @@
         "status",
         "publishDate",
         "content",
+        "metaTitle",
+        "metaDescription"
+      ]
+    },
+    "PortfolioProject": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Portfolio Project",
+      "type": "object",
+      "description": "Represents a single portfolio project with detailed information for display and SEO.",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the project."
+        },
+        "slug": {
+          "type": "string",
+          "description": "A URL-friendly slug for the project."
+        },
+        "summary": {
+          "type": "string",
+          "description": "A short summary for listings and previews."
+        },
+        "category": {
+          "type": "string",
+          "description": "The primary category or service type of the project."
+        },
+        "technologies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of technologies used in the project."
+        },
+        "clientName": {
+          "type": "string",
+          "description": "The name of the client, if applicable."
+        },
+        "projectYear": {
+          "type": "string",
+          "description": "The year the project was completed."
+        },
+        "projectUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "The live URL of the project."
+        },
+        "longDescription": {
+          "type": "string",
+          "description": "A detailed description of the project in HTML format."
+        },
+        "featuredImage": {
+          "type": "object",
+          "properties": {
+            "url": { "type": "string", "format": "uri" },
+            "alt": { "type": "string" }
+          },
+          "required": ["url", "alt"]
+        },
+        "cardImage": {
+          "type": "object",
+          "properties": {
+            "url": { "type": "string", "format": "uri" },
+            "alt": { "type": "string" }
+          },
+          "required": ["url", "alt"]
+        },
+        "galleryImages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string", "format": "uri" },
+              "alt": { "type": "string" }
+            },
+            "required": ["url", "alt"]
+          }
+        },
+        "published": {
+          "type": "boolean",
+          "description": "The publishing status of the project."
+        },
+        "publishDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "metaTitle": { "type": "string" },
+        "metaDescription": { "type": "string" },
+        "focusKeyword": { "type": "string" },
+        "canonicalUrl": { "type": "string", "format": "uri" },
+        "robotsMeta": { "type": "string", "enum": ["index", "noindex"] }
+      },
+      "required": [
+        "title",
+        "slug",
+        "summary",
+        "category",
+        "technologies",
+        "projectYear",
+        "longDescription",
+        "featuredImage",
+        "cardImage",
+        "published",
+        "publishDate",
         "metaTitle",
         "metaDescription"
       ]
@@ -272,6 +374,22 @@
             {
               "name": "blogId",
               "description": "The unique identifier for the blog post."
+            }
+          ]
+        }
+      },
+       {
+        "path": "/projects/{projectId}",
+        "definition": {
+          "entityName": "PortfolioProject",
+          "schema": {
+            "$ref": "#/backend/entities/PortfolioProject"
+          },
+          "description": "Stores all portfolio projects for the CMS.",
+          "params": [
+            {
+              "name": "projectId",
+              "description": "The unique identifier for the portfolio project."
             }
           ]
         }
