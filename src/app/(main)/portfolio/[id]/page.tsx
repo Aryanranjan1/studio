@@ -1,11 +1,12 @@
+
 'use client';
 
 import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, where, limit } from 'firebase/firestore';
 import type { PortfolioProject, Template } from '@/lib/data';
 import './page.css';
 import { Footer } from '@/components/footer';
@@ -15,23 +16,28 @@ import { getTemplates } from '@/lib/data';
 
 export default function ProjectDetailPage() {
   const params = useParams();
-  const id = params.id as string;
+  const slug = params.id as string;
   const firestore = useFirestore();
 
-  // Fetch the current project
-  const projectRef = useMemoFirebase(() => {
-    if (!firestore || !id) return null;
-    return doc(firestore, 'projects', id);
-  }, [firestore, id]);
-  const { data: project, isLoading: projectLoading, error } = useDoc<PortfolioProject>(projectRef);
-  
+  const projectQuery = useMemoFirebase(() => {
+    if (!firestore || !slug) return null;
+    return query(
+      collection(firestore, 'projects'),
+      where('slug', '==', slug),
+      where('published', '==', true),
+      limit(1)
+    );
+  }, [firestore, slug]);
+
+  const { data: projects, isLoading: projectLoading, error } = useCollection<PortfolioProject>(projectQuery);
+  const project = projects?.[0];
+
   const [matchingTemplate, setMatchingTemplate] = useState<Template | null>(null);
 
   useEffect(() => {
     if (project) {
       document.title = `Ampire // ${project.title}`;
       const allTemplates = getTemplates();
-      // Match template based on the project's slug
       const template = allTemplates.find(t => t.id === `template-${project.slug}`);
       setMatchingTemplate(template || null);
     }
@@ -49,10 +55,6 @@ export default function ProjectDetailPage() {
         Loading Project Details...
       </div>
     );
-  }
-  
-  if (!project.published) {
-      notFound();
   }
 
   return (

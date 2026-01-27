@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from 'next/image';
@@ -97,7 +98,7 @@ export default function PortfolioPage() {
 
       <section className="portfolio-grid">
         {paginatedProjects.map(project => (
-          <Link href={`/portfolio/${project.id}`} className="project-card" key={project.id}>
+          <Link href={`/portfolio/${project.slug}`} className="project-card" key={project.id}>
             <div className="art-img-wrapper">
               <Image
                 src={project.cardImage.url}
