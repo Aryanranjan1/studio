@@ -56,7 +56,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
   return (
     <div className="project-card group mb-8 last:mb-0">
       <div className="img-wrapper overflow-hidden border border-border mb-5 relative h-[300px] md:h-[450px] block">
-        <Link href={`/portfolio/${project.id}`}>
+        <Link href={`/portfolio/${project.slug}`} className="block h-full w-full">
           <Image
             src={project.image}
             alt={project.imageAlt}
@@ -64,11 +64,16 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
             className="object-contain transition-all duration-700 ease-out group-hover:scale-105"
             loading="lazy"
           />
+           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div className="border border-white text-white px-6 py-2 uppercase text-sm font-semibold backdrop-blur-sm">
+                    View Project
+                </div>
+            </div>
         </Link>
       </div>
       <div className="project-meta flex justify-between items-end pb-2.5 border-b border-border">
         <div>
-          <Link href={`/portfolio/${project.id}`}>
+          <Link href={`/portfolio/${project.slug}`}>
             <h3 className="p-name text-2xl md:text-3xl uppercase font-display hover:text-primary transition-colors">{project.title}</h3>
           </Link>
           <span className="p-cat font-tech text-muted-foreground text-sm">{project.category}</span>

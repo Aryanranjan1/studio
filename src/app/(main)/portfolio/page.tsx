@@ -98,7 +98,7 @@ export default function PortfolioPage() {
 
       <section className="portfolio-grid">
         {paginatedProjects.map(project => (
-          <Link href={`/portfolio/${project.slug}`} className="project-card" key={project.id}>
+          <Link href={`/portfolio/${project.slug}`} className="project-card group" key={project.id}>
             <div className="art-img-wrapper">
               <Image
                 src={project.cardImage.url}
@@ -108,6 +108,11 @@ export default function PortfolioPage() {
                 loading="lazy"
               />
                <Badge variant="secondary" className="absolute top-4 left-4 z-10">{project.category}</Badge>
+               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <div className="border border-white text-white px-6 py-2 uppercase text-sm font-semibold">
+                        View Project
+                    </div>
+                </div>
             </div>
             <div className="art-body">
               <div className="art-meta">
