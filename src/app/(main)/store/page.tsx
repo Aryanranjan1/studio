@@ -120,15 +120,22 @@ export default function StorePage() {
                     {!template.bestSeller && template.isNew && (
                       <div className="absolute top-2 left-2 z-10 bg-background border border-border text-foreground px-2 py-0.5 text-[10px] md:top-4 md:left-4 md:px-2.5 md:py-1 md:text-xs">NEW</div>
                     )}
-                    <Link href={`/store/${template.slug}`} className='block'>
-                        <div className="h-72 overflow-hidden relative border-b border-border">
-                            <Image
-                                src={template.cardImage.url}
-                                alt={template.cardImage.alt}
-                                fill
-                                className="w-full h-full object-cover transition-all duration-500 ease-in-out group-hover:scale-105"
-                            />
-                        </div>
+                    <Link href={`/store/${template.slug}`} className="block h-72 overflow-hidden relative border-b border-border">
+                        <Image
+                            src={template.cardImage.url}
+                            alt={template.cardImage.alt}
+                            fill
+                            className="w-full h-full object-cover transition-all duration-500 ease-in-out group-hover:scale-105"
+                        />
+                         {template.previewUrl && (
+                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                                <Button asChild variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-black backdrop-blur-sm pointer-events-auto">
+                                    <a href={template.previewUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                                        View
+                                    </a>
+                                </Button>
+                            </div>
+                        )}
                     </Link>
                 </div>
                 <div className="p-4 md:p-8 flex flex-col justify-between flex-grow">
@@ -207,5 +214,3 @@ export default function StorePage() {
     </div>
   );
 }
-
-    
