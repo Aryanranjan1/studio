@@ -31,8 +31,8 @@ export default function ProjectDetailPage() {
     if (project) {
       document.title = `Ampire // ${project.title}`;
       const allTemplates = getTemplates();
-      // Assuming template IDs might be derived from project IDs
-      const template = allTemplates.find(t => t.id.includes(project.id));
+      // Match template based on the project's slug
+      const template = allTemplates.find(t => t.id === `template-${project.slug}`);
       setMatchingTemplate(template || null);
     }
   }, [project]);
