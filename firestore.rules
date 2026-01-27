@@ -95,14 +95,12 @@ service cloud.firestore {
      /**
      * @description Rules for the portfolio projects collection.
      * @path /projects/{projectId}
-     * @allow (list) Public can list only published projects.
-     * @allow (get) Public can read a single published project.
-     * @deny (create, update, delete) Write access is denied to non-admins.
-     * @principle Content should be readable by everyone but managed only by authorized administrators.
+     * @allow (read) Public can read/list projects that are published. Admins can read all.
+     * @deny (write) Write access is denied to non-admins.
+     * @principle Content should be readable based on published status but managed only by authorized administrators.
      */
     match /projects/{projectId} {
-      allow get: if resource.data.published == true || isAdmin();
-      allow list: if isAdmin(); // Public listing of projects will be handled by a function/denormalization
+      allow read: if resource.data.published == true || isAdmin();
       allow create, update, delete: if isAdmin();
     }
   }
