@@ -34,6 +34,7 @@
     "@radix-ui/react-toast": "^1.2.6",
     "@radix-ui/react-tooltip": "^1.1.8",
     "@studio-freight/react-lenis": "^0.0.47",
+    "@tanstack/react-table": "^8.21.3",
     "@tsparticles/engine": "^3.5.0",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.5.0",

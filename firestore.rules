@@ -1,107 +1,86 @@
 
-/**
- * Core Philosophy: This ruleset implements a hybrid security model. It enforces strict
- * user-ownership for personal data while using a role-based system for administrative
- * privileges. The core principle is that users have complete control over their own data,
- * and administrative capabilities are explicitly granted and managed separately.
- *
- * Data Structure:
- * - /users/{userId}: Stores private user profile information. Access is restricted to the
- *   document owner.
- * - /admin_profiles/{userId}: A separate collection that grants administrative rights. The
- *   existence of a document here, with the document ID matching a user's UID, elevates
- *   that user to an admin.
- *
- * Key Security Decisions:
- * - User Isolation: Users can only read and write to their own document within the `/users`
- *   collection. Listing all users is explicitly disallowed to protect user privacy.
- * - Admin by Existence: A user is considered an administrator if, and only if, a
- *   document exists for them in the `/admin_profiles` collection where the document ID
- *   matches their authentication UID.
- * - Admin Self-Management: Only existing administrators can view, create, edit, or remove
- *   other administrator profiles. The initial admin must be created via the Firebase Console
- *   or a trusted server environment.
- * - Immutable Ownership: Critical relational fields, such as a user's own ID within their
- *   document, are enforced as immutable after creation to maintain data integrity.
- */
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper functions for reusable logic
+    /* ========= HELPERS ========= */
+
     function isSignedIn() {
       return request.auth != null;
     }
 
-    /**
-     * Checks if the currently authenticated user is the owner of a document.
-     * Compares the request's auth UID with the provided userId from the path.
-     */
-    function isOwner(userId) {
-      return isSignedIn() && request.auth.uid == userId;
-    }
-
-    /**
-     * Checks if the currently authenticated user has an admin profile.
-     * This is the foundation of the Role-Based Access Control (RBAC) system.
-     * CRITICAL: This requires that the document ID in 'admin_profiles' IS the user's UID.
-     */
     function isAdmin() {
-      return isSignedIn() && exists(/databases/$(database)/documents/admin_profiles/$(request.auth.uid));
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/admin_profiles/$(request.auth.uid));
     }
 
-    /**
-     * @description Rules for individual user profile documents.
-     * @path /users/{userId}
-     * @allow (create) An authenticated user creating their own user profile document for the first time.
-     * @deny (get) An authenticated user trying to read another user's profile.
-     * @principle Restricts access to a user's own data tree, enforcing strict data privacy.
-     */
-    match /users/{userId} {
-      allow get: if isOwner(userId);
-      allow list: if false; // Disallow listing users to protect privacy.
-      allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isOwner(userId) && resource != null && request.resource.data.id == resource.data.id;
-      allow delete: if isOwner(userId) && resource != null;
-    }
+    /* ========= PROJECTS ========= */
 
-    /**
-     * @description Rules for administrator profiles. The existence of a document grants admin rights.
-     * @path /admin_profiles/{adminProfileId}
-     * @allow (create) An existing admin creating a new admin profile for another user.
-     * @deny (update) A non-admin user trying to modify an admin profile to elevate their own privileges.
-     * @principle Implements Role-Based Access Control (RBAC) where only admins can manage other admins.
-     */
-    match /admin_profiles/{adminProfileId} {
-      allow get: if isOwner(adminProfileId);
-      allow list: if isAdmin();
-      allow create: if isAdmin() && request.resource.data.userId == adminProfileId && request.resource.data.id == adminProfileId;
-      allow update: if isAdmin() && resource != null && request.resource.data.userId == resource.data.userId && request.resource.data.id == resource.data.id;
-      allow delete: if isAdmin() && resource != null;
-    }
-
-    /**
-     * @description Rules for the public blog collection.
-     * @path /blogs/{blogId}
-     * @allow (get, list) Public read access for all visitors.
-     * @deny (create, update, delete) Write access is denied to non-admins.
-     * @principle Content should be readable by everyone but managed only by authorized administrators.
-     */
-    match /blogs/{blogId} {
-        allow get, list: if true;
-        allow create, update, delete: if isAdmin();
-    }
-
-     /**
-     * @description Rules for the portfolio projects collection.
-     * @path /projects/{projectId}
-     * @allow (read) Public can read/list projects that are published. Admins can read all.
-     * @deny (write) Write access is denied to non-admins.
-     * @principle Content should be readable based on published status but managed only by authorized administrators.
-     */
     match /projects/{projectId} {
-      allow read: if resource.data.published == true || isAdmin();
+
+      /*
+       * SINGLE DOC READ
+       * - Public: only published
+       * - Admin: everything
+       */
+      allow get: if
+        resource.data.published == true
+        || isAdmin();
+
+      /*
+       * COLLECTION QUERIES (LIST)
+       *
+       * ✅ Admin: unrestricted
+       * ✅ Public (auth null allowed):
+       *    MUST filter published == true
+       *
+       * This rule PREVENTS:
+       * - collection(db, "projects")
+       * - admin-only reads in global scope
+       */
+      allow list: if
+        isAdmin()
+        ||
+        (
+          request.auth == null
+          && request.query.where('published', '==', true)
+        )
+        ||
+        (
+          isSignedIn()
+          && request.query.where('published', '==', true)
+        );
+
+      /*
+       * WRITES
+       */
       allow create, update, delete: if isAdmin();
+    }
+
+    /* ========= BLOGS ========= */
+
+    match /blogs/{blogId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    /* ========= USERS ========= */
+
+    match /users/{userId} {
+      allow get, create, update, delete: if
+        isSignedIn() && request.auth.uid == userId;
+      allow list: if false;
+    }
+
+    /* ========= ADMIN PROFILES ========= */
+
+    match /admin_profiles/{adminId} {
+      allow get: if
+        isAdmin()
+        || (isSignedIn() && request.auth.uid == adminId);
+
+      allow list, create, update, delete: if isAdmin();
     }
   }
 }

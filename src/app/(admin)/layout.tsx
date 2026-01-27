@@ -3,7 +3,7 @@
 
 import { ReactNode, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useUser } from '@/firebase/auth/use-user';
+import { useUser } from '@/firebase/provider';
 import { 
     Crown, 
     PanelLeft,
@@ -113,7 +113,7 @@ function AdminNav() {
 }
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
-  const { user, loading } = useUser();
+  const { user, isUserLoading: loading } = useUser();
   const router = useRouter();
 
   useEffect(() => {
@@ -123,7 +123,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     }
   }, [user, loading, router]);
 
-  // While loading, you can show a loader or a blank screen
+  // While loading, or if there's no user, show a loading screen.
+  // This prevents rendering children which might make authenticated calls.
   if (loading || !user) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
