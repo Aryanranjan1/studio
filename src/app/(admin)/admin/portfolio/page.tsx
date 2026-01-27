@@ -1,9 +1,7 @@
-
 'use client';
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useCollection } from '@/firebase/firestore/use-collection';
 import { collection, query, orderBy, doc } from 'firebase/firestore';
 import { useFirestore, useMemoFirebase } from '@/firebase';
 import { Button } from '@/components/ui/button';
@@ -32,6 +30,7 @@ import type { PortfolioProject } from '@/lib/data';
 import { format } from 'date-fns';
 import { deletePortfolioProject, updatePortfolioProject } from '@/lib/firestore/portfolio';
 import { useToast } from '@/hooks/use-toast';
+import { useAdminProjects } from '@/hooks/use-projects';
 
 function DeleteConfirmationDialog({ projectId, onConfirm }: { projectId: string; onConfirm: () => void }) {
   return (
@@ -66,12 +65,7 @@ export default function PortfolioManagementPage() {
   const firestore = useFirestore();
   const { toast } = useToast();
 
-  const projectsQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return query(collection(firestore, 'projects'), orderBy('publishDate', 'desc'));
-  }, [firestore]);
-  
-  const { data: projects, isLoading, error } = useCollection<PortfolioProject>(projectsQuery);
+  const { data: projects, isLoading, error } = useAdminProjects();
 
   const handleDelete = (id: string) => {
     if (!firestore) return;

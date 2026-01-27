@@ -3,8 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, useMemo } from 'react';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, where, orderBy } from 'firebase/firestore';
 import type { PortfolioProject } from '@/lib/data';
 import './page.css';
 import { Footer } from '@/components/footer';
@@ -13,21 +11,15 @@ import { Badge } from '@/components/ui/badge';
 import { PricingSection } from '@/components/pricing-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
 import { CtaSection } from '@/components/cta-section';
+import { usePublicProjects } from '@/hooks/use-projects';
 
 const ITEMS_PER_PAGE = 9;
 
 export default function PortfolioPage() {
-  const firestore = useFirestore();
   const [activeCategory, setActiveCategory] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
 
-  const projectsQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
-    const coll = collection(firestore, 'projects');
-    return query(coll, where('published', '==', true), orderBy('publishDate', 'desc'));
-  }, [firestore]);
-
-  const { data: projects, isLoading: loading } = useCollection<PortfolioProject>(projectsQuery);
+  const { data: projects, isLoading: loading } = usePublicProjects();
 
   useEffect(() => {
     document.title = 'Ampire Studio // Work';
