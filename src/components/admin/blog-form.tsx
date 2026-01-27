@@ -112,7 +112,7 @@ export function BlogForm({ defaultValues, onSubmit, isSubmitting }: BlogFormProp
       ...restOfData
     } = data;
     
-    const finalData = {
+    const finalData: { [key: string]: any } = {
       ...restOfData,
       date: defaultValues?.date || new Date().toISOString(),
       lastUpdated: new Date().toISOString(),
@@ -124,6 +124,13 @@ export function BlogForm({ defaultValues, onSubmit, isSubmitting }: BlogFormProp
       popular: defaultValues?.popular || false,
     };
     
+    // Sanitize data before submitting to remove undefined values
+    Object.keys(finalData).forEach(key => {
+      if (finalData[key] === undefined) {
+        delete finalData[key];
+      }
+    });
+
     onSubmit(finalData);
     toast({
         title: "Success!",

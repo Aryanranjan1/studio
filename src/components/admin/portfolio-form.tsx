@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect } from 'react';
@@ -121,11 +120,18 @@ export function PortfolioForm({ defaultValues, onSubmit, isSubmitting }: Portfol
   }, [publishedValue, setValue]);
 
   const processSubmit = (data: PortfolioFormValues) => {
-    const finalData = {
+    const finalData: { [key: string]: any } = {
       ...data,
       publishDate: defaultValues?.publishDate || new Date().toISOString(),
     };
     
+    // Sanitize data before submitting to remove undefined values
+    Object.keys(finalData).forEach(key => {
+      if (finalData[key] === undefined) {
+        delete finalData[key];
+      }
+    });
+
     onSubmit(finalData);
     toast({
         title: "Success!",
