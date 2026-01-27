@@ -104,7 +104,7 @@ export default function PortfolioManagementPage() {
         </Button>
       </div>
 
-      <div className="mt-6 rounded-lg border border-dashed shadow-sm overflow-hidden">
+      <div className="mt-6 rounded-lg border shadow-sm overflow-hidden">
         {isLoading && (
           <div className="flex items-center justify-center p-8">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
@@ -134,7 +134,22 @@ export default function PortfolioManagementPage() {
                         {project.published ? 'Published' : 'Draft'}
                       </Badge>
                     </TableCell>
-                    <TableCell>{project.lastUpdated ? format(new Date(project.lastUpdated), 'MMM dd, yyyy') : 'N/A'}</TableCell>
+                    <TableCell>{
+                      (() => {
+                        const dateValue = project.lastUpdated;
+                        if (!dateValue) return 'N/A';
+
+                        // Firestore Timestamps have a toDate() method, otherwise try creating a new Date
+                        const date = (dateValue as any).toDate ? (dateValue as any).toDate() : new Date(dateValue as string);
+                        
+                        // Check if the created date is valid
+                        if (isNaN(date.getTime())) {
+                          return '...'; // Or 'Invalid Date', or nothing while pending
+                        }
+                        
+                        return format(date, 'MMM dd, yyyy');
+                      })()
+                    }</TableCell>
                     <TableCell className="text-right">
                        <Button variant="ghost" size="icon" onClick={() => togglePublishState(project)} title={project.published ? 'Unpublish' : 'Publish'}>
                           {project.published ? <ToggleRight className="h-5 w-5 text-primary"/> : <ToggleLeft className="h-5 w-5 text-muted-foreground"/>}
