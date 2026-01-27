@@ -1,15 +1,14 @@
-
 'use client';
 
-import { getProjects } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState, useMemo } from 'react';
-import type { Project } from '@/lib/data';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, where, orderBy } from 'firebase/firestore';
+import type { PortfolioProject } from '@/lib/data';
 import './page.css';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { PricingSection } from '@/components/pricing-section';
 import { TestimonialsSection } from '@/components/testimonials-section';
@@ -18,19 +17,24 @@ import { CtaSection } from '@/components/cta-section';
 const ITEMS_PER_PAGE = 9;
 
 export default function PortfolioPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  const firestore = useFirestore();
   const [activeCategory, setActiveCategory] = useState('All');
   const [currentPage, setCurrentPage] = useState(1);
 
+  const projectsQuery = useMemoFirebase(() => {
+    if (!firestore) return null;
+    const coll = collection(firestore, 'projects');
+    return query(coll, where('published', '==', true), orderBy('publishDate', 'desc'));
+  }, [firestore]);
+
+  const { data: projects, isLoading: loading } = useCollection<PortfolioProject>(projectsQuery);
+
   useEffect(() => {
     document.title = 'Ampire Studio // Work';
-    const data = getProjects();
-    setProjects(data);
-    setLoading(false);
   }, []);
 
   const categories = useMemo(() => {
+    if (!projects) return ['All'];
     const all = ['All'];
     const unique = [
       ...new Set(projects.map(p => p.category || 'Uncategorized')),
@@ -39,6 +43,7 @@ export default function PortfolioPage() {
   }, [projects]);
 
   const filteredProjects = useMemo(() => {
+    if (!projects) return [];
     return projects.filter(
       project =>
         activeCategory === 'All' || project.category === activeCategory
@@ -75,7 +80,7 @@ export default function PortfolioPage() {
       <header className="portfolio-header">
         <div className="header-meta">
           <span>// OUR WORK</span>
-          <span>PROJECTS: {projects.length}</span>
+          <span>PROJECTS: {projects?.length || 0}</span>
         </div>
         <h1 className="portfolio-title">
           Selected
@@ -103,8 +108,8 @@ export default function PortfolioPage() {
           <Link href={`/portfolio/${project.id}`} className="project-card" key={project.id}>
             <div className="art-img-wrapper">
               <Image
-                src={project.image}
-                alt={project.imageAlt}
+                src={project.cardImage.url}
+                alt={project.cardImage.alt}
                 fill
                 className="art-img"
                 loading="lazy"
@@ -116,7 +121,7 @@ export default function PortfolioPage() {
                 <span>{project.technologies.slice(0,2).join(' / ')}</span>
               </div>
               <h3 className="art-title">{project.title}</h3>
-              <p className="art-desc">{project.description}</p>
+              <p className="art-desc">{project.summary}</p>
               <div className="art-footer">VIEW_PROJECT &rarr;</div>
             </div>
           </Link>

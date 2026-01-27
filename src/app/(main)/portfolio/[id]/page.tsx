@@ -1,60 +1,71 @@
-
-
 'use client';
 
-import { getProjects, getTemplates } from '@/lib/data';
 import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState, useRef } from 'react';
-import type { Project, Template } from '@/lib/data';
+import { useEffect, useState } from 'react';
+import { useDoc, useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { doc, collection, query, where, orderBy, limit } from 'firebase/firestore';
+import type { PortfolioProject, Template } from '@/lib/data';
 import './page.css';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Check, ShoppingCart } from 'lucide-react';
+import { ArrowRight, ShoppingCart } from 'lucide-react';
+import { getTemplates } from '@/lib/data';
 
 export default function ProjectDetailPage() {
   const params = useParams();
   const id = params.id as string;
+  const firestore = useFirestore();
+
+  // Fetch the current project
+  const projectRef = useMemoFirebase(() => {
+    if (!firestore || !id) return null;
+    return doc(firestore, 'projects', id);
+  }, [firestore, id]);
+  const { data: project, isLoading: projectLoading } = useDoc<PortfolioProject>(projectRef);
   
-  const [project, setProject] = useState<Project | null>(null);
-  const [otherProjects, setOtherProjects] = useState<Project[]>([]);
+  // Fetch other projects for recommendations
+  const otherProjectsQuery = useMemoFirebase(() => {
+    if (!firestore || !id) return null;
+    const coll = collection(firestore, 'projects');
+    return query(
+        coll, 
+        where('published', '==', true), 
+        where('__name__', '!=', id),
+        orderBy('__name__'),
+        limit(2)
+    );
+  }, [firestore, id]);
+  const { data: otherProjects } = useCollection<PortfolioProject>(otherProjectsQuery);
+  
   const [matchingTemplate, setMatchingTemplate] = useState<Template | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id) return;
-    
-    const allProjects = getProjects();
-    const currentProject = allProjects.find(p => p.id === id);
-
-    if (currentProject) {
-      setProject(currentProject);
-      document.title = `Ampire // ${currentProject.title}`;
-      
-      setOtherProjects(
-        allProjects.filter(p => p.id !== currentProject.id).slice(0, 2)
-      );
-
+    if (project) {
+      document.title = `Ampire // ${project.title}`;
       const allTemplates = getTemplates();
-      const template = allTemplates.find(t => t.id === `template-${currentProject.id}`);
+      const template = allTemplates.find(t => t.id === `template-${project.id}`);
       setMatchingTemplate(template || null);
+    }
+  }, [project]);
 
-
-    } else {
+  useEffect(() => {
+    if (!projectLoading && !project) {
       notFound();
     }
-    setLoading(false);
-  }, [id]);
+  }, [project, projectLoading]);
 
-
-  if (loading || !project) {
+  if (projectLoading || !project) {
     return (
       <div className="w-full min-h-screen bg-background text-foreground flex items-center justify-center">
         Loading Project Details...
       </div>
     );
+  }
+  
+  if (!project.published) {
+      notFound();
   }
 
   return (
@@ -71,13 +82,15 @@ export default function ProjectDetailPage() {
                     <span>{project.category?.toUpperCase()} // {project.technologies.join(' / ').toUpperCase()}</span>
                 </div>
                 <h1 className="project-title">{project.title}</h1>
-                 <p className="project-subtitle">{project.description}</p>
+                 <p className="project-subtitle">{project.summary}</p>
                  <div className="flex flex-wrap gap-4 mt-8">
-                    <Button asChild size="lg" className="rounded-none">
-                        <a href={project.url} target="_blank" rel="noopener noreferrer">
-                            View Live Project <ArrowRight className="ml-2 h-5 w-5" />
-                        </a>
-                    </Button>
+                    {project.projectUrl && (
+                        <Button asChild size="lg" className="rounded-none">
+                            <a href={project.projectUrl} target="_blank" rel="noopener noreferrer">
+                                View Live Project <ArrowRight className="ml-2 h-5 w-5" />
+                            </a>
+                        </Button>
+                    )}
                     {matchingTemplate && (
                        <Button asChild size="lg" variant="secondary" className="rounded-none">
                             <Link href={`/store/${matchingTemplate.id}`}>
@@ -88,46 +101,47 @@ export default function ProjectDetailPage() {
                  </div>
             </div>
             <div className="hero-image-wrapper">
-                 <Image src={project.image} alt={project.imageAlt} fill className="hero-image" priority/>
+                 <Image src={project.featuredImage.url} alt={project.featuredImage.alt} fill className="hero-image" priority/>
             </div>
         </header>
 
         <div className="project-body-grid">
             <div className="main-content">
                 <h2 className="section-title">About the Project</h2>
-                <p className="project-long-description">
-                    {project.longDescription}
-                </p>
-
-                <h2 className="section-title">Key Features</h2>
-                <ul className="features-list">
-                    {project.features.map((feature, index) => (
-                        <li key={index}><Check className="text-primary h-5 w-5" /> {feature}</li>
-                    ))}
-                </ul>
+                <div className="project-long-description" dangerouslySetInnerHTML={{ __html: project.longDescription }} />
             </div>
             <aside className="sidebar-specs">
                 <div className="specs-card">
-                    <h3 className="specs-title">Tech Stack</h3>
+                    <h3 className="specs-title">Project Info</h3>
                     <div className="specs-grid">
-                        {Object.entries(project.specs).map(([key, value]) => (
-                            <div className="spec-item" key={key}>
-                                <span className="spec-key">{key.toUpperCase()}</span>
-                                <span className="spec-value">{value}</span>
-                            </div>
-                        ))}
+                        <div className="spec-item">
+                            <span className="spec-key">CLIENT</span>
+                            <span className="spec-value">{project.clientName || 'Internal'}</span>
+                        </div>
+                        <div className="spec-item">
+                            <span className="spec-key">YEAR</span>
+                            <span className="spec-value">{project.projectYear}</span>
+                        </div>
+                         <div className="spec-item">
+                            <span className="spec-key">SERVICE</span>
+                            <span className="spec-value">{project.category}</span>
+                        </div>
+                         <div className="spec-item">
+                            <span className="spec-key">STACK</span>
+                            <span className="spec-value">{project.technologies.join(', ')}</span>
+                        </div>
                     </div>
                 </div>
             </aside>
         </div>
         
-        {project.images && project.images.length > 0 && (
+        {project.galleryImages && project.galleryImages.length > 0 && (
             <section className="gallery-section">
                 <h2 className="section-title text-center">Project Gallery</h2>
                 <div className="gallery-grid">
-                    {project.images.map((img, index) => (
+                    {project.galleryImages.map((img, index) => (
                         <div key={index} className="gallery-item">
-                           <Image src={img.src} alt={img.alt} width={1200} height={800} className="gallery-image" loading="lazy" />
+                           <Image src={img.url} alt={img.alt} width={1200} height={800} className="gallery-image" loading="lazy" />
                            <div className="gallery-caption">{img.alt}</div>
                         </div>
                     ))}
@@ -135,15 +149,14 @@ export default function ProjectDetailPage() {
             </section>
         )}
         
-        {/* Recommendation Section */}
-        {otherProjects.length > 0 && (
+        {otherProjects && otherProjects.length > 0 && (
             <section className="recommendation-section">
                 <h2 className="rec-title">Other Projects</h2>
                 <div className="rec-grid">
                     {otherProjects.map(rec => (
                         <Link href={`/portfolio/${rec.id}`} key={rec.id} className="project-card">
                             <div className="art-img-wrapper">
-                                <Image src={rec.image} alt={rec.imageAlt} width={500} height={300} className="art-img" loading="lazy" />
+                                <Image src={rec.cardImage.url} alt={rec.cardImage.alt} width={500} height={300} className="art-img" loading="lazy" />
                             </div>
                             <div className="art-body">
                                 <h3 className="art-title">{rec.title}</h3>
