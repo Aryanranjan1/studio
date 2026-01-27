@@ -1,12 +1,13 @@
+
 'use client';
 
 import { useState } from 'react';
 import { useFirestore } from '@/firebase';
-import { collection, writeBatch, doc, getDocs } from 'firebase/firestore';
+import { collection, writeBatch, doc, getDocs, serverTimestamp } from 'firebase/firestore';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Database, Trash2 } from 'lucide-react';
-import type { Article, PortfolioProject } from '@/lib/data';
+import type { Article, PortfolioProject, FaqItem } from '@/lib/data';
 import { getProjects } from '@/lib/data';
 import { slugify } from '@/lib/slugify';
 import {
@@ -120,12 +121,60 @@ function generateSampleProjects(): Omit<PortfolioProject, 'id'>[] {
     });
 }
 
+function generateSampleFaqs(): Omit<FaqItem, 'id' | 'createdAt' | 'updatedAt'>[] {
+    const faqs: Omit<FaqItem, 'id' | 'createdAt' | 'updatedAt'>[] = [
+        {
+            question: 'What is your revision policy?',
+            answer: '<p>We offer <strong>one full revision round</strong> on the prototype and <strong>one final revision round</strong> on the staging build. Additional revisions are billed at our hourly rate. This ensures the project stays on track and within scope.</p>',
+            preview: 'We offer one revision on the prototype and one on the final build. Additional revisions are billed hourly.',
+            category: 'Revisions & Support',
+            order: 1,
+            published: true,
+        },
+        {
+            question: 'What are your payment terms?',
+            answer: '<p>We require a <strong>50% down payment</strong> to begin work, with the remaining 50% due upon project completion and before final asset delivery or site launch.</p>',
+            preview: '50% upfront, 50% on completion before launch.',
+            category: 'Pricing & Payments',
+            order: 2,
+            published: true,
+        },
+        {
+            question: 'How long does a typical project take?',
+            answer: '<p>A standard custom website build typically takes <strong>4-6 weeks</strong> from start to finish. Timelines can vary depending on project complexity and client feedback speed.</p>',
+            preview: 'A standard custom website build usually takes 4-6 weeks.',
+            category: 'Onboarding & Process',
+            order: 3,
+            published: true,
+        },
+        {
+            question: 'Do you provide hosting and domain services?',
+            answer: '<p>Yes, for our Custom Website and Enterprise plans, we include <strong>1 year of basic hosting</strong> and a <strong>free domain name registration</strong> (up to RM50 value) to get you started without any extra hassle.</p>',
+            preview: 'Yes, our Custom and Enterprise plans include 1 year of basic hosting and a free domain name.',
+            category: 'Pricing & Payments',
+            order: 4,
+            published: true,
+        },
+        {
+            question: 'Can I update the website myself after it\'s built?',
+            answer: '<p>Absolutely. All our custom builds come with a <strong>full Content Management System (CMS)</strong> that allows you to easily update text, images, blog posts, and other content without needing any coding knowledge.</p>',
+            preview: 'Yes, all our custom sites include a full CMS so you can easily manage your content.',
+            category: 'Development & Integrations',
+            order: 5,
+            published: true,
+        }
+    ];
+    return faqs;
+}
+
 
 export default function SeedingPage() {
     const [isSeedingBlogs, setIsSeedingBlogs] = useState(false);
     const [isClearingBlogs, setIsClearingBlogs] = useState(false);
     const [isSeedingProjects, setIsSeedingProjects] = useState(false);
     const [isClearingProjects, setIsClearingProjects] = useState(false);
+    const [isSeedingFaqs, setIsSeedingFaqs] = useState(false);
+    const [isClearingFaqs, setIsClearingFaqs] = useState(false);
     const firestore = useFirestore();
     const { toast } = useToast();
 
@@ -154,6 +203,7 @@ export default function SeedingPage() {
             const snapshot = await getDocs(blogsCollection);
             if (snapshot.empty) {
                 toast({ title: "Info", description: "Blog collection is already empty." });
+                setIsClearingBlogs(false);
                 return;
             }
             const batch = writeBatch(firestore);
@@ -192,6 +242,7 @@ export default function SeedingPage() {
             const snapshot = await getDocs(projectsCollection);
             if (snapshot.empty) {
                 toast({ title: "Info", description: "Projects collection is already empty." });
+                setIsClearingProjects(false);
                 return;
             }
             const batch = writeBatch(firestore);
@@ -202,6 +253,52 @@ export default function SeedingPage() {
             handleFirestoreError(error, "Could not clear project data.");
         } finally {
             setIsClearingProjects(false);
+        }
+    };
+    
+    const handleSeedFaqs = async () => {
+        if (!firestore) return;
+        setIsSeedingFaqs(true);
+        try {
+            const batch = writeBatch(firestore);
+            const faqsToSeed = generateSampleFaqs();
+            const faqsCollection = collection(firestore, 'faqs');
+            faqsToSeed.forEach(faq => {
+                const docRef = doc(faqsCollection);
+                batch.set(docRef, {
+                    ...faq,
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp(),
+                });
+            });
+            await batch.commit();
+            toast({ title: "Success!", description: `${faqsToSeed.length} sample FAQs seeded.` });
+        } catch (error: any) {
+            handleFirestoreError(error, "Could not seed FAQ data.");
+        } finally {
+            setIsSeedingFaqs(false);
+        }
+    };
+
+    const handleClearFaqs = async () => {
+        if (!firestore) return;
+        setIsClearingFaqs(true);
+        try {
+            const faqsCollection = collection(firestore, 'faqs');
+            const snapshot = await getDocs(faqsCollection);
+            if (snapshot.empty) {
+                toast({ title: "Info", description: "FAQ collection is already empty." });
+                setIsClearingFaqs(false);
+                return;
+            }
+            const batch = writeBatch(firestore);
+            snapshot.forEach(doc => batch.delete(doc.ref));
+            await batch.commit();
+            toast({ title: "Success!", description: `Cleared ${snapshot.size} FAQs.` });
+        } catch (error: any) {
+            handleFirestoreError(error, "Could not clear FAQ data.");
+        } finally {
+            setIsClearingFaqs(false);
         }
     };
 
@@ -219,7 +316,7 @@ export default function SeedingPage() {
         }
     }
     
-    const isActionInProgress = isSeedingBlogs || isClearingBlogs || isSeedingProjects || isClearingProjects;
+    const isActionInProgress = isSeedingBlogs || isClearingBlogs || isSeedingProjects || isClearingProjects || isSeedingFaqs || isClearingFaqs;
 
     return (
         <>
@@ -332,6 +429,60 @@ export default function SeedingPage() {
                     </Card>
                 </div>
             </div>
+
+            <div className="mt-12 pt-8 border-t">
+                <h2 className="text-xl font-semibold mb-4">FAQs</h2>
+                <div className="grid md:grid-cols-2 gap-8">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Seed Sample FAQs</CardTitle>
+                            <CardDescription>
+                                Adds sample FAQs to the 'faqs' collection. Useful for development and testing.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <Button onClick={handleSeedFaqs} disabled={isActionInProgress} className="w-full">
+                            {isSeedingFaqs ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Database className="mr-2 h-4 w-4" />}
+                            {isSeedingFaqs ? 'Seeding...' : 'Seed Sample FAQs'}
+                            </Button>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="border-destructive">
+                        <CardHeader>
+                            <CardTitle className="text-destructive">Clear FAQ Data</CardTitle>
+                            <CardDescription>
+                            Permanently deletes all documents from the 'faqs' collection. This cannot be undone.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button variant="destructive" className="w-full" disabled={isActionInProgress}>
+                                    {isClearingFaqs ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
+                                    Clear All FAQs
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This will permanently delete all FAQs from the 'faqs' collection.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleClearFaqs} className="bg-destructive hover:bg-destructive/90">
+                                    Yes, delete all FAQs
+                                </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                            </AlertDialog>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
         </>
     );
-}
+
+    
