@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { collection, query, orderBy, doc } from 'firebase/firestore';
-import { useFirestore, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
+import { useFirestore } from '@/firebase';
 import { Button } from '@/components/ui/button';
 import {
   Table,
