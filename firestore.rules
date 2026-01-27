@@ -68,13 +68,13 @@ service cloud.firestore {
     /* ========= FAQS ========= */
 
     match /faqs/{faqId} {
-      // Public can read published FAQs
-      allow get: if resource.data.published == true;
+      // Public can read published FAQs, Admins can read any.
+      allow get: if resource.data.published == true || isAdmin();
       
-      // Public can query for published FAQs
-      allow list: if request.query.where('published', '==', true);
+      // Public can query for published FAQs, Admins can query for any.
+      allow list: if request.query.where('published', '==', true) || isAdmin();
       
-      // Admins can do anything
+      // Admins can write.
       allow create, update, delete: if isAdmin();
     }
 
