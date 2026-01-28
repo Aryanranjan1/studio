@@ -49,7 +49,7 @@ export function SettingsForm() {
   return (
     <div className="space-y-12">
       {/* Branding & Media Card */}
-      <Card id="branding">
+      <Card>
         <CardHeader>
           <CardTitle>Branding & Media</CardTitle>
           <CardDescription>Manage your site's logo, favicon, and default social sharing image.</CardDescription>
@@ -81,7 +81,7 @@ export function SettingsForm() {
       </Card>
       
       {/* Integrations Card */}
-      <Card id="integrations">
+      <Card>
         <CardHeader>
           <CardTitle>Integrations</CardTitle>
           <CardDescription>Enable and configure third-party services like email and AI.</CardDescription>
@@ -137,7 +137,7 @@ export function SettingsForm() {
       </Card>
 
       {/* Indexing Settings Card */}
-      <Card id="indexing">
+      <Card>
         <CardHeader>
           <CardTitle>Search Engine Indexing & Visibility</CardTitle>
           <CardDescription>Control how search engines like Google crawl and index your site. Incorrect settings can harm your SEO.</CardDescription>
@@ -185,5 +185,4 @@ export function SettingsForm() {
     </div>
   );
 }
-
     

@@ -37,12 +37,6 @@ const formSchema = z.object({
 
 type SettingsFormValues = z.infer<typeof formSchema>;
 
-const navItems = [
-  { id: 'branding', label: 'Branding & Media' },
-  { id: 'integrations', label: 'Integrations' },
-  { id: 'indexing', label: 'SEO & Indexing' },
-]
-
 export default function SettingsPage() {
     const { isAdmin, isLoading: isAdminLoading } = useIsAdmin();
     const { toast } = useToast();
@@ -114,27 +108,11 @@ export default function SettingsPage() {
               </Button>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-              <aside className="md:col-span-3 lg:col-span-2">
-                  <nav className="sticky top-24">
-                      <ul className="space-y-2">
-                        {navItems.map(item => (
-                           <li key={item.id}>
-                               <a href={`#${item.id}`} className="block text-muted-foreground hover:text-foreground font-medium p-2 rounded-md transition-colors">
-                                   {item.label}
-                               </a>
-                           </li>
-                        ))}
-                      </ul>
-                  </nav>
-              </aside>
-              <div className="md:col-span-9 lg:col-span-10">
-                  <SettingsForm />
-              </div>
+          <div>
+              <SettingsForm />
           </div>
         </form>
       </FormProvider>
     );
 }
-
     
