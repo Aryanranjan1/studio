@@ -1,3 +1,4 @@
+
 'use client';
 import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -33,9 +34,8 @@ const formSchema = z.object({
       linkedin: z.string().url().optional().or(z.literal('')),
       instagram: z.string().url().optional().or(z.literal('')),
       facebook: z.string().url().optional().or(z.literal('')),
-      twitter: z.string().url().optional().or(z.literal('')),
-      youtube: z.string().url().optional().or(z.literal('')),
       pinterest: z.string().url().optional().or(z.literal('')),
+      youtube: z.string().url().optional().or(z.literal('')),
       dribbble: z.string().url().optional().or(z.literal('')),
     }).optional()
   }),
@@ -75,7 +75,7 @@ const defaultIndexingRules: PageTypeRules = {
 
 const defaultValues: SettingsFormValues = {
   brandingConfig: { websiteName: '', brandName: '', logoUrl: '', squareLogoUrl: '', faviconUrl: '', defaultOgImageUrl: '' },
-  contactConfig: { primaryEmail: '', supportEmail: '', phone: '', address: '', country: '', businessHours: '', socialLinks: { linkedin: '', instagram: '', facebook: '', twitter: '', youtube: '', pinterest: '', dribbble: '' } },
+  contactConfig: { primaryEmail: '', supportEmail: '', phone: '', address: '', country: '', businessHours: '', socialLinks: { linkedin: '', instagram: '', facebook: '', pinterest: '', youtube: '', dribbble: '' } },
   seoConfig: { baseSiteUrl: '', defaultMetaTitleTemplate: '%s | Ampire Studio', defaultMetaDescription: '', globalIndexingEnabled: true, pageTypeRules: defaultIndexingRules },
   emailConfig: { enabled: false, senderName: '', senderEmail: '' },
   aiConfig: { enabled: false, provider: 'gemini' },
@@ -118,7 +118,7 @@ export default function SettingsPage() {
     
     const onSubmit = async (data: SettingsFormValues) => {
         if (!firestore) return;
-        await updateSiteSettings(firestore, data);
+        await updateSiteSettings(firestore, data as SiteConfiguration);
         toast({
           title: 'Settings saved!',
           description: 'Your changes have been successfully saved.',

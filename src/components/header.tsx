@@ -24,7 +24,8 @@ import {
   AppWindow,
   Linkedin,
   Instagram,
-  Dribbble
+  Dribbble,
+  Pinterest
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -94,6 +95,7 @@ export function Header() {
     { name: 'LinkedIn', href: socialLinks?.linkedin, Icon: Linkedin },
     { name: 'Instagram', href: socialLinks?.instagram, Icon: Instagram },
     { name: 'Dribbble', href: socialLinks?.dribbble, Icon: Dribbble },
+    { name: 'Pinterest', href: socialLinks?.pinterest, Icon: Pinterest },
   ].filter(link => link.href);
 
   return (
@@ -173,7 +175,3 @@ export function Header() {
     </>
   );
 }
-
-    
-
-    

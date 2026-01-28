@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowRight, Loader2, Dribbble, Instagram, Linkedin } from 'lucide-react';
+import { ArrowRight, Loader2, Dribbble, Instagram, Linkedin, Pinterest } from 'lucide-react';
 import { Footer } from '@/components/footer';
 import { useToast } from '@/hooks/use-toast';
 import { usePublicFaqs } from '@/hooks/useFaqs';
@@ -43,6 +43,7 @@ export function ContactForm() {
     { name: 'LinkedIn', href: socialLinks?.linkedin, Icon: Linkedin },
     { name: 'Instagram', href: socialLinks?.instagram, Icon: Instagram },
     { name: 'Dribbble', href: socialLinks?.dribbble, Icon: Dribbble },
+    { name: 'Pinterest', href: socialLinks?.pinterest, Icon: Pinterest },
   ].filter(link => link.href);
 
   const faqItems = allFaqs?.filter(faq => ['gen-2', 'dev-2', 'price-1'].includes(faq.id)) || [];
@@ -278,5 +279,3 @@ export function ContactForm() {
     </div>
   );
 }
-
-    

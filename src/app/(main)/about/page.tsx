@@ -2,7 +2,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, MoveRight, Dribbble, Instagram, Linkedin } from 'lucide-react';
+import { ArrowRight, MoveRight, Dribbble, Instagram, Linkedin, Pinterest } from 'lucide-react';
 import { getTeam } from '@/lib/data';
 import { TeamMemberCard } from '@/components/team-member-card';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,7 @@ export default function AboutPage() {
     { name: 'LinkedIn', href: socialLinks?.linkedin, Icon: Linkedin },
     { name: 'Instagram', href: socialLinks?.instagram, Icon: Instagram },
     { name: 'Dribbble', href: socialLinks?.dribbble, Icon: Dribbble },
+    { name: 'Pinterest', href: socialLinks?.pinterest, Icon: Pinterest },
   ].filter(link => link.href);
 
   const principles = [
@@ -198,5 +199,3 @@ export const metadata: Metadata = {
     title: 'About',
     description: 'Learn about our process, our values, and the team behind Ampire Studio.',
 };
-
-    

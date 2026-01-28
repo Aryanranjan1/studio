@@ -30,5 +30,3 @@ export async function getAllPublicPortfolioProjects(): Promise<Pick<PortfolioPro
         return [];
     }
 }
-
-    

@@ -42,5 +42,3 @@ Disallow: /login
         },
     });
 }
-
-    

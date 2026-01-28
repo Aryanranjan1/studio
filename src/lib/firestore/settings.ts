@@ -46,10 +46,9 @@ export type SiteConfiguration = {
     socialLinks?: {
         linkedin?: string;
         instagram?: string;
-        facebook?: string;
         pinterest?: string;
-        youtube?: string;
         dribbble?: string;
+        youtube?: string;
     }
   };
   seoConfig?: {

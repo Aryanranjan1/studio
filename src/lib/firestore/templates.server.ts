@@ -30,5 +30,3 @@ export async function getAllPublicTemplates(): Promise<Pick<Template, 'slug' | '
         return [];
     }
 }
-
-    

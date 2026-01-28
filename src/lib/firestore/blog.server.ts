@@ -30,5 +30,3 @@ export async function getAllPublicBlogs(): Promise<Pick<Article, 'slug' | 'lastU
         return [];
     }
 }
-
-    

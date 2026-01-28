@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, CheckCircle, Dribbble, Instagram, Linkedin } from 'lucide-react';
+import { ArrowRight, CheckCircle, Dribbble, Instagram, Linkedin, Pinterest } from 'lucide-react';
 import Link from 'next/link';
 import { usePublicSettings } from '@/hooks/use-settings';
 
@@ -22,6 +22,7 @@ export function FaqSidebar() {
     { name: 'LinkedIn', href: socialLinks?.linkedin, Icon: Linkedin },
     { name: 'Instagram', href: socialLinks?.instagram, Icon: Instagram },
     { name: 'Dribbble', href: socialLinks?.dribbble, Icon: Dribbble },
+    { name: 'Pinterest', href: socialLinks?.pinterest, Icon: Pinterest },
   ].filter(link => link.href);
 
   const processSteps = [
@@ -105,5 +106,3 @@ export function FaqSidebar() {
     </aside>
   );
 }
-
-    

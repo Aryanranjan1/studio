@@ -53,9 +53,8 @@ const formSchema = z.object({
       linkedin: z.string().url().optional().or(z.literal('')),
       instagram: z.string().url().optional().or(z.literal('')),
       facebook: z.string().url().optional().or(z.literal('')),
-      twitter: z.string().url().optional().or(z.literal('')),
-      youtube: z.string().url().optional().or(z.literal('')),
       pinterest: z.string().url().optional().or(z.literal('')),
+      youtube: z.string().url().optional().or(z.literal('')),
       dribbble: z.string().url().optional().or(z.literal('')),
     }).optional()
   }),
@@ -95,7 +94,7 @@ const defaultIndexingRules: PageTypeRules = {
 
 const defaultValues: SettingsFormValues = {
   brandingConfig: { websiteName: '', brandName: '', logoUrl: '', squareLogoUrl: '', faviconUrl: '', defaultOgImageUrl: '' },
-  contactConfig: { primaryEmail: '', supportEmail: '', phone: '', address: '', country: '', businessHours: '', socialLinks: { linkedin: '', instagram: '', facebook: '', twitter: '', youtube: '', pinterest: '', dribbble: '' } },
+  contactConfig: { primaryEmail: '', supportEmail: '', phone: '', address: '', country: '', businessHours: '', socialLinks: { linkedin: '', instagram: '', facebook: '', pinterest: '', youtube: '', dribbble: '' } },
   seoConfig: { baseSiteUrl: '', defaultMetaTitleTemplate: '%s | Ampire Studio', defaultMetaDescription: '', globalIndexingEnabled: true, pageTypeRules: defaultIndexingRules },
   emailConfig: { enabled: false, senderName: '', senderEmail: '' },
   aiConfig: { enabled: false, provider: 'gemini' },
@@ -186,6 +185,3 @@ export default function SettingsPage() {
       </FormProvider>
     );
 }
-    
-
-    
