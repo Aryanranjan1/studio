@@ -190,19 +190,28 @@ export function Inbox() {
 
   const messagesQuery = useMemoFirebase(() => {
     if (!firestore) return null;
-    // Query now filters out archived messages
+    // Query now filters out archived messages, but does not order.
     return query(
       collection(firestore, 'messages'), 
-      where('isArchived', '==', false),
-      orderBy('receivedAt', 'desc')
+      where('isArchived', '==', false)
     );
   }, [firestore]);
 
   const { data: messages, isLoading, error } = useCollection<Message>(messagesQuery);
   
+  const sortedMessages = useMemo(() => {
+      if (!messages) return [];
+      // Sort messages on the client-side
+      return [...messages].sort((a, b) => {
+          const dateA = a.receivedAt?.toDate ? a.receivedAt.toDate().getTime() : 0;
+          const dateB = b.receivedAt?.toDate ? b.receivedAt.toDate().getTime() : 0;
+          return dateB - dateA;
+      });
+  }, [messages]);
+  
   const selectedMessageData = useMemo(() => {
-      return messages?.find(m => m.id === selectedMessage) || null;
-  }, [messages, selectedMessage]);
+      return sortedMessages?.find(m => m.id === selectedMessage) || null;
+  }, [sortedMessages, selectedMessage]);
   
   const handleActionComplete = () => {
     setSelectedMessage(null);
@@ -226,11 +235,11 @@ export function Inbox() {
       <div className="flex flex-col border-r overflow-y-auto">
         <div className="border-b p-4">
           <h1 className="text-lg font-semibold">Inbox</h1>
-          <p className="text-sm text-muted-foreground">{messages?.length || 0} messages</p>
+          <p className="text-sm text-muted-foreground">{sortedMessages.length || 0} messages</p>
         </div>
         <div className="flex flex-col gap-2 p-2">
-          {messages && messages.length > 0 ? (
-            messages.map(message => (
+          {sortedMessages && sortedMessages.length > 0 ? (
+            sortedMessages.map(message => (
               <MessageListItem
                 key={message.id}
                 message={message}
