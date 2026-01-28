@@ -1,15 +1,12 @@
-
 'use client';
 
 import {
   doc,
   setDoc,
-  getDoc,
   Firestore,
 } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
-import { initializeFirebase } from '@/firebase';
 
 export type IndexingRule = {
   index: boolean;
@@ -75,44 +72,3 @@ export async function updateSiteSettings(firestore: Firestore, data: Partial<Sit
     throw error;
   }
 }
-
-
-// --- READ OPERATIONS (FOR SERVER & CLIENT) ---
-
-let settingsCache: SiteConfiguration | null = null;
-let lastFetchTimestamp = 0;
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
-
-/**
- * Fetches site settings with caching.
- * Can be used in both server and client components.
- * @returns {Promise<SiteConfiguration | null>} The site configuration.
- */
-export async function getSiteSettings(): Promise<SiteConfiguration | null> {
-  const now = Date.now();
-  if (settingsCache && (now - lastFetchTimestamp < CACHE_DURATION)) {
-    return settingsCache;
-  }
-
-  try {
-    const { firestore } = initializeFirebase();
-    const docRef = doc(firestore, 'site_settings', 'config');
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      settingsCache = docSnap.data() as SiteConfiguration;
-      lastFetchTimestamp = now;
-      return settingsCache;
-    } else {
-      console.warn("Site settings document does not exist.");
-      return null;
-    }
-  } catch (error) {
-    console.error("Error fetching site settings:", error);
-    return null;
-  }
-}
-
-    
-
-    

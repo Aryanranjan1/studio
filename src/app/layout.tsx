@@ -8,7 +8,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { LenisProvider } from '@/components/lenis-provider';
 import { GoogleAnalytics } from '@/components/google-analytics';
 import { Suspense } from 'react';
-import { getSiteSettings } from '@/lib/firestore/settings';
+import { getSiteSettings } from '@/lib/firestore/settings.server';
 
 
 const inter = Inter({
@@ -103,5 +103,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-    
