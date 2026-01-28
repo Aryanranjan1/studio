@@ -4,6 +4,7 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { getFirestoreServer } from '@/firebase/server-init';
 import type { SiteConfiguration } from './settings';
+import { unstable_noStore as noStore } from 'next/cache';
 
 /**
  * Fetches site settings directly from Firestore for use in server components and API routes.
@@ -11,6 +12,9 @@ import type { SiteConfiguration } from './settings';
  * @returns {Promise<SiteConfiguration | null>} The site configuration.
  */
 export async function getSiteSettings(): Promise<SiteConfiguration | null> {
+  // Opt out of caching for this function. This is crucial for dynamic routes.
+  noStore();
+  
   try {
     const firestore = getFirestoreServer();
     const docRef = doc(firestore, 'site_settings', 'config');
