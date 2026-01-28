@@ -22,7 +22,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 
 const navItems = [
     { href: '/admin/home', label: 'Dashboard', icon: LayoutDashboard },
@@ -105,25 +105,29 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                     </Button>
                     </SheetTrigger>
                     <SheetContent side="left" className="flex flex-col">
-                    <nav className="grid gap-2 text-lg font-medium">
-                        <Link
-                            href="#"
-                            className="flex items-center gap-2 text-lg font-semibold mb-4"
-                        >
-                            <Crown className="h-6 w-6 text-primary" />
-                            <span className="sr-only">Ampire Admin</span>
-                        </Link>
-                         {navItems.map(item => (
+                        <SheetHeader className="sr-only">
+                            <SheetTitle>Admin Menu</SheetTitle>
+                            <SheetDescription>Main navigation for the admin panel.</SheetDescription>
+                        </SheetHeader>
+                        <nav className="grid gap-2 text-lg font-medium">
                             <Link
-                                key={item.href}
-                                href={item.href}
-                                className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                                href="/"
+                                className="flex items-center gap-2 text-lg font-semibold mb-4"
                             >
-                                <item.icon className="h-5 w-5" />
-                                {item.label}
+                                <Crown className="h-6 w-6 text-primary" />
+                                <span>Ampire Admin</span>
                             </Link>
-                        ))}
-                    </nav>
+                            {navItems.map(item => (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                                >
+                                    <item.icon className="h-5 w-5" />
+                                    {item.label}
+                                </Link>
+                            ))}
+                        </nav>
                     </SheetContent>
                 </Sheet>
                  <div className="w-full flex-1">
