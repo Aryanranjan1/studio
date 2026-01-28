@@ -111,7 +111,7 @@
     },
     "SiteSettings": {
       "title": "Site Settings",
-      "description": "Global settings for site functionality, like email and AI.",
+      "description": "Global settings for site functionality, like email, AI, and search engine indexing.",
       "type": "object",
       "properties": {
         "emailConfig": {
@@ -127,6 +127,36 @@
           "properties": {
             "enabled": { "type": "boolean" },
             "provider": { "type": "string", "enum": ["gemini", "openai"] }
+          }
+        },
+        "indexingConfig": {
+          "type": "object",
+          "properties": {
+            "globalIndexingEnabled": { "type": "boolean" },
+            "pageTypeRules": {
+              "type": "object",
+              "properties": {
+                "blog": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
+                "portfolio": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
+                "services": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
+                "about": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
+                "contact": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
+                "faq": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
+                "store": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
+                "offerLetter": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
+                "contract": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
+                "timeline": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" }
+              }
+            }
+          },
+          "definitions": {
+            "rule": {
+              "type": "object",
+              "properties": {
+                "index": { "type": "boolean" },
+                "follow": { "type": "boolean" }
+              }
+            }
           }
         }
       }
@@ -627,6 +657,8 @@
   }
 }
     
+    
+
     
 
     
