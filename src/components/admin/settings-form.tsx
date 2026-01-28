@@ -23,7 +23,6 @@ const defaultIndexingRules: PageTypeRules = {
   contact: { index: true, follow: true },
   faq: { index: true, follow: true },
   store: { index: true, follow: true },
-  // Non-configurable defaults for sensitive pages
   offerLetter: { index: false, follow: false },
   contract: { index: false, follow: false },
   timeline: { index: false, follow: false },
@@ -36,7 +35,7 @@ const pageTypeLabels: Record<keyof PageTypeRules, string> = {
   about: 'About',
   contact: 'Contact',
   faq: 'FAQ',
-  store: 'Store',
+  store: 'Store / Templates',
   offerLetter: 'Offer Letters / Proposals',
   contract: 'Contracts',
   timeline: 'Client Timelines / Dashboards',
