@@ -1,3 +1,4 @@
+
 'use client';
 
 // This component is not currently used and previously depended on outdated static data.

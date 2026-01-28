@@ -14,6 +14,7 @@ export type Service = {
 };
 
 export type Testimonial = {
+  id: string;
   quote: string;
   name: string;
   role: string;
@@ -398,7 +399,7 @@ const capabilities: TeamMember[] = [
 export const getTeam = (): TeamMember[] => capabilities;
 
 
-export const getTestimonials = (): Testimonial[] => [
+export const getTestimonials = (): Omit<Testimonial, 'id'>[] => [
   {
     quote: 'The multi-outlet system they built for us was a game-changer. Our local SEO has skyrocketed, and foot traffic is up across all 50 locations. A truly brilliant solution.',
     name: 'Ahmad Faisal',

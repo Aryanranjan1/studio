@@ -4,8 +4,9 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { getTestimonials } from '@/lib/data';
 import type { Testimonial } from '@/lib/data';
+import { usePublicTestimonials } from '@/hooks/use-testimonials';
+import { Skeleton } from './skeleton';
 
 const SQRT_5000 = Math.sqrt(5000);
 
@@ -73,12 +74,14 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 
 export const StaggerTestimonials: React.FC = () => {
   const [cardSize, setCardSize] = useState(365);
+  const { data: initialTestimonials, isLoading } = usePublicTestimonials();
   const [testimonialsList, setTestimonialsList] = useState<(Testimonial & { tempId: number })[]>([]);
 
   useEffect(() => {
-      const dbTestimonials = getTestimonials();
-      setTestimonialsList(dbTestimonials.map((t, i) => ({ ...t, tempId: i })));
-  }, []);
+    if (initialTestimonials) {
+      setTestimonialsList(initialTestimonials.map((t, i) => ({ ...t, tempId: i })));
+    }
+  }, [initialTestimonials]);
 
   const handleMove = (steps: number) => {
     const newList = [...testimonialsList];
@@ -109,6 +112,14 @@ export const StaggerTestimonials: React.FC = () => {
     return () => window.removeEventListener("resize", updateSize);
   }, []);
   
+  if (isLoading) {
+      return (
+        <div className="relative w-full overflow-hidden bg-background flex items-center justify-center" style={{ height: 600 }}>
+            <Skeleton className="h-[365px] w-[365px]" />
+        </div>
+      );
+  }
+
   if (testimonialsList.length === 0) {
       return <div className="relative w-full overflow-hidden bg-background" style={{ height: 600 }}></div>;
   }

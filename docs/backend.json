@@ -557,6 +557,21 @@
         "metaDescription": { "type": "string" }
       },
       "required": ["title", "slug", "shortDescription", "price", "published"]
+    },
+    "Testimonial": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Testimonial",
+      "description": "A testimonial from a client.",
+      "type": "object",
+      "properties": {
+        "quote": { "type": "string" },
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "company": { "type": "string" },
+        "image": { "type": "string", "format": "uri" },
+        "projectId": { "type": "string" }
+      },
+      "required": ["quote", "name", "role", "company"]
     }
   },
   "auth": {
@@ -688,6 +703,22 @@
           },
           "description": "Stores global configuration for site features.",
           "params": []
+        }
+      },
+      {
+        "path": "/testimonials/{testimonialId}",
+        "definition": {
+          "entityName": "Testimonial",
+          "schema": {
+            "$ref": "#/backend/entities/Testimonial"
+          },
+          "description": "Stores all testimonials for the website.",
+          "params": [
+            {
+              "name": "testimonialId",
+              "description": "The unique identifier for the testimonial."
+            }
+          ]
         }
       }
     ],

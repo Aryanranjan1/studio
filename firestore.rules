@@ -101,6 +101,12 @@ service cloud.firestore {
        allow write: if isAdmin(); // Only admins can change settings
     }
 
+    /* ========= TESTIMONIALS ========= */
+    match /testimonials/{testimonialId} {
+        allow get, list: if true; // Publicly readable
+        allow create, update, delete: if isAdmin(); // Admins have full control
+    }
+
 
     /* ========= USERS ========= */
 
@@ -125,3 +131,4 @@ service cloud.firestore {
     
 
     
+

@@ -7,9 +7,9 @@ import { collection, writeBatch, doc, getDocs, serverTimestamp } from 'firebase/
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Database, Trash2 } from 'lucide-react';
-import type { Article, PortfolioProject, FaqItem, Template } from '@/lib/data';
+import type { Article, PortfolioProject, FaqItem, Template, Testimonial } from '@/lib/data';
 import { updateSiteSettings, type SiteConfiguration } from '@/lib/firestore/settings';
-import { getProjects, getTemplates } from '@/lib/data';
+import { getProjects, getTemplates, getTestimonials } from '@/lib/data';
 import { slugify } from '@/lib/slugify';
 import {
   Card,
@@ -196,6 +196,10 @@ function generateSampleTemplates(): Omit<Template, 'id'>[] {
     });
 }
 
+function generateSampleTestimonials(): Omit<Testimonial, 'id'>[] {
+    return getTestimonials();
+}
+
 function generateSampleSettings(): SiteConfiguration {
     return {
         brandingConfig: {
@@ -219,7 +223,7 @@ function generateSampleSettings(): SiteConfiguration {
             }
         },
         seoConfig: {
-            baseSiteUrl: 'https://ampire.studio',
+            baseSiteUrl: 'https://www.ampire.studio',
             defaultMetaTitleTemplate: '%s | Ampire Studio',
             defaultMetaDescription: 'A digital design and development agency specializing in bespoke websites and applications.',
             globalIndexingEnabled: true,
@@ -258,6 +262,8 @@ export default function SeedingPage() {
     const [isClearingFaqs, setIsClearingFaqs] = useState(false);
     const [isSeedingTemplates, setIsSeedingTemplates] = useState(false);
     const [isClearingTemplates, setIsClearingTemplates] = useState(false);
+    const [isSeedingTestimonials, setIsSeedingTestimonials] = useState(false);
+    const [isClearingTestimonials, setIsClearingTestimonials] = useState(false);
     const [isSeedingSettings, setIsSeedingSettings] = useState(false);
     const firestore = useFirestore();
     const { toast } = useToast();
@@ -439,6 +445,44 @@ export default function SeedingPage() {
         }
     };
 
+    const handleSeedTestimonials = async () => {
+        if (!firestore) return;
+        setIsSeedingTestimonials(true);
+        try {
+            const batch = writeBatch(firestore);
+            const testimonialsToSeed = generateSampleTestimonials();
+            const testimonialsCollection = collection(firestore, 'testimonials');
+            testimonialsToSeed.forEach(testimonial => batch.set(doc(testimonialsCollection), testimonial));
+            await batch.commit();
+            toast({ title: "Success!", description: `${testimonialsToSeed.length} sample testimonials seeded.` });
+        } catch (error: any) {
+            handleFirestoreError(error, "Could not seed testimonial data.");
+        } finally {
+            setIsSeedingTestimonials(false);
+        }
+    };
+
+    const handleClearTestimonials = async () => {
+        if (!firestore) return;
+        setIsClearingTestimonials(true);
+        try {
+            const testimonialsCollection = collection(firestore, 'testimonials');
+            const snapshot = await getDocs(testimonialsCollection);
+            if (snapshot.empty) {
+                toast({ title: "Info", description: "Testimonials collection is already empty." });
+                return;
+            }
+            const batch = writeBatch(firestore);
+            snapshot.forEach(doc => batch.delete(doc.ref));
+            await batch.commit();
+            toast({ title: "Success!", description: `Cleared ${snapshot.size} testimonials.` });
+        } catch (error: any) {
+            handleFirestoreError(error, "Could not clear testimonial data.");
+        } finally {
+            setIsClearingTestimonials(false);
+        }
+    };
+
     const handleFirestoreError = (error: any, defaultMessage: string) => {
         console.error("Firestore operation error: ", error);
         if (error.code === 'permission-denied') {
@@ -453,7 +497,7 @@ export default function SeedingPage() {
         }
     };
     
-    const isActionInProgress = isSeedingBlogs || isClearingBlogs || isSeedingProjects || isClearingProjects || isSeedingFaqs || isClearingFaqs || isSeedingTemplates || isClearingTemplates || isSeedingSettings;
+    const isActionInProgress = isSeedingBlogs || isClearingBlogs || isSeedingProjects || isClearingProjects || isSeedingFaqs || isClearingFaqs || isSeedingTemplates || isClearingTemplates || isSeedingSettings || isSeedingTestimonials || isClearingTestimonials;
 
     return (
         <>
@@ -663,6 +707,58 @@ export default function SeedingPage() {
                                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                                 <AlertDialogAction onClick={handleClearTemplates} className="bg-destructive hover:bg-destructive/90">
                                     Yes, delete all templates
+                                </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                            </AlertDialog>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+             <div className="mt-12 pt-8 border-t">
+                <h2 className="text-xl font-semibold mb-4">Testimonials</h2>
+                <div className="grid md:grid-cols-2 gap-8">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Seed Sample Testimonials</CardTitle>
+                            <CardDescription>
+                                Adds sample testimonials from your static data file to the 'testimonials' collection.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <Button onClick={handleSeedTestimonials} disabled={isActionInProgress} className="w-full">
+                            {isSeedingTestimonials ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Database className="mr-2 h-4 w-4" />}
+                            {isSeedingTestimonials ? 'Seeding...' : 'Seed Sample Testimonials'}
+                            </Button>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="border-destructive">
+                        <CardHeader>
+                            <CardTitle className="text-destructive">Clear Testimonial Data</CardTitle>
+                            <CardDescription>
+                            Permanently deletes all documents from the 'testimonials' collection. This cannot be undone.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button variant="destructive" className="w-full" disabled={isActionInProgress}>
+                                    {isClearingTestimonials ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Trash2 className="mr-2 h-4 w-4" />}
+                                    Clear All Testimonials
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        This will permanently delete all testimonials from the 'testimonials' collection.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction onClick={handleClearTestimonials} className="bg-destructive hover:bg-destructive/90">
+                                    Yes, delete all testimonials
                                 </AlertDialogAction>
                                 </AlertDialogFooter>
                             </AlertDialogContent>
