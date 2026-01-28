@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useMemo } from 'react';
@@ -6,7 +7,7 @@ import { collection, query, orderBy, where, doc } from 'firebase/firestore';
 import type { Message, SiteConfiguration } from '@/lib/data';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
-import { Loader2, Inbox as InboxIcon, Archive, Trash2, Reply, Bot } from 'lucide-react';
+import { Loader2, Inbox as InboxIcon, Archive, Trash2, Reply, Bot, Mail, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '../ui/textarea';
 import { useToast } from '@/hooks/use-toast';
@@ -22,6 +23,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 
 function MessageListItem({
@@ -109,6 +116,10 @@ function MessageDisplay({
         );
     }
   
+    const hasEmail = !!message.senderEmail;
+    const hasPhone = !!message.senderPhone;
+    const canReplyByEmail = hasEmail && settings?.emailConfig?.enabled;
+  
     return (
       <div className="flex h-full flex-col">
         <div className="flex items-center p-4 border-b">
@@ -144,14 +155,39 @@ function MessageDisplay({
                     </AlertDialogContent>
                 </AlertDialog>
             </div>
-             {settings?.emailConfig?.enabled && (
-                <div className="ml-auto">
-                    <Button onClick={() => setIsReplying(!isReplying)} disabled={message.isArchived}>
-                        <Reply className="mr-2 h-4 w-4" />
-                        {isReplying ? 'Cancel' : 'Reply'}
-                    </Button>
-                </div>
-             )}
+             <div className="ml-auto flex items-center gap-2">
+                {canReplyByEmail && hasPhone ? (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button disabled={message.isArchived}>
+                        <Reply className="mr-2 h-4 w-4" /> Reply
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem onClick={() => setIsReplying(true)}>
+                        <Mail className="mr-2 h-4 w-4" />
+                        <span>Reply via Email</span>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <a href={`https://wa.me/${message.senderPhone}`} target="_blank" rel="noopener noreferrer">
+                          <MessageSquare className="mr-2 h-4 w-4" />
+                          <span>Chat on WhatsApp</span>
+                        </a>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : canReplyByEmail ? (
+                  <Button onClick={() => setIsReplying(!isReplying)} disabled={message.isArchived}>
+                    <Reply className="mr-2 h-4 w-4" /> {isReplying ? 'Cancel' : 'Reply'}
+                  </Button>
+                ) : hasPhone ? (
+                  <Button asChild disabled={message.isArchived}>
+                    <a href={`https://wa.me/${message.senderPhone}`} target="_blank" rel="noopener noreferrer">
+                      <MessageSquare className="mr-2 h-4 w-4" /> Chat on WhatsApp
+                    </a>
+                  </Button>
+                ) : null}
+            </div>
         </div>
         <div className="flex-1 overflow-auto p-4 space-y-6">
             <div className="flex items-start gap-4">
@@ -162,7 +198,10 @@ function MessageDisplay({
                             {message.receivedAt && formatDistanceToNow(message.receivedAt.toDate(), { addSuffix: true })}
                         </p>
                     </div>
-                    <p className="text-xs text-muted-foreground">{message.senderEmail}</p>
+                    <div className="text-xs text-muted-foreground flex flex-col">
+                        {message.senderEmail && <span>{message.senderEmail}</span>}
+                        {message.senderPhone && <span>{message.senderPhone}</span>}
+                    </div>
                 </div>
             </div>
             <h2 className="text-xl font-bold">{message.subject}</h2>
@@ -290,3 +329,5 @@ export function Inbox() {
     </div>
   );
 }
+
+    

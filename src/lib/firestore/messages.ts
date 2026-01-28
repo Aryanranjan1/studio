@@ -112,3 +112,5 @@ export function deleteMessage(firestore: Firestore, id: string): void {
       errorEmitter.emit('permission-error', permissionError);
     });
 }
+
+    

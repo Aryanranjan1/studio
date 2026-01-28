@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -11,7 +12,6 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowRight, Loader2 } from 'lucide-react';
 import { Footer } from '@/components/footer';
@@ -27,6 +27,7 @@ export function ContactForm() {
     name: '',
     company: '',
     email: '',
+    phone: '',
     message: '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -47,14 +48,15 @@ export function ContactForm() {
     const newErrors: Record<string, string> = {};
     if (!formData.name) newErrors.name = 'Full name is required.';
     
-    if (!formData.email) {
-      newErrors.email = 'Email or phone number is required.';
+    if (!formData.email && !formData.phone) {
+      newErrors.contact = 'Please provide either an email or a phone number.';
     } else {
-      const isEmail = /\S+@\S+\.\S+/.test(formData.email);
-      const isPhone = /^\+?[0-9\s-]{7,15}$/.test(formData.email);
-      if (!isEmail && !isPhone) {
-        newErrors.email = 'Please enter a valid email or phone number.';
-      }
+        if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
+            newErrors.email = 'Please enter a valid email address.';
+        }
+        if (formData.phone && !/^\+?[0-9\s-]{7,15}$/.test(formData.phone)) {
+            newErrors.phone = 'Please enter a valid phone number.';
+        }
     }
 
     if (!formData.message) newErrors.message = 'Project description is required.';
@@ -81,6 +83,7 @@ export function ContactForm() {
             addMessage(firestore, {
                 senderName: formData.name,
                 senderEmail: formData.email,
+                senderPhone: formData.phone,
                 senderCompany: formData.company,
                 subject: `New Project Brief from ${formData.name}`,
                 body: formData.message,
@@ -91,7 +94,7 @@ export function ContactForm() {
                 title: "Message Sent!",
                 description: "Thanks for reaching out. We'll get back to you shortly.",
             });
-            setFormData({ name: '', company: '', email: '', message: '' });
+            setFormData({ name: '', company: '', email: '', phone: '', message: '' });
         } catch (error) {
             toast({
                 title: "Error",
@@ -144,19 +147,35 @@ export function ContactForm() {
                         <Input id="company" placeholder="Acme Inc." value={formData.company} onChange={handleChange} className="bg-background border-input h-12"/>
                       </div>
                     </div>
-                     <div className="space-y-2">
-                        <Label htmlFor="email">Email or Phone Number</Label>
-                        <Input 
-                            id="email"
-                            type="text"
-                            placeholder="you@example.com or +60123456789"
-                            value={formData.email}
-                            onChange={handleChange}
-                            aria-invalid={!!errors.email}
-                            className="bg-background border-input h-12"
-                        />
-                       {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                         <div className="space-y-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input 
+                                id="email"
+                                type="email"
+                                placeholder="you@example.com"
+                                value={formData.email}
+                                onChange={handleChange}
+                                aria-invalid={!!errors.email}
+                                className="bg-background border-input h-12"
+                            />
+                           {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+                        </div>
+                         <div className="space-y-2">
+                            <Label htmlFor="phone">Phone Number</Label>
+                            <Input 
+                                id="phone"
+                                type="tel"
+                                placeholder="+60123456789"
+                                value={formData.phone}
+                                onChange={handleChange}
+                                aria-invalid={!!errors.phone}
+                                className="bg-background border-input h-12"
+                            />
+                           {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
+                        </div>
                     </div>
+                    {errors.contact && <p className="text-sm text-destructive -mt-2">{errors.contact}</p>}
                     <div className="space-y-2">
                       <Label htmlFor="message">Project Description</Label>
                       <Textarea
@@ -250,3 +269,5 @@ export function ContactForm() {
     </div>
   );
 }
+
+    

@@ -81,7 +81,12 @@
         "senderName": { "type": "string" },
         "senderEmail": {
           "type": "string",
-          "description": "The sender's email address or phone number."
+          "description": "The sender's email address.",
+          "format": "email"
+        },
+        "senderPhone": {
+            "type": "string",
+            "description": "The sender's phone number."
         },
         "senderCompany": { "type": "string" },
         "subject": { "type": "string" },
@@ -102,7 +107,7 @@
           }
         }
       },
-      "required": ["senderName", "senderEmail", "subject", "body", "status", "receivedAt"]
+      "required": ["senderName", "subject", "body", "status", "receivedAt"]
     },
     "SiteSettings": {
       "title": "Site Settings",
@@ -622,6 +627,8 @@
   }
 }
     
+    
+
     
 
     

@@ -2,6 +2,7 @@
 
 
 
+
 export type Service = {
   id: string;
   title: string;
@@ -49,7 +50,8 @@ type ImageObject = {
 export type Message = {
   id: string;
   senderName: string;
-  senderEmail: string;
+  senderEmail?: string;
+  senderPhone?: string;
   senderCompany?: string;
   subject: string;
   body: string;
@@ -629,6 +631,8 @@ export const getTemplates = (): (Project & { id: string })[] => {
             };
     });
 };
+
+    
 
     
 
