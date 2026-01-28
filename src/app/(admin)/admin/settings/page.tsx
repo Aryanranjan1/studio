@@ -11,8 +11,27 @@ import { SettingsForm } from '@/components/admin/settings-form';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useFirestore } from '@/firebase';
-import { updateSiteSettings, type SiteConfiguration } from '@/lib/firestore/settings';
+import { updateSiteSettings, type SiteConfiguration, type PageTypeRules } from '@/lib/firestore/settings';
 import { usePublicSettings } from '@/hooks/use-settings';
+
+const indexingRuleSchema = z.object({
+  index: z.boolean(),
+  follow: z.boolean(),
+});
+
+const pageTypeRulesSchema = z.object({
+  blog: indexingRuleSchema,
+  portfolio: indexingRuleSchema,
+  services: indexingRuleSchema,
+  about: indexingRuleSchema,
+  contact: indexingRuleSchema,
+  faq: indexingRuleSchema,
+  store: indexingRuleSchema,
+  offerLetter: indexingRuleSchema,
+  contract: indexingRuleSchema,
+  timeline: indexingRuleSchema,
+});
+
 
 const formSchema = z.object({
   brandingConfig: z.object({
@@ -45,7 +64,7 @@ const formSchema = z.object({
       defaultMetaTitleTemplate: z.string().optional(),
       defaultMetaDescription: z.string().optional(),
       globalIndexingEnabled: z.boolean(),
-      pageTypeRules: z.any(),
+      pageTypeRules: pageTypeRulesSchema,
   }),
   emailConfig: z.object({
     enabled: z.boolean(),
@@ -60,10 +79,24 @@ const formSchema = z.object({
 
 type SettingsFormValues = z.infer<typeof formSchema>;
 
+// Define the complete default rules here to prevent 'undefined' values
+const defaultIndexingRules: PageTypeRules = {
+  blog: { index: true, follow: true },
+  portfolio: { index: true, follow: true },
+  services: { index: true, follow: true },
+  about: { index: true, follow: true },
+  contact: { index: true, follow: true },
+  faq: { index: true, follow: true },
+  store: { index: true, follow: true },
+  offerLetter: { index: false, follow: false },
+  contract: { index: false, follow: false },
+  timeline: { index: false, follow: false },
+};
+
 const defaultValues: SettingsFormValues = {
   brandingConfig: { websiteName: '', brandName: '', logoUrl: '', squareLogoUrl: '', faviconUrl: '', defaultOgImageUrl: '' },
   contactConfig: { primaryEmail: '', supportEmail: '', phone: '', address: '', country: '', businessHours: '', socialLinks: { linkedin: '', instagram: '', facebook: '', twitter: '', youtube: '', pinterest: '', dribbble: '' } },
-  seoConfig: { baseSiteUrl: '', defaultMetaTitleTemplate: '%s | Ampire Studio', defaultMetaDescription: '', globalIndexingEnabled: true, pageTypeRules: {} },
+  seoConfig: { baseSiteUrl: '', defaultMetaTitleTemplate: '%s | Ampire Studio', defaultMetaDescription: '', globalIndexingEnabled: true, pageTypeRules: defaultIndexingRules },
   emailConfig: { enabled: false, senderName: '', senderEmail: '' },
   aiConfig: { enabled: false, provider: 'gemini' },
 };
@@ -82,13 +115,20 @@ export default function SettingsPage() {
     
     React.useEffect(() => {
         if (settingsData) {
-            // Deep merge to avoid losing nested object structures if they are missing from Firestore
+            // Perform a more robust deep merge to ensure all fields have a value
             const mergedValues = {
                 ...defaultValues,
                 ...settingsData,
                 brandingConfig: { ...defaultValues.brandingConfig, ...settingsData.brandingConfig },
                 contactConfig: { ...defaultValues.contactConfig, ...settingsData.contactConfig, socialLinks: { ...defaultValues.contactConfig.socialLinks, ...settingsData.contactConfig?.socialLinks } },
-                seoConfig: { ...defaultValues.seoConfig, ...settingsData.seoConfig },
+                seoConfig: {
+                    ...defaultValues.seoConfig,
+                    ...settingsData.seoConfig,
+                    pageTypeRules: {
+                        ...defaultValues.seoConfig.pageTypeRules,
+                        ...settingsData.seoConfig?.pageTypeRules,
+                    },
+                },
                 emailConfig: { ...defaultValues.emailConfig, ...settingsData.emailConfig },
                 aiConfig: { ...defaultValues.aiConfig, ...settingsData.aiConfig },
             };
@@ -98,7 +138,7 @@ export default function SettingsPage() {
     
     const onSubmit = async (data: SettingsFormValues) => {
         if (!firestore) return;
-        await updateSiteSettings(firestore, data);
+        await updateSiteSettings(firestore, data as SiteConfiguration);
         toast({
           title: 'Settings saved!',
           description: 'Your changes have been successfully saved.',
