@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, Database, Trash2 } from 'lucide-react';
 import type { Article, PortfolioProject, FaqItem, Template } from '@/lib/data';
+import { updateSiteSettings, type SiteConfiguration } from '@/lib/firestore/settings';
 import { getProjects, getTemplates } from '@/lib/data';
 import { slugify } from '@/lib/slugify';
 import {
@@ -195,6 +196,58 @@ function generateSampleTemplates(): Omit<Template, 'id'>[] {
     });
 }
 
+function generateSampleSettings(): SiteConfiguration {
+    return {
+        brandingConfig: {
+            websiteName: 'Ampire Studio',
+            brandName: 'Ampire',
+            logoUrl: 'https://picsum.photos/seed/logo/200/50',
+            squareLogoUrl: 'https://picsum.photos/seed/squarelogo/100/100',
+            faviconUrl: 'https://picsum.photos/seed/favicon/32/32',
+            defaultOgImageUrl: 'https://picsum.photos/seed/ogimage/1200/630',
+        },
+        contactConfig: {
+            primaryEmail: 'contact@ampire.studio',
+            phone: '+60 12-345 6789',
+            address: 'Kuala Lumpur, Malaysia',
+            businessHours: 'Mon-Fri, 9am-6pm',
+            socialLinks: {
+                linkedin: 'https://linkedin.com/company/ampire-studio',
+                instagram: 'https://instagram.com/ampire_studio',
+                twitter: 'https://twitter.com/ampire_studio',
+                dribbble: 'https://dribbble.com/ampire_studio',
+            }
+        },
+        seoConfig: {
+            baseSiteUrl: 'https://ampire.studio',
+            defaultMetaTitleTemplate: '%s | Ampire Studio',
+            defaultMetaDescription: 'A digital design and development agency specializing in bespoke websites and applications.',
+            globalIndexingEnabled: true,
+            pageTypeRules: {
+              blog: { index: true, follow: true },
+              portfolio: { index: true, follow: true },
+              services: { index: true, follow: true },
+              about: { index: true, follow: true },
+              contact: { index: true, follow: true },
+              faq: { index: true, follow: true },
+              store: { index: true, follow: true },
+              offerLetter: { index: false, follow: false },
+              contract: { index: false, follow: false },
+              timeline: { index: false, follow: false },
+            },
+        },
+        emailConfig: {
+            enabled: false,
+            senderName: 'Ampire Studio',
+            senderEmail: 'noreply@ampire.studio',
+        },
+        aiConfig: {
+            enabled: false,
+            provider: 'gemini',
+        },
+    }
+}
+
 
 export default function SeedingPage() {
     const [isSeedingBlogs, setIsSeedingBlogs] = useState(false);
@@ -205,6 +258,7 @@ export default function SeedingPage() {
     const [isClearingFaqs, setIsClearingFaqs] = useState(false);
     const [isSeedingTemplates, setIsSeedingTemplates] = useState(false);
     const [isClearingTemplates, setIsClearingTemplates] = useState(false);
+    const [isSeedingSettings, setIsSeedingSettings] = useState(false);
     const firestore = useFirestore();
     const { toast } = useToast();
 
@@ -371,6 +425,20 @@ export default function SeedingPage() {
         }
     };
 
+    const handleSeedSettings = async () => {
+        if (!firestore) return;
+        setIsSeedingSettings(true);
+        try {
+            const settingsToSeed = generateSampleSettings();
+            await updateSiteSettings(firestore, settingsToSeed);
+            toast({ title: "Success!", description: `Site settings have been seeded.` });
+        } catch (error: any) {
+            handleFirestoreError(error, "Could not seed site settings.");
+        } finally {
+            setIsSeedingSettings(false);
+        }
+    };
+
     const handleFirestoreError = (error: any, defaultMessage: string) => {
         console.error("Firestore operation error: ", error);
         if (error.code === 'permission-denied') {
@@ -385,7 +453,7 @@ export default function SeedingPage() {
         }
     };
     
-    const isActionInProgress = isSeedingBlogs || isClearingBlogs || isSeedingProjects || isClearingProjects || isSeedingFaqs || isClearingFaqs || isSeedingTemplates || isClearingTemplates;
+    const isActionInProgress = isSeedingBlogs || isClearingBlogs || isSeedingProjects || isClearingProjects || isSeedingFaqs || isClearingFaqs || isSeedingTemplates || isClearingTemplates || isSeedingSettings;
 
     return (
         <>
@@ -599,6 +667,39 @@ export default function SeedingPage() {
                                 </AlertDialogFooter>
                             </AlertDialogContent>
                             </AlertDialog>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+            <div className="mt-12 pt-8 border-t">
+                <h2 className="text-xl font-semibold mb-4">Site Configuration</h2>
+                <div className="grid md:grid-cols-2 gap-8">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Seed Site Settings</CardTitle>
+                            <CardDescription>
+                                Populates the site with default branding, contact info, and SEO settings. This will overwrite existing settings.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <Button onClick={handleSeedSettings} disabled={isActionInProgress} className="w-full">
+                            {isSeedingSettings ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Database className="mr-2 h-4 w-4" />}
+                            {isSeedingSettings ? 'Seeding...' : 'Seed Site Settings'}
+                            </Button>
+                        </CardContent>
+                    </Card>
+                    <Card className="border-border/50 bg-muted/20">
+                        <CardHeader>
+                            <CardTitle className="text-muted-foreground">Clear Site Settings</CardTitle>
+                            <CardDescription>
+                            Clearing settings is not recommended. Instead, seed new settings to overwrite the existing configuration.
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <Button variant="outline" className="w-full" disabled={true}>
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Clearing Disabled
+                            </Button>
                         </CardContent>
                     </Card>
                 </div>
