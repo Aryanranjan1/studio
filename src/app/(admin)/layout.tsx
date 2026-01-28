@@ -88,9 +88,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
         <AdminNav />
-        <div className="flex flex-col">
+        <div className="flex flex-col max-h-screen overflow-y-auto">
             {/* Mobile Header */}
-            <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 md:hidden">
+            <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 md:hidden sticky top-0 z-10 bg-background">
                  <Sheet>
                     <SheetTrigger asChild>
                     <Button
@@ -127,7 +127,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                  <div className="w-full flex-1">
                  </div>
             </header>
-            <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 overflow-y-auto">
+            <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
                 {children}
             </main>
         </div>
