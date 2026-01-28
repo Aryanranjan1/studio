@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
 import { doc } from 'firebase/firestore';
-import type { SiteConfiguration } from '@/lib/data';
+import type { SiteConfiguration } from '@/lib/firestore/settings';
 import { updateSiteSettings } from '@/lib/firestore/settings';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

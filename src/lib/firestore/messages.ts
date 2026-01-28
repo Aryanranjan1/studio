@@ -12,7 +12,26 @@ import {
 } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
-import type { Message } from '@/lib/data';
+
+export type Message = {
+  id: string;
+  senderName: string;
+  senderEmail?: string;
+  senderPhone?: string;
+  senderCompany?: string;
+  subject: string;
+  body: string;
+  status: 'unread' | 'read' | 'replied' | 'archived';
+  source: string;
+  receivedAt: any; // Firestore Timestamp
+  isArchived: boolean;
+  replies?: {
+    repliedBy: string; // Admin UID
+    body: string;
+    sentAt: any; // Firestore Timestamp
+  }[];
+};
+
 
 // Type for creating a new message from the contact form.
 export type NewMessageData = Omit<Message, 'id' | 'status' | 'receivedAt' | 'isArchived'>;

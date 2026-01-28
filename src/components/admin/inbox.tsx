@@ -4,7 +4,8 @@
 import React, { useState, useMemo } from 'react';
 import { useCollection, useFirestore, useMemoFirebase, useDoc } from '@/firebase';
 import { collection, query, orderBy, where, doc } from 'firebase/firestore';
-import type { Message, SiteConfiguration } from '@/lib/data';
+import type { Message } from '@/lib/firestore/messages';
+import type { SiteConfiguration } from '@/lib/firestore/settings';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 import { Loader2, Inbox as InboxIcon, Archive, Trash2, Reply, Bot, Mail, MessageSquare } from 'lucide-react';

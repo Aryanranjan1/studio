@@ -3,6 +3,7 @@
 
 
 
+
 export type Service = {
   id: string;
   title: string;
@@ -46,38 +47,6 @@ type ImageObject = {
   width?: number;
   height?: number;
 };
-
-export type Message = {
-  id: string;
-  senderName: string;
-  senderEmail?: string;
-  senderPhone?: string;
-  senderCompany?: string;
-  subject: string;
-  body: string;
-  status: 'unread' | 'read' | 'replied' | 'archived';
-  source: string;
-  receivedAt: any; // Firestore Timestamp
-  isArchived: boolean;
-  replies?: {
-    repliedBy: string; // Admin UID
-    body: string;
-    sentAt: any; // Firestore Timestamp
-  }[];
-};
-
-export type SiteConfiguration = {
-  emailConfig: {
-    enabled: boolean;
-    senderName: string;
-    senderEmail: string;
-  };
-  aiConfig: {
-    enabled: boolean;
-    provider: 'gemini' | 'openai';
-  };
-};
-
 
 export type Article = {
   id: string;

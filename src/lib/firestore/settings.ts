@@ -8,7 +8,19 @@ import {
 } from 'firebase/firestore';
 import { errorEmitter } from '@/firebase/error-emitter';
 import { FirestorePermissionError } from '@/firebase/errors';
-import type { SiteConfiguration } from '@/lib/data';
+
+export type SiteConfiguration = {
+  emailConfig: {
+    enabled: boolean;
+    senderName: string;
+    senderEmail: string;
+  };
+  aiConfig: {
+    enabled: boolean;
+    provider: 'gemini' | 'openai';
+  };
+};
+
 
 /**
  * Creates or updates the site configuration document.
