@@ -5,9 +5,9 @@ import type { FaqItem } from '@/lib/data';
 
 /**
  * Fetches all published FAQs for sitemap generation.
- * @returns {Promise<FaqItem[]>} A promise that resolves to an array of published FAQs.
+ * @returns {Promise<{updatedAt: any}[]>} A promise that resolves to an array of published FAQs with their update timestamps.
  */
-export async function getAllPublicFaqs(): Promise<Pick<FaqItem, 'id' | 'updatedAt'>[]> {
+export async function getAllPublicFaqs(): Promise<{ updatedAt: any }[]> {
     try {
         const firestore = getFirestoreServer();
         const faqsQuery = query(
@@ -21,7 +21,6 @@ export async function getAllPublicFaqs(): Promise<Pick<FaqItem, 'id' | 'updatedA
         return snapshot.docs.map(doc => {
             const data = doc.data() as FaqItem;
             return {
-                id: doc.id,
                 updatedAt: data.updatedAt,
             };
         });

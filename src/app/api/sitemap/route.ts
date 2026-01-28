@@ -3,6 +3,7 @@ import { getSiteSettings } from '@/lib/firestore/settings.server';
 import { getAllPublicBlogs } from '@/lib/firestore/blog.server';
 import { getAllPublicPortfolioProjects } from '@/lib/firestore/portfolio.server';
 import { getAllPublicTemplates } from '@/lib/firestore/templates.server';
+import { getAllPublicFaqs } from '@/lib/firestore/faq.server';
 
 export const dynamic = 'force-dynamic';
 
@@ -70,10 +71,18 @@ export async function GET() {
 
   const allPaths: { url: string, lastModified: Date }[] = [];
 
-  // 1. Add root path unconditionally
+  // 1. Fetch all data in parallel based on indexing rules
+  const [blogPosts, portfolioProjects, templates, faqs] = await Promise.all([
+    rules?.blog?.index ? getAllPublicBlogs() : Promise.resolve([]),
+    rules?.portfolio?.index ? getAllPublicPortfolioProjects() : Promise.resolve([]),
+    rules?.store?.index ? getAllPublicTemplates() : Promise.resolve([]),
+    rules?.faq?.index ? getAllPublicFaqs() : Promise.resolve([]),
+  ]);
+
+  // 2. Add root path
   allPaths.push({ url: '/', lastModified: new Date() });
   
-  // 2. Add static paths if they are indexable according to settings
+  // 3. Add static paths if they are indexable according to settings
   const staticPaths = [
     { type: 'about', url: '/about' },
     { type: 'services', url: '/services' },
@@ -84,42 +93,44 @@ export async function GET() {
     { type: 'contact', url: '/contact' },
   ];
 
-  staticPaths.forEach(path => {
+  for (const path of staticPaths) {
     if (rules && rules[path.type as keyof typeof rules]?.index) {
-      allPaths.push({ url: path.url, lastModified: new Date() });
+        let lastModified = new Date(); // Default
+        
+        if (path.type === 'faq' && faqs.length > 0) {
+             const mostRecentFaqDate = faqs.reduce((latest, faq) => {
+                const faqDate = toDate(faq.updatedAt);
+                return faqDate > latest ? faqDate : latest;
+            }, new Date(0));
+            if (mostRecentFaqDate.getTime() > 0) {
+               lastModified = mostRecentFaqDate;
+            }
+        }
+
+        allPaths.push({ url: path.url, lastModified });
     }
-  });
-
-
-  // 3. Add dynamic paths from Firestore if their type is indexable
-  if (rules?.blog?.index) {
-    const blogPosts = await getAllPublicBlogs();
-    const blogPaths = blogPosts.map(post => ({
-      url: `/blog/${post.slug}`,
-      lastModified: toDate(post.lastModified),
-    }));
-    allPaths.push(...blogPaths);
   }
 
-  if (rules?.portfolio?.index) {
-    const portfolioProjects = await getAllPublicPortfolioProjects();
-    const portfolioPaths = portfolioProjects.map(project => ({
-      url: `/portfolio/${project.slug}`,
-      lastModified: toDate(project.lastModified),
-    }));
-    allPaths.push(...portfolioPaths);
-  }
+  // 4. Add dynamic paths from the fetched data
+  const blogPaths = blogPosts.map(post => ({
+    url: `/blog/${post.slug}`,
+    lastModified: toDate(post.lastModified),
+  }));
+  allPaths.push(...blogPaths);
+
+  const portfolioPaths = portfolioProjects.map(project => ({
+    url: `/portfolio/${project.slug}`,
+    lastModified: toDate(project.lastModified),
+  }));
+  allPaths.push(...portfolioPaths);
   
-  if (rules?.store?.index) {
-    const templates = await getAllPublicTemplates();
-    const templatePaths = templates.map(template => ({
-        url: `/store/${template.slug}`,
-        lastModified: toDate(template.lastModified),
-    }));
-    allPaths.push(...templatePaths);
-  }
+  const templatePaths = templates.map(template => ({
+      url: `/store/${template.slug}`,
+      lastModified: toDate(template.lastModified),
+  }));
+  allPaths.push(...templatePaths);
 
-  // 4. Generate the final XML
+  // 5. Generate the final XML
   const sitemap = generateSiteMap(BASE_URL, allPaths);
 
   return new Response(sitemap, {
