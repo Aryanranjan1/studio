@@ -223,9 +223,9 @@ function generateSampleSettings(): SiteConfiguration {
             }
         },
         seoConfig: {
-            baseSiteUrl: 'https://www.ampire.studio',
-            defaultMetaTitleTemplate: '%s | Ampire Studio',
-            defaultMetaDescription: 'A digital design and development agency specializing in bespoke websites and applications.',
+            baseSiteUrl: 'https://www.ampirestudio.com',
+            defaultMetaTitleTemplate: '%s | Affordable Web Design & Development Agency in Malaysia',
+            defaultMetaDescription: 'Ampire Studio helps small businesses and startups grow with affordable custom websites, automation, and SEO. Agency-level support without big-agency pricing.',
             globalIndexingEnabled: true,
             pageTypeRules: {
               blog: { index: true, follow: true },

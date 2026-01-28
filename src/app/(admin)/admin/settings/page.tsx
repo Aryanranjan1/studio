@@ -1,3 +1,4 @@
+
 'use client';
 import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -115,7 +116,15 @@ Disallow: /admin/
 const defaultValues: SettingsFormValues = {
   brandingConfig: { websiteName: '', brandName: '', logoUrl: '', squareLogoUrl: '', faviconUrl: '', defaultOgImageUrl: '' },
   contactConfig: { primaryEmail: '', supportEmail: '', phone: '', address: '', country: '', businessHours: '', socialLinks: { linkedin: '', instagram: '', facebook: '', pinterest: '', youtube: '', dribbble: '' } },
-  seoConfig: { baseSiteUrl: '', defaultMetaTitleTemplate: '%s | Ampire Studio', defaultMetaDescription: '', globalIndexingEnabled: true, pageTypeRules: defaultIndexingRules, robotsTxtContent: defaultRobotsTxt, llmsTxtContent: defaultLlmsTxt },
+  seoConfig: { 
+      baseSiteUrl: 'https://www.ampirestudio.com',
+      defaultMetaTitleTemplate: '%s | Affordable Web Design & Development Agency in Malaysia',
+      defaultMetaDescription: 'Ampire Studio helps small businesses and startups grow with affordable custom websites, automation, and SEO. Agency-level support without big-agency pricing.',
+      globalIndexingEnabled: true,
+      pageTypeRules: defaultIndexingRules,
+      robotsTxtContent: defaultRobotsTxt,
+      llmsTxtContent: defaultLlmsTxt 
+  },
   emailConfig: { enabled: false, senderName: '', senderEmail: '' },
   aiConfig: { enabled: false, provider: 'gemini' },
 };
