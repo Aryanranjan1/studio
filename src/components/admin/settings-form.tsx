@@ -125,7 +125,7 @@ export function SettingsForm() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Input {...register('contactConfig.socialLinks.linkedin')} placeholder="LinkedIn URL" />
                     <Input {...register('contactConfig.socialLinks.instagram')} placeholder="Instagram URL" />
-                    <Input {...register('contactConfig.socialLinks.twitter')} placeholder="Twitter/X URL" />
+                    <Input {...register('contactConfig.socialLinks.pinterest')} placeholder="Pinterest URL" />
                     <Input {...register('contactConfig.socialLinks.dribbble')} placeholder="Dribbble URL" />
                 </div>
             </div>

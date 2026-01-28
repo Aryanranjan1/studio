@@ -2,7 +2,7 @@
 'use client';
 import Link from 'next/link';
 import { Button } from './ui/button';
-import { ArrowRight, Dribbble, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { ArrowRight, Dribbble, Instagram, Linkedin, Pinterest } from 'lucide-react';
 import { usePublicSettings } from '@/hooks/use-settings';
 
 export function Footer() {
@@ -42,7 +42,7 @@ export function Footer() {
                   <div className="grid-content mt-4 space-y-2">
                       {socials?.linkedin && <a href={socials.linkedin} target="_blank" rel="noopener noreferrer" className="block hover:text-primary">• LinkedIn</a>}
                       {socials?.instagram && <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="block hover:text-primary">• Instagram</a>}
-                      {socials?.twitter && <a href={socials.twitter} target="_blank" rel="noopener noreferrer" className="block hover:text-primary">• Twitter/X</a>}
+                      {socials?.pinterest && <a href={socials.pinterest} target="_blank" rel="noopener noreferrer" className="block hover:text-primary">• Pinterest</a>}
                       {socials?.dribbble && <a href={socials.dribbble} target="_blank" rel="noopener noreferrer" className="block hover:text-primary">• Dribbble</a>}
                   </div>
               </div>
@@ -68,5 +68,3 @@ export function Footer() {
       </footer>
   );
 }
-
-    

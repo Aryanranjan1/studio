@@ -214,7 +214,7 @@ function generateSampleSettings(): SiteConfiguration {
             socialLinks: {
                 linkedin: 'https://linkedin.com/company/ampire-studio',
                 instagram: 'https://instagram.com/ampire_studio',
-                twitter: 'https://twitter.com/ampire_studio',
+                pinterest: 'https://pinterest.com/ampire_studio',
                 dribbble: 'https://dribbble.com/ampire_studio',
             }
         },

@@ -22,59 +22,62 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
+  // 1. Fetch settings from the server-side source of truth
   const settings = await getSiteSettings();
 
-  const titleTemplate = settings?.seoConfig?.defaultMetaTitleTemplate || '%s | Ampire Studio';
+  // 2. Define base values and fallbacks in one place
   const siteName = settings?.brandingConfig?.websiteName || 'Ampire Studio';
+  const titleTemplate = settings?.seoConfig?.defaultMetaTitleTemplate || '%s | Ampire Studio';
   const description = settings?.seoConfig?.defaultMetaDescription || 'A digital design and development agency specializing in bespoke websites and applications.';
   const siteUrl = settings?.seoConfig?.baseSiteUrl || 'https://ampire.studio';
+  const ogImage = settings?.brandingConfig?.defaultOgImageUrl;
+  const favicon = settings?.brandingConfig?.faviconUrl;
 
-  const defaultMetadata: Metadata = {
+  // 3. Construct the final metadata object
+  const metadata: Metadata = {
     title: {
       default: siteName,
       template: titleTemplate,
     },
-    metadataBase: new URL(siteUrl),
     description,
+    metadataBase: new URL(siteUrl),
     alternates: {
       canonical: '/',
     },
     openGraph: {
-      title: siteName,
+      title: {
+        default: siteName,
+        template: titleTemplate,
+      },
       description,
       url: '/',
       siteName,
       locale: 'en_US',
       type: 'website',
+      images: ogImage ? [ogImage] : [],
     },
     twitter: {
-      title: siteName,
+      title: {
+        default: siteName,
+        template: titleTemplate,
+      },
+      description,
       card: 'summary_large_image',
+      images: ogImage ? [ogImage] : [],
     },
   };
-  
-  if (!settings || !settings.brandingConfig) {
-    return defaultMetadata;
-  }
 
-  const { faviconUrl, defaultOgImageUrl } = settings.brandingConfig;
-  const dynamicMetadata: Metadata = { ...defaultMetadata };
-
-  if (faviconUrl) {
-    dynamicMetadata.icons = {
-      icon: faviconUrl,
+  // 4. Conditionally add the icons object only if a URL is provided
+  // This gives it "privilege" by being explicitly set from the dynamic source.
+  if (favicon) {
+    metadata.icons = {
+      icon: favicon,
     };
   }
 
-  if (defaultOgImageUrl) {
-      dynamicMetadata.openGraph = {
-      ...defaultMetadata.openGraph,
-      images: [defaultOgImageUrl],
-    };
-  }
-
-  return dynamicMetadata;
+  return metadata;
 }
+
 
 export default function RootLayout({
   children,
@@ -101,5 +104,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-    

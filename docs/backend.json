@@ -140,9 +140,8 @@
                 "linkedin": { "type": "string", "format": "uri" },
                 "instagram": { "type": "string", "format": "uri" },
                 "facebook": { "type": "string", "format": "uri" },
-                "twitter": { "type": "string", "format": "uri" },
-                "youtube": { "type": "string", "format": "uri" },
                 "pinterest": { "type": "string", "format": "uri" },
+                "youtube": { "type": "string", "format": "uri" },
                 "dribbble": { "type": "string", "format": "uri" }
               }
             }

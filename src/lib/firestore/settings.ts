@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -46,9 +47,8 @@ export type SiteConfiguration = {
         linkedin?: string;
         instagram?: string;
         facebook?: string;
-        twitter?: string;
-        youtube?: string;
         pinterest?: string;
+        youtube?: string;
         dribbble?: string;
     }
   };
@@ -95,5 +95,3 @@ export async function updateSiteSettings(firestore: Firestore, data: Partial<Sit
     throw error;
   }
 }
-
-    
