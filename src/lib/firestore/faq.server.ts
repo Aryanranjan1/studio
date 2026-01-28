@@ -30,5 +30,3 @@ export async function getAllPublicFaqs(): Promise<Pick<FaqItem, 'id' | 'updatedA
         return [];
     }
 }
-
-    

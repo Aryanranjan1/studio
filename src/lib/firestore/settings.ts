@@ -89,7 +89,7 @@ export async function updateSiteSettings(firestore: Firestore, data: Partial<Sit
       path: docRef.path,
       operation: 'write',
       requestResourceData: data,
-    });
+    })
     errorEmitter.emit('permission-error', permissionError);
     throw error;
   }

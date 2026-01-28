@@ -47,7 +47,7 @@ export function SettingsForm() {
   const { control, register, formState: { errors } } = useFormContext();
 
   return (
-    <>
+    <div className="space-y-12">
       {/* Branding & Identity Card */}
       <Card>
         <CardHeader>
@@ -245,6 +245,6 @@ export function SettingsForm() {
           </div>
         </CardContent>
       </Card>
-    </>
+    </div>
   );
 }
