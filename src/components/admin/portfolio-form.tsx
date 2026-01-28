@@ -122,7 +122,6 @@ export function PortfolioForm({ defaultValues, onSubmit, isSubmitting }: Portfol
   const processSubmit = (data: PortfolioFormValues) => {
     const finalData: { [key: string]: any } = {
       ...data,
-      publishDate: defaultValues?.publishDate || new Date().toISOString(),
     };
     
     // Sanitize data before submitting to remove undefined values

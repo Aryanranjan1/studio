@@ -14,10 +14,10 @@ import { FirestorePermissionError } from '@/firebase/errors';
 import type { Article } from '@/lib/data';
 
 // Type for the data when creating a new post. `id` will be auto-generated.
-export type NewBlogPostData = Omit<Article, 'id' | 'lastUpdated'>;
+export type NewBlogPostData = Omit<Article, 'id' | 'date' | 'lastUpdated'>;
 
 // Type for updating an existing post. All fields are optional.
-export type UpdateBlogPostData = Partial<Omit<Article, 'id' | 'lastUpdated'>>;
+export type UpdateBlogPostData = Partial<Omit<Article, 'id' | 'date' | 'lastUpdated'>>;
 
 
 /**
@@ -38,6 +38,7 @@ export function addBlogPost(firestore: Firestore, data: NewBlogPostData): void {
 
   const enrichedData = {
     ...sanitizedData,
+    date: serverTimestamp(),
     lastUpdated: serverTimestamp(), // Let Firestore handle the timestamp
   };
 

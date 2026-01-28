@@ -4,6 +4,25 @@ import { getAllPublicBlogs } from '@/lib/firestore/blog.server';
 import { getAllPublicPortfolioProjects } from '@/lib/firestore/portfolio.server';
 import { getAllPublicTemplates } from '@/lib/firestore/templates.server';
 
+// Helper function to safely convert a maybe-timestamp to a Date
+function toDate(value: any): Date {
+  if (!value) {
+    // Return a recent date if value is missing
+    return new Date(); 
+  }
+  // Firestore Timestamps have a toDate method
+  if (value.toDate && typeof value.toDate === 'function') {
+    return value.toDate();
+  }
+  // Handle ISO strings or other date-parseable formats
+  const d = new Date(value);
+  if (!isNaN(d.getTime())) {
+    return d;
+  }
+  // Fallback for unexpected formats
+  return new Date();
+}
+
 function generateSiteMap(base_url: string, paths: { url: string, lastModified: Date }[]): string {
   return `<?xml version="1.0" encoding="UTF-8"?>
    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -56,7 +75,7 @@ export async function GET() {
     const blogPosts = await getAllPublicBlogs();
     const blogPaths = blogPosts.map(post => ({
       url: `/blog/${post.slug}`,
-      lastModified: post.lastUpdated ? new Date(post.lastUpdated) : new Date(),
+      lastModified: toDate(post.lastUpdated),
     }));
     allPaths.push(...blogPaths);
   }
@@ -65,7 +84,7 @@ export async function GET() {
     const portfolioProjects = await getAllPublicPortfolioProjects();
     const portfolioPaths = portfolioProjects.map(project => ({
       url: `/portfolio/${project.slug}`,
-      lastModified: project.lastUpdated ? new Date(project.lastUpdated) : new Date(),
+      lastModified: toDate(project.lastUpdated),
     }));
     allPaths.push(...portfolioPaths);
   }
@@ -74,7 +93,7 @@ export async function GET() {
     const templates = await getAllPublicTemplates();
     const templatePaths = templates.map(template => ({
         url: `/store/${template.slug}`,
-        lastModified: template.updatedAt?.toDate ? template.updatedAt.toDate() : new Date(),
+        lastModified: toDate(template.updatedAt),
     }));
     allPaths.push(...templatePaths);
   }

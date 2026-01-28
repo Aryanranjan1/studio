@@ -114,8 +114,6 @@ export function BlogForm({ defaultValues, onSubmit, isSubmitting }: BlogFormProp
     
     const finalData: { [key: string]: any } = {
       ...restOfData,
-      date: defaultValues?.date || new Date().toISOString(),
-      lastUpdated: new Date().toISOString(),
       featuredImage: { url: featuredImageUrl, alt: featuredImageAlt },
       cardImage: { url: cardImageUrl, alt: cardImageAlt },
       ogImage: { url: ogImageUrl, alt: ogImageAlt },

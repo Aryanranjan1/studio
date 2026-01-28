@@ -41,8 +41,8 @@ export type Article = {
   id: string;
   title: string;
   slug: string;
-  date: string; // Publish date
-  lastUpdated: string;
+  date: any; // Publish date
+  lastUpdated: any;
   author: string;
   authorImage: string;
   excerpt: string; // Used for previews, can double as meta description
@@ -128,8 +128,8 @@ export type PortfolioProject = {
   cardImage: ImageObject;
   galleryImages: ImageObject[];
   published: boolean;
-  publishDate: string; // ISO string
-  lastUpdated: string; // ISO string
+  publishDate: any; // ISO string
+  lastUpdated: any; // ISO string
   metaTitle: string;
   metaDescription: string;
   focusKeyword?: string;
