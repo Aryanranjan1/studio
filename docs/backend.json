@@ -79,7 +79,10 @@
       "type": "object",
       "properties": {
         "senderName": { "type": "string" },
-        "senderEmail": { "type": "string", "format": "email" },
+        "senderEmail": {
+          "type": "string",
+          "description": "The sender's email address or phone number."
+        },
         "senderCompany": { "type": "string" },
         "subject": { "type": "string" },
         "body": { "type": "string" },

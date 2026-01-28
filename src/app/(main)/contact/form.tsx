@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -47,11 +46,17 @@ export function ContactForm() {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
     if (!formData.name) newErrors.name = 'Full name is required.';
+    
     if (!formData.email) {
-      newErrors.email = 'Email is required.';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email is invalid.';
+      newErrors.email = 'Email or phone number is required.';
+    } else {
+      const isEmail = /\S+@\S+\.\S+/.test(formData.email);
+      const isPhone = /^\+?[0-9\s-]{7,15}$/.test(formData.email);
+      if (!isEmail && !isPhone) {
+        newErrors.email = 'Please enter a valid email or phone number.';
+      }
     }
+
     if (!formData.message) newErrors.message = 'Project description is required.';
     return newErrors;
   };
@@ -140,11 +145,11 @@ export function ContactForm() {
                       </div>
                     </div>
                      <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">Email or Phone Number</Label>
                         <Input 
                             id="email"
-                            type="email"
-                            placeholder="you@example.com"
+                            type="text"
+                            placeholder="you@example.com or +60123456789"
                             value={formData.email}
                             onChange={handleChange}
                             aria-invalid={!!errors.email}
