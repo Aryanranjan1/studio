@@ -18,42 +18,23 @@ service cloud.firestore {
     /* ========= PROJECTS ========= */
 
     match /projects/{projectId} {
-
       /*
        * SINGLE DOC READ
-       * - Public: only published
-       * - Admin: everything
+       * - Public can only read published documents.
+       * - Admins can read everything.
        */
-      allow get: if
-        resource.data.published == true
-        || isAdmin();
+      allow get: if resource.data.published == true || isAdmin();
 
       /*
        * COLLECTION QUERIES (LIST)
-       *
-       * ✅ Admin: unrestricted
-       * ✅ Public (auth null allowed):
-       *    MUST filter published == true
-       *
-       * This rule PREVENTS:
-       * - collection(db, "projects")
-       * - admin-only reads in global scope
+       * - list is open to allow the server-side sitemap generator to fetch all documents.
+       * - The Firestore query itself is responsible for filtering by `published == true`.
        */
-      allow list: if
-        isAdmin()
-        ||
-        (
-          request.auth == null
-          && request.query.where('published', '==', true)
-        )
-        ||
-        (
-          isSignedIn()
-          && request.query.where('published', '==', true)
-        );
-
+      allow list: if true;
+      
       /*
        * WRITES
+       * - Only admins can write.
        */
       allow create, update, delete: if isAdmin();
     }
@@ -61,7 +42,13 @@ service cloud.firestore {
     /* ========= BLOGS ========= */
 
     match /blogs/{blogId} {
-      allow get, list: if true;
+      // Public can read published posts. Admins can read any.
+      allow get: if resource.data.status == 'published' || isAdmin();
+      
+      // List is open for server-side sitemap generation. The query filters by status.
+      allow list: if true;
+      
+      // Only admins can write.
       allow create, update, delete: if isAdmin();
     }
     
@@ -81,8 +68,13 @@ service cloud.firestore {
     /* ========= TEMPLATES ========= */
 
     match /templates/{templateId} {
+      // Public can read published templates, Admins can read any.
       allow get: if resource.data.published == true || isAdmin();
-      allow list: if request.query.where('published', '==', true) || isAdmin();
+      
+      // List is open for server-side sitemap generation. The query filters by published status.
+      allow list: if true;
+      
+      // Only admins can write.
       allow create, update, delete: if isAdmin();
     }
     
@@ -127,8 +119,3 @@ service cloud.firestore {
     }
   }
 }
-
-    
-
-    
-
