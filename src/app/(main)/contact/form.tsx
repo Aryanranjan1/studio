@@ -13,14 +13,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowRight, Loader2 } from 'lucide-react';
+import { ArrowRight, Loader2, Dribbble, Instagram, Linkedin } from 'lucide-react';
 import { Footer } from '@/components/footer';
-import { socialLinks } from '@/lib/social-links';
-import { getContactDetails } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
 import { usePublicFaqs } from '@/hooks/useFaqs';
 import { useFirestore } from '@/firebase';
 import { addMessage } from '@/lib/firestore/messages';
+import { usePublicSettings } from '@/hooks/use-settings';
 
 export function ContactForm() {
   const [formData, setFormData] = useState({
@@ -36,7 +35,15 @@ export function ContactForm() {
   const firestore = useFirestore();
 
   const { data: allFaqs } = usePublicFaqs();
-  const contactDetails = getContactDetails();
+  const { settings } = usePublicSettings();
+  const contact = settings?.contactConfig;
+  const socialLinks = contact?.socialLinks;
+
+  const socialIcons = [
+    { name: 'LinkedIn', href: socialLinks?.linkedin, Icon: Linkedin },
+    { name: 'Instagram', href: socialLinks?.instagram, Icon: Instagram },
+    { name: 'Dribbble', href: socialLinks?.dribbble, Icon: Dribbble },
+  ].filter(link => link.href);
 
   const faqItems = allFaqs?.filter(faq => ['gen-2', 'dev-2', 'price-1'].includes(faq.id)) || [];
 
@@ -211,7 +218,7 @@ export function ContactForm() {
                     Follow our journey, chat with us directly, or explore our work on other platforms.
                   </p>
                   <div className="flex items-center space-x-6 text-muted-foreground">
-                    {socialLinks.map(social => (
+                    {socialIcons.map(social => (
                       <a
                         key={social.name}
                         href={social.href}
@@ -222,15 +229,17 @@ export function ContactForm() {
                       </a>
                     ))}
                   </div>
+                  {contact?.phone && (
                   <Button
                     asChild
                     variant="outline"
                     className="mt-6 w-full bg-transparent border-input hover:bg-foreground hover:text-background"
                   >
-                    <a href={contactDetails.whatsapp} target="_blank">
+                    <a href={`https://wa.me/${contact.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
                       Chat on WhatsApp <ArrowRight className="ml-2 h-4 w-4" />
                     </a>
                   </Button>
+                  )}
                 </CardContent>
               </Card>
 

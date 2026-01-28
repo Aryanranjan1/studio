@@ -1,13 +1,15 @@
 
-import { getContactDetails } from '@/lib/data';
-import { socialLinks } from '@/lib/social-links';
+'use client';
 import Link from 'next/link';
 import { Button } from './ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Dribbble, Instagram, Linkedin, Twitter } from 'lucide-react';
+import { usePublicSettings } from '@/hooks/use-settings';
 
 export function Footer() {
-  const contactDetails = getContactDetails();
-  
+  const { settings } = usePublicSettings();
+  const contact = settings?.contactConfig;
+  const socials = contact?.socialLinks;
+
   const footerLinks = [
       { name: 'About', href: '/about'},
       { name: 'Services', href: '/services'},
@@ -32,22 +34,23 @@ export function Footer() {
               <div className="grid-item bg-nav-footer p-8">
                   <div className="grid-label text-muted-foreground text-sm uppercase">Location</div>
                   <div className="grid-content mt-4">
-                      {contactDetails.address.line1}<br/>{contactDetails.address.line2}
+                      {contact?.address || 'Kuala Lumpur, Malaysia'}
                   </div>
               </div>
               <div className="grid-item bg-nav-footer p-8">
                   <div className="grid-label text-muted-foreground text-sm uppercase">Social</div>
                   <div className="grid-content mt-4 space-y-2">
-                      {socialLinks.map(link => (
-                          <a key={link.name} href={link.href} target="_blank" rel="noopener noreferrer" className="block hover:text-primary">• {link.name}</a>
-                      ))}
+                      {socials?.linkedin && <a href={socials.linkedin} target="_blank" rel="noopener noreferrer" className="block hover:text-primary">• LinkedIn</a>}
+                      {socials?.instagram && <a href={socials.instagram} target="_blank" rel="noopener noreferrer" className="block hover:text-primary">• Instagram</a>}
+                      {socials?.twitter && <a href={socials.twitter} target="_blank" rel="noopener noreferrer" className="block hover:text-primary">• Twitter/X</a>}
+                      {socials?.dribbble && <a href={socials.dribbble} target="_blank" rel="noopener noreferrer" className="block hover:text-primary">• Dribbble</a>}
                   </div>
               </div>
               <div className="grid-item bg-nav-footer p-8">
                   <div className="grid-label text-muted-foreground text-sm uppercase">Contact</div>
                   <div className="grid-content mt-4 space-y-2">
-                      <a href={`tel:${contactDetails.phone}`} className="block hover:text-primary">{contactDetails.phone}</a>
-                      <a href={`mailto:${contactDetails.email}`} className="block hover:text-primary text-sm break-all">{contactDetails.email}</a>
+                      {contact?.phone && <a href={`tel:${contact.phone}`} className="block hover:text-primary">{contact.phone}</a>}
+                      {contact?.primaryEmail && <a href={`mailto:${contact.primaryEmail}`} className="block hover:text-primary text-sm break-all">{contact.primaryEmail}</a>}
                   </div>
               </div>
               <div className="grid-item bg-nav-footer p-8">
@@ -60,8 +63,10 @@ export function Footer() {
               </div>
           </div>
           <div className="copyright text-center p-6 text-sm text-primary-foreground">
-            &copy; {new Date().getFullYear()} Ampire Studio. All Rights Reserved.
+            &copy; {new Date().getFullYear()} {settings?.brandingConfig?.brandName || 'Ampire Studio'}. All Rights Reserved.
           </div>
       </footer>
   );
 }
+
+    

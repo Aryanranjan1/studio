@@ -9,11 +9,20 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, CheckCircle } from 'lucide-react';
-import { FaInstagram, FaLinkedin, FaDribbble, FaBehance } from 'react-icons/fa6';
+import { ArrowRight, CheckCircle, Dribbble, Instagram, Linkedin } from 'lucide-react';
 import Link from 'next/link';
+import { usePublicSettings } from '@/hooks/use-settings';
 
 export function FaqSidebar() {
+  const { settings } = usePublicSettings();
+  const contact = settings?.contactConfig;
+  const socialLinks = contact?.socialLinks;
+
+  const socialIcons = [
+    { name: 'LinkedIn', href: socialLinks?.linkedin, Icon: Linkedin },
+    { name: 'Instagram', href: socialLinks?.instagram, Icon: Instagram },
+    { name: 'Dribbble', href: socialLinks?.dribbble, Icon: Dribbble },
+  ].filter(link => link.href);
 
   const processSteps = [
     "Proposal",
@@ -34,44 +43,30 @@ export function FaqSidebar() {
         </CardHeader>
         <CardContent>
           <div className="flex items-center space-x-4 text-muted-foreground">
-            <a
-              href="#"
-              className="transition-colors hover:text-primary"
-              aria-label="Instagram"
-            >
-              <FaInstagram className="h-6 w-6" />
-            </a>
-            <a
-              href="#"
-              className="transition-colors hover:text-primary"
-              aria-label="LinkedIn"
-            >
-              <FaLinkedin className="h-6 w-6" />
-            </a>
-            <a
-              href="#"
-              className="transition-colors hover:text-primary"
-              aria-label="Dribbble"
-            >
-              <FaDribbble className="h-6 w-6" />
-            </a>
-            <a
-              href="#"
-              className="transition-colors hover:text-primary"
-              aria-label="Behance"
-            >
-              <FaBehance className="h-6 w-6" />
-            </a>
+            {socialIcons.map(social => (
+              <a
+                key={social.name}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-primary"
+                aria-label={social.name}
+              >
+                <social.Icon className="h-6 w-6" />
+              </a>
+            ))}
           </div>
+          {contact?.phone && (
           <Button
             asChild
             className="mt-6 w-full"
             data-event="whatsapp_click"
           >
-            <a href="https://wa.me/1234567890" target="_blank">
+            <a href={`https://wa.me/${contact.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
               Message on WhatsApp <ArrowRight className="ml-2 h-4 w-4" />
             </a>
           </Button>
+          )}
           <p className="mt-2 text-xs text-center text-muted-foreground">
             Prefer a quick intake? Send a one-line brief on WhatsApp.
           </p>
@@ -110,3 +105,5 @@ export function FaqSidebar() {
     </aside>
   );
 }
+
+    

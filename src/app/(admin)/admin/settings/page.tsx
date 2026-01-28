@@ -10,15 +10,42 @@ import { Loader2, Save } from 'lucide-react';
 import { SettingsForm } from '@/components/admin/settings-form';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
+import { useFirestore } from '@/firebase';
 import { updateSiteSettings, type SiteConfiguration } from '@/lib/firestore/settings';
+import { usePublicSettings } from '@/hooks/use-settings';
 
 const formSchema = z.object({
   brandingConfig: z.object({
+    websiteName: z.string().optional(),
+    brandName: z.string().optional(),
     logoUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')),
+    squareLogoUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')),
     faviconUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')),
     defaultOgImageUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')),
+  }),
+  contactConfig: z.object({
+    primaryEmail: z.string().email().optional().or(z.literal('')),
+    supportEmail: z.string().email().optional().or(z.literal('')),
+    phone: z.string().optional(),
+    address: z.string().optional(),
+    country: z.string().optional(),
+    businessHours: z.string().optional(),
+    socialLinks: z.object({
+      linkedin: z.string().url().optional().or(z.literal('')),
+      instagram: z.string().url().optional().or(z.literal('')),
+      facebook: z.string().url().optional().or(z.literal('')),
+      twitter: z.string().url().optional().or(z.literal('')),
+      youtube: z.string().url().optional().or(z.literal('')),
+      pinterest: z.string().url().optional().or(z.literal('')),
+      dribbble: z.string().url().optional().or(z.literal('')),
+    }).optional()
+  }),
+  seoConfig: z.object({
+      baseSiteUrl: z.string().url().optional().or(z.literal('')),
+      defaultMetaTitleTemplate: z.string().optional(),
+      defaultMetaDescription: z.string().optional(),
+      globalIndexingEnabled: z.boolean(),
+      pageTypeRules: z.any(),
   }),
   emailConfig: z.object({
     enabled: z.boolean(),
@@ -29,39 +56,43 @@ const formSchema = z.object({
     enabled: z.boolean(),
     provider: z.enum(['gemini', 'openai']),
   }),
-  indexingConfig: z.object({
-    globalIndexingEnabled: z.boolean(),
-    pageTypeRules: z.any(), // Not validating deeply here, handled in component
-  }),
 });
 
 type SettingsFormValues = z.infer<typeof formSchema>;
+
+const defaultValues: SettingsFormValues = {
+  brandingConfig: { websiteName: '', brandName: '', logoUrl: '', squareLogoUrl: '', faviconUrl: '', defaultOgImageUrl: '' },
+  contactConfig: { primaryEmail: '', supportEmail: '', phone: '', address: '', country: '', businessHours: '', socialLinks: { linkedin: '', instagram: '', facebook: '', twitter: '', youtube: '', pinterest: '', dribbble: '' } },
+  seoConfig: { baseSiteUrl: '', defaultMetaTitleTemplate: '%s | Ampire Studio', defaultMetaDescription: '', globalIndexingEnabled: true, pageTypeRules: {} },
+  emailConfig: { enabled: false, senderName: '', senderEmail: '' },
+  aiConfig: { enabled: false, provider: 'gemini' },
+};
 
 export default function SettingsPage() {
     const { isAdmin, isLoading: isAdminLoading } = useIsAdmin();
     const { toast } = useToast();
     const firestore = useFirestore();
 
-    const settingsRef = useMemoFirebase(() => {
-        if (!firestore) return null;
-        return doc(firestore, 'site_settings', 'config');
-    }, [firestore]);
-    
-    const { data: settingsData, isLoading: settingsLoading } = useDoc<SiteConfiguration>(settingsRef);
+    const { settings: settingsData, isLoading: settingsLoading } = usePublicSettings();
     
     const methods = useForm<SettingsFormValues>({
         resolver: zodResolver(formSchema),
-        defaultValues: {
-            brandingConfig: { logoUrl: '', faviconUrl: '', defaultOgImageUrl: '' },
-            emailConfig: { enabled: false, senderName: '', senderEmail: '' },
-            aiConfig: { enabled: false, provider: 'gemini' },
-            indexingConfig: { globalIndexingEnabled: true, pageTypeRules: {} },
-        }
+        defaultValues,
     });
     
     React.useEffect(() => {
         if (settingsData) {
-            methods.reset(settingsData as SettingsFormValues);
+            // Deep merge to avoid losing nested object structures if they are missing from Firestore
+            const mergedValues = {
+                ...defaultValues,
+                ...settingsData,
+                brandingConfig: { ...defaultValues.brandingConfig, ...settingsData.brandingConfig },
+                contactConfig: { ...defaultValues.contactConfig, ...settingsData.contactConfig, socialLinks: { ...defaultValues.contactConfig.socialLinks, ...settingsData.contactConfig?.socialLinks } },
+                seoConfig: { ...defaultValues.seoConfig, ...settingsData.seoConfig },
+                emailConfig: { ...defaultValues.emailConfig, ...settingsData.emailConfig },
+                aiConfig: { ...defaultValues.aiConfig, ...settingsData.aiConfig },
+            };
+            methods.reset(mergedValues as SettingsFormValues);
         }
     }, [settingsData, methods]);
     
@@ -99,8 +130,8 @@ export default function SettingsPage() {
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <div className="flex items-center justify-between mb-8 pb-4 border-b">
               <div>
-                  <h1 className="text-lg font-semibold md:text-2xl">Settings</h1>
-                  <p className="text-muted-foreground">Manage site-wide branding, integrations, and features.</p>
+                  <h1 className="text-lg font-semibold md:text-2xl">Site Settings</h1>
+                  <p className="text-muted-foreground">Manage site-wide branding, contact info, integrations, and SEO.</p>
               </div>
               <Button type="submit" disabled={methods.formState.isSubmitting}>
                   {methods.formState.isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
@@ -108,11 +139,13 @@ export default function SettingsPage() {
               </Button>
           </div>
           
-          <div>
+          <div className="space-y-12">
               <SettingsForm />
           </div>
         </form>
       </FormProvider>
     );
 }
+    
+
     

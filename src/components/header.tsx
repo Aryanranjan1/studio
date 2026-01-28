@@ -22,6 +22,9 @@ import {
   HelpCircle,
   Crown,
   AppWindow,
+  Linkedin,
+  Instagram,
+  Dribbble
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -32,10 +35,7 @@ import {
   SheetDescription,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import { socialLinks } from '@/lib/social-links';
-import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
-import type { SiteConfiguration } from '@/lib/firestore/settings';
+import { usePublicSettings } from '@/hooks/use-settings';
 
 
 const mainNavLinks = [
@@ -86,14 +86,15 @@ const NavLink = ({
 };
 
 export function Header() {
-  const firestore = useFirestore();
-  const settingsRef = useMemoFirebase(() => {
-    if (!firestore) return null;
-    return doc(firestore, 'site_settings', 'config');
-  }, [firestore]);
-
-  const { data: settings } = useDoc<SiteConfiguration>(settingsRef);
+  const { settings } = usePublicSettings();
   const logoUrl = settings?.brandingConfig?.logoUrl;
+  const socialLinks = settings?.contactConfig?.socialLinks;
+
+  const socialIcons = [
+    { name: 'LinkedIn', href: socialLinks?.linkedin, Icon: Linkedin },
+    { name: 'Instagram', href: socialLinks?.instagram, Icon: Instagram },
+    { name: 'Dribbble', href: socialLinks?.dribbble, Icon: Dribbble },
+  ].filter(link => link.href);
 
   return (
     <>
@@ -103,7 +104,7 @@ export function Header() {
           <div className="flex flex-col items-center gap-8">
             <Link href="/" className="font-headline text-xl font-bold text-primary" aria-label="Ampire Studio">
               {logoUrl ? (
-                <Image src={logoUrl} alt="Ampire Studio Logo" width={40} height={40} className="rounded-md object-contain" />
+                <Image src={logoUrl} alt={settings?.brandingConfig?.brandName || 'Logo'} width={40} height={40} className="rounded-md object-contain" />
               ) : (
                 <Crown className="h-8 w-8" />
               )}
@@ -115,7 +116,7 @@ export function Header() {
             </nav>
           </div>
           <div className="flex flex-col items-center gap-4">
-             {socialLinks.slice(0, 3).map((link) => (
+             {socialIcons.map((link) => (
                 <Tooltip key={link.name}>
                     <TooltipTrigger asChild>
                         <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.name} className="text-white/70 hover:text-white transition-colors">
@@ -134,7 +135,7 @@ export function Header() {
       {/* Mobile Header */}
       <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border bg-nav-footer px-4 md:hidden">
          <Link href="/" className="font-headline text-xl font-bold text-white md:text-primary">
-            Ampire
+            {settings?.brandingConfig?.brandName || 'Ampire'}
          </Link>
          <Sheet>
             <SheetTrigger asChild>
@@ -147,7 +148,7 @@ export function Header() {
               <SheetHeader>
                 <SheetTitle>
                    <Link href="/" className="font-headline text-xl font-bold text-white">
-                      Ampire
+                      {settings?.brandingConfig?.brandName || 'Ampire'}
                    </Link>
                 </SheetTitle>
                 <SheetDescription>
@@ -172,5 +173,7 @@ export function Header() {
     </>
   );
 }
+
+    
 
     

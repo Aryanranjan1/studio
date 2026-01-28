@@ -27,6 +27,38 @@ export type PageTypeRules = {
 };
 
 export type SiteConfiguration = {
+  brandingConfig?: {
+    websiteName?: string;
+    brandName?: string;
+    logoUrl?: string;
+    squareLogoUrl?: string;
+    faviconUrl?: string;
+    defaultOgImageUrl?: string;
+  };
+  contactConfig?: {
+    primaryEmail?: string;
+    supportEmail?: string;
+    phone?: string;
+    address?: string;
+    country?: string;
+    businessHours?: string;
+    socialLinks?: {
+        linkedin?: string;
+        instagram?: string;
+        facebook?: string;
+        twitter?: string;
+        youtube?: string;
+        pinterest?: string;
+        dribbble?: string;
+    }
+  };
+  seoConfig?: {
+    baseSiteUrl?: string;
+    defaultMetaTitleTemplate?: string;
+    defaultMetaDescription?: string;
+    globalIndexingEnabled: boolean;
+    pageTypeRules: PageTypeRules;
+  };
   emailConfig: {
     enabled: boolean;
     senderName: string;
@@ -35,15 +67,6 @@ export type SiteConfiguration = {
   aiConfig: {
     enabled: boolean;
     provider: 'gemini' | 'openai';
-  };
-  indexingConfig?: {
-    globalIndexingEnabled: boolean;
-    pageTypeRules: PageTypeRules;
-  };
-  brandingConfig?: {
-    logoUrl?: string;
-    faviconUrl?: string;
-    defaultOgImageUrl?: string;
   };
 };
 
@@ -72,3 +95,5 @@ export async function updateSiteSettings(firestore: Firestore, data: Partial<Sit
     throw error;
   }
 }
+
+    

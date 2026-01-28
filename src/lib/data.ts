@@ -1,9 +1,5 @@
 
 
-
-
-
-
 export type Service = {
   id: string;
   title: string;
@@ -32,13 +28,6 @@ export type Founder = {
   bio: string;
   longBio: string;
   image: string;
-};
-
-export type SiteSettings = {
-  title: string;
-  description: string;
-  founderName: string;
-  founderRole: string;
 };
 
 type ImageObject = {
@@ -185,35 +174,6 @@ export type TeamMember = {
   role: string;
   icon: string;
 };
-
-export type ContactDetails = {
-  address: {
-    line1: string;
-    line2: string;
-  };
-  phone: string;
-  email: string;
-  whatsapp: string; // The URL for WhatsApp chat
-};
-
-
-export const getSiteSettings = (): SiteSettings => ({
-  title: 'Dezine',
-  description:
-    'A digital design and development agency specializing in bespoke websites and applications.',
-  founderName: 'Alex Doe',
-  founderRole: 'Founder & Lead Designer',
-});
-
-export const getContactDetails = (): ContactDetails => ({
-  address: {
-    line1: 'Kuala Lumpur,',
-    line2: 'Malaysia',
-  },
-  phone: '+60 11-1092 8735',
-  email: 'contactampirestudios@gmail.com',
-  whatsapp: 'https://wa.me/601110928735',
-});
 
 export const getServices = (): Service[] => [
   {
@@ -604,5 +564,8 @@ export const getTemplates = (): (Project & { id: string })[] => {
     
 
     
+
+    
+
 
     

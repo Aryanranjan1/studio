@@ -21,61 +21,59 @@ const spaceGrotesk = Space_Grotesk({
   variable: '--font-headline',
 });
 
-const defaultMetadata: Metadata = {
-  title: {
-    default: 'Ampire Studio',
-    template: '%s — Ampire Studio',
-  },
-  metadataBase: new URL('https://ampire.studio'),
-  description: 'A digital design and development agency specializing in bespoke websites and applications.',
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    title: 'Ampire Studio',
-    description: 'A digital design and development agency specializing in bespoke websites and applications.',
-    url: '/',
-    siteName: 'Ampire Studio',
-    locale: 'en_US',
-    type: 'website',
-  },
-  twitter: {
-    title: 'Ampire Studio',
-    card: 'summary_large_image',
-  },
-};
-
 export async function generateMetadata(): Promise<Metadata> {
-  try {
-    const settings = await getSiteSettings();
+  const settings = await getSiteSettings();
 
-    if (!settings || !settings.brandingConfig) {
-      return defaultMetadata;
-    }
+  const titleTemplate = settings?.seoConfig?.defaultMetaTitleTemplate || '%s | Ampire Studio';
+  const siteName = settings?.brandingConfig?.websiteName || 'Ampire Studio';
+  const description = settings?.seoConfig?.defaultMetaDescription || 'A digital design and development agency specializing in bespoke websites and applications.';
+  const siteUrl = settings?.seoConfig?.baseSiteUrl || 'https://ampire.studio';
 
-    const { faviconUrl, defaultOgImageUrl } = settings.brandingConfig;
-
-    const dynamicMetadata: Metadata = { ...defaultMetadata };
-
-    if (faviconUrl) {
-      dynamicMetadata.icons = {
-        icon: faviconUrl,
-      };
-    }
-
-    if (defaultOgImageUrl) {
-        dynamicMetadata.openGraph = {
-        ...defaultMetadata.openGraph,
-        images: [defaultOgImageUrl],
-      };
-    }
-
-    return dynamicMetadata;
-
-  } catch (error) {
-    console.error("Failed to generate dynamic metadata:", error);
+  const defaultMetadata: Metadata = {
+    title: {
+      default: siteName,
+      template: titleTemplate,
+    },
+    metadataBase: new URL(siteUrl),
+    description,
+    alternates: {
+      canonical: '/',
+    },
+    openGraph: {
+      title: siteName,
+      description,
+      url: '/',
+      siteName,
+      locale: 'en_US',
+      type: 'website',
+    },
+    twitter: {
+      title: siteName,
+      card: 'summary_large_image',
+    },
+  };
+  
+  if (!settings || !settings.brandingConfig) {
     return defaultMetadata;
   }
+
+  const { faviconUrl, defaultOgImageUrl } = settings.brandingConfig;
+  const dynamicMetadata: Metadata = { ...defaultMetadata };
+
+  if (faviconUrl) {
+    dynamicMetadata.icons = {
+      icon: faviconUrl,
+    };
+  }
+
+  if (defaultOgImageUrl) {
+      dynamicMetadata.openGraph = {
+      ...defaultMetadata.openGraph,
+      images: [defaultOgImageUrl],
+    };
+  }
+
+  return dynamicMetadata;
 }
 
 export default function RootLayout({
@@ -103,3 +101,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+    

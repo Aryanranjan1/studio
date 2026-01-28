@@ -9,9 +9,9 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Terminal, Info, Lock, Image as ImageIcon } from 'lucide-react';
+import { Terminal, Info, Lock, Image as ImageIcon, Contact, Megaphone } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import type { PageTypeRules, IndexingRule } from '@/lib/firestore/settings';
+import type { PageTypeRules } from '@/lib/firestore/settings';
 
 const defaultIndexingRules: PageTypeRules = {
   blog: { index: true, follow: true },
@@ -47,39 +47,91 @@ export function SettingsForm() {
   const { control, register, formState: { errors } } = useFormContext();
 
   return (
-    <div className="space-y-12">
-      {/* Branding & Media Card */}
+    <>
+      {/* Branding & Identity Card */}
       <Card>
         <CardHeader>
-          <CardTitle>Branding & Media</CardTitle>
-          <CardDescription>Manage your site's logo, favicon, and default social sharing image.</CardDescription>
+          <CardTitle>Brand & Identity</CardTitle>
+          <CardDescription>Manage your site's name, logo, favicon, and default social sharing image.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
            <Alert>
               <ImageIcon className="h-4 w-4" />
               <AlertTitle>Image URLs</AlertTitle>
               <AlertDescription>
-                Please provide direct URLs to your hosted image assets.
+                Provide direct URLs to hosted image assets. These are used globally for SEO and branding.
               </AlertDescription>
             </Alert>
-          <div>
-            <Label htmlFor="brandingConfig.logoUrl">Logo URL</Label>
-            <Input id="brandingConfig.logoUrl" {...register('brandingConfig.logoUrl')} placeholder="https://..." />
-            {errors.brandingConfig?.logoUrl && <p className="text-sm text-destructive mt-1">{(errors.brandingConfig.logoUrl as any).message}</p>}
-          </div>
-          <div>
-            <Label htmlFor="brandingConfig.faviconUrl">Favicon URL (.svg, .ico, or .png)</Label>
-            <Input id="brandingConfig.faviconUrl" {...register('brandingConfig.faviconUrl')} placeholder="https://..." />
-            {errors.brandingConfig?.faviconUrl && <p className="text-sm text-destructive mt-1">{(errors.brandingConfig.faviconUrl as any).message}</p>}
-          </div>
-          <div>
-            <Label htmlFor="brandingConfig.defaultOgImageUrl">Default OG Image URL (for social sharing)</Label>
-            <Input id="brandingConfig.defaultOgImageUrl" {...register('brandingConfig.defaultOgImageUrl')} placeholder="https://..." />
-            {errors.brandingConfig?.defaultOgImageUrl && <p className="text-sm text-destructive mt-1">{(errors.brandingConfig.defaultOgImageUrl as any).message}</p>}
-          </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="brandingConfig.websiteName">Website Name</Label>
+                <Input id="brandingConfig.websiteName" {...register('brandingConfig.websiteName')} placeholder="Ampire Studio" />
+              </div>
+              <div>
+                <Label htmlFor="brandingConfig.brandName">Brand Name (Short)</Label>
+                <Input id="brandingConfig.brandName" {...register('brandingConfig.brandName')} placeholder="Ampire" />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="brandingConfig.logoUrl">Primary Logo URL</Label>
+                <Input id="brandingConfig.logoUrl" {...register('brandingConfig.logoUrl')} placeholder="https://..." />
+                {(errors.brandingConfig as any)?.logoUrl && <p className="text-sm text-destructive mt-1">{(errors.brandingConfig as any).logoUrl.message}</p>}
+              </div>
+              <div>
+                <Label htmlFor="brandingConfig.faviconUrl">Favicon URL (.svg, .ico, or .png)</Label>
+                <Input id="brandingConfig.faviconUrl" {...register('brandingConfig.faviconUrl')} placeholder="https://..." />
+                {(errors.brandingConfig as any)?.faviconUrl && <p className="text-sm text-destructive mt-1">{(errors.brandingConfig as any).faviconUrl.message}</p>}
+              </div>
+            </div>
+            <div>
+              <Label htmlFor="brandingConfig.defaultOgImageUrl">Default Social Share (OG) Image URL</Label>
+              <Input id="brandingConfig.defaultOgImageUrl" {...register('brandingConfig.defaultOgImageUrl')} placeholder="https://..." />
+              {(errors.brandingConfig as any)?.defaultOgImageUrl && <p className="text-sm text-destructive mt-1">{(errors.brandingConfig as any).defaultOgImageUrl.message}</p>}
+            </div>
         </CardContent>
       </Card>
       
+      {/* Contact & Business Information Card */}
+      <Card>
+        <CardHeader>
+            <CardTitle>Contact & Business Information</CardTitle>
+            <CardDescription>Global contact details used in the footer, contact pages, and metadata.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <Label htmlFor="contactConfig.primaryEmail">Primary Contact Email</Label>
+                    <Input id="contactConfig.primaryEmail" {...register('contactConfig.primaryEmail')} placeholder="contact@ampire.studio" />
+                    {(errors.contactConfig as any)?.primaryEmail && <p className="text-sm text-destructive mt-1">{(errors.contactConfig as any).primaryEmail.message}</p>}
+                </div>
+                 <div>
+                    <Label htmlFor="contactConfig.phone">Phone Number</Label>
+                    <Input id="contactConfig.phone" {...register('contactConfig.phone')} placeholder="+60 12-345 6789" />
+                </div>
+            </div>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <Label htmlFor="contactConfig.address">Business Address</Label>
+                    <Input id="contactConfig.address" {...register('contactConfig.address')} placeholder="Kuala Lumpur, Malaysia" />
+                </div>
+                 <div>
+                    <Label htmlFor="contactConfig.businessHours">Business Hours</Label>
+                    <Input id="contactConfig.businessHours" {...register('contactConfig.businessHours')} placeholder="Mon-Fri, 9am-6pm" />
+                </div>
+            </div>
+            <div>
+                <h4 className="font-medium mb-4">Social Media Links</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Input {...register('contactConfig.socialLinks.linkedin')} placeholder="LinkedIn URL" />
+                    <Input {...register('contactConfig.socialLinks.instagram')} placeholder="Instagram URL" />
+                    <Input {...register('contactConfig.socialLinks.twitter')} placeholder="Twitter/X URL" />
+                    <Input {...register('contactConfig.socialLinks.dribbble')} placeholder="Dribbble URL" />
+                </div>
+            </div>
+        </CardContent>
+      </Card>
+
       {/* Integrations Card */}
       <Card>
         <CardHeader>
@@ -87,7 +139,6 @@ export function SettingsForm() {
           <CardDescription>Enable and configure third-party services like email and AI.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-            {/* Email Sending Section */}
             <div className="space-y-4 p-4 border rounded-md">
                 <h4 className="font-medium">Email Sending</h4>
                  <div className="flex items-center space-x-2">
@@ -102,19 +153,17 @@ export function SettingsForm() {
                     <div>
                         <Label htmlFor="emailConfig.senderEmail">Sender Email</Label>
                         <Input id="emailConfig.senderEmail" {...register('emailConfig.senderEmail')} placeholder="noreply@ampire.studio" />
-                        {errors.emailConfig?.senderEmail && <p className="text-sm text-destructive mt-1">{(errors.emailConfig.senderEmail as any).message}</p>}
+                        {(errors.emailConfig as any)?.senderEmail && <p className="text-sm text-destructive mt-1">{(errors.emailConfig as any).senderEmail.message}</p>}
                     </div>
                  </div>
                  <Alert>
                     <Terminal className="h-4 w-4" />
                     <AlertTitle>Security Notice!</AlertTitle>
                     <AlertDescription>
-                        API keys for your email provider (e.g., Resend) must be stored as server-side environment variables and should NOT be entered here.
+                        API keys for your email provider must be stored as server-side environment variables and should NOT be entered here.
                     </AlertDescription>
                 </Alert>
             </div>
-
-            {/* AI Assistance Section */}
             <div className="space-y-4 p-4 border rounded-md">
                 <h4 className="font-medium">AI Assistance</h4>
                 <div className="flex items-center space-x-2">
@@ -129,20 +178,34 @@ export function SettingsForm() {
                     <Terminal className="h-4 w-4" />
                     <AlertTitle>Security Notice!</AlertTitle>
                     <AlertDescription>
-                        Your AI provider API key (e.g., Gemini API Key) must be stored securely as a server-side environment variable.
+                        Your AI provider API key must be stored securely as a server-side environment variable.
                     </AlertDescription>
                 </Alert>
             </div>
         </CardContent>
       </Card>
 
-      {/* Indexing Settings Card */}
+      {/* SEO & Indexing Settings Card */}
       <Card>
         <CardHeader>
-          <CardTitle>Search Engine Indexing & Visibility</CardTitle>
-          <CardDescription>Control how search engines like Google crawl and index your site. Incorrect settings can harm your SEO.</CardDescription>
+          <CardTitle>SEO & Crawling</CardTitle>
+          <CardDescription>Control how search engines and AI crawlers index your site. Incorrect settings can harm your SEO.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+            <div>
+                <Label htmlFor="seoConfig.baseSiteUrl">Base Site URL</Label>
+                <Input id="seoConfig.baseSiteUrl" {...register('seoConfig.baseSiteUrl')} placeholder="https://www.ampire.studio" />
+                {(errors.seoConfig as any)?.baseSiteUrl && <p className="text-sm text-destructive mt-1">{(errors.seoConfig as any).baseSiteUrl.message}</p>}
+            </div>
+             <div>
+                <Label htmlFor="seoConfig.defaultMetaTitleTemplate">Default Meta Title Template</Label>
+                <Input id="seoConfig.defaultMetaTitleTemplate" {...register('seoConfig.defaultMetaTitleTemplate')} placeholder="%s | Ampire Studio" />
+                <p className="text-xs text-muted-foreground mt-1">`%s` will be replaced with the page's specific title.</p>
+            </div>
+             <div>
+                <Label htmlFor="seoConfig.defaultMetaDescription">Default Meta Description</Label>
+                <Input id="seoConfig.defaultMetaDescription" {...register('seoConfig.defaultMetaDescription')} />
+            </div>
            <Alert variant="destructive">
               <Info className="h-4 w-4" />
               <AlertTitle>Global Kill-Switch</AlertTitle>
@@ -151,7 +214,7 @@ export function SettingsForm() {
               </AlertDescription>
             </Alert>
           <div className="flex items-center space-x-2 p-4 border rounded-md">
-             <Controller name="indexingConfig.globalIndexingEnabled" control={control} render={({ field }) => ( <Switch id="global-indexing-enabled" checked={field.value} onCheckedChange={field.onChange} /> )}/>
+             <Controller name="seoConfig.globalIndexingEnabled" control={control} render={({ field }) => ( <Switch id="global-indexing-enabled" checked={field.value} onCheckedChange={field.onChange} /> )}/>
             <Label htmlFor="global-indexing-enabled" className="text-base">Enable Global Site Indexing</Label>
           </div>
           <div>
@@ -167,11 +230,11 @@ export function SettingsForm() {
                     </div>
                     <div className="flex items-center gap-4">
                       <div className="flex items-center gap-2">
-                          <Controller name={`indexingConfig.pageTypeRules.${pageType}.index`} control={control} render={({ field }) => ( <Switch id={`index-${pageType}`} checked={field.value} onCheckedChange={field.onChange} disabled={isLocked} /> )}/>
+                          <Controller name={`seoConfig.pageTypeRules.${pageType}.index`} control={control} render={({ field }) => ( <Switch id={`index-${pageType}`} checked={field.value} onCheckedChange={field.onChange} disabled={isLocked} /> )}/>
                           <Label htmlFor={`index-${pageType}`} className="text-sm text-muted-foreground">Index</Label>
                       </div>
                       <div className="flex items-center gap-2">
-                           <Controller name={`indexingConfig.pageTypeRules.${pageType}.follow`} control={control} render={({ field }) => ( <Switch id={`follow-${pageType}`} checked={field.value} onCheckedChange={field.onChange} disabled={isLocked} /> )}/>
+                           <Controller name={`seoConfig.pageTypeRules.${pageType}.follow`} control={control} render={({ field }) => ( <Switch id={`follow-${pageType}`} checked={field.value} onCheckedChange={field.onChange} disabled={isLocked} /> )}/>
                           <Label htmlFor={`follow-${pageType}`} className="text-sm text-muted-foreground">Follow</Label>
                       </div>
                     </div>
@@ -182,7 +245,9 @@ export function SettingsForm() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </>
   );
 }
+    
+
     

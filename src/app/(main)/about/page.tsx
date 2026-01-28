@@ -1,21 +1,25 @@
 
+'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, MoveRight } from 'lucide-react';
+import { ArrowRight, MoveRight, Dribbble, Instagram, Linkedin } from 'lucide-react';
 import { getTeam } from '@/lib/data';
 import { TeamMemberCard } from '@/components/team-member-card';
 import { Button } from '@/components/ui/button';
 import { Footer } from '@/components/footer';
 import type { Metadata } from 'next';
-import { socialLinks } from '@/lib/social-links';
-
-export const metadata: Metadata = {
-    title: 'About',
-    description: 'Learn about our process, our values, and the team behind Ampire Studio.',
-};
+import { usePublicSettings } from '@/hooks/use-settings';
 
 export default function AboutPage() {
   const team = getTeam();
+  const { settings } = usePublicSettings();
+  const socialLinks = settings?.contactConfig?.socialLinks;
+
+  const socialIcons = [
+    { name: 'LinkedIn', href: socialLinks?.linkedin, Icon: Linkedin },
+    { name: 'Instagram', href: socialLinks?.instagram, Icon: Instagram },
+    { name: 'Dribbble', href: socialLinks?.dribbble, Icon: Dribbble },
+  ].filter(link => link.href);
 
   const principles = [
     {
@@ -167,7 +171,7 @@ export default function AboutPage() {
           {/* Contact */}
           <div className="col-span-12 md:col-span-4 bg-background p-8 border-b border-border flex flex-col justify-end items-center text-center">
             <div className="mb-8 flex gap-4">
-              {socialLinks.map(link => (
+              {socialIcons.map(link => (
                 <a href={link.href} key={link.name} target="_blank" rel="noopener noreferrer" className="hover:text-primary">
                   <link.Icon className="h-5 w-5"/>
                 </a>
@@ -189,3 +193,10 @@ export default function AboutPage() {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+    title: 'About',
+    description: 'Learn about our process, our values, and the team behind Ampire Studio.',
+};
+
+    

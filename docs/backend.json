@@ -111,9 +111,76 @@
     },
     "SiteSettings": {
       "title": "Site Settings",
-      "description": "Global settings for site functionality, like email, AI, and search engine indexing.",
+      "description": "Global settings for site functionality, like branding, contact info, email, AI, and search engine indexing.",
       "type": "object",
       "properties": {
+        "brandingConfig": {
+          "type": "object",
+          "properties": {
+            "websiteName": { "type": "string" },
+            "brandName": { "type": "string" },
+            "logoUrl": { "type": "string", "format": "uri" },
+            "squareLogoUrl": { "type": "string", "format": "uri" },
+            "faviconUrl": { "type": "string", "format": "uri" },
+            "defaultOgImageUrl": { "type": "string", "format": "uri" }
+          }
+        },
+        "contactConfig": {
+          "type": "object",
+          "properties": {
+            "primaryEmail": { "type": "string", "format": "email" },
+            "supportEmail": { "type": "string", "format": "email" },
+            "phone": { "type": "string" },
+            "address": { "type": "string" },
+            "country": { "type": "string" },
+            "businessHours": { "type": "string" },
+            "socialLinks": {
+              "type": "object",
+              "properties": {
+                "linkedin": { "type": "string", "format": "uri" },
+                "instagram": { "type": "string", "format": "uri" },
+                "facebook": { "type": "string", "format": "uri" },
+                "twitter": { "type": "string", "format": "uri" },
+                "youtube": { "type": "string", "format": "uri" },
+                "pinterest": { "type": "string", "format": "uri" },
+                "dribbble": { "type": "string", "format": "uri" }
+              }
+            }
+          }
+        },
+        "seoConfig": {
+            "type": "object",
+            "properties": {
+                "baseSiteUrl": { "type": "string", "format": "uri" },
+                "defaultMetaTitleTemplate": { "type": "string" },
+                "defaultMetaDescription": { "type": "string" },
+                "globalIndexingEnabled": { "type": "boolean" },
+                "pageTypeRules": {
+                  "type": "object",
+                  "properties": {
+                    "blog": { "$ref": "#/entities/SiteSettings/properties/seoConfig/definitions/rule" },
+                    "portfolio": { "$ref": "#/entities/SiteSettings/properties/seoConfig/definitions/rule" },
+                    "services": { "$ref": "#/entities/SiteSettings/properties/seoConfig/definitions/rule" },
+                    "about": { "$ref": "#/entities/SiteSettings/properties/seoConfig/definitions/rule" },
+                    "contact": { "$ref": "#/entities/SiteSettings/properties/seoConfig/definitions/rule" },
+                    "faq": { "$ref": "#/entities/SiteSettings/properties/seoConfig/definitions/rule" },
+                    "store": { "$ref": "#/entities/SiteSettings/properties/seoConfig/definitions/rule" },
+                    "offerLetter": { "$ref": "#/entities/SiteSettings/properties/seoConfig/definitions/rule" },
+                    "contract": { "$ref": "#/entities/SiteSettings/properties/seoConfig/definitions/rule" },
+                    "timeline": { "$ref": "#/entities/SiteSettings/properties/seoConfig/definitions/rule" }
+                  }
+                }
+            },
+            "definitions": {
+                "rule": {
+                    "type": "object",
+                    "properties": {
+                    "index": { "type": "boolean" },
+                    "follow": { "type": "boolean" }
+                    }
+                }
+            }
+        },
         "emailConfig": {
           "type": "object",
           "properties": {
@@ -128,44 +195,6 @@
             "enabled": { "type": "boolean" },
             "provider": { "type": "string", "enum": ["gemini", "openai"] }
           }
-        },
-        "indexingConfig": {
-          "type": "object",
-          "properties": {
-            "globalIndexingEnabled": { "type": "boolean" },
-            "pageTypeRules": {
-              "type": "object",
-              "properties": {
-                "blog": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
-                "portfolio": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
-                "services": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
-                "about": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
-                "contact": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
-                "faq": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
-                "store": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
-                "offerLetter": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
-                "contract": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" },
-                "timeline": { "$ref": "#/entities/SiteSettings/properties/indexingConfig/properties/pageTypeRules/definitions/rule" }
-              }
-            }
-          },
-          "definitions": {
-            "rule": {
-              "type": "object",
-              "properties": {
-                "index": { "type": "boolean" },
-                "follow": { "type": "boolean" }
-              }
-            }
-          }
-        },
-        "brandingConfig": {
-            "type": "object",
-            "properties": {
-                "logoUrl": { "type": "string", "format": "uri" },
-                "faviconUrl": { "type": "string", "format": "uri" },
-                "defaultOgImageUrl": { "type": "string", "format": "uri" }
-            }
         }
       }
     },
@@ -665,6 +694,8 @@
   }
 }
     
+    
+
     
 
     
