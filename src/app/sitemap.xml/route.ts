@@ -77,13 +77,25 @@ export async function GET() {
   for (const path of staticPaths) {
     if (rules && rules[path.type as keyof typeof rules]?.index) {
         let lastModified = new Date();
-        if (path.type === 'faq' && faqs.length > 0) {
-             const mostRecentFaqDate = faqs.reduce((latest, faq) => {
-                const faqDate = toDate(faq.updatedAt);
-                return faqDate > latest ? faqDate : latest;
+        
+        const getMostRecentDate = (items: { lastModified: any }[] | { updatedAt: any }[]) => {
+            if (items.length === 0) return null;
+            return items.reduce((latest, item) => {
+                const itemDate = toDate('lastModified' in item ? item.lastModified : item.updatedAt);
+                return itemDate > latest ? itemDate : latest;
             }, new Date(0));
-            if (mostRecentFaqDate.getTime() > 0) lastModified = mostRecentFaqDate;
+        };
+
+        let mostRecentDate: Date | null = null;
+        if (path.type === 'faq') mostRecentDate = getMostRecentDate(faqs);
+        if (path.type === 'portfolio') mostRecentDate = getMostRecentDate(portfolioProjects);
+        if (path.type === 'blog') mostRecentDate = getMostRecentDate(blogPosts);
+        if (path.type === 'store') mostRecentDate = getMostRecentDate(templates);
+
+        if (mostRecentDate && mostRecentDate.getTime() > 0) {
+            lastModified = mostRecentDate;
         }
+
         allPaths.push({ url: path.url, lastModified });
     }
   }
