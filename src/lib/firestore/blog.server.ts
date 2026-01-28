@@ -1,13 +1,13 @@
 // This file is intended for SERVER-SIDE use only.
-import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { getFirestoreServer } from '@/firebase/server-init';
 import type { Article } from '@/lib/data';
 
 /**
  * Fetches all published blog articles for sitemap generation.
- * @returns {Promise<Article[]>} A promise that resolves to an array of published articles.
+ * @returns {Promise<{slug: string, lastModified: any}[]>} A promise that resolves to an array of published articles with a standardized lastModified field.
  */
-export async function getAllPublicBlogs(): Promise<Pick<Article, 'slug' | 'lastUpdated'>[]> {
+export async function getAllPublicBlogs(): Promise<{ slug: string, lastModified: any }[]> {
     try {
         const firestore = getFirestoreServer();
         const blogsQuery = query(
@@ -22,7 +22,7 @@ export async function getAllPublicBlogs(): Promise<Pick<Article, 'slug' | 'lastU
             const data = doc.data() as Article;
             return {
                 slug: data.slug,
-                lastUpdated: data.lastUpdated,
+                lastModified: data.lastUpdated, // Standardize to lastModified
             };
         });
     } catch (error) {

@@ -5,9 +5,9 @@ import type { Template } from '@/lib/data';
 
 /**
  * Fetches all published templates for sitemap generation.
- * @returns {Promise<Template[]>} A promise that resolves to an array of published templates.
+ * @returns {Promise<{slug: string, lastModified: any}[]>} A promise that resolves to an array of published templates with a standardized lastModified field.
  */
-export async function getAllPublicTemplates(): Promise<Pick<Template, 'slug' | 'updatedAt'>[]> {
+export async function getAllPublicTemplates(): Promise<{ slug: string, lastModified: any }[]> {
     try {
         const firestore = getFirestoreServer();
         const templatesQuery = query(
@@ -22,7 +22,7 @@ export async function getAllPublicTemplates(): Promise<Pick<Template, 'slug' | '
             const data = doc.data() as Template;
             return {
                 slug: data.slug,
-                updatedAt: data.updatedAt,
+                lastModified: data.updatedAt, // Standardize to lastModified
             };
         });
     } catch (error) {

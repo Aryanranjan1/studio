@@ -5,9 +5,9 @@ import type { PortfolioProject } from '@/lib/data';
 
 /**
  * Fetches all published portfolio projects for sitemap generation.
- * @returns {Promise<PortfolioProject[]>} A promise that resolves to an array of published projects.
+ * @returns {Promise<{slug: string, lastModified: any}[]>} A promise that resolves to an array of published projects with a standardized lastModified field.
  */
-export async function getAllPublicPortfolioProjects(): Promise<Pick<PortfolioProject, 'slug' | 'lastUpdated'>[]> {
+export async function getAllPublicPortfolioProjects(): Promise<{ slug: string, lastModified: any }[]> {
     try {
         const firestore = getFirestoreServer();
         const projectsQuery = query(
@@ -22,7 +22,7 @@ export async function getAllPublicPortfolioProjects(): Promise<Pick<PortfolioPro
             const data = doc.data() as PortfolioProject;
             return {
                 slug: data.slug,
-                lastUpdated: data.lastUpdated,
+                lastModified: data.lastUpdated, // Standardize to lastModified
             };
         });
     } catch (error) {
