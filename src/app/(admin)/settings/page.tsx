@@ -1,4 +1,3 @@
-
 'use client';
 import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
@@ -13,6 +12,25 @@ import { useToast } from '@/hooks/use-toast';
 import { useFirestore } from '@/firebase';
 import { updateSiteSettings, type SiteConfiguration, type PageTypeRules } from '@/lib/firestore/settings';
 import { usePublicSettings } from '@/hooks/use-settings';
+
+const indexingRuleSchema = z.object({
+  index: z.boolean(),
+  follow: z.boolean(),
+});
+
+const pageTypeRulesSchema = z.object({
+  blog: indexingRuleSchema,
+  portfolio: indexingRuleSchema,
+  services: indexingRuleSchema,
+  about: indexingRuleSchema,
+  contact: indexingRuleSchema,
+  faq: indexingRuleSchema,
+  store: indexingRuleSchema,
+  offerLetter: indexingRuleSchema,
+  contract: indexingRuleSchema,
+  timeline: indexingRuleSchema,
+});
+
 
 const formSchema = z.object({
   brandingConfig: z.object({
@@ -44,7 +62,9 @@ const formSchema = z.object({
       defaultMetaTitleTemplate: z.string().optional(),
       defaultMetaDescription: z.string().optional(),
       globalIndexingEnabled: z.boolean(),
-      pageTypeRules: z.any(),
+      pageTypeRules: pageTypeRulesSchema,
+      robotsTxtContent: z.string().optional(),
+      llmsTxtContent: z.string().optional(),
   }),
   emailConfig: z.object({
     enabled: z.boolean(),
@@ -73,10 +93,29 @@ const defaultIndexingRules: PageTypeRules = {
   timeline: { index: false, follow: false },
 };
 
+const defaultRobotsTxt = `User-agent: *
+Allow: /
+
+# Disallowed admin and private paths
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /proposal/
+Disallow: /contract/
+Disallow: /intake/
+Disallow: /login
+
+Sitemap: {SITEMAP_URL}
+`;
+
+const defaultLlmsTxt = `User-agent: *
+Allow: /
+Disallow: /admin/
+`;
+
 const defaultValues: SettingsFormValues = {
   brandingConfig: { websiteName: '', brandName: '', logoUrl: '', squareLogoUrl: '', faviconUrl: '', defaultOgImageUrl: '' },
   contactConfig: { primaryEmail: '', supportEmail: '', phone: '', address: '', country: '', businessHours: '', socialLinks: { linkedin: '', instagram: '', facebook: '', pinterest: '', youtube: '', dribbble: '' } },
-  seoConfig: { baseSiteUrl: '', defaultMetaTitleTemplate: '%s | Ampire Studio', defaultMetaDescription: '', globalIndexingEnabled: true, pageTypeRules: defaultIndexingRules },
+  seoConfig: { baseSiteUrl: '', defaultMetaTitleTemplate: '%s | Ampire Studio', defaultMetaDescription: '', globalIndexingEnabled: true, pageTypeRules: defaultIndexingRules, robotsTxtContent: defaultRobotsTxt, llmsTxtContent: defaultLlmsTxt },
   emailConfig: { enabled: false, senderName: '', senderEmail: '' },
   aiConfig: { enabled: false, provider: 'gemini' },
 };

@@ -1,5 +1,6 @@
 
 import { getSiteSettings } from '@/lib/firestore/settings.server';
+import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,7 +30,7 @@ Sitemap: {SITEMAP_URL}
     // Dynamically and correctly replace the placeholder with the full sitemap URL.
     content = content.replace(/{SITEMAP_URL}/g, `${BASE_URL}/sitemap.xml`);
 
-    return new Response(content.trim(), {
+    return new NextResponse(content.trim(), {
         headers: {
             'Content-Type': 'text/plain',
         },
