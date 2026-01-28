@@ -20,19 +20,20 @@ import { socialLinks } from '@/lib/social-links';
 import { getContactDetails } from '@/lib/data';
 import { useToast } from '@/hooks/use-toast';
 import { usePublicFaqs } from '@/hooks/useFaqs';
-
+import { useFirestore } from '@/firebase';
+import { addMessage } from '@/lib/firestore/messages';
 
 export function ContactForm() {
   const [formData, setFormData] = useState({
     name: '',
     company: '',
-    contactValue: '',
+    email: '',
     message: '',
   });
-  const [contactMethod, setContactMethod] = useState('email');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const firestore = useFirestore();
 
   const { data: allFaqs } = usePublicFaqs();
   const contactDetails = getContactDetails();
@@ -46,10 +47,10 @@ export function ContactForm() {
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
     if (!formData.name) newErrors.name = 'Full name is required.';
-    if (!formData.contactValue) {
-        newErrors.contactValue = contactMethod === 'email' ? 'Email is required.' : 'Phone number is required.';
-    } else if (contactMethod === 'email' && !/\S+@\S+\.\S+/.test(formData.contactValue)) {
-        newErrors.contactValue = 'Email is invalid.';
+    if (!formData.email) {
+      newErrors.email = 'Email is required.';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email is invalid.';
     }
     if (!formData.message) newErrors.message = 'Project description is required.';
     return newErrors;
@@ -57,20 +58,35 @@ export function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!firestore) {
+        toast({
+            title: "Error",
+            description: "Cannot connect to the database. Please try again later.",
+            variant: "destructive",
+        });
+        return;
+    }
+
     const newErrors = validateForm();
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
         setIsSubmitting(true);
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            console.log('Form Submitted', { ...formData, contactMethod });
+            addMessage(firestore, {
+                senderName: formData.name,
+                senderEmail: formData.email,
+                senderCompany: formData.company,
+                subject: `New Project Brief from ${formData.name}`,
+                body: formData.message,
+                source: 'Contact Form',
+            });
+            
             toast({
                 title: "Message Sent!",
                 description: "Thanks for reaching out. We'll get back to you shortly.",
             });
-            setFormData({ name: '', company: '', contactValue: '', message: '' });
+            setFormData({ name: '', company: '', email: '', message: '' });
         } catch (error) {
             toast({
                 title: "Error",
@@ -123,30 +139,18 @@ export function ContactForm() {
                         <Input id="company" placeholder="Acme Inc." value={formData.company} onChange={handleChange} className="bg-background border-input h-12"/>
                       </div>
                     </div>
-                     <div className="space-y-4">
-                        <Label>How should we contact you?</Label>
-                        <RadioGroup defaultValue="email" value={contactMethod} onValueChange={setContactMethod} className="flex gap-x-8">
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="email" id="r-email" />
-                                <Label htmlFor="r-email">Email</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="phone" id="r-phone" />
-                                <Label htmlFor="r-phone">Phone</Label>
-                            </div>
-                        </RadioGroup>
-                        <div>
-                           <Input 
-                                id="contactValue"
-                                type={contactMethod === 'email' ? 'email' : 'tel'}
-                                placeholder={contactMethod === 'email' ? 'you@example.com' : '+1 (555) 123-4567'}
-                                value={formData.contactValue}
-                                onChange={handleChange}
-                                aria-invalid={!!errors.contactValue}
-                                className="bg-background border-input h-12"
-                            />
-                        {errors.contactValue && <p className="text-sm text-destructive">{errors.contactValue}</p>}
-                        </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="email">Email</Label>
+                        <Input 
+                            id="email"
+                            type="email"
+                            placeholder="you@example.com"
+                            value={formData.email}
+                            onChange={handleChange}
+                            aria-invalid={!!errors.email}
+                            className="bg-background border-input h-12"
+                        />
+                       {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="message">Project Description</Label>
@@ -241,5 +245,3 @@ export function ContactForm() {
     </div>
   );
 }
-
-    

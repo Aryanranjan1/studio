@@ -73,6 +73,56 @@
         "role"
       ]
     },
+    "Message": {
+      "title": "Message",
+      "description": "Represents a message or form submission from a user.",
+      "type": "object",
+      "properties": {
+        "senderName": { "type": "string" },
+        "senderEmail": { "type": "string", "format": "email" },
+        "senderCompany": { "type": "string" },
+        "subject": { "type": "string" },
+        "body": { "type": "string" },
+        "status": { "type": "string", "enum": ["unread", "read", "replied", "archived"] },
+        "source": { "type": "string" },
+        "receivedAt": { "type": "string", "format": "date-time" },
+        "isArchived": { "type": "boolean" },
+        "replies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "repliedBy": { "type": "string" },
+              "body": { "type": "string" },
+              "sentAt": { "type": "string", "format": "date-time" }
+            }
+          }
+        }
+      },
+      "required": ["senderName", "senderEmail", "subject", "body", "status", "receivedAt"]
+    },
+    "SiteSettings": {
+      "title": "Site Settings",
+      "description": "Global settings for site functionality, like email and AI.",
+      "type": "object",
+      "properties": {
+        "emailConfig": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "senderName": { "type": "string" },
+            "senderEmail": { "type": "string", "format": "email" }
+          }
+        },
+        "aiConfig": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "provider": { "type": "string", "enum": ["gemini", "openai"] }
+          }
+        }
+      }
+    },
     "BlogArticle": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Blog Article",
@@ -535,6 +585,33 @@
               "description": "The unique identifier for the template."
             }
           ]
+        }
+      },
+      {
+        "path": "/messages/{messageId}",
+        "definition": {
+          "entityName": "Message",
+          "schema": {
+            "$ref": "#/backend/entities/Message"
+          },
+          "description": "Stores all contact form submissions and other messages.",
+          "params": [
+            {
+              "name": "messageId",
+              "description": "The unique identifier for the message."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/site_settings/config",
+        "definition": {
+          "entityName": "SiteSettings",
+          "schema": {
+            "$ref": "#/backend/entities/SiteSettings"
+          },
+          "description": "Stores global configuration for site features.",
+          "params": []
         }
       }
     ],

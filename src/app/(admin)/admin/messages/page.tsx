@@ -1,30 +1,35 @@
 
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-  } from '@/components/ui/card';
+'use client';
+
+import { useIsAdmin } from '@/hooks/useIsAdmin';
+import { Loader2 } from 'lucide-react';
+import { Inbox } from '@/components/admin/inbox';
+
+
+export default function MessagesPage() {
+    const { isAdmin, isLoading: isAdminLoading } = useIsAdmin();
+
+    if (isAdminLoading) {
+      return (
+        <div className="flex items-center justify-center p-8">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          <p className="ml-2">Verifying permissions...</p>
+        </div>
+      );
+    }
   
-  export default function MessagesPage() {
+    if (!isAdmin) {
+      return (
+        <div className="text-center p-8">
+          <h2 className="text-xl font-bold">Access Denied</h2>
+          <p className="text-muted-foreground">You do not have permission to view messages.</p>
+        </div>
+      );
+    }
+
     return (
-      <>
-        <div className="flex items-center">
-          <h1 className="text-lg font-semibold md:text-2xl">Messages</h1>
-        </div>
-        <div
-          className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-        >
-          <div className="flex flex-col items-center gap-1 text-center">
-            <h3 className="text-2xl font-bold tracking-tight">
-              Coming Soon
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              You'll be able to view contact form submissions here.
-            </p>
-          </div>
-        </div>
-      </>
+      <div className="h-full">
+        <Inbox />
+      </div>
     );
   }

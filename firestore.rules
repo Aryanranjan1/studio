@@ -71,8 +71,8 @@ service cloud.firestore {
       // Public can read published FAQs, Admins can read any.
       allow get: if resource.data.published == true || isAdmin();
       
-      // Public can query for published FAQs, Admins can query for any.
-      allow list: if request.query.where('published', '==', true) || isAdmin();
+      // Public can list published, Admins can list all
+      allow list: if (request.query.where('published', '==', true)) || isAdmin();
       
       // Admins can write.
       allow create, update, delete: if isAdmin();
@@ -85,6 +85,22 @@ service cloud.firestore {
       allow list: if request.query.where('published', '==', true) || isAdmin();
       allow create, update, delete: if isAdmin();
     }
+    
+    /* ========= MESSAGES ========= */
+
+    match /messages/{messageId} {
+      allow create: if true; // Allow public contact form submissions
+      allow read, update, delete: if isAdmin(); // Admins have full control
+      allow list: if isAdmin(); // Only admins can list all messages
+    }
+    
+    /* ========= SETTINGS ========= */
+    match /site_settings/{docId} {
+       allow get: if true; // Publicly readable to check feature flags
+       allow list: if isAdmin();
+       allow write: if isAdmin(); // Only admins can change settings
+    }
+
 
     /* ========= USERS ========= */
 
