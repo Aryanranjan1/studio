@@ -33,27 +33,43 @@ function toDate(value: any): Date {
 
 /**
  * Generates the sitemap XML string from an array of paths.
+ * If the paths array is empty, it includes a comment explaining why.
  * @param {string} base_url - The base URL of the site.
  * @param {{ url: string, lastModified: Date }[]} paths - Array of path objects.
+ * @param {string} [reason] - An optional reason for why the sitemap might be empty.
  * @returns {string} The complete sitemap XML as a string.
  */
-function generateSiteMap(base_url: string, paths: { url: string, lastModified: Date }[]): string {
+function generateSiteMap(base_url: string, paths: { url: string, lastModified: Date }[], reason?: string): string {
+    if (paths.length === 0) {
+        return `<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Sitemap is empty. 
+  Reason: ${reason || "No indexable content found or all page types are set to 'noindex' in SEO settings."}
+  Check your admin panel under Settings > SEO & Crawling to enable indexing.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+</urlset>`;
+    }
+  
+  const urlEntries = paths
+    .map(({ url, lastModified }) => {
+      // Basic validation to prevent errors with malformed data
+      if (!url || !lastModified?.toISOString) {
+        return '';
+      }
+      return `
+  <url>
+    <loc>${`${base_url}${url}`}</loc>
+    <lastmod>${lastModified.toISOString()}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>`;
+    })
+    .join('');
+
   return `<?xml version="1.0" encoding="UTF-8"?>
-   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-     ${paths
-       .map(({ url, lastModified }) => {
-         return `
-       <url>
-           <loc>${`${base_url}${url}`}</loc>
-           <lastmod>${lastModified.toISOString()}</lastmod>
-           <changefreq>weekly</changefreq>
-           <priority>0.8</priority>
-       </url>
-     `;
-       })
-       .join('')}
-   </urlset>
- `;
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urlEntries}
+</urlset>`;
 }
 
 export async function GET() {
@@ -61,7 +77,9 @@ export async function GET() {
   
   // Immediately return empty sitemap if global indexing is disabled.
   if (!settings?.seoConfig?.globalIndexingEnabled) {
-      return new Response(generateSiteMap(settings?.seoConfig?.baseSiteUrl || '', []), {
+      const reason = "Global site indexing is disabled in SEO settings.";
+      const sitemap = generateSiteMap(settings?.seoConfig?.baseSiteUrl || '', [], reason);
+      return new Response(sitemap, {
         headers: { 'Content-Type': 'application/xml' },
       });
   }
