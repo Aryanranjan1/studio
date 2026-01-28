@@ -1,4 +1,3 @@
-
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,7 +6,6 @@ import { getTeam } from '@/lib/data';
 import { TeamMemberCard } from '@/components/team-member-card';
 import { Button } from '@/components/ui/button';
 import { Footer } from '@/components/footer';
-import type { Metadata } from 'next';
 import { usePublicSettings } from '@/hooks/use-settings';
 
 export default function AboutPage() {
@@ -194,8 +192,3 @@ export default function AboutPage() {
     </div>
   );
 }
-
-export const metadata: Metadata = {
-    title: 'About',
-    description: 'Learn about our process, our values, and the team behind Ampire Studio.',
-};
