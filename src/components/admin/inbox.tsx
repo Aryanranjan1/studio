@@ -1,10 +1,9 @@
-
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, orderBy, where } from 'firebase/firestore';
-import type { Message } from '@/lib/data';
+import { useCollection, useFirestore, useMemoFirebase, useDoc } from '@/firebase';
+import { collection, query, orderBy, where, doc } from 'firebase/firestore';
+import type { Message, SiteConfiguration } from '@/lib/data';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 import { Loader2, Inbox as InboxIcon, Archive, Trash2, Reply, Bot } from 'lucide-react';
@@ -46,7 +45,7 @@ function MessageListItem({
         <div className="flex items-center">
           <div className="flex items-center gap-2">
             <div className="font-semibold">{message.senderName}</div>
-            {message.status === 'unread' && (
+            {message.status === 'unread' && !message.isArchived && (
               <span className="flex h-2 w-2 rounded-full bg-blue-600" />
             )}
           </div>
@@ -68,7 +67,15 @@ function MessageListItem({
   );
 }
 
-function MessageDisplay({ message, onActionComplete }: { message: Message | null, onActionComplete: () => void }) {
+function MessageDisplay({
+  message,
+  settings,
+  onActionComplete,
+}: {
+  message: Message | null;
+  settings: SiteConfiguration | null;
+  onActionComplete: () => void;
+}) {
     const [isReplying, setIsReplying] = useState(false);
     const { toast } = useToast();
     const firestore = useFirestore();
@@ -83,11 +90,11 @@ function MessageDisplay({ message, onActionComplete }: { message: Message | null
         onActionComplete();
     }
 
-    const handleArchive = () => {
+    const handleArchiveToggle = () => {
         if (!firestore || !message) return;
-        archiveMessage(firestore, message.id, true);
+        archiveMessage(firestore, message.id, !message.isArchived);
         toast({
-            title: "Message Archived",
+            title: message.isArchived ? "Message moved to inbox" : "Message Archived",
         });
         onActionComplete();
     }
@@ -106,9 +113,9 @@ function MessageDisplay({ message, onActionComplete }: { message: Message | null
       <div className="flex h-full flex-col">
         <div className="flex items-center p-4 border-b">
             <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" disabled={isReplying} onClick={handleArchive}>
+                <Button variant="ghost" size="icon" disabled={isReplying} onClick={handleArchiveToggle}>
                     <Archive className="h-4 w-4" />
-                    <span className="sr-only">Archive</span>
+                    <span className="sr-only">{message.isArchived ? "Unarchive" : "Archive"}</span>
                 </Button>
                 
                  <AlertDialog>
@@ -137,12 +144,14 @@ function MessageDisplay({ message, onActionComplete }: { message: Message | null
                     </AlertDialogContent>
                 </AlertDialog>
             </div>
-             <div className="ml-auto">
-                <Button onClick={() => setIsReplying(!isReplying)}>
-                    <Reply className="mr-2 h-4 w-4" />
-                    {isReplying ? 'Cancel' : 'Reply'}
-                </Button>
-            </div>
+             {settings?.emailConfig?.enabled && (
+                <div className="ml-auto">
+                    <Button onClick={() => setIsReplying(!isReplying)} disabled={message.isArchived}>
+                        <Reply className="mr-2 h-4 w-4" />
+                        {isReplying ? 'Cancel' : 'Reply'}
+                    </Button>
+                </div>
+             )}
         </div>
         <div className="flex-1 overflow-auto p-4 space-y-6">
             <div className="flex items-start gap-4">
@@ -171,10 +180,12 @@ function MessageDisplay({ message, onActionComplete }: { message: Message | null
                         className="bg-background"
                     />
                      <div className="flex justify-between">
-                        <Button variant="ghost" size="sm">
-                            <Bot className="mr-2 h-4 w-4" />
-                            Generate with AI
-                        </Button>
+                        {settings?.aiConfig?.enabled ? (
+                            <Button variant="ghost" size="sm">
+                                <Bot className="mr-2 h-4 w-4" />
+                                Generate with AI
+                            </Button>
+                        ) : <div />}
                         <Button>Send Reply</Button>
                      </div>
                 </div>
@@ -187,21 +198,26 @@ function MessageDisplay({ message, onActionComplete }: { message: Message | null
 export function Inbox() {
   const firestore = useFirestore();
   const [selectedMessage, setSelectedMessage] = useState<string | null>(null);
+  const [view, setView] = useState<'inbox' | 'archived'>('inbox');
+
+  const settingsRef = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return doc(firestore, 'site_settings', 'config');
+  }, [firestore]);
+  const { data: settings, isLoading: settingsLoading } = useDoc<SiteConfiguration>(settingsRef);
 
   const messagesQuery = useMemoFirebase(() => {
     if (!firestore) return null;
-    // Query now filters out archived messages, but does not order.
     return query(
       collection(firestore, 'messages'), 
-      where('isArchived', '==', false)
+      where('isArchived', '==', view === 'archived')
     );
-  }, [firestore]);
+  }, [firestore, view]);
 
-  const { data: messages, isLoading, error } = useCollection<Message>(messagesQuery);
+  const { data: messages, isLoading: messagesLoading, error } = useCollection<Message>(messagesQuery);
   
   const sortedMessages = useMemo(() => {
       if (!messages) return [];
-      // Sort messages on the client-side
       return [...messages].sort((a, b) => {
           const dateA = a.receivedAt?.toDate ? a.receivedAt.toDate().getTime() : 0;
           const dateB = b.receivedAt?.toDate ? b.receivedAt.toDate().getTime() : 0;
@@ -217,6 +233,8 @@ export function Inbox() {
     setSelectedMessage(null);
   };
   
+  const isLoading = messagesLoading || settingsLoading;
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -234,7 +252,13 @@ export function Inbox() {
     <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] lg:grid-cols-[350px_1fr] h-full rounded-lg border shadow-sm">
       <div className="flex flex-col border-r overflow-y-auto">
         <div className="border-b p-4">
-          <h1 className="text-lg font-semibold">Inbox</h1>
+            <div className="flex items-center justify-between mb-2">
+                <h1 className="text-lg font-semibold">{view === 'inbox' ? 'Inbox' : 'Archived'}</h1>
+                <div className="flex items-center gap-1">
+                    <Button variant={view === 'inbox' ? 'secondary' : 'ghost'} size="sm" onClick={() => setView('inbox')}>Inbox</Button>
+                    <Button variant={view === 'archived' ? 'secondary' : 'ghost'} size="sm" onClick={() => setView('archived')}>Archived</Button>
+                </div>
+            </div>
           <p className="text-sm text-muted-foreground">{sortedMessages.length || 0} messages</p>
         </div>
         <div className="flex flex-col gap-2 p-2">
@@ -250,14 +274,18 @@ export function Inbox() {
           ) : (
             <div className="p-4 text-center text-muted-foreground">
                 <InboxIcon className="w-8 h-8 mx-auto mb-2"/>
-                No messages yet.
+                No messages found.
             </div>
           )}
         </div>
       </div>
       
       <div className="flex flex-col">
-        <MessageDisplay message={selectedMessageData} onActionComplete={handleActionComplete} />
+        <MessageDisplay 
+            message={selectedMessageData} 
+            settings={settings}
+            onActionComplete={handleActionComplete} 
+        />
       </div>
     </div>
   );
