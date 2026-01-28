@@ -9,9 +9,10 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Terminal, Info, Lock, Image as ImageIcon, Contact, Megaphone } from 'lucide-react';
+import { Terminal, Info, Lock, Image as ImageIcon, Contact, Megaphone, Link as LinkIcon, FileText } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import type { PageTypeRules } from '@/lib/firestore/settings';
+import Link from 'next/link';
 
 const defaultIndexingRules: PageTypeRules = {
   blog: { index: true, follow: true },
@@ -243,6 +244,60 @@ export function SettingsForm() {
               })}
             </div>
           </div>
+        </CardContent>
+      </Card>
+      
+      {/* Generated SEO Files Card */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Live SEO Files</CardTitle>
+          <CardDescription>
+            These files are generated dynamically based on your settings. Click to verify their current content.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+            <div className="flex items-center justify-between rounded-lg border p-4">
+              <div className="flex items-center gap-3">
+                  <FileText className="h-4 w-4 text-muted-foreground" />
+                  <div>
+                      <p className="font-semibold">robots.txt</p>
+                      <p className="text-sm text-muted-foreground">Rules for web crawlers.</p>
+                  </div>
+              </div>
+              <Button asChild variant="outline" size="sm">
+                  <Link href="/robots.txt" target="_blank">
+                      View File <LinkIcon className="ml-2 h-4 w-4" />
+                  </Link>
+              </Button>
+            </div>
+            <div className="flex items-center justify-between rounded-lg border p-4">
+              <div className="flex items-center gap-3">
+                  <FileText className="h-4 w-4 text-muted-foreground" />
+                  <div>
+                      <p className="font-semibold">sitemap.xml</p>
+                      <p className="text-sm text-muted-foreground">Index of all public pages.</p>
+                  </div>
+              </div>
+              <Button asChild variant="outline" size="sm">
+                  <Link href="/sitemap.xml" target="_blank">
+                      View File <LinkIcon className="ml-2 h-4 w-4" />
+                  </Link>
+              </Button>
+            </div>
+            <div className="flex items-center justify-between rounded-lg border p-4">
+              <div className="flex items-center gap-3">
+                  <FileText className="h-4 w-4 text-muted-foreground" />
+                  <div>
+                      <p className="font-semibold">llms.txt</p>
+                      <p className="text-sm text-muted-foreground">Instructions for AI crawlers.</p>
+                  </div>
+              </div>
+              <Button asChild variant="outline" size="sm">
+                  <Link href="/llms.txt" target="_blank">
+                      View File <LinkIcon className="ml-2 h-4 w-4" />
+                  </Link>
+              </Button>
+            </div>
         </CardContent>
       </Card>
     </div>
