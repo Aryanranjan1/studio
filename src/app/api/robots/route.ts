@@ -3,11 +3,11 @@ import { getSiteSettings } from '@/lib/firestore/settings.server';
 
 export async function GET() {
     const settings = await getSiteSettings();
-    const BASE_URL = settings?.seoConfig?.baseSiteUrl || 'https://www.ampire.studio';
-    const isIndexingEnabled = settings?.seoConfig?.globalIndexingEnabled ?? true;
+    const BASE_URL = settings?.seoConfig?.baseSiteUrl || 'http://localhost:9003'; // Fallback for local dev
 
-    const content = isIndexingEnabled
-        ? `User-agent: *
+    // Default content if nothing is set in the database.
+    // The {SITEMAP_URL} placeholder will be replaced.
+    const defaultContent = `User-agent: *
 Allow: /
 
 # Disallowed admin and private paths
@@ -18,11 +18,14 @@ Disallow: /contract/
 Disallow: /intake/
 Disallow: /login
 
-Sitemap: ${BASE_URL}/sitemap.xml
-`
-        : `User-agent: *
-Disallow: /
+Sitemap: {SITEMAP_URL}
 `;
+
+    // Use content from settings if available, otherwise use default.
+    let content = settings?.seoConfig?.robotsTxtContent || defaultContent;
+    
+    // Dynamically and correctly replace the placeholder with the full sitemap URL.
+    content = content.replace(/{SITEMAP_URL}/g, `${BASE_URL}/sitemap.xml`);
 
     return new Response(content.trim(), {
         headers: {

@@ -154,6 +154,8 @@
                 "defaultMetaTitleTemplate": { "type": "string" },
                 "defaultMetaDescription": { "type": "string" },
                 "globalIndexingEnabled": { "type": "boolean" },
+                "robotsTxtContent": { "type": "string", "description": "The full content of the robots.txt file." },
+                "llmsTxtContent": { "type": "string", "description": "The full content of the llms.txt file." },
                 "pageTypeRules": {
                   "type": "object",
                   "properties": {
@@ -692,13 +694,3 @@
     "reasoning": "This Firestore data structure is designed to support the AMpire Studio Dynamic Showcase application, focusing on user authentication, admin profiles, and future content management needs. It prioritizes security, scalability, and debuggability following the core design principles. Path-based ownership is used for user data, and a dedicated collection is used for admin profiles. The structure is designed to enable simple and robust security rules and facilitate listing operations (QAPs). This design avoids hierarchical authorization dependencies."
   }
 }
-    
-    
-
-    
-
-    
-
-    
-
-    

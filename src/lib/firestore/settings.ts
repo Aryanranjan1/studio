@@ -57,6 +57,8 @@ export type SiteConfiguration = {
     defaultMetaDescription?: string;
     globalIndexingEnabled: boolean;
     pageTypeRules: PageTypeRules;
+    robotsTxtContent?: string;
+    llmsTxtContent?: string;
   };
   emailConfig: {
     enabled: boolean;

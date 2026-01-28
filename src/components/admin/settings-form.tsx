@@ -13,6 +13,7 @@ import { Terminal, Info, Lock, Image as ImageIcon, Contact, Megaphone, Link as L
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import type { PageTypeRules } from '@/lib/firestore/settings';
 import Link from 'next/link';
+import { Textarea } from '../ui/textarea';
 
 const defaultIndexingRules: PageTypeRules = {
   blog: { index: true, follow: true },
@@ -220,6 +221,10 @@ export function SettingsForm() {
           </div>
           <div>
             <h4 className="font-medium mb-4">Page-Type Indexing Rules</h4>
+             <p className="text-sm text-muted-foreground mb-4">
+              These rules control if a page type is included in search results and sitemaps.
+              Private content types are locked for security.
+            </p>
             <div className="space-y-4">
               {(Object.keys(defaultIndexingRules) as Array<keyof PageTypeRules>).map((pageType) => {
                 const isLocked = nonConfigurablePageTypes.includes(pageType);
@@ -244,60 +249,42 @@ export function SettingsForm() {
               })}
             </div>
           </div>
-        </CardContent>
-      </Card>
-      
-      {/* Generated SEO Files Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Live SEO Files</CardTitle>
-          <CardDescription>
-            These files are generated dynamically based on your settings. Click to verify their current content.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-            <div className="flex items-center justify-between rounded-lg border p-4">
-              <div className="flex items-center gap-3">
-                  <FileText className="h-4 w-4 text-muted-foreground" />
-                  <div>
-                      <p className="font-semibold">robots.txt</p>
-                      <p className="text-sm text-muted-foreground">Rules for web crawlers.</p>
-                  </div>
-              </div>
-              <Button asChild variant="outline" size="sm">
-                  <Link href="/robots.txt" target="_blank">
-                      View File <LinkIcon className="ml-2 h-4 w-4" />
-                  </Link>
-              </Button>
-            </div>
-            <div className="flex items-center justify-between rounded-lg border p-4">
-              <div className="flex items-center gap-3">
-                  <FileText className="h-4 w-4 text-muted-foreground" />
-                  <div>
-                      <p className="font-semibold">sitemap.xml</p>
-                      <p className="text-sm text-muted-foreground">Index of all public pages.</p>
-                  </div>
-              </div>
-              <Button asChild variant="outline" size="sm">
-                  <Link href="/sitemap.xml" target="_blank">
-                      View File <LinkIcon className="ml-2 h-4 w-4" />
-                  </Link>
-              </Button>
-            </div>
-            <div className="flex items-center justify-between rounded-lg border p-4">
-              <div className="flex items-center gap-3">
-                  <FileText className="h-4 w-4 text-muted-foreground" />
-                  <div>
-                      <p className="font-semibold">llms.txt</p>
-                      <p className="text-sm text-muted-foreground">Instructions for AI crawlers.</p>
-                  </div>
-              </div>
-              <Button asChild variant="outline" size="sm">
-                  <Link href="/llms.txt" target="_blank">
-                      View File <LinkIcon className="ml-2 h-4 w-4" />
-                  </Link>
-              </Button>
-            </div>
+           <div>
+              <Label htmlFor="seoConfig.robotsTxtContent">robots.txt Content</Label>
+              <Textarea 
+                  id="seoConfig.robotsTxtContent"
+                  {...register('seoConfig.robotsTxtContent')}
+                  rows={10}
+                  className="font-mono text-xs"
+              />
+              <Alert className="mt-2">
+                <Terminal className="h-4 w-4" />
+                <AlertTitle>Dynamic Sitemap URL</AlertTitle>
+                <AlertDescription>
+                  The placeholder <code>{'{SITEMAP_URL}'}</code> will be automatically replaced with the full sitemap URL based on your Base Site URL setting. You can <Link href="/robots.txt" target="_blank" className="underline">view the live file here</Link>.
+                </AlertDescription>
+              </Alert>
+          </div>
+
+          <div>
+              <Label htmlFor="seoConfig.llmsTxtContent">llms.txt Content</Label>
+              <Textarea
+                  id="seoConfig.llmsTxtContent"
+                  {...register('seoConfig.llmsTxtContent')}
+                  rows={10}
+                  className="font-mono text-xs"
+              />
+               <p className="text-xs text-muted-foreground mt-2">
+                  This file provides instructions for AI crawlers. <Link href="/llms.txt" target="_blank" className="underline">View the live file here</Link>.
+               </p>
+          </div>
+          <Alert>
+              <FileText className="h-4 w-4" />
+              <AlertTitle>Automatic Sitemap</AlertTitle>
+              <AlertDescription>
+                Your sitemap is generated automatically based on your published content and indexing rules. No manual editing is required. You can <Link href="/sitemap.xml" target="_blank" className="underline">view the live sitemap here</Link>.
+              </AlertDescription>
+            </Alert>
         </CardContent>
       </Card>
     </div>

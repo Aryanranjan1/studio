@@ -52,10 +52,9 @@ const formSchema = z.object({
     socialLinks: z.object({
       linkedin: z.string().url().optional().or(z.literal('')),
       instagram: z.string().url().optional().or(z.literal('')),
-      facebook: z.string().url().optional().or(z.literal('')),
       pinterest: z.string().url().optional().or(z.literal('')),
-      youtube: z.string().url().optional().or(z.literal('')),
       dribbble: z.string().url().optional().or(z.literal('')),
+      youtube: z.string().url().optional().or(z.literal('')),
     }).optional()
   }),
   seoConfig: z.object({
@@ -64,6 +63,8 @@ const formSchema = z.object({
       defaultMetaDescription: z.string().optional(),
       globalIndexingEnabled: z.boolean(),
       pageTypeRules: pageTypeRulesSchema,
+      robotsTxtContent: z.string().optional(),
+      llmsTxtContent: z.string().optional(),
   }),
   emailConfig: z.object({
     enabled: z.boolean(),
@@ -92,10 +93,29 @@ const defaultIndexingRules: PageTypeRules = {
   timeline: { index: false, follow: false },
 };
 
+const defaultRobotsTxt = `User-agent: *
+Allow: /
+
+# Disallowed admin and private paths
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /proposal/
+Disallow: /contract/
+Disallow: /intake/
+Disallow: /login
+
+Sitemap: {SITEMAP_URL}
+`;
+
+const defaultLlmsTxt = `User-agent: *
+Allow: /
+Disallow: /admin/
+`;
+
 const defaultValues: SettingsFormValues = {
   brandingConfig: { websiteName: '', brandName: '', logoUrl: '', squareLogoUrl: '', faviconUrl: '', defaultOgImageUrl: '' },
-  contactConfig: { primaryEmail: '', supportEmail: '', phone: '', address: '', country: '', businessHours: '', socialLinks: { linkedin: '', instagram: '', facebook: '', pinterest: '', youtube: '', dribbble: '' } },
-  seoConfig: { baseSiteUrl: '', defaultMetaTitleTemplate: '%s | Ampire Studio', defaultMetaDescription: '', globalIndexingEnabled: true, pageTypeRules: defaultIndexingRules },
+  contactConfig: { primaryEmail: '', supportEmail: '', phone: '', address: '', country: '', businessHours: '', socialLinks: { linkedin: '', instagram: '', pinterest: '', dribbble: '', youtube: '' } },
+  seoConfig: { baseSiteUrl: '', defaultMetaTitleTemplate: '%s | Ampire Studio', defaultMetaDescription: '', globalIndexingEnabled: true, pageTypeRules: defaultIndexingRules, robotsTxtContent: defaultRobotsTxt, llmsTxtContent: defaultLlmsTxt },
   emailConfig: { enabled: false, senderName: '', senderEmail: '' },
   aiConfig: { enabled: false, provider: 'gemini' },
 };
@@ -119,7 +139,7 @@ export default function SettingsPage() {
                 ...defaultValues,
                 ...settingsData,
                 brandingConfig: { ...defaultValues.brandingConfig, ...settingsData.brandingConfig },
-                contactConfig: { ...defaultValues.contactConfig, ...settingsData.contactConfig, socialLinks: { ...defaultValues.contactConfig.socialLinks, ...settingsData.contactConfig?.socialLinks } },
+                contactConfig: { ...defaultValues.contactConfig, ...settingsData.contactConfig, socialLinks: { ...defaultValues.contactConfig?.socialLinks, ...settingsData.contactConfig?.socialLinks } },
                 seoConfig: {
                     ...defaultValues.seoConfig,
                     ...settingsData.seoConfig,
