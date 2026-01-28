@@ -1,4 +1,3 @@
-
 'use client';
 
 import { notFound, useParams } from 'next/navigation';
@@ -12,7 +11,7 @@ import './page.css';
 import { Footer } from '@/components/footer';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ShoppingCart } from 'lucide-react';
-import { getTemplates } from '@/lib/data';
+import { usePublicTemplates } from '@/hooks/use-templates';
 
 export default function ProjectDetailPage() {
   const params = useParams();
@@ -32,16 +31,16 @@ export default function ProjectDetailPage() {
   const { data: projects, isLoading: projectLoading, error } = useCollection<PortfolioProject>(projectQuery);
   const project = projects?.[0];
 
+  const { data: allTemplates } = usePublicTemplates();
   const [matchingTemplate, setMatchingTemplate] = useState<Template | null>(null);
 
   useEffect(() => {
-    if (project) {
+    if (project && allTemplates) {
       document.title = `Ampire // ${project.title}`;
-      const allTemplates = getTemplates();
-      const template = allTemplates.find(t => t.id === `template-${project.slug}`);
+      const template = allTemplates.find(t => t.slug === project.slug);
       setMatchingTemplate(template || null);
     }
-  }, [project]);
+  }, [project, allTemplates]);
 
   useEffect(() => {
     if ((!projectLoading && !project) || error) {
@@ -82,7 +81,7 @@ export default function ProjectDetailPage() {
                     )}
                     {matchingTemplate && (
                        <Button asChild size="lg" variant="secondary" className="rounded-none">
-                            <Link href={`/store/${matchingTemplate.id}`}>
+                            <Link href={`/store/${matchingTemplate.slug}`}>
                                 Go to Store <ShoppingCart className="ml-2 h-5 w-5" />
                             </Link>
                        </Button>

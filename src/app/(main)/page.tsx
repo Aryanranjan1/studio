@@ -3,11 +3,12 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import { getProjects } from '@/lib/data';
 import { useLenis } from '@studio-freight/react-lenis';
 import { Button } from '@/components/ui/button';
 import { MoveRight } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { usePublicProjects } from '@/hooks/use-projects';
+import type { PortfolioProject } from '@/lib/data';
 
 // Dynamically import the WireframeHero component
 const WireframeHero = dynamic(
@@ -51,23 +52,23 @@ const CtaSection = dynamic(
 
 
 // --- PROJECT CARD COMPONENT ---
-const ProjectCard = ({ project, index }: { project: any; index: number }) => {
+const ProjectCard = ({ project, index }: { project: PortfolioProject; index: number }) => {
   return (
     <div className="project-card mb-8 last:mb-0">
       <div className="img-wrapper group overflow-hidden border border-border mb-5 relative h-[300px] md:h-[450px] block">
         <Link href={`/portfolio/${project.slug}`} className="block h-full w-full">
           <Image
-            src={project.image}
-            alt={project.imageAlt}
+            src={project.cardImage.url}
+            alt={project.cardImage.alt}
             fill
             className="object-contain transition-all duration-700 ease-out group-hover:scale-105"
             loading="lazy"
           />
         </Link>
-        {project.url && (
+        {project.projectUrl && (
             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
                 <Button asChild variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-black backdrop-blur-sm pointer-events-auto">
-                    <a href={project.url} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+                    <a href={project.projectUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
                         View
                     </a>
                 </Button>
@@ -89,12 +90,14 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
 
 // --- MAIN PAGE ---
 export default function Home() {
-  const projects = getProjects().slice(0, 6);
+  const { data: projects, isLoading: projectsLoading } = usePublicProjects();
 
   // Lenis smooth scroll
   useLenis((lenis) => {
     // lenis operations
   });
+
+  const displayedProjects = projects?.slice(0, 6) || [];
 
   return (
     <>
@@ -110,7 +113,7 @@ export default function Home() {
           <HorizontalServices />
 
           {/* 4. Projects Section (Responsive Layout) */}
-          {projects.length > 0 && (
+          {(projectsLoading || displayedProjects.length > 0) && (
             <section className="projects-section relative w-full border-b border-border">
               <div className="container max-w-[1400px] mx-auto px-4 lg:px-0 lg:border-l lg:border-r border-border">
                 <div className="project-layout flex flex-col lg:flex-row">
@@ -124,9 +127,16 @@ export default function Home() {
                   {/* Right Panel (Grid on Tablet/Mobile, Scroll on Desktop) */}
                   <div className="right-panel w-full lg:w-3/5 p-6 lg:pl-10 lg:py-16">
                     <div className="project-list grid grid-cols-1 gap-x-8">
-                      {projects.map((p, i) => (
-                        <ProjectCard key={p.id} project={p} index={i} />
-                      ))}
+                      {projectsLoading ? (
+                        <>
+                          <Skeleton className="h-[500px] w-full mb-8" />
+                          <Skeleton className="h-[500px] w-full mb-8" />
+                        </>
+                      ) : (
+                        displayedProjects.map((p, i) => (
+                          <ProjectCard key={p.id} project={p} index={i} />
+                        ))
+                      )}
                     </div>
                   </div>
 
