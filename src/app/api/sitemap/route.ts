@@ -4,6 +4,8 @@ import { getAllPublicBlogs } from '@/lib/firestore/blog.server';
 import { getAllPublicPortfolioProjects } from '@/lib/firestore/portfolio.server';
 import { getAllPublicTemplates } from '@/lib/firestore/templates.server';
 
+export const dynamic = 'force-dynamic';
+
 // Helper function to safely convert a maybe-timestamp to a Date
 function toDate(value: any): Date {
   if (!value) {

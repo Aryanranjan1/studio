@@ -1,6 +1,8 @@
 
 import { getSiteSettings } from '@/lib/firestore/settings.server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
     const settings = await getSiteSettings();
     const BASE_URL = settings?.seoConfig?.baseSiteUrl || 'http://localhost:9003'; // Fallback for local dev

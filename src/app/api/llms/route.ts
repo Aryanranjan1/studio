@@ -1,6 +1,8 @@
 
 import { getSiteSettings } from '@/lib/firestore/settings.server';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
     const settings = await getSiteSettings();
     
