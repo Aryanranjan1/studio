@@ -41,7 +41,7 @@ export default function LoginPage() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/admin/dashboard');
+      router.push('/admin/home');
     } catch (error: any) {
       toast({
         variant: 'destructive',
