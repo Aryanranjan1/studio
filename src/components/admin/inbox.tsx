@@ -3,13 +3,27 @@
 
 import React, { useState, useMemo } from 'react';
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { collection, query, orderBy } from 'firebase/firestore';
+import { collection, query, orderBy, where } from 'firebase/firestore';
 import type { Message } from '@/lib/data';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 import { Loader2, Inbox as InboxIcon, Archive, Trash2, Reply, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '../ui/textarea';
+import { useToast } from '@/hooks/use-toast';
+import { deleteMessage, archiveMessage } from '@/lib/firestore/messages';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+
 
 function MessageListItem({
   message,
@@ -42,7 +56,7 @@ function MessageListItem({
               isSelected ? 'text-foreground' : 'text-muted-foreground'
             )}
           >
-            {formatDistanceToNow(message.receivedAt.toDate(), { addSuffix: true })}
+            {message.receivedAt && formatDistanceToNow(message.receivedAt.toDate(), { addSuffix: true })}
           </div>
         </div>
         <div className="text-xs font-medium">{message.subject}</div>
@@ -54,8 +68,29 @@ function MessageListItem({
   );
 }
 
-function MessageDisplay({ message }: { message: Message | null }) {
+function MessageDisplay({ message, onActionComplete }: { message: Message | null, onActionComplete: () => void }) {
     const [isReplying, setIsReplying] = useState(false);
+    const { toast } = useToast();
+    const firestore = useFirestore();
+
+    const handleDelete = () => {
+        if (!firestore || !message) return;
+        deleteMessage(firestore, message.id);
+        toast({
+            title: "Message Deleted",
+            description: "The message has been permanently deleted.",
+        });
+        onActionComplete();
+    }
+
+    const handleArchive = () => {
+        if (!firestore || !message) return;
+        archiveMessage(firestore, message.id, true);
+        toast({
+            title: "Message Archived",
+        });
+        onActionComplete();
+    }
     
     if (!message) {
         return (
@@ -71,14 +106,36 @@ function MessageDisplay({ message }: { message: Message | null }) {
       <div className="flex h-full flex-col">
         <div className="flex items-center p-4 border-b">
             <div className="flex items-center gap-2">
-                <Button variant="ghost" size="icon" disabled={isReplying}>
+                <Button variant="ghost" size="icon" disabled={isReplying} onClick={handleArchive}>
                     <Archive className="h-4 w-4" />
                     <span className="sr-only">Archive</span>
                 </Button>
-                <Button variant="ghost" size="icon" disabled={isReplying}>
-                    <Trash2 className="h-4 w-4" />
-                    <span className="sr-only">Move to trash</span>
-                </Button>
+                
+                 <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button variant="ghost" size="icon" disabled={isReplying}>
+                            <Trash2 className="h-4 w-4" />
+                            <span className="sr-only">Move to trash</span>
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete this message.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={handleDelete}
+                            className="bg-destructive hover:bg-destructive/90"
+                          >
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </div>
              <div className="ml-auto">
                 <Button onClick={() => setIsReplying(!isReplying)}>
@@ -93,7 +150,7 @@ function MessageDisplay({ message }: { message: Message | null }) {
                     <div className="flex items-center justify-between">
                         <p className="font-semibold">{message.senderName}</p>
                         <p className="text-xs text-muted-foreground">
-                            {formatDistanceToNow(message.receivedAt.toDate(), { addSuffix: true })}
+                            {message.receivedAt && formatDistanceToNow(message.receivedAt.toDate(), { addSuffix: true })}
                         </p>
                     </div>
                     <p className="text-xs text-muted-foreground">{message.senderEmail}</p>
@@ -125,7 +182,7 @@ function MessageDisplay({ message }: { message: Message | null }) {
         )}
       </div>
     );
-  }
+}
 
 export function Inbox() {
   const firestore = useFirestore();
@@ -133,7 +190,12 @@ export function Inbox() {
 
   const messagesQuery = useMemoFirebase(() => {
     if (!firestore) return null;
-    return query(collection(firestore, 'messages'), orderBy('receivedAt', 'desc'));
+    // Query now filters out archived messages
+    return query(
+      collection(firestore, 'messages'), 
+      where('isArchived', '==', false),
+      orderBy('receivedAt', 'desc')
+    );
   }, [firestore]);
 
   const { data: messages, isLoading, error } = useCollection<Message>(messagesQuery);
@@ -141,6 +203,10 @@ export function Inbox() {
   const selectedMessageData = useMemo(() => {
       return messages?.find(m => m.id === selectedMessage) || null;
   }, [messages, selectedMessage]);
+  
+  const handleActionComplete = () => {
+    setSelectedMessage(null);
+  };
   
   if (isLoading) {
     return (
@@ -182,7 +248,7 @@ export function Inbox() {
       </div>
       
       <div className="flex flex-col">
-        <MessageDisplay message={selectedMessageData} />
+        <MessageDisplay message={selectedMessageData} onActionComplete={handleActionComplete} />
       </div>
     </div>
   );

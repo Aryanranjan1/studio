@@ -5,6 +5,7 @@ import {
   doc,
   addDoc,
   updateDoc,
+  deleteDoc,
   collection,
   serverTimestamp,
   Firestore,
@@ -87,6 +88,26 @@ export function archiveMessage(firestore: Firestore, id: string, isArchived: boo
         path: docRef.path,
         operation: 'update',
         requestResourceData: { isArchived },
+      });
+      errorEmitter.emit('permission-error', permissionError);
+    });
+}
+
+/**
+ * Deletes a message permanently from the 'messages' collection.
+ * This is a non-blocking operation intended for admin use.
+ * @param firestore - The Firestore instance.
+ * @param id - The ID of the message to delete.
+ */
+export function deleteMessage(firestore: Firestore, id: string): void {
+  const docRef = doc(firestore, 'messages', id);
+  
+  deleteDoc(docRef)
+    .catch((error) => {
+      console.error("Error deleting message: ", error);
+      const permissionError = new FirestorePermissionError({
+        path: docRef.path,
+        operation: 'delete',
       });
       errorEmitter.emit('permission-error', permissionError);
     });
