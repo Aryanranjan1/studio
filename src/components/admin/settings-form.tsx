@@ -18,24 +18,28 @@ import { Textarea } from '../ui/textarea';
 const defaultIndexingRules: PageTypeRules = {
   blog: { index: true, follow: true },
   portfolio: { index: true, follow: true },
+  projectDetail: { index: true, follow: true },
   services: { index: true, follow: true },
   about: { index: true, follow: true },
   contact: { index: true, follow: true },
   faq: { index: true, follow: true },
   store: { index: true, follow: true },
+  templateDetail: { index: true, follow: true },
   offerLetter: { index: false, follow: false },
   contract: { index: false, follow: false },
   timeline: { index: false, follow: false },
 };
 
 const pageTypeLabels: Record<keyof PageTypeRules, string> = {
-  blog: 'Blog',
-  portfolio: 'Portfolio',
-  services: 'Services',
-  about: 'About',
-  contact: 'Contact',
-  faq: 'FAQ',
-  store: 'Store / Templates',
+  blog: 'Blog Pages (Listing & Detail)',
+  portfolio: 'Portfolio Listing Page',
+  projectDetail: 'Project Detail Pages',
+  services: 'Services Page',
+  about: 'About Page',
+  contact: 'Contact Page',
+  faq: 'FAQ Page',
+  store: 'Store Listing Page',
+  templateDetail: 'Template Detail Pages',
   offerLetter: 'Offer Letters / Proposals',
   contract: 'Contracts',
   timeline: 'Client Timelines / Dashboards',
@@ -195,7 +199,7 @@ export function SettingsForm() {
         <CardContent className="space-y-6">
             <div>
                 <Label htmlFor="seoConfig.baseSiteUrl">Base Site URL</Label>
-                <Input id="seoConfig.baseSiteUrl" {...register('seoConfig.baseSiteUrl')} placeholder="https://www.ampire.studio" />
+                <Input id="seoConfig.baseSiteUrl" {...register('seoConfig.baseSiteUrl')} placeholder="https://www.ampirestudio.com" />
                 {(errors.seoConfig as any)?.baseSiteUrl && <p className="text-sm text-destructive mt-1">{(errors.seoConfig as any).baseSiteUrl.message}</p>}
             </div>
              <div>

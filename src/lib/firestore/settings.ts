@@ -17,11 +17,13 @@ export type IndexingRule = {
 export type PageTypeRules = {
   blog: IndexingRule;
   portfolio: IndexingRule;
+  projectDetail: IndexingRule; // New
   services: IndexingRule;
   about: IndexingRule;
   contact: IndexingRule;
   faq: IndexingRule;
   store: IndexingRule;
+  templateDetail: IndexingRule; // New
   offerLetter: IndexingRule;
   contract: IndexingRule;
   timeline: IndexingRule;
