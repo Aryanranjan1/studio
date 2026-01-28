@@ -40,8 +40,8 @@ const navItems = [
 
 function AdminNav() {
     return (
-        <div className="hidden border-r bg-muted/40 md:block">
-            <div className="flex h-full max-h-screen flex-col gap-2">
+        <div className="hidden border-r bg-muted/40 md:block sticky top-0 h-screen">
+            <div className="flex h-full flex-col gap-2">
                 <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
                     <Link href="/" className="flex items-center gap-2 font-semibold">
                         <Crown className="h-6 w-6 text-primary" />
@@ -88,7 +88,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
         <AdminNav />
-        <div className="flex flex-col max-h-screen overflow-y-auto">
+        <div className="flex flex-col">
             {/* Mobile Header */}
             <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6 md:hidden sticky top-0 z-10 bg-background">
                  <Sheet>
