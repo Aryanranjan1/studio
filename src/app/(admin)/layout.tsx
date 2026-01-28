@@ -17,7 +17,8 @@ import {
     FileSignature,
     GanttChartSquare,
     Users,
-    Database
+    Database,
+    MessageSquareQuote
 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -29,6 +30,7 @@ const navItems = [
     { href: '/admin/portfolio', label: 'Portfolio', icon: Briefcase },
     { href: '/admin/templates', label: 'Templates', icon: LayoutTemplate },
     { href: '/admin/faq', label: 'FAQ', icon: HelpCircle },
+    { href: '/admin/testimonials', label: 'Testimonials', icon: MessageSquareQuote },
     { href: '/admin/messages', label: 'Messages', icon: Mails },
     { href: '/admin/offerletter', label: 'Offer Letter', icon: FileText },
     { href: '/admin/contract', label: 'Contract', icon: FileSignature },
