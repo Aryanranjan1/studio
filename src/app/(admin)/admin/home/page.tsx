@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useUser, useFirestore, useDoc, useMemoFirebase } from '@/firebase';
@@ -6,6 +5,8 @@ import { doc } from 'firebase/firestore';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Shield, ShieldOff, Loader2 } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 function AdminStatusCard() {
   const { user } = useUser();
@@ -54,17 +55,20 @@ function AdminStatusCard() {
               <p className="text-sm text-muted-foreground">User UID</p>
               <p className="font-mono text-sm bg-muted rounded p-2 mt-1 break-all">{user.uid}</p>
             </div>
+            <Button asChild className="w-full">
+                <Link href="/home">Go to Main Dashboard</Link>
+            </Button>
         </CardContent>
       </Card>
   )
 }
 
 
-export default function AdminDashboardPage() {
+export default function AdminDiagnosticPage() {
     return (
       <>
         <div className="flex items-center">
-          <h1 className="text-lg font-semibold md:text-2xl">Admin Dashboard</h1>
+          <h1 className="text-lg font-semibold md:text-2xl">Admin Diagnostic</h1>
         </div>
         <div
           className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
@@ -74,7 +78,7 @@ export default function AdminDashboardPage() {
               Welcome to the Admin Panel
             </h3>
             <p className="text-sm text-muted-foreground">
-              You can manage your site content from here.
+              This is a diagnostic page. Use the main dashboard for site management.
             </p>
           </div>
         </div>
