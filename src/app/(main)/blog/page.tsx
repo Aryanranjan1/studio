@@ -137,7 +137,7 @@ export default function BlogPage() {
           <span className="meta-tag">FEATURED // {featuredArticle.category.toUpperCase()}</span>
           <h2 className="feat-title">{featuredArticle.title}</h2>
           <p className="feat-excerpt">{featuredArticle.excerpt}</p>
-          <Link href={`/blog/${featuredArticle.id}`} className="read-btn">
+          <Link href={`/blog/${featuredArticle.slug}`} className="read-btn">
             ACCESS FILE &rarr;
           </Link>
         </div>
@@ -147,7 +147,7 @@ export default function BlogPage() {
 
       <section className="blog-grid">
         {paginatedArticles.map(article => (
-          <Link href={`/blog/${article.id}`} className="article-card" key={article.id}>
+          <Link href={`/blog/${article.slug}`} className="article-card" key={article.id}>
             <div className="art-img-wrapper">
               <Image
                 src={article.cardImage.url}

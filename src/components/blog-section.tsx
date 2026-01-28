@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
@@ -70,7 +71,7 @@ export function BlogSection() {
         <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-8">
           {/* Featured Article */}
           {latestArticle && (
-            <Link href={`/blog/${latestArticle.id}`} className="group">
+            <Link href={`/blog/${latestArticle.slug}`} className="group">
               <div className="overflow-hidden rounded-2xl">
                 <Image
                   src={latestArticle.featuredImage.url}
@@ -99,7 +100,7 @@ export function BlogSection() {
           {/* Article List */}
           <div className="flex flex-col gap-8">
             {otherArticles.map(article => (
-              <Link href={`/blog/${article.id}`} key={article.id} className="group flex items-center gap-6">
+              <Link href={`/blog/${article.slug}`} key={article.id} className="group flex items-center gap-6">
                  <div className="relative h-28 w-28 flex-shrink-0 overflow-hidden rounded-2xl">
                     <Image
                       src={article.cardImage.url}

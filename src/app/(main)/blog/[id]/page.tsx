@@ -4,31 +4,34 @@
 import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState, useRef, useMemo } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import type { Article } from '@/lib/data';
 import './page.css';
 import { Footer } from '@/components/footer';
-import { useDoc, useCollection, useFirestore, useMemoFirebase } from '@/firebase';
-import { doc, collection, query, orderBy } from 'firebase/firestore';
+import { useCollection, useFirestore, useMemoFirebase } from '@/firebase';
+import { collection, query, orderBy, where, limit } from 'firebase/firestore';
+import { useLenis } from '@studio-freight/react-lenis';
 
 export default function ArticlePage() {
   const params = useParams();
-  const id = params.id as string;
+  const slug = params.id as string; // The dynamic route param is the slug
   const firestore = useFirestore();
+  const lenis = useLenis();
   
-  // Fetch the current article
-  const articleRef = useMemoFirebase(() => {
-      if (!firestore || !id) return null;
-      return doc(firestore, 'blogs', id);
-  }, [firestore, id]);
-  const { data: article, isLoading: articleLoading } = useDoc<Article>(articleRef);
+  // Fetch the current article by slug
+  const articleQuery = useMemoFirebase(() => {
+      if (!firestore || !slug) return null;
+      return query(collection(firestore, 'blogs'), where('slug', '==', slug), limit(1));
+  }, [firestore, slug]);
+  const { data: articles, isLoading: articleLoading } = useCollection<Article>(articleQuery);
+  const article = articles?.[0];
   
   // Fetch other articles for recommendations
-  const articlesQuery = useMemoFirebase(() => {
+  const allArticlesQuery = useMemoFirebase(() => {
       if (!firestore) return null;
       return query(collection(firestore, 'blogs'), orderBy('date', 'desc'));
   }, [firestore]);
-  const { data: allArticles } = useCollection<Article>(articlesQuery);
+  const { data: allArticles } = useCollection<Article>(allArticlesQuery);
 
   const [nextArticle, setNextArticle] = useState<Article | null>(null);
   const [otherArticles, setOtherArticles] = useState<Article[]>([]);
@@ -36,6 +39,11 @@ export default function ArticlePage() {
   const [activeId, setActiveId] = useState('');
   const contentRef = useRef<HTMLElement>(null);
   
+  const handleTocClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    lenis?.scrollTo(`#${id}`, { offset: -80 }); // Use Lenis for smooth scroll, offset for header
+  };
+
   // Find next and other articles once all articles are loaded
   useEffect(() => {
     if (article && allArticles) {
@@ -169,7 +177,7 @@ export default function ArticlePage() {
                 <ul className="toc-list">
                     {headings.map((h, i) => (
                       <li key={h.id}>
-                        <a href={`#${h.id}`} className={activeId === h.id ? 'active' : ''}>
+                        <a href={`#${h.id}`} onClick={(e) => handleTocClick(e, h.id)} className={activeId === h.id ? 'active' : ''}>
                           {String(i + 1).padStart(2, '0')}. {h.text}
                         </a>
                       </li>
@@ -185,7 +193,7 @@ export default function ArticlePage() {
                 <h2 className="rec-title">Further Reading</h2>
                 <div className="rec-grid">
                     {otherArticles.map(rec => (
-                        <Link href={`/blog/${rec.id}`} key={rec.id} className="article-card">
+                        <Link href={`/blog/${rec.slug}`} key={rec.id} className="article-card">
                             <div className="art-img-wrapper">
                                 <Image src={rec.cardImage.url} alt={rec.cardImage.alt} width={500} height={300} className="art-img" loading="lazy" />
                             </div>
@@ -207,7 +215,7 @@ export default function ArticlePage() {
         {nextArticle && (
             <div className="next-post">
                 <span className="next-label">NEXT_TRANSMISSION &darr;</span>
-                <Link href={`/blog/${nextArticle.id}`} className="next-title">{nextArticle.title}</Link>
+                <Link href={`/blog/${nextArticle.slug}`} className="next-title">{nextArticle.title}</Link>
             </div>
         )}
         
