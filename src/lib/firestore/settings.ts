@@ -43,6 +43,11 @@ export type SiteConfiguration = {
     globalIndexingEnabled: boolean;
     pageTypeRules: PageTypeRules;
   };
+  brandingConfig?: {
+    logoUrl?: string;
+    faviconUrl?: string;
+    defaultOgImageUrl?: string;
+  };
 };
 
 // --- WRITE OPERATIONS (FOR ADMIN) ---
@@ -107,5 +112,7 @@ export async function getSiteSettings(): Promise<SiteConfiguration | null> {
     return null;
   }
 }
+
+    
 
     

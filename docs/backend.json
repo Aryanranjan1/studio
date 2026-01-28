@@ -158,6 +158,14 @@
               }
             }
           }
+        },
+        "brandingConfig": {
+            "type": "object",
+            "properties": {
+                "logoUrl": { "type": "string", "format": "uri" },
+                "faviconUrl": { "type": "string", "format": "uri" },
+                "defaultOgImageUrl": { "type": "string", "format": "uri" }
+            }
         }
       }
     },

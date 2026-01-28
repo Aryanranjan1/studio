@@ -2,6 +2,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   Tooltip,
@@ -32,7 +33,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { socialLinks } from '@/lib/social-links';
-import { Separator } from './ui/separator';
+import { useDoc, useFirestore, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
+import type { SiteConfiguration } from '@/lib/firestore/settings';
 
 
 const mainNavLinks = [
@@ -83,6 +86,15 @@ const NavLink = ({
 };
 
 export function Header() {
+  const firestore = useFirestore();
+  const settingsRef = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return doc(firestore, 'site_settings', 'config');
+  }, [firestore]);
+
+  const { data: settings } = useDoc<SiteConfiguration>(settingsRef);
+  const logoUrl = settings?.brandingConfig?.logoUrl;
+
   return (
     <>
       {/* Desktop Sidebar */}
@@ -90,7 +102,11 @@ export function Header() {
         <header className="fixed left-0 top-0 z-50 hidden h-screen w-20 flex-col items-center justify-between border-r border-border bg-nav-footer py-6 md:flex">
           <div className="flex flex-col items-center gap-8">
             <Link href="/" className="font-headline text-xl font-bold text-primary" aria-label="Ampire Studio">
-              <Crown className="h-8 w-8" />
+              {logoUrl ? (
+                <Image src={logoUrl} alt="Ampire Studio Logo" width={40} height={40} className="rounded-md object-contain" />
+              ) : (
+                <Crown className="h-8 w-8" />
+              )}
             </Link>
             <nav className="flex flex-col items-center gap-3">
               {mainNavLinks.map(link => (
@@ -156,3 +172,5 @@ export function Header() {
     </>
   );
 }
+
+    

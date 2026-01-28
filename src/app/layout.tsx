@@ -8,6 +8,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { LenisProvider } from '@/components/lenis-provider';
 import { GoogleAnalytics } from '@/components/google-analytics';
 import { Suspense } from 'react';
+import { getSiteSettings } from '@/lib/firestore/settings';
 
 
 const inter = Inter({
@@ -20,7 +21,7 @@ const spaceGrotesk = Space_Grotesk({
   variable: '--font-headline',
 });
 
-export const metadata: Metadata = {
+const defaultMetadata: Metadata = {
   title: {
     default: 'Ampire Studio',
     template: '%s — Ampire Studio',
@@ -42,10 +43,40 @@ export const metadata: Metadata = {
     title: 'Ampire Studio',
     card: 'summary_large_image',
   },
-  icons: {
-    icon: '/icon.svg',
-  },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settings = await getSiteSettings();
+
+    if (!settings || !settings.brandingConfig) {
+      return defaultMetadata;
+    }
+
+    const { faviconUrl, defaultOgImageUrl } = settings.brandingConfig;
+
+    const dynamicMetadata: Metadata = { ...defaultMetadata };
+
+    if (faviconUrl) {
+      dynamicMetadata.icons = {
+        icon: faviconUrl,
+      };
+    }
+
+    if (defaultOgImageUrl) {
+        dynamicMetadata.openGraph = {
+        ...defaultMetadata.openGraph,
+        images: [defaultOgImageUrl],
+      };
+    }
+
+    return dynamicMetadata;
+
+  } catch (error) {
+    console.error("Failed to generate dynamic metadata:", error);
+    return defaultMetadata;
+  }
+}
 
 export default function RootLayout({
   children,
@@ -54,7 +85,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      {/* These preconnect hints are now correctly placed outside of a manual <head> tag */}
       <link rel="preconnect" href="https://ampire-studio-92664092-32a02.firebaseapp.com" crossOrigin="anonymous" />
       <link rel="preconnect" href="https://www.googleapis.com" crossOrigin="anonymous" />
       <link rel="preconnect" href="https://apis.google.com" crossOrigin="anonymous" />
@@ -73,3 +103,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+    
