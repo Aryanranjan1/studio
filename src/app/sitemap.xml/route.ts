@@ -26,7 +26,6 @@ function generateSiteMap(base_url: string, paths: { url: string, lastModified: D
   const urlEntries = paths
     .map(({ url, lastModified }) => {
       if (!url || !lastModified?.toISOString) return '';
-      // Use URL constructor for robust joining
       const finalUrl = new URL(url, base_url).href;
       return `
   <url>
@@ -55,7 +54,6 @@ export async function GET() {
 
   const allPaths: { url: string, lastModified: Date }[] = [];
 
-  // Fetch all public content upfront
   const [blogPosts, portfolioProjects, templates, faqs] = await Promise.all([
     getAllPublicBlogs(),
     getAllPublicPortfolioProjects(),
@@ -65,59 +63,39 @@ export async function GET() {
 
   allPaths.push({ url: '/', lastModified: new Date() });
   
-  // Define static pages and their corresponding rules
-  const staticPaths = [
-    { type: 'about', url: '/about' },
-    { type: 'services', url: '/services' },
-    { type: 'portfolio', url: '/portfolio' },
-    { type: 'blog', url: '/blog' },
-    { type: 'store', url: '/store' },
-    { type: 'faq', url: '/faq' },
-    { type: 'contact', url: '/contact' },
+  // CORRECTED: Use the most recent FAQ update timestamp for the /faq page.
+  let faqLastModified = new Date();
+  if (faqs.length > 0) {
+      const faqTimestamps = faqs.map(faq => toDate(faq.updatedAt).getTime());
+      faqLastModified = new Date(Math.max(...faqTimestamps));
+  }
+
+  const staticPages = [
+    { type: 'about', url: '/about', lastModified: new Date() },
+    { type: 'services', url: '/services', lastModified: new Date() },
+    { type: 'portfolio', url: '/portfolio', lastModified: new Date() },
+    { type: 'blog', url: '/blog', lastModified: new Date() },
+    { type: 'store', url: '/store', lastModified: new Date() },
+    { type: 'faq', url: '/faq', lastModified: faqLastModified }, // CORRECTED: Use dynamic lastModified
+    { type: 'contact', url: '/contact', lastModified: new Date() },
   ];
 
-  // Helper to get the most recent modification date from a list of items
-  const getMostRecentDate = (items: { lastModified: any }[]) => {
-    if (!items || items.length === 0) return null;
-    return items.reduce((latest, item) => {
-      const itemDate = toDate(item.lastModified);
-      return itemDate > latest ? itemDate : latest;
-    }, new Date(0));
-  };
-  
-  // Add static paths if they are set to be indexed
-  for (const path of staticPaths) {
-    if (rules && rules[path.type as keyof typeof rules]?.index) {
-        let lastModified = new Date();
-        
-        let contentItems: { lastModified: any }[] = [];
-        if (path.type === 'faq') contentItems = faqs;
-        if (path.type === 'portfolio') contentItems = portfolioProjects;
-        if (path.type === 'blog') contentItems = blogPosts;
-        if (path.type === 'store') contentItems = templates;
-
-        const mostRecentDate = getMostRecentDate(contentItems);
-        if (mostRecentDate && mostRecentDate.getTime() > 0) {
-            lastModified = mostRecentDate;
-        }
-
-        allPaths.push({ url: path.url, lastModified });
+  for (const page of staticPages) {
+    if (rules && rules[page.type as keyof typeof rules]?.index) {
+        allPaths.push({ url: page.url, lastModified: page.lastModified });
     }
   }
 
-  // Add dynamic blog detail pages if enabled
   if (rules?.blog?.index && blogPosts.length > 0) {
     const blogPaths = blogPosts.map(post => ({ url: `/blog/${post.slug}`, lastModified: toDate(post.lastModified) }));
     allPaths.push(...blogPaths);
   }
-  
-  // Add dynamic project detail pages if enabled
+
   if (rules?.projectDetail?.index && portfolioProjects.length > 0) {
     const portfolioPaths = portfolioProjects.map(project => ({ url: `/portfolio/${project.slug}`, lastModified: toDate(project.lastModified) }));
     allPaths.push(...portfolioPaths);
   }
   
-  // Add dynamic template detail pages if enabled
   if (rules?.templateDetail?.index && templates.length > 0) {
     const templatePaths = templates.map(template => ({ url: `/store/${template.slug}`, lastModified: toDate(template.lastModified) }));
     allPaths.push(...templatePaths);

@@ -19,19 +19,21 @@ const indexingRuleSchema = z.object({
   follow: z.boolean(),
 });
 
+// CORRECTED: Added projectDetail and templateDetail to the schema
 const pageTypeRulesSchema = z.object({
   blog: indexingRuleSchema,
   portfolio: indexingRuleSchema,
+  projectDetail: indexingRuleSchema, 
   services: indexingRuleSchema,
   about: indexingRuleSchema,
   contact: indexingRuleSchema,
   faq: indexingRuleSchema,
   store: indexingRuleSchema,
+  templateDetail: indexingRuleSchema,
   offerLetter: indexingRuleSchema,
   contract: indexingRuleSchema,
   timeline: indexingRuleSchema,
 });
-
 
 const formSchema = z.object({
   brandingConfig: z.object({
@@ -40,26 +42,26 @@ const formSchema = z.object({
     logoUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')),
     squareLogoUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')),
     faviconUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')),
-    defaultOgImageUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')),
+    defaultOgImageUrl: z.string().url({ message: "Please enter a valid URL." }).optional().or(z.literal('')), 
   }),
   contactConfig: z.object({
-    primaryEmail: z.string().email().optional().or(z.literal('')),
-    supportEmail: z.string().email().optional().or(z.literal('')),
+    primaryEmail: z.string().email().optional().or(z.literal('')), 
+    supportEmail: z.string().email().optional().or(z.literal('')), 
     phone: z.string().optional(),
     address: z.string().optional(),
     country: z.string().optional(),
     businessHours: z.string().optional(),
     socialLinks: z.object({
-      linkedin: z.string().url().optional().or(z.literal('')),
-      instagram: z.string().url().optional().or(z.literal('')),
-      facebook: z.string().url().optional().or(z.literal('')),
-      pinterest: z.string().url().optional().or(z.literal('')),
-      youtube: z.string().url().optional().or(z.literal('')),
-      dribbble: z.string().url().optional().or(z.literal('')),
+      linkedin: z.string().url().optional().or(z.literal('')), 
+      instagram: z.string().url().optional().or(z.literal('')), 
+      facebook: z.string().url().optional().or(z.literal('')), 
+      pinterest: z.string().url().optional().or(z.literal('')), 
+      youtube: z.string().url().optional().or(z.literal('')), 
+      dribbble: z.string().url().optional().or(z.literal('')), 
     }).optional()
   }),
   seoConfig: z.object({
-      baseSiteUrl: z.string().url().optional().or(z.literal('')),
+      baseSiteUrl: z.string().url().optional().or(z.literal('')), 
       defaultMetaTitleTemplate: z.string().optional(),
       defaultMetaDescription: z.string().optional(),
       globalIndexingEnabled: z.boolean(),
@@ -70,7 +72,7 @@ const formSchema = z.object({
   emailConfig: z.object({
     enabled: z.boolean(),
     senderName: z.string().optional(),
-    senderEmail: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
+    senderEmail: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')), 
   }),
   aiConfig: z.object({
     enabled: z.boolean(),
@@ -80,38 +82,25 @@ const formSchema = z.object({
 
 type SettingsFormValues = z.infer<typeof formSchema>;
 
-// Define the complete default rules here to prevent 'undefined' values
+// This remains correct as the source of truth for defaults
 const defaultIndexingRules: PageTypeRules = {
   blog: { index: true, follow: true },
   portfolio: { index: true, follow: true },
+  projectDetail: { index: true, follow: true },
   services: { index: true, follow: true },
   about: { index: true, follow: true },
   contact: { index: true, follow: true },
   faq: { index: true, follow: true },
   store: { index: true, follow: true },
+  templateDetail: { index: true, follow: true },
   offerLetter: { index: false, follow: false },
   contract: { index: false, follow: false },
   timeline: { index: false, follow: false },
 };
 
-const defaultRobotsTxt = `User-agent: *
-Allow: /
+const defaultRobotsTxt = `User-agent: *\nAllow: /\n\n# Disallowed admin and private paths\nDisallow: /admin/\nDisallow: /dashboard/\nDisallow: /proposal/\nDisallow: /contract/\nDisallow: /intake/\nDisallow: /login\n\nSitemap: {SITEMAP_URL}\n`;
 
-# Disallowed admin and private paths
-Disallow: /admin/
-Disallow: /dashboard/
-Disallow: /proposal/
-Disallow: /contract/
-Disallow: /intake/
-Disallow: /login
-
-Sitemap: {SITEMAP_URL}
-`;
-
-const defaultLlmsTxt = `User-agent: *
-Allow: /
-Disallow: /admin/
-`;
+const defaultLlmsTxt = `User-agent: *\nAllow: /\nDisallow: /admin/\n`;
 
 const defaultValues: SettingsFormValues = {
   brandingConfig: { websiteName: '', brandName: '', logoUrl: '', squareLogoUrl: '', faviconUrl: '', defaultOgImageUrl: '' },
@@ -143,7 +132,8 @@ export default function SettingsPage() {
     
     React.useEffect(() => {
         if (settingsData) {
-            // Perform a more robust deep merge to ensure all fields have a value
+            // Deep merge ensures that all nested fields, including new ones from `defaultValues`,
+            // are present when populating the form.
             const mergedValues = {
                 ...defaultValues,
                 ...settingsData,
