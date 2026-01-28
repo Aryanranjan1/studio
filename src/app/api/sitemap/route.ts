@@ -40,8 +40,11 @@ function toDate(value: any): Date {
  * @returns {string} The complete sitemap XML as a string.
  */
 function generateSiteMap(base_url: string, paths: { url: string, lastModified: Date }[], reason?: string): string {
+    const stylesheet = '<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>';
+    
     if (paths.length === 0) {
         return `<?xml version="1.0" encoding="UTF-8"?>
+${stylesheet}
 <!-- 
   Sitemap is empty. 
   Reason: ${reason || "No indexable content found or all page types are set to 'noindex' in SEO settings."}
@@ -68,6 +71,7 @@ function generateSiteMap(base_url: string, paths: { url: string, lastModified: D
     .join('');
 
   return `<?xml version="1.0" encoding="UTF-8"?>
+${stylesheet}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urlEntries}
 </urlset>`;
 }
