@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -19,6 +19,7 @@ import { usePublicFaqs } from '@/hooks/useFaqs';
 import { useFirestore } from '@/firebase';
 import { addMessage } from '@/lib/firestore/messages';
 import { usePublicSettings } from '@/hooks/use-settings';
+import type { FaqItem } from '@/lib/data';
 
 // This is an inline SVG component for the Pinterest icon.
 const PinterestIcon = (props: React.ComponentProps<'svg'>) => (
@@ -42,6 +43,16 @@ export function ContactForm() {
 
   const { data: allFaqs } = usePublicFaqs();
   const { settings } = usePublicSettings();
+  const [randomFaqs, setRandomFaqs] = useState<FaqItem[]>([]);
+
+  useEffect(() => {
+    // Randomly select 3 FAQs when the component mounts or when FAQs data changes
+    if (allFaqs && allFaqs.length > 0) {
+      const shuffled = [...allFaqs].sort(() => 0.5 - Math.random());
+      setRandomFaqs(shuffled.slice(0, 3));
+    }
+  }, [allFaqs]);
+  
   const contact = settings?.contactConfig;
   const socialLinks = contact?.socialLinks;
 
@@ -51,8 +62,6 @@ export function ContactForm() {
     { name: 'Dribbble', href: socialLinks?.dribbble, Icon: Dribbble },
     { name: 'Pinterest', href: socialLinks?.pinterest, Icon: PinterestIcon },
   ].filter(link => link.href);
-
-  const faqItems = allFaqs?.filter(faq => ['gen-2', 'dev-2', 'price-1'].includes(faq.id)) || [];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -257,9 +266,9 @@ export function ContactForm() {
                 </CardHeader>
                 <CardContent>
                   <Accordion type="single" collapsible className="w-full">
-                    {faqItems.map((faq, index) => (
+                    {randomFaqs.map((faq, index) => (
                       <AccordionItem
-                        key={index}
+                        key={faq.id}
                         value={`item-${index}`}
                         className="border-b border-border last:border-b-0"
                       >
@@ -267,7 +276,7 @@ export function ContactForm() {
                           {faq.question}
                         </AccordionTrigger>
                         <AccordionContent className="text-muted-foreground">
-                          {faq.answer}
+                          <div dangerouslySetInnerHTML={{ __html: faq.answer }} />
                         </AccordionContent>
                       </AccordionItem>
                     ))}
