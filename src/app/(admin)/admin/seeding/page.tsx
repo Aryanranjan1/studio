@@ -125,42 +125,222 @@ function generateSampleProjects(): Omit<PortfolioProject, 'id'>[] {
 function generateSampleFaqs(): Omit<FaqItem, 'id' | 'createdAt' | 'updatedAt'>[] {
     const faqs: Omit<FaqItem, 'id' | 'createdAt' | 'updatedAt'>[] = [
         {
-            question: 'What is your revision policy?',
-            answer: '<p>We offer <strong>one full revision round</strong> on the prototype and <strong>one final revision round</strong> on the staging build. Additional revisions are billed at our hourly rate. This ensures the project stays on track and within scope.</p>',
-            preview: 'We offer one revision on the prototype and one on the final build. Additional revisions are billed hourly.',
-            category: 'Revisions & Support',
+            question: 'How long does it take to build a small business website in Malaysia?',
+            answer: '<p>The timeline for a small business website in Malaysia typically ranges from two to six weeks, depending on the scope, content readiness, and approval speed. A simple informational site moves faster, while custom features, integrations, or automation add time.</p><p>As a web agency, Ampire Studio plans timelines around business goals rather than rushing delivery, ensuring the site is structured to generate enquiries and support growth instead of just going live quickly.</p>',
+            preview: 'Typical timelines for small business website development in Malaysia.',
+            category: 'Website Development',
             order: 1,
             published: true,
         },
         {
-            question: 'What are your payment terms?',
-            answer: '<p>We require a <strong>50% down payment</strong> to begin work, with the remaining 50% due upon project completion and before final asset delivery or site launch.</p>',
-            preview: '50% upfront, 50% on completion before launch.',
-            category: 'Pricing & Payments',
+            question: 'What is the difference between a template website and a custom website?',
+            answer: '<p>A template website uses pre-designed layouts with limited flexibility, making it faster and cheaper to launch but often restrictive in branding, performance, and conversion optimisation.</p><p>A custom website is built around a business’s specific goals, user journey, and content structure. Ampire Studio, a digital agency in Malaysia, typically recommends custom builds for businesses that want stronger SEO, better lead quality, and room to scale.</p>',
+            preview: 'Understanding template versus custom website development approaches.',
+            category: 'Website Development',
             order: 2,
             published: true,
         },
         {
-            question: 'How long does a typical project take?',
-            answer: '<p>A standard custom website build typically takes <strong>4-6 weeks</strong> from start to finish. Timelines can vary depending on project complexity and client feedback speed.</p>',
-            preview: 'A standard custom website build usually takes 4-6 weeks.',
-            category: 'Onboarding & Process',
+            question: 'Do local businesses in Malaysia really need a website in 2026?',
+            answer: '<p>In 2026, a website acts as a credibility checkpoint for local businesses in Malaysia, even when customers first discover brands through social media or marketplaces.</p><p>Without a website, businesses lose control over messaging, search visibility, and lead capture. Ampire Studio works with local businesses to ensure their websites support trust, discovery, and enquiries rather than existing as static brochures.</p>',
+            preview: 'Why websites still matter for Malaysian local businesses.',
+            category: 'Website Development',
+            order: 3,
+            published: true,
+            link: {
+                href: 'https://www.ampirestudio.com/blog/do-local-businesses-in-malaysia-really-need-a-website-in-2026',
+                text: 'do local businesses in Malaysia really need a website'
+            }
+        },
+        {
+            question: 'Why does my website get traffic but no enquiries?',
+            answer: '<p>Traffic without enquiries usually means the website is attracting the wrong audience or failing to guide visitors toward action. Common issues include unclear messaging, weak calls-to-action, or slow performance.</p><p>As a web agency, Ampire Studio audits user flow, content intent, and technical setup to align traffic with business goals, turning visits into qualified leads instead of empty metrics.</p>',
+            preview: 'Common reasons websites fail to convert visitors into leads.',
+            category: 'Website Development',
+            order: 4,
+            published: true,
+            link: {
+                href: 'https://www.ampirestudio.com/blog/why-your-website-gets-traffic-but-no-leads-small-business-edition',
+                text: 'why websites get traffic but no leads'
+            }
+        },
+        {
+            question: 'Can an existing website be improved without rebuilding it from scratch?',
+            answer: '<p>Many websites can be improved through targeted changes such as speed optimisation, content restructuring, SEO fixes, and conversion improvements without a full rebuild.</p><p>Ampire Studio, a digital agency in Malaysia, typically evaluates whether incremental improvements will deliver measurable impact before recommending a complete redesign, saving businesses time and cost where possible.</p>',
+            preview: 'When optimisation is better than a full website rebuild.',
+            category: 'Website Development',
+            order: 5,
+            published: true,
+        },
+        {
+            question: 'What pages are essential for a small business website?',
+            answer: '<p>Most small business websites need a clear homepage, services or offerings page, about page, contact page, and basic trust elements such as testimonials or case examples.</p><p>As a web agency, Ampire Studio structures these pages around user intent so visitors quickly understand what the business does, who it is for, and how to make contact.</p>',
+            preview: 'Core website pages every small business should have.',
+            category: 'Website Development',
+            order: 6,
+            published: true,
+        },
+        {
+            question: 'How does website speed affect SEO and lead generation?',
+            answer: '<p>Slow websites increase bounce rates, reduce search rankings, and frustrate users, directly impacting both visibility and conversions.</p><p>Ampire Studio focuses on performance optimisation because faster websites not only rank better on Google but also keep visitors engaged long enough to enquire or purchase.</p>',
+            preview: 'Why website speed directly impacts rankings and enquiries.',
+            category: 'Website Development',
+            order: 7,
+            published: true,
+        },
+        {
+            question: 'What happens after a business website goes live?',
+            answer: '<p>After launch, a website should be monitored for performance, user behaviour, and technical issues. Launch is the starting point, not the finish line.</p><p>As a digital agency in Malaysia, Ampire Studio supports post-launch optimisation so businesses can improve SEO, refine messaging, and increase lead quality over time.</p>',
+            preview: 'What businesses should expect after website launch.',
+            category: 'Website Development',
+            order: 8,
+            published: true,
+        },
+        {
+            question: 'What is website automation and how does it help small businesses?',
+            answer: '<p>Website automation uses software logic to handle repetitive tasks such as form responses, lead routing, appointment bookings, or follow-ups without manual effort.</p><p>Ampire Studio, a digital agency in Malaysia, implements automation to save time, reduce errors, and help small businesses respond faster to opportunities.</p>',
+            preview: 'An overview of website automation for small businesses.',
+            category: 'Web Automation',
+            order: 1,
+            published: true,
+            link: {
+                href: 'https://www.ampirestudio.com/blog/what-is-website-automation-practical-examples-for-small-businesses',
+                text: 'what website automation is and how it works'
+            }
+        },
+        {
+            question: 'What business tasks can be automated through a website?',
+            answer: '<p>Common tasks include enquiry handling, email notifications, lead qualification, booking confirmations, and basic customer onboarding.</p><p>As a web agency, Ampire Studio prioritises automating tasks that directly impact response time and operational efficiency rather than adding unnecessary complexity.</p>',
+            preview: 'Examples of tasks websites can automate.',
+            category: 'Web Automation',
+            order: 2,
+            published: true,
+        },
+        {
+            question: 'Is website automation suitable for small businesses or only large companies?',
+            answer: '<p>Website automation is often more valuable for small businesses because it reduces manual workload without hiring additional staff.</p><p>Ampire Studio designs automation systems scaled to business size, ensuring small teams benefit from efficiency without enterprise-level overhead.</p>',
+            preview: 'Why small businesses benefit from website automation.',
+            category: 'Web Automation',
             order: 3,
             published: true,
         },
         {
-            question: 'Do you provide hosting and domain services?',
-            answer: '<p>Yes, for our Custom Website and Enterprise plans, we include <strong>1 year of basic hosting</strong> and a <strong>free domain name registration</strong> (up to RM50 value) to get you started without any extra hassle.</p>',
-            preview: 'Yes, our Custom and Enterprise plans include 1 year of basic hosting and a free domain name.',
-            category: 'Pricing & Payments',
+            question: 'How much does website automation cost in Malaysia?',
+            answer: '<p>The cost of website automation in Malaysia depends on complexity, integrations, and ongoing maintenance needs. Simple automations cost significantly less than custom workflows.</p><p>Ampire Studio assesses automation ROI before implementation so businesses invest in systems that actually save time or increase lead value.</p>',
+            preview: 'What influences website automation costs in Malaysia.',
+            category: 'Web Automation',
             order: 4,
             published: true,
         },
         {
-            question: 'Can I update the website myself after it\'s built?',
-            answer: '<p>Absolutely. All our custom builds come with a <strong>full Content Management System (CMS)</strong> that allows you to easily update text, images, blog posts, and other content without needing any coding knowledge.</p>',
-            preview: 'Yes, all our custom sites include a full CMS so you can easily manage your content.',
-            category: 'Development & Integrations',
+            question: 'Can website automation improve lead quality, not just response speed?',
+            answer: '<p>Automation can filter, tag, and prioritise leads based on behaviour or input, improving quality before human follow-up.</p><p>As a digital agency in Malaysia, Ampire Studio uses automation to ensure businesses focus on serious prospects instead of chasing every enquiry equally.</p>',
+            preview: 'How automation helps qualify better leads.',
+            category: 'Web Automation',
+            order: 5,
+            published: true,
+        },
+        {
+            question: 'Will website automation slow down or break my website?',
+            answer: '<p>Poorly implemented automation can cause performance issues, but well-built systems operate in the background without affecting user experience.</p><p>Ampire Studio ensures automation is technically sound and tested so websites remain fast, stable, and secure.</p>',
+            preview: 'Addressing performance concerns around automation.',
+            category: 'Web Automation',
+            order: 6,
+            published: true,
+        },
+        {
+            question: 'When should a business consider adding website automation?',
+            answer: '<p>Businesses should consider automation once enquiries, bookings, or internal tasks start consuming significant time or causing delays.</p><p>Ampire Studio typically recommends automation when manual processes begin limiting growth rather than waiting until problems escalate.</p>',
+            preview: 'Signs it’s time to automate website workflows.',
+            category: 'Web Automation',
+            order: 7,
+            published: true,
+        },
+        {
+            question: 'Do startups need a mobile app or should they start with a website?',
+            answer: '<p>Most startups should begin with a website to validate demand, messaging, and conversions before investing in a mobile app.</p><p>Ampire Studio, a digital agency in Malaysia, helps startups decide based on user behaviour, not trends, ensuring resources are allocated effectively.</p>',
+            preview: 'Choosing between a website and a mobile app.',
+            category: 'Mobile App Development',
+            order: 1,
+            published: true,
+            link: {
+                href: 'https://www.ampirestudio.com/blog/website-vs-mobile-app-what-should-startups-build-first',
+                text: 'website vs mobile app for startups'
+            }
+        },
+        {
+            question: 'What types of businesses benefit most from mobile app development?',
+            answer: '<p>Businesses with repeat usage, memberships, bookings, or personalised experiences benefit most from mobile apps.</p><p>As a web agency, Ampire Studio evaluates whether an app will genuinely improve customer retention or operational efficiency before recommending development.</p>',
+            preview: 'Which businesses gain the most value from mobile apps.',
+            category: 'Mobile App Development',
+            order: 2,
+            published: true,
+        },
+        {
+            question: 'How long does it take to develop a mobile app for a small business?',
+            answer: '<p>Mobile app development usually takes three to six months depending on features, platforms, and testing requirements.</p><p>Ampire Studio structures app development timelines to balance speed with stability, ensuring the app supports long-term business use.</p>',
+            preview: 'Typical timelines for small business mobile apps.',
+            category: 'Mobile App Development',
+            order: 3,
+            published: true,
+        },
+        {
+            question: 'Is it better to build a cross-platform app or native iOS and Android apps?',
+            answer: '<p>Cross-platform apps reduce cost and development time, while native apps offer deeper performance and platform-specific features.</p><p>Ampire Studio, a digital agency in Malaysia, recommends the approach based on user needs, budget, and long-term growth plans.</p>',
+            preview: 'Comparing cross-platform and native mobile apps.',
+            category: 'Mobile App Development',
+            order: 4,
+            published: true,
+        },
+        {
+            question: 'How do mobile apps support business growth beyond a website?',
+            answer: '<p>Mobile apps enable direct engagement through notifications, saved preferences, and faster access, increasing retention and repeat usage.</p><p>As a web agency, Ampire Studio integrates apps with existing websites and systems so they complement, not replace, the broader digital strategy.</p>',
+            preview: 'The growth role of mobile apps.',
+            category: 'Mobile App Development',
+            order: 5,
+            published: true,
+        },
+        {
+            question: 'How much does it cost to build a business website in Malaysia?',
+            answer: '<p>Website costs in Malaysia vary based on design complexity, features, and long-term goals, ranging from basic builds to fully custom solutions.</p><p>Ampire Studio focuses on aligning cost with business outcomes so clients invest in websites that generate leads rather than just look good.</p>',
+            preview: 'Understanding website development costs in Malaysia.',
+            category: 'Pricing, Process & Trust',
+            order: 1,
+            published: true,
+            link: {
+                href: 'https://www.ampirestudio.com/blog/how-much-does-a-small-business-website-cost-in-malaysia-full-breakdown',
+                text: 'small business website cost in Malaysia'
+            }
+        },
+        {
+            question: 'Why do different digital agencies quote very different prices for the same project?',
+            answer: '<p>Price differences often reflect variations in process, expertise, scope definition, and post-launch support.</p><p>As a digital agency in Malaysia, Ampire Studio encourages businesses to compare deliverables and outcomes, not just headline prices.</p>',
+            preview: 'Why agency pricing varies so widely.',
+            category: 'Pricing, Process & Trust',
+            order: 2,
+            published: true,
+        },
+        {
+            question: 'What does a typical website or app development process look like?',
+            answer: '<p>A structured process includes discovery, planning, design, development, testing, and post-launch optimisation.</p><p>Ampire Studio follows a clear development workflow so clients understand progress, timelines, and responsibilities at every stage.</p>',
+            preview: 'An overview of the development process.',
+            category: 'Pricing, Process & Trust',
+            order: 3,
+            published: true,
+        },
+        {
+            question: 'How can a business evaluate whether a digital agency is trustworthy?',
+            answer: '<p>Trustworthy agencies demonstrate clear communication, documented processes, realistic timelines, and relevant past work.</p><p>Ampire Studio, a web agency in Malaysia, advises businesses to look beyond promises and evaluate how an agency approaches problem-solving.</p>',
+            preview: 'How to assess a digital agency’s credibility.',
+            category: 'Pricing, Process & Trust',
+            order: 4,
+            published: true,
+        },
+        {
+            question: 'What ongoing costs should businesses expect after a website or app goes live?',
+            answer: '<p>Ongoing costs may include hosting, maintenance, updates, security, and occasional feature improvements.</p><p>As a digital agency in Malaysia, Ampire Studio helps businesses plan for sustainable ongoing costs so digital assets continue delivering value.</p>',
+            preview: 'Post-launch costs businesses should plan for.',
+            category: 'Pricing, Process & Trust',
             order: 5,
             published: true,
         }
@@ -230,11 +410,13 @@ function generateSampleSettings(): SiteConfiguration {
             pageTypeRules: {
               blog: { index: true, follow: true },
               portfolio: { index: true, follow: true },
+              projectDetail: { index: true, follow: true },
               services: { index: true, follow: true },
               about: { index: true, follow: true },
               contact: { index: true, follow: true },
               faq: { index: true, follow: true },
               store: { index: true, follow: true },
+              templateDetail: { index: true, follow: true },
               offerLetter: { index: false, follow: false },
               contract: { index: false, follow: false },
               timeline: { index: false, follow: false },
@@ -803,5 +985,7 @@ export default function SeedingPage() {
         </>
     );
 }
+
+    
 
     
