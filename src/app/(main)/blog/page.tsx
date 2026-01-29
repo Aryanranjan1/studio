@@ -79,6 +79,18 @@ export default function BlogPage() {
     document.title = 'Ampire Studio // Transmission Log';
   }, []);
 
+  const safeFormatDate = (dateValue: any) => {
+    if (!dateValue) return "—";
+    const date =
+      typeof dateValue.toDate === "function"
+        ? dateValue.toDate()
+        : new Date(dateValue);
+    if (isNaN(date.getTime())) {
+      return "Invalid Date";
+    }
+    return date.toISOString().split('T')[0].replace(/-/g, '.');
+  };
+
   if (articlesLoading || !featuredArticle) {
     return <div className="bg-background text-foreground min-h-screen flex items-center justify-center">Loading Transmission Log...</div>;
   }
@@ -159,7 +171,7 @@ export default function BlogPage() {
             </div>
             <div className="art-body">
               <div className="art-meta">
-                <span>{new Date(article.date).toISOString().split('T')[0].replace(/-/g, '.')}</span>
+                <span>{safeFormatDate(article.date)}</span>
                 <span>[ READ: {String(article.readingTime).padStart(2, '0')}m ]</span>
               </div>
               <h3 className="art-title">{article.title}</h3>

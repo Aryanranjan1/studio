@@ -118,6 +118,17 @@ export default function ArticlePage() {
     };
   }, [headings]);
 
+  const safeFormatDate = (dateValue: any) => {
+    if (!dateValue) return "—";
+    const date =
+      typeof dateValue.toDate === "function"
+        ? dateValue.toDate()
+        : new Date(dateValue);
+    if (isNaN(date.getTime())) {
+      return "Invalid Date";
+    }
+    return date.toISOString().split('T')[0].replace(/-/g, '.');
+  };
 
   if (articleLoading) {
     return (
@@ -158,7 +169,7 @@ export default function ArticlePage() {
                 </div>
                 <div className="meta-item">
                     <strong>DATE</strong>
-                    <span>{new Date(article.date).toISOString().split('T')[0].replace(/-/g, '.')}</span>
+                    <span>{safeFormatDate(article.date)}</span>
                 </div>
                 <div className="meta-item">
                     <strong>READ TIME</strong>
@@ -199,7 +210,7 @@ export default function ArticlePage() {
                             </div>
                             <div className="art-body">
                                 <div className="art-meta">
-                                    <span>{new Date(rec.date).toISOString().split('T')[0].replace(/-/g, '.')}</span>
+                                    <span>{safeFormatDate(rec.date)}</span>
                                     <span>[ READ: {String(rec.readingTime).padStart(2, '0')}m ]</span>
                                 </div>
                                 <h3 className="art-title">{rec.title}</h3>
