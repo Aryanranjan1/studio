@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -125,7 +124,19 @@ export default function BlogManagementPage() {
                       </Badge>
                     </TableCell>
                     <TableCell>{post.category}</TableCell>
-                    <TableCell>{format(new Date(post.date), 'MMM dd, yyyy')}</TableCell>
+                    <TableCell>
+                      {(() => {
+                        if (!post.date) return "—";
+                        const date =
+                          typeof post.date.toDate === "function"
+                            ? post.date.toDate()
+                            : new Date(post.date);
+                        if (isNaN(date.getTime())) {
+                          return "Invalid Date";
+                        }
+                        return format(date, "MMM dd, yyyy");
+                      })()}
+                    </TableCell>
                     <TableCell className="text-right">
                        <Button asChild variant="ghost" size="icon">
                          <Link href={`/admin/blog/edit/${post.id}`}>
